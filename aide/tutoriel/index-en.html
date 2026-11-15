@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NRJXpert tutorial — Power systems and renewable energy</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tutoriel.css">
+<script src="tutoriel.js"></script>
+</head>
+<body>
+<div id="top"></div>
+
+<!-- ════════════════ MENU LATÉRAL ════════════════ -->
+<aside id="sidebar">
+    <div id="sidebar-header">
+        <div class="app-name">NRJXpert</div>
+        <div class="app-version">Version 2.0.0 · Tutorial and training</div>
+    </div>
+    <nav>
+        <a href="#intro"><span class="nav-icon">📘</span>Introduction</a>
+        <a href="#public"><span class="nav-icon">📋</span>Who is this tutorial for?</a>
+        <a href="#parcours"><span class="nav-icon">🪜</span>The path</a>
+        <a href="#methode"><span class="nav-icon">📗</span>How to work</a>
+        <a href="#conventions"><span class="nav-icon">📙</span>Conventions</a>
+        <a href="#contenu"><span class="nav-icon">🧩</span>Detailed contents</a>
+        <a href="#auteur"><span class="nav-icon">👤</span>Author</a>
+    </nav>
+    <div class="side-links"><a href="index-en.html">🏠 Tutorial home</a><a href="../help-en.html">📖 User guide</a></div>
+</aside>
+
+<!-- ════════════════ ZONE PRINCIPALE ════════════════ -->
+<div id="main">
+    <div id="hero">
+        <h1>NRJXpert tutorial</h1>
+        <div class="tagline">Learn power systems and renewable energy systems, from Ohm's law to the optimisation of a microgrid, by calculating by hand
+and then checking with the software.</div>
+        <div class="badges">
+            <span class="hero-badge">Tutorial</span>
+            <span class="hero-badge">Version 2.0.0</span>
+            <span class="hero-badge">November 2026</span>
+            <a class="hero-badge language-link" href="./index.html" lang="fr" aria-label="Click to show the French version">
+                EN / FR
+                <small>Click for the French version</small>
+            </a>
+        </div>
+    </div>
+
+    <div id="topbar">
+        <div class="title">NRJXpert tutorial</div>
+        <span class="meta">NRJXpert 2.0.0 · November 2026</span>
+    </div>
+
+    <main id="content">
+        <div id="toc-section">
+            <h2>Contents</h2>
+            <div class="toc-grid">
+                <a href="#intro"><span class="toc-num">00</span>Introduction</a>
+                <a href="#public"><span class="toc-num">01</span>Who is this tutorial for?</a>
+                <a href="#parcours"><span class="toc-num">02</span>The path</a>
+                <a href="#methode"><span class="toc-num">03</span>How to work</a>
+                <a href="#conventions"><span class="toc-num">04</span>Conventions</a>
+                <a href="#contenu"><span class="toc-num">05</span>Detailed contents</a>
+            </div>
+        </div>
+
+        <div class="section" id="intro">
+            <h2><span class="section-icon">📘</span>Introduction</h2>
+<div class="note"><b>Languages.</b> The whole tutorial (levels 1 to 7, case studies, teacher's guide, appendices) is available in English and in French: each page has a link to its other-language version. The software itself is fully available in English (Options › Language).</div>
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="public">
+            <h2><span class="section-icon">📋</span>Who is this tutorial for?</h2>
+<table>
+<tr><th>Audience</th><th>Recommended path</th><th>Indicative duration</th></tr>
+<tr><td><b>Technician</b> (BTS, DUT, professional bachelor), electrician, PV installer</td><td>Levels 1 and 3 (§ 3.1 to 3.4), level 4 (§ 4.1 and 4.2)</td><td>40 h</td></tr>
+<tr><td><b>Engineering student</b> (bachelor, master, engineering school)</td><td>Levels 1 to 4 in full, then level 5 (§ 5.1 and 5.2)</td><td>80 to 100 h</td></tr>
+<tr><td><b>Design engineer, consulting firm</b></td><td>Levels 2, 3 and 4 (methods and assumptions), level 5, case studies</td><td>As needed</td></tr>
+<tr><td><b>Smart grid expert, consultant, owner's engineer</b></td><td>Levels 5, 6 and 7, synthesis project and expert assignment</td><td>60 to 80 h</td></tr>
+<tr><td><b>Teacher</b></td><td>Teacher's guide: progressions, lab sessions, marking schemes, subjects</td><td>—</td></tr>
+</table>
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="parcours">
+            <h2><span class="section-icon">🪜</span>The path</h2>
+<div class="cards">
+  <a class="card" href="niveau1-en.html"><span class="badge b1">Level 1</span><h3>Fundamentals</h3>
+    <p>DC and AC circuits, phasors, power, three-phase systems. Getting started with NRJXpert.</p></a>
+  <a class="card" href="niveau2-en.html"><span class="badge b2">Level 2</span><h3>Power networks</h3>
+    <p>Lines, cables, transformers, per-unit, voltage drop, load flow (Gauss-Seidel, Newton-Raphson), IEC 60909 short circuit.</p></a>
+  <a class="card" href="niveau3-en.html"><span class="badge b3">Level 3</span><h3>Renewable energy</h3>
+    <p>Solar and wind resource, PV module, stand-alone and grid-connected PV sizing, wiring and costs, wind and the Weibull distribution, solar water pumping.</p></a>
+  <a class="card" href="niveau4-en.html"><span class="badge b4">Level 4</span><h3>Economic studies</h3>
+    <p>Discounting, life-cycle cost, LCOE, NPV, IRR, payback, minimum tariff and subsidy, sensitivity.</p></a>
+  <a class="card" href="niveau5-en.html"><span class="badge b5">Level 5</span><h3>DER and smart grids</h3>
+    <p>Distribution load flow, controlled inverters, hosting capacity, dynamics, inverter short circuit, optimisation.</p></a>
+  <a class="card" href="niveau6-en.html"><span class="badge b6">Level 6</span><h3>Smart grids: architecture, operation, owner's engineering</h3>
+    <p>SGAM, SCADA/ADMS/DERMS, self-healing and reliability, IVVC/r, VPP, microgrids, e-mobility, CIM and IEC 61850, IEC 62559 use cases, expert skills.</p></a>
+  <a class="card" href="niveau7-en.html"><span class="badge b6">Level 7</span><h3>Expert workshop</h3>
+    <p>Microgrid controller test bench (IEEE 2030.8), smart metering and non-technical losses (DLMS/COSEM, G3-PLC), OpenADR 2.0b demand response, IEC 62443 / IEC 62351 cybersecurity.</p></a>
+  <a class="card" href="etudes-de-cas-en.html"><span class="badge b2">Consulting</span><h3>Case studies</h3>
+    <p>Village electrification, grid-connected PV plant, industrial substation, coastal wind, solar water pumping: from the data to the design note.</p></a>
+</div>
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="methode">
+            <h2><span class="section-icon">📗</span>How to work</h2>
+<ol class="steps">
+  <li><div class="step-content"><b>Read the theory</b> of each section: definitions, assumptions, equations. The blue boxes recall the formulas to remember.</div></li>
+  <li><div class="step-content"><b>Do the example by hand</b> (calculator, spreadsheet) before looking at the solution: that is where understanding happens.</div></li>
+  <li><div class="step-content"><b>Check with NRJXpert</b> in the « Lab » boxes 🛠: draw the diagram or enter the data, run the calculation and compare with the hand
+      calculation. A difference must always be explained (assumption, rounding, model).</div></li>
+  <li><div class="step-content"><b>Practise</b> with the solved exercises (« Show the solution ») and the calculators 🧮, then answer the <b>quiz</b> at the end of the level.</div></li>
+  <li><div class="step-content"><b>Vary</b> the data: what happens if the length doubles, if the voltage goes from 24 to 48 V, if the discount rate changes? Habit makes the engineer.</div></li>
+</ol>
+<div class="note"><b>Example files.</b> The projects quoted in the tutorial are in the folder <code>~/.nrjxpert/aide/tutoriel/exemples/</code>,
+created when the tutorial is first opened. In NRJXpert, <b>Help › Open a tutorial example…</b> opens each file in the right window: network
+diagrams <code>.nxp</code>, photovoltaic projects <code>.nxpv</code>, wind projects <code>.nxeol</code>, solar pumping projects <code>.nxpomp</code>. The <code>.xml</code> files are networks
+as the client sends them to the calculation server: they open in the <b>Calculate a network file (XML)</b> window, where values can be changed
+before running.</div>
+<div class="note"><b>Calculation server.</b> Network calculations (levels 1, 2, 5, 6 and 7, case studies 2 and 3) are performed by the NRJXpert
+calculation server, hosted remotely: an <b>Internet connection</b>, the server address and the access key supplied with the software are needed
+(Simulation › Calculation and server settings › Test the connection). Levels 3 and 4 (photovoltaics, wind, economics) work offline.</div>
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="conventions">
+            <h2><span class="section-icon">📙</span>Conventions</h2>
+<div class="kv">
+  <span>Decimals</span><span>the English pages use the decimal point (2.5 mm²), the French pages the decimal comma (2,5 mm²); the software accepts both</span>
+  <span>Currency</span><span>currency unit chosen by the user (CFA franc by default); “k” = thousand, “M” = million of the chosen unit. In this tutorial, amounts are given in CFA francs (F): kF = 1 000 F; MF = 1 000 000 F. Prices are indicative (2026)</span>
+  <span>AC quantities</span><span>RMS values; three-phase: U line-to-line, V phase-to-neutral, U = √3·V</span>
+  <span>Power</span><span>P active (W), Q reactive (var, positive for an inductive load), S apparent (VA)</span>
+  <span>Phasors</span><span>polar notation 230∠0° or complex 230 + j0; j² = −1</span>
+  <span>Standards quoted</span><span>IEC 60364 (LV installations), IEC 60909-0:2016 (short circuit), IEC 61400-12-1 (wind), IEEE 1547-2018 (DER interconnection),
+      IEEE 2030.7/2030.8 (microgrids), IEC 62056 (DLMS/COSEM), OpenADR 2.0b, IEC 62443 / IEC 62351 (cybersecurity)</span>
+</div>
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="contenu">
+            <h2><span class="section-icon">🧩</span>Detailed contents</h2>
+<div class="grid2">
+<div>
+<h4>Level 1 — Fundamentals</h4>
+<ol><li>Quantities, Ohm's and Kirchhoff's laws</li><li>Sinusoidal steady state, impedances, power</li><li>Reactive power compensation</li><li>Three-phase systems</li><li>Getting started with NRJXpert</li></ol>
+<h4>Level 2 — Power networks</h4>
+<ol><li>Line and cable models</li><li>Transformers</li><li>Per-unit system</li><li>Voltage drop and losses</li><li>Load flow: formulation</li><li>Gauss-Seidel, Newton-Raphson, fast decoupled</li><li>Short circuit: IEC 60909, symmetrical components</li><li>Protection: breaking capacity, selectivity</li></ol>
+<h4>Level 3 — Renewable energy</h4>
+<ol><li>Solar resource</li><li>The photovoltaic module</li><li>Stand-alone PV sizing</li><li>Wiring: cross-sections, protection, costs</li><li>Grid-connected PV</li><li>Wind resource and Weibull distribution</li><li>Wind production and sizing</li><li>Solar water pumping</li></ol>
+<h4>Level 4 — Economic studies</h4>
+<ol><li>Time value of money</li><li>Life-cycle and discounted cost</li><li>LCOE</li><li>NPV, IRR, payback</li><li>Minimum tariff and subsidy</li><li>Sensitivity and comparison of options</li></ol>
+</div>
+<div>
+<h4>Level 5 — DER and smart grids</h4>
+<ol><li>Load flow of distribution networks</li><li>Controlled inverters and hosting capacity</li><li>Time series</li><li>Microgrid dynamics</li><li>Inverter short circuit</li><li>Economic dispatch and OPF</li><li>Optimal hybrid sizing</li></ol>
+<h4>Level 6 — Smart grids: architecture, operation, owner's engineering</h4>
+<ol><li>SGAM architecture (IEC SRD 63200)</li><li>OT/IT operation: SCADA, ADMS, DERMS</li><li>Self-healing (FLISR) and reliability</li><li>Volt/VAR control (IVVC, IVVC/r, CVR)</li><li>Virtual power plants</li><li>Microgrids and smart inverters</li><li>E-mobility (V1G, V2G)</li><li>Data models and protocols</li><li>Owner's engineering and project governance</li><li>Skills matrix</li></ol>
+<h4>Level 7 — Expert workshop</h4>
+<ol><li>Microgrid controller tests (IEEE 2030.7 / 2030.8)</li><li>Smart metering: technical and non-technical losses, fraud</li><li>DLMS/COSEM data collection, G3-PLC</li><li>OpenADR 2.0b demand response</li><li>IEC 62443 / IEC 62351 cybersecurity</li><li>Expert assignment</li></ol>
+<h4>Complements</h4>
+<ul><li>Four consulting case studies</li><li>Teacher's guide: progressions, lab sessions, marking schemes, subjects</li><li>Appendices: formulas, cable tables, c factors, constants</li></ul>
+</div>
+</div>
+<p class="small">Tutorial written for NRJXpert — Lamine Thiaw, Electrical Engineering Department, École Supérieure Polytechnique,
+Université Cheikh Anta Diop de Dakar. The numerical values of the examples were checked with the software.</p>
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+
+        <div class="section" id="auteur">
+            <h2><span class="section-icon">👤</span>Author</h2>
+            <div class="author-card">
+                <div class="author-avatar">LT</div>
+                <div class="author-info">
+                    <div class="name">Prof. Lamine THIAW</div>
+                    <div class="role">Department of Electrical Engineering<br>École Supérieure Polytechnique<br>Cheikh Anta Diop University, Dakar</div>
+                    <a href="mailto:lamine.thiaw@ucad.edu.sn">lamine.thiaw@ucad.edu.sn</a><br>
+                    <a href="mailto:lamine.thiaw@esp.sn">lamine.thiaw@esp.sn</a>
+                </div>
+            </div>
+            <p class="small" style="margin-top:14px">November 2026</p>
+        </div>
+    </main>
+</div>
+
+<script>
+    // défilement doux vers les ancres de la page
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){
+        a.addEventListener('click', function(e){
+            var t = document.querySelector(this.getAttribute('href'));
+            if(t){ e.preventDefault(); t.scrollIntoView({behavior: 'smooth', block: 'start'}); }
+        });
+    });
+    // rubrique active dans le menu latéral
+    var navLinks = document.querySelectorAll('#sidebar nav a');
+    if('IntersectionObserver' in window){
+        var obs = new IntersectionObserver(function(entries){
+            entries.forEach(function(en){
+                if(en.isIntersecting) navLinks.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#' + en.target.id); });
+            });
+        }, {rootMargin: '-20% 0px -70% 0px'});
+        document.querySelectorAll('.section[id]').forEach(function(s){ obs.observe(s); });
+    }
+</script>
+</body>
+</html>

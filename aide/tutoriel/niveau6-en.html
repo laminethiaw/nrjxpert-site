@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Level 6 — Smart grids: architecture, operation and owner's engineering — NRJXpert tutorial</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tutoriel.css">
+<script src="tutoriel.js"></script>
+<script src="smartgrid-en.js"></script>
+</head>
+<body>
+<div id="top"></div>
+
+<!-- ════════════════ MENU LATÉRAL ════════════════ -->
+<aside id="sidebar">
+    <div id="sidebar-header">
+        <div class="app-name">NRJXpert</div>
+        <div class="app-version">Version 2.0.0 · Tutorial › Level 6</div>
+    </div>
+    <nav>
+        <a href="#intro"><span class="nav-icon">📘</span>Introduction</a>
+        <a href="#n6-1"><span class="nav-icon">🌐</span>SGAM architecture (IEC SRD 63200)</a>
+        <a href="#n6-2"><span class="nav-icon">🔸</span>OT/IT operation: SCADA, ADMS, DERMS</a>
+        <a href="#n6-3"><span class="nav-icon">🔁</span>Self-healing (FLISR / FDIR) and reliability</a>
+        <a href="#n6-4"><span class="nav-icon">📉</span>Integrated Volt/VAR control (IVVC, IVVC/r) and CVR</a>
+        <a href="#n6-5"><span class="nav-icon">🏭</span>Virtual power plants (VPP) and aggregation</a>
+        <a href="#n6-6"><span class="nav-icon">🔋</span>Microgrids, storage and smart inverters</a>
+        <a href="#n6-7"><span class="nav-icon">🚗</span>E-mobility: V1G, V2G and charging standards</a>
+        <a href="#n6-8"><span class="nav-icon">📡</span>Semantic data models and protocols</a>
+        <a href="#n6-9"><span class="nav-icon">🏛️</span>Project governance and owner&#x27;s engineering</a>
+        <a href="#n6-10"><span class="nav-icon">🌐</span>Skills matrix of the smart grid expert</a>
+        <a href="#n6-ex"><span class="nav-icon">🎯</span>Synthesis project — owner&#x27;s engineering mission on an urban feeder</a>
+        <a href="#n6-qcm"><span class="nav-icon">📋</span>Level 6 quiz</a>
+        <a href="#auteur"><span class="nav-icon">👤</span>Author</a>
+    </nav>
+    <div class="side-links"><a href="index-en.html">🏠 Tutorial home</a><a href="niveau5-en.html">← Level 5</a><a href="niveau7-en.html">Level 7 →</a><a href="../help-en.html">📖 User guide</a></div>
+</aside>
+
+<!-- ════════════════ ZONE PRINCIPALE ════════════════ -->
+<div id="main">
+    <div id="hero">
+        <h1><span class="badge b6">Level 6</span> Smart grids: architecture, operation and owner's engineering</h1>
+        <div class="tagline">From network calculation to consulting expertise: place every device and every exchange in the SGAM model, understand the advanced
+functions of the control centre, simulate them with NRJXpert, then steer a smart grid project (IEC 62559 use cases, specification, bid analysis,
+acceptance).</div>
+        <div class="badges">
+            <span class="hero-badge">Tutorial</span>
+            <span class="hero-badge">Version 2.0.0</span>
+            <span class="hero-badge">November 2026</span>
+            <a class="hero-badge language-link" href="./niveau6.html" lang="fr" aria-label="Click to show the French version">
+                EN / FR
+                <small>Click for the French version</small>
+            </a>
+        </div>
+    </div>
+
+    <div id="topbar">
+        <div class="title">Level 6 — Smart grids: architecture, operation and owner&#x27;s engineer…</div>
+        <span class="meta">NRJXpert 2.0.0 · November 2026</span>
+    </div>
+
+    <main id="content">
+        <div id="toc-section">
+            <h2>Contents</h2>
+            <div class="toc-grid">
+                <a href="#intro"><span class="toc-num">00</span>Introduction</a>
+                <a href="#n6-1"><span class="toc-num">6.1</span>SGAM architecture (IEC SRD 63200)</a>
+                <a href="#n6-2"><span class="toc-num">6.2</span>OT/IT operation: SCADA, ADMS, DERMS</a>
+                <a href="#n6-3"><span class="toc-num">6.3</span>Self-healing (FLISR / FDIR) and reliability</a>
+                <a href="#n6-4"><span class="toc-num">6.4</span>Integrated Volt/VAR control (IVVC, IVVC/r) and CVR</a>
+                <a href="#n6-5"><span class="toc-num">6.5</span>Virtual power plants (VPP) and aggregation</a>
+                <a href="#n6-6"><span class="toc-num">6.6</span>Microgrids, storage and smart inverters</a>
+                <a href="#n6-7"><span class="toc-num">6.7</span>E-mobility: V1G, V2G and charging standards</a>
+                <a href="#n6-8"><span class="toc-num">6.8</span>Semantic data models and protocols</a>
+                <a href="#n6-9"><span class="toc-num">6.9</span>Project governance and owner&#x27;s engineering</a>
+                <a href="#n6-10"><span class="toc-num">6.10</span>Skills matrix of the smart grid expert</a>
+                <a href="#n6-ex"><span class="toc-num">11</span>Synthesis project — owner&#x27;s engineering mission on an urban feeder</a>
+                <a href="#n6-qcm"><span class="toc-num">12</span>Level 6 quiz</a>
+            </div>
+        </div>
+
+        <div class="section" id="intro">
+            <h2><span class="section-icon">📘</span>Introduction</h2>
+<div class="objectifs">
+<h4>Objectives</h4>
+<ul>
+<li>Map a smart grid system on the three axes of the SGAM (domains, zones, interoperability layers) and identify the gaps.</li>
+<li>Distinguish SCADA, ADMS, DERMS and VPP by their scope, time horizon and network model.</li>
+<li>Simulate a self-healing (FLISR) sequence, calculate SAIDI, SAIFI, MAIFI and the energy not supplied, and justify an automation plan.</li>
+<li>Compare voltage control strategies: local control, centralised IVVC, IVVC/r with smart inverters, CVR.</li>
+<li>Aggregate DER into a virtual power plant, control EV charging (V1G, V2G) and simulate the islanding of a microgrid.</li>
+<li>Choose data models and protocols (CIM, IEC 61850, DLMS/COSEM, IEC 60870-5-104, Modbus, OCPP, OpenADR, IEEE 2030.5).</li>
+<li>Write an IEC 62559 use case and conduct the five phases of a project as owner's engineer.</li>
+</ul>
+<p class="prereq">Prerequisites: levels 2 and 5. Source: <i>Smart grid specialisation guide and consulting framework</i> (L. Thiaw, ESP-UCAD,
+October 2026). Calculations are made by the NRJXpert server. Duration: 30 h and a project.</p>
+</div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n6-1">
+            <h2><span class="section-icon">🌐</span>6.1 SGAM architecture (IEC SRD 63200)</h2>
+<p>The <b>Smart Grid Architecture Model</b> was born from the European mandate <b>M/490</b> (CEN-CENELEC-ETSI group, today <b>SEG-CG</b>: documents
+SG-CG/M490/C, 2012 and SG-CG/M490/K, 2014) and is formalised internationally by <b>IEC SRD 63200</b> (UML modelling, OWL ontology). It gives a common
+language to generators, transmission (TSO) and distribution (DSO) system operators, DER actors and consumers. Three uses: map a system on its layers,
+position the standards, delimit the scope of committees.</p>
+<table class="sgam-fig">
+<tr><th>Axis</th><th>Components</th><th>Role</th></tr>
+<tr><td><b>Domains</b></td><td>Bulk generation, Transmission, Distribution, DER, Customer premises</td><td>Energy value chain</td></tr>
+<tr><td><b>Zones</b></td><td>Process, Field, Station, Operation, Enterprise, Market</td><td>Control hierarchy, from primary equipment to the market</td></tr>
+<tr><td><b>Layers</b> (GWAC)</td><td>Business, Function, Information, Communication, Component</td><td>Interoperability: business, functions, semantics, transport, hardware</td></tr>
+</table>
+<ul>
+<li><b>Business</b>: business processes, regulatory framework, business models;</li>
+<li><b>Function</b>: use cases (IEC 62559) and requirements (IEC SRD 62913), technology-independent;</li>
+<li><b>Information</b>: semantics and syntax of the data (CIM, IEC 61850);</li>
+<li><b>Communication</b>: protocols, transport, addressing;</li>
+<li><b>Component</b>: primary equipment, IEDs, computers, <i>grid-edge</i> gateways.</li>
+</ul>
+<p>In a systems engineering approach, the SGAM is used as a <b>gap analysis</b> tool: at each intersection (domain, zone, layer), one checks that a
+standard exists, that it is used by all actors and that no interoperability break remains.</p>
+<div class="sg" data-tool="sgam"></div>
+<div class="lab"><h4>Lab 6.1 — Mapping the network drawn in NRJXpert</h4>
+<p>Open <code>exemples/smartgrid_deux_departs.nxp</code> (Help › Open a tutorial example). For each symbol of the « Smart grid » and « Distributed
+resources » palettes, place in the tool above the equipment (Component layer), its protocol (Communication) and its data model (Information). Then
+use <b>Tools › Telecontrol points list</b>: each line of the file produced corresponds to an arrow between two zones (Field → Station → Operation).</p></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n6-2">
+            <h2><span class="section-icon">🔸</span>6.2 OT/IT operation: SCADA, ADMS, DERMS</h2>
+<p>The transition from passive distribution to active, DER-rich networks requires aligning operational technology (OT) and information technology (IT)
+(EPRI P174, <b>IEEE 2030.11-2021</b> for DERMS):</p>
+<table class="sgam-fig">
+<tr><th>System</th><th>Scope</th><th>Horizon</th><th>Network model</th><th>Equivalent in NRJXpert</th></tr>
+<tr><td><b>SCADA</b></td><td>Telecontrol, acquisition, elementary commands</td><td>Hard real time (ms to s)</td><td>Substations and IEDs</td><td>Points list (§ 6.8)</td></tr>
+<tr><td><b>ADMS</b></td><td>Topological optimisation, load flow, outages (OMS), quality</td><td>Seconds to minutes</td><td>Complete model of the feeders</td><td>Distribution load flow, FLISR, IVVC</td></tr>
+<tr><td><b>DERMS</b></td><td>Aggregation, forecasting, collective control of DER, BESS and loads</td><td>Minutes to day-ahead</td><td>Aggregated or automation islands</td><td>Time series, OPF, VPP (network check)</td></tr>
+</table>
+<p>The <b>DMS</b> guarantees physical security (thermal and voltage limits); the <b>DERMS</b> maximises the availability and yield of the DER. Two
+architectures: <b>DMS-centric</b> (single network model, but a strong real-time requirement for the ADMS) or <b>by automation islands</b> (the DERMS
+manages high-availability islands locally, the DMS keeps the consolidated view) — recommended when the existing ADMS is not real-time or the model is
+very large.</p>
+<div class="ex"><h4>Example 6.2 — Why « negative load » is no longer enough</h4>
+<p>At low renewable penetration, the DMS load flow treats a DER as a negative load. With a strong injection, this model hides the local constraints.
+Take <code>timeSeries_ieee33.xml</code> again (level 5): at cos φ = 1, 6 h of overvoltage; the same calculation with Q(V) leaves only 4 — the
+<b>active and reactive</b> injection at the connection point must be modelled.</p></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n6-3">
+            <h2><span class="section-icon">🔁</span>6.3 Self-healing (FLISR / FDIR) and reliability</h2>
+<p>Evolution of automation: passive network → <b>self-healing</b> (FLISR) → <b>Volt/VAR control</b> (IVVC) → <b>inverter control</b> (IVVC/r). <b>FLISR</b>
+(<i>Fault Location, Isolation and Service Restoration</i>) combines remote-controlled switches, fault passage indicators (FPI) and an algorithm based on
+the network model:</p>
+<ol class="steps">
+<li><div class="step-content"><b>Detection</b>: the nearest upstream protection (feeder breaker, recloser) trips; the FPIs send their alarms (IEC 60870-5-104). A transient fault is
+cleared by reclosing: momentary interruption only.</div></li>
+<li><div class="step-content"><b>Location</b>: the fault is downstream of the last « lit » FPI and upstream of the FPIs that stayed « off ».</div></li>
+<li><div class="step-content"><b>Isolation</b>: opening of the remote-controlled switches surrounding the located zone; a manual switch cannot be used, hence an isolated zone
+that is sometimes larger.</div></li>
+<li><div class="step-content"><b>Restoration</b>: reclosing of the breaker for the upstream part, closing of a normally open (NO) switch to transfer the downstream part to a
+neighbouring feeder, <b>after a load-flow check</b> of voltage and currents; otherwise partial transfer by blocks.</div></li>
+<li><div class="step-content">Then the crew locates the exact section, operates the manual switches and repairs.</div></li>
+</ol>
+<div class="eq">Indices (IEEE 1366): SAIDI = Σ (customers interrupted × duration) / customers served (min/yr); SAIFI = Σ customers interrupted / customers served (/yr);
+MAIFI: momentary interruptions (≤ 3 min IEC, ≤ 5 min IEEE); ASAI = 1 − SAIDI/525 600; ENS = Σ P × duration (kWh).</div>
+<h3>In NRJXpert</h3>
+<p><b>Smart grid</b> palette: <b>switching device</b> (feeder breaker, recloser, switch, tie switch; normal state closed / open; remote-controlled; FPI).
+An open switch is an open circuit for all calculations: the network meshed by the NO switches stays radial. In the dialog box of a load: <b>number of
+customers</b>. Calculation <b>Self-healing (FLISR), reliability</b>; settings in <b>Simulation › DER study settings › Self-healing</b> (element in
+fault, intervention times, minimum voltage and maximum loading after transfer, annual study, costs).</p>
+<div class="ex"><h4>Example 6.3 — Two 20 kV feeders that can be looped (file <code>exemples/flisr_deux_departs.xml</code>)</h4>
+<p>Feeder A: DJ-A, L1 (3 km), A1 (0.6 MW, 300 customers), IACM-A1 (remote-controlled, FPI), L2 (4 km), A2 (0.8 MW, 400), INT-A2 (<b>manual</b> switch
+without FPI), L3 (3 km), A3 (0.5 MW, 250), IACM-A3, L4 (5 km), A4 (0.7 MW, 350). Feeder B: DJ-B, L5, B1, IACM-B1, L6, B2. Remote-controlled NO1 switch
+between A4 and B2. Permanent fault on L3; λ = 0.1 /km/yr; repair 4 h.</p>
+<details class="sol" open><summary>Server results</summary>
+<table class="sgam-fig">
+<tr><th>t</th><th>With FLISR</th><th>Without automation</th></tr>
+<tr><td>0.1 s</td><td colspan="2">Tripping of DJ-A: 1 300 customers, 2 600 kW interrupted</td></tr>
+<tr><td>20 s</td><td>FPIs lit: DJ-A, IACM-A1; fault located in {A2} + {A3} (INT-A2 has no FPI)</td><td>—</td></tr>
+<tr><td>35 – 50 s</td><td>Remote opening of IACM-A1 then IACM-A3</td><td>—</td></tr>
+<tr><td>65 s</td><td>Closing of NO1: A4 (350 customers) transferred to feeder B, Vmin 0.982 pu</td><td>—</td></tr>
+<tr><td>80 s</td><td>Reclosing of DJ-A: A1 (300 customers)</td><td>—</td></tr>
+<tr><td>60 – 80 min</td><td>Crew: opening of INT-A2, closing of IACM-A1: A2 (400 customers)</td><td>—</td></tr>
+<tr><td>90 min – 2.2 h</td><td>—</td><td>Fault search, opening of IACM-A3 and INT-A2, reclosing of DJ-A, closing of NO1</td></tr>
+<tr><td>4 h</td><td colspan="2">Repair: A3 re-energised</td></tr>
+</table>
+<p>Customers with a sustained interruption: <span class="result">650 with FLISR</span> (650 momentary) against <span class="result">1 300</span>;
+customer-minutes 92 000 against 189 500; ENS <span class="result">3 093 kWh against 6 317 kWh</span>. Annual study (2.4 failures/yr):
+<b>SAIDI 197.9 → 105.8 min/yr</b>, <b>SAIFI 1.28 → 0.51 /yr</b> (MAIFI 0.77), ENS 13 520 → 7 276 kWh/yr. With 6 remote-controlled switches (4 MF)
+and 5 FPIs (0.6 MF): 27 MF invested, 6.25 MF/yr of ENS avoided at 1 000 F/kWh, payback <b>4.3 years</b>.</p></details></div>
+<div class="sg" data-tool="reliab"></div>
+<div class="lab"><h4>Lab 6.3 — Automation plan of a feeder</h4>
+<ol>
+<li>Calculate example 6.3 (Simulation › Calculate a network file (XML)). Record the sequence, the customers interrupted and the ENS.</li>
+<li>Make INT-A2 remote-controlled with an FPI (<code>&lt;remote&gt;true&lt;/remote&gt;&lt;fpi&gt;true&lt;/fpi&gt;</code>): by how much does the annual SAIDI
+fall? Is the payback still acceptable?</li>
+<li>Limit the current rating of L5 (<code>&lt;Imax&gt;</code> = 60 A): the transfer through NO1 becomes partial or impossible; explain with the load flow
+of the transfer.</li>
+<li>Transient fault: which interruptions remain? Which index measures them?</li>
+<li>Draw the same network in the client with the « Smart grid » palette and find the same results.</li>
+</ol></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n6-4">
+            <h2><span class="section-icon">📉</span>6.4 Integrated Volt/VAR control (IVVC, IVVC/r) and CVR</h2>
+<p>The voltage drop of a branch is ΔU/U ≈ (R·P + X·Q)/U². Control means: the <b>on-load tap changer</b> of the substation transformer (taps of
+±0.625 %), <b>capacitor steps</b>, and — this is <b>IVVC/r</b> — the reactive power of the <b>smart inverters</b> (Volt/VAR and Volt/Watt functions,
+IEEE 1547-2018, EN 50549). Objectives: minimum losses, or <b>CVR</b> (<i>Conservation Voltage Reduction</i>): lowering the voltage within the
+contractual range reduces the consumption of voltage-sensitive loads (ZIP model).</p>
+<div class="eq">ZIP load: P(V) = P0·(Z·v² + I·v + P); CVR factor ≈ 2Z + I (ΔP/P = CVRf × ΔV/V).</div>
+<p>In NRJXpert: <b>stepped capacitor bank</b> symbol (number of steps, power of one step, initial state); PV inverters and batteries; calculation
+<b>Volt/VAR control (IVVC)</b>, which compares over the load profile: S0 no control, S1 local control (Q(V) of the inverters, voltage relays of the
+capacitors), S2 centralised IVVC (tap + capacitors), S3 IVVC/r (+ reactive power of the inverters). Settings: « Volt/VAR » tab (objective losses / CVR,
+tap changer range, ZIP model).</p>
+<div class="ex"><h4>Example 6.4 — IEEE 33-bus with 2 × 0.8 MWp and two stepped capacitor banks (<code>exemples/ivvc_ieee33.xml</code>)</h4>
+<details class="sol" open><summary>Results over 24 h (objective: losses)</summary>
+<table class="sgam-fig">
+<tr><th>Strategy</th><th>Losses (kWh/d)</th><th>Vmin / Vmax (pu)</th><th>Hours out of range</th><th>Tap changer / capacitor operations</th></tr>
+<tr><td>S0 no control</td><td>1 664</td><td>0.913 / 1.013</td><td>6</td><td>0 / 0</td></tr>
+<tr><td>S1 local control</td><td>1 097 (−34 %)</td><td>0.943 / 1.022</td><td>4</td><td>0 / 7</td></tr>
+<tr><td>S2 centralised IVVC</td><td>1 022 (−39 %)</td><td>0.985 / 1.050</td><td>0</td><td>16 / 7</td></tr>
+<tr><td>S3 IVVC/r</td><td><span class="result">947 (−43 %)</span></td><td>0.994 / 1.050</td><td>0</td><td>18 / 9</td></tr>
+</table>
+<p>CVR objective (loads 40/30/30 %): the energy drawn at the substation falls by 1.72 % (S2) and <span class="result">2.28 % (S3)</span>, the voltage
+being held as close as possible to 0.95 pu; losses increase a little compared with the « losses » objective — the two objectives conflict.</p></details></div>
+<div class="sg" data-tool="cvr"></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n6-5">
+            <h2><span class="section-icon">🏭</span>6.5 Virtual power plants (VPP) and aggregation</h2>
+<p>The <b>IEEE P2030.14</b> project defines the VPP: aggregation software that schedules a heterogeneous portfolio (PV, wind, BESS, back-up gensets,
+thermal storage, curtailable loads) as a <b>single predictable and controllable asset</b>, able to provide fast reserve, frequency response and demand
+response. <b>IEEE 2030.4-2023</b> frames the control automation (SGIRM model). Orchestration couples very short-term forecasts and the predictive
+load flow of the DMS; if local Volt/VAR control is not enough, the DMS prepares preventive switching plans sent to the crews (<i>crew mobile</i>).</p>
+<p>In NRJXpert, calculation <b>Virtual power plant (VPP)</b>: economic dispatch (MILP) of the DER of the diagram with an <b>exchange programme</b>
+requested at the connection point (deviation penalty), the <b>sale of fast reserve</b>, demand response, EV charging; then <b>network check</b> by a
+load flow at each step (role of the DERMS) and <b>flexibility envelope</b> upwards and downwards. OpenADR demand response events: level 7.</p>
+<div class="ex"><h4>Example 6.5 — 20 kV feeder: 1 MWp PV, 0.5 MW / 1 MWh battery, 30 EVs in V2G (<code>exemples/vpp_ve_batterie.xml</code>)</h4>
+<details class="sol" open><summary>Results</summary>
+<p>Programme: 0.8 MW at night, 0.3 MW from 07:00 to 18:00, 0.9 MW at peak; tariff 70 / 110 / 170 F/kWh; reserve at 8 F/kW/h. Programme met
+<span class="result">20 h out of 24</span> (deviation 1 033 kWh); 11 310 kW·h of reserve sold; EV charging at <b>53.6 F/kWh</b> on average, 166 kWh fed back
+(V2G); no voltage constraint or overload (Vmin 0.992 pu); mean available flexibility: +0.78 MW / −0.83 MW.</p>
+<p>Economic dispatch alone (« Economic dispatch » calculation) depending on the charging mode: cost of the day 1.852 MF (uncontrolled, charging at
+164.6 F/kWh); 1.741 MF (V1G, 70 F/kWh); <span class="result">1.733 MF (V2G, 49.4 F/kWh)</span>.</p></details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n6-6">
+            <h2><span class="section-icon">🔋</span>6.6 Microgrids, storage and smart inverters</h2>
+<p>A <b>microgrid</b> is a set of loads and DER within defined electrical boundaries, controllable as a single entity, in connected or islanded mode.
+<b>IEEE 2030.7-2017</b>: microgrid controller, <b>transition</b> functions (seamless islanding, resynchronisation) and <b>dispatch</b>. <b>IEEE 2030.8-2018</b>:
+tests and qualification (HIL benches; NRJXpert test bench: level 7). Inverter interconnection: <b>IEEE 1547-2018</b>, <b>EN 50549-1/-2</b>, <b>IEC 62898</b>
+(microgrids).</p>
+<table class="sgam-fig">
+<tr><th>Mode or function</th><th>Principle</th><th>In NRJXpert</th></tr>
+<tr><td>Grid-following</td><td>PLL, injection of a synchronous current; requires a strong network</td><td>PV, wind: « grid-following inverter » model</td></tr>
+<tr><td>Grid-forming</td><td>Voltage source, frequency and voltage reference, synthetic inertia</td><td>Battery: droop or VSM</td></tr>
+<tr><td>Volt/VAR</td><td>Q function of the voltage</td><td>Q(V) control (IEEE 1547 cat. B curve)</td></tr>
+<tr><td>Volt/Watt</td><td>Reduction of P in overvoltage</td><td>P(V) control</td></tr>
+<tr><td>Frequency-Watt</td><td>P-f droop, primary control</td><td>Droop and dead band (dynamics)</td></tr>
+<tr><td>Cross control Volt-Watt / Volt-VAR</td><td>Reactive power first, then reduction of P</td><td>Q(V) + P(V) control, Q priority</td></tr>
+</table>
+<p><b>Islanding and resynchronisation</b>: in the dynamic simulation, events <b>Islanding</b> (opening of the coupling point) and <b>Synchronised
+reconnection</b>: the synchroniser adjusts the frequency and voltage of the grid-forming inverters of the island, and the breaker only closes if |Δf|,
+|ΔV| and |Δφ| meet the limits of IEEE 1547 (table 39): 0.3 Hz / 10 % / 20° up to 500 kVA, 0.2 Hz / 5 % / 15° up to 1.5 MVA, 0.1 Hz / 3 % / 10° above.</p>
+<div class="ex"><h4>Example 6.6 — Islanding of a 0.9 MW site (<code>exemples/microreseau_ilotage.xml</code>)</h4>
+<details class="sol" open><summary>Results</summary>
+<p>1 MVA grid-forming battery (VSM, H = 2 s, droop 2 %), 0.6 MVA grid-following PV (Frequency-Watt, dead band 0.036 Hz). Islanding at 1 s: the battery
+takes over the import (0.20 → 0.39 MW), nadir <span class="result">49.39 Hz</span>, RoCoF 4.2 Hz/s, steady-state frequency 49.82 Hz (droop).
+Reconnection requested at 4 s: closing at <span class="result">7.70 s</span> (Δf = 0.03 Hz, ΔV = 0.01 %, Δφ = −10°, 1.6 MVA island); back to 50 Hz
+and to the 0.2 MW set-point.</p></details></div>
+<div class="sg" data-tool="sync"></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n6-7">
+            <h2><span class="section-icon">🚗</span>6.7 E-mobility: V1G, V2G and charging standards</h2>
+<p>Communication chain: <b>vehicle</b> —(ISO 15118-2/-20)→ <b>charger (EVSE)</b> —(OCPP 2.0.1)→ <b>operator (CPO) / EMS</b> —(OpenADR 2.0b, EEBUS)→
+<b>grid operator (DSO, ADMS, DERMS)</b>.</p>
+<ul>
+<li><b>IEC 61851</b>: hardware requirements, safety, charging modes 1 to 4 (AC and DC);</li>
+<li><b>ISO 15118-20</b>: bidirectional charging (V2G/V2X), wireless, <i>Plug &amp; Charge</i> with PKI certificates;</li>
+<li><b>OCPP 2.0.1</b>: charger ↔ CPO, TLS security, payment, smart charging profiles (V1G, V2G);</li>
+<li><b>OpenADR 2.0b</b>: demand response, price and constraint signals between operators, aggregators and buildings or charging hubs.</li>
+</ul>
+<p>In NRJXpert: <b>charging station / fleet of electric vehicles</b> symbol (number of vehicles, battery, charger power, arrival and departure times,
+states of charge, uncontrolled / V1G / V2G mode, coincidence factor). The load flow and the short circuit use the design power; time series use the
+uncontrolled charging profile; economic dispatch and the VPP optimise the charging.</p>
+<div class="lab"><h4>Lab 6.7 — Night charging of a company fleet</h4>
+<p>In example 6.5, compare the three charging modes (tag <code>&lt;evMode&gt;</code>) in economic dispatch, then uncontrolled charging in time series:
+at what time does the peak appear? How many vehicles does the feeder accept before a voltage below 0.95 pu?</p></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n6-8">
+            <h2><span class="section-icon">📡</span>6.8 Semantic data models and protocols</h2>
+<p>Two IEC pillars: the <b>CIM</b> on the IT side and <b>IEC 61850</b> on the OT side, linked by a gateway (semantic <i>mapping</i>).</p>
+<ul>
+<li><b>CIM</b> (UML): <b>IEC 61970</b> (transmission, EMS/SCADA, topology, power flow, state estimation), <b>IEC 61968</b> (distribution: DMS, OMS, GIS,
+asset management, metering; profile <b>61968-13 CDPSM</b>), <b>IEC 62325</b> (markets).</li>
+<li><b>IEC 61850</b>: physical device → <b>logical device</b> (LD) → <b>logical node</b> (LN) → data object → attribute; e.g. <b>XCBR</b> (circuit breaker),
+<b>XSWI</b> (switch), <b>MMXU</b> (measurements); <b>SCL</b> language (IEC 61850-6, XML); MMS, GOOSE, SV services; extension to DER (<b>IEC 61850-7-420</b>)
+and to hydro plants (7-410).</li>
+<li><b>AMI</b>: <b>DLMS/COSEM</b> (IEC 62056; <b>OBIS</b> codes), <b>G3-PLC</b> (IEC 61334; CENELEC A band 35–91 kHz, OFDM, IEEE 802.15.4 / IPv6 / 6LoWPAN),
+cellular NB-IoT, LTE-M, 4G, 5G (calculation in level 7).</li>
+<li><b>Telecontrol</b>: <b>IEC 60870-5-104</b> (TCP 2404, report by exception, time stamping, ASDU), <b>DNP3</b> (IEEE 1815, classes 0 to 3), <b>Modbus</b>
+RTU/TCP (16-bit registers, no semantics).</li>
+</ul>
+<div class="sg" data-tool="protocols"></div>
+<div class="lab"><h4>Lab 6.8 — From the diagram to the information systems</h4>
+<ol>
+<li><b>Tools › Export the network in CIM format</b>: open the RDF/XML file produced; find the <code>ConnectivityNode</code>, the <code>Terminal</code>, the
+<code>ACLineSegment</code>, the <code>Breaker</code> / <code>LoadBreakSwitch</code> (<code>normalOpen</code>), the <code>FaultIndicator</code>, the
+<code>PowerElectronicsConnection</code> with their <code>PhotoVoltaicUnit</code> / <code>BatteryUnit</code>. How does the ADMS rebuild the topology?</li>
+<li><b>Tools › Telecontrol points list</b>: open the CSV in a spreadsheet. For each switching device, check the ASDU type (M_DP_TB_1 for a double point,
+C_DC_NA_1 for a command), the IEC 61850 logical node and the Modbus register. Complete the addresses according to the operator's addressing plan. The
+proposed mappings are indicative: they are validated against the profiles of the selected equipment.</li>
+</ol></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n6-9">
+            <h2><span class="section-icon">🏛️</span>6.9 Project governance and owner's engineering</h2>
+<p>A smart grid project (ADMS, AMI, microgrid) is neither a simple electrical project nor a simple IT project: it is a transformation that requires
+structured <b>owner's engineering</b> (AMOA, assistance to the contracting authority) in five phases.</p>
+<table class="sgam-fig">
+<tr><th>Phase</th><th>Role of the consultant</th><th>Deliverables</th></tr>
+<tr><td>1. Scoping</td><td>OT/IT maturity, quality of GIS data, telecom coverage, regulatory barriers, renewable targets</td><td>Diagnosis, roadmap</td></tr>
+<tr><td>2. Requirements engineering</td><td>Cross-functional workshops (operations, telecom, IT, business); <b>IEC 62559-2</b> use cases; SGAM mapping</td><td>Use case sheets</td></tr>
+<tr><td>3. Specification</td><td>Functional requirements, performance, architecture; CIM, IEC 61850, COSEM profiles; cybersecurity <b>IEC 62443</b>, <b>SG-CG/SGIS</b> (<i>security by design</i>)</td><td>Specification, technical clauses</td></tr>
+<tr><td>4. Bid analysis</td><td>Evaluation grids (open standards, sustainability, recurring costs); total cost of ownership (TCO), integration and change management included</td><td>Analysis report, choice of the contractor</td></tr>
+<tr><td>5. Steering and acceptance</td><td>Migration of GIS data to the ADMS model; factory acceptance (<b>FAT</b>, HIL benches), site acceptance (<b>SAT</b>), verification in regular service</td><td>Acceptance reports</td></tr>
+</table>
+<div class="sg" data-tool="usecase"></div>
+<p class="small">The sheet is kept in this browser; « Export » produces a Markdown file to attach to the specification.</p>
+<div class="sg" data-tool="tco"></div>
+<div class="lab"><h4>Lab 6.9 — From the use case sheet to acceptance</h4>
+<p>For the FLISR use case: (1) complete the sheet (template above); (2) place its actors and exchanges in the SGAM tool; (3) deduce 10 requirements of
+the specification (sequence time, availability, CIM and IEC 61850 profiles, IEC 62351 security); (4) write 5 FAT tests that use the NRJXpert simulation
+as reference (sequence and customers restored of example 6.3); (5) compare two bids with the TCO calculator.</p></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n6-10">
+            <h2><span class="section-icon">🌐</span>6.10 Skills matrix of the smart grid expert</h2>
+<p>Five domains: electrical engineering and operation; OT/IT architecture; standardisation and interoperability; telecommunications and cybersecurity;
+governance, economics and regulation. Assess yourself, then follow the proposed paths.</p>
+<div class="sg" data-tool="skills"></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n6-ex">
+            <h2><span class="section-icon">🎯</span>Synthesis project — owner's engineering mission on an urban feeder</h2>
+<div class="ex"><h4>Subject</h4>
+<p>A utility wants to reduce by 40 % the SAIDI of a 20 kV feeder of 2 000 customers, and to host 3 MWp of PV and 200 charging points.</p>
+<ol>
+<li><b>Scoping</b>: draw the feeder in NRJXpert (switching devices, loads with number of customers, PV, EV charger, capacitor banks); distribution load
+flow and hosting capacity.</li>
+<li><b>Requirements</b>: three IEC 62559 sheets (FLISR, IVVC/r, smart charging); SGAM mapping.</li>
+<li><b>Studies</b>: annual reliability study for 2, 4 then 6 remote-controlled switches; IVVC (S0 to S3); VPP with the aggregator's programme; islanding
+of a priority site.</li>
+<li><b>Specification</b>: CIM export and points list; communication and security requirements.</li>
+<li><b>Bids and acceptance</b>: evaluation grid and TCO of two solutions; FAT/SAT plan.</li>
+</ol>
+<p>Deliverable: 20-page report and 20 min presentation (marking scheme in the teacher's guide).</p></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n6-qcm">
+            <h2><span class="section-icon">📋</span>Level 6 quiz</h2>
+<div class="qcm" data-answer="b"><p class="q">1. The three axes of the SGAM are:</p>
+<ol><li data-k="a">voltage, frequency, power</li><li data-k="b">domains, zones, interoperability layers</li><li data-k="c">generation, transmission, distribution</li><li data-k="d">hardware, software, telecom</li></ol>
+<div class="fb">Domains (value chain), zones (control hierarchy), layers (Business to Component, from the GWAC).</div></div>
+<div class="qcm" data-answer="c"><p class="q">2. A feeder protection IED is located, in the SGAM:</p>
+<ol><li data-k="a">Process zone</li><li data-k="b">Operation zone</li><li data-k="c">Field zone</li><li data-k="d">Enterprise zone</li></ol>
+<div class="fb">The breaker itself is in the Process zone; its IED in the Field zone; the SCADA in the Operation zone.</div></div>
+<div class="qcm" data-answer="a"><p class="q">3. The DERMS differs from the ADMS by:</p>
+<ol><li data-k="a">aggregation and forecasting of DER, at intraday or day-ahead horizon</li><li data-k="b">millisecond telecontrol</li><li data-k="c">the absence of a network model</li><li data-k="d">wholesale market management</li></ol>
+<div class="fb">The ADMS guarantees short-term real-time physical security; the DERMS optimises the diversity of the DER.</div></div>
+<div class="qcm" data-answer="d"><p class="q">4. In a FLISR sequence, a manual switch without FPI located in the faulted zone:</p>
+<ol><li data-k="a">is opened by the ADMS</li><li data-k="b">prevents any restoration</li><li data-k="c">trips on the fault</li><li data-k="d">enlarges the isolated zone up to the neighbouring remote-controlled switches</li></ol>
+<div class="fb">Example 6.3: manual INT-A2 → A2 and A3 isolated together until the crew arrives.</div></div>
+<div class="qcm" data-answer="b"><p class="q">5. An 80 s interruption restored by FLISR counts in:</p>
+<ol><li data-k="a">the SAIDI</li><li data-k="b">the MAIFI</li><li data-k="c">the SAIFI</li><li data-k="d">the ASAI only</li></ol>
+<div class="fb">Below the momentary interruption threshold (3 min IEC, 5 min IEEE 1366), it is counted in the MAIFI.</div></div>
+<div class="qcm" data-answer="c"><p class="q">6. IVVC/r adds to classical IVVC:</p>
+<ol><li data-k="a">the on-load tap changer</li><li data-k="b">capacitor steps</li><li data-k="c">control of the reactive power of smart inverters</li><li data-k="d">load shedding</li></ol>
+<div class="fb">It increases the hosting capacity without violating the voltage range or the thermal limits.</div></div>
+<div class="qcm" data-answer="a"><p class="q">7. With loads 40 % Z, 30 % I, 30 % P, the CVR factor is about:</p>
+<ol><li data-k="a">1.1</li><li data-k="b">0.3</li><li data-k="c">2</li><li data-k="d">0</li></ol>
+<div class="fb">CVRf ≈ 2Z + I = 0.8 + 0.3 = 1.1: a 3 % voltage reduction → about 3.3 % less consumption.</div></div>
+<div class="qcm" data-answer="d"><p class="q">8. To reconnect a 2 MVA island to the grid, IEEE 1547 requires:</p>
+<ol><li data-k="a">Δf ≤ 0.3 Hz, ΔV ≤ 10 %, Δφ ≤ 20°</li><li data-k="b">no condition</li><li data-k="c">Δf ≤ 1 Hz</li><li data-k="d">Δf ≤ 0.1 Hz, ΔV ≤ 3 %, Δφ ≤ 10°</li></ol>
+<div class="fb">Above 1.5 MVA, the tightest criteria of table 39 apply.</div></div>
+<div class="qcm" data-answer="b"><p class="q">9. Which protocol links a charging station to the operator's system (CPO)?</p>
+<ol><li data-k="a">ISO 15118</li><li data-k="b">OCPP</li><li data-k="c">DLMS/COSEM</li><li data-k="d">IEC 60870-5-104</li></ol>
+<div class="fb">ISO 15118 links the vehicle to the charger; OCPP the charger to the CPO; OpenADR the CPO to the grid operator.</div></div>
+<div class="qcm" data-answer="c"><p class="q">10. In IEC 61850, the measurement of voltages, currents and powers is carried by the logical node:</p>
+<ol><li data-k="a">XCBR</li><li data-k="b">CSWI</li><li data-k="c">MMXU</li><li data-k="d">PTOC</li></ol>
+<div class="fb">XCBR: circuit breaker; CSWI: switch controller; PTOC: overcurrent protection.</div></div>
+<div class="qcm" data-answer="a"><p class="q">11. Modbus differs from the CIM and IEC 61850 by:</p>
+<ol><li data-k="a">the absence of a semantic model (16-bit registers)</li><li data-k="b">mandatory use of TLS</li><li data-k="c">a UML model</li><li data-k="d">SCL files</li></ol>
+<div class="fb">Hence the SunSpec models to give meaning to the inverter registers.</div></div>
+<div class="qcm" data-answer="d"><p class="q">12. The owner's engineering phase in which the IEC 62559 use case sheets are written is:</p>
+<ol><li data-k="a">scoping</li><li data-k="b">bid analysis</li><li data-k="c">acceptance</li><li data-k="d">requirements engineering</li></ol>
+<div class="fb">Phase 2, with the SGAM mapping of the information nodes and interoperability needs.</div></div>
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="page-nav"><a href="niveau5-en.html">← Level 5 — DER and smart grids</a><a href="niveau7-en.html">Level 7 — Expert workshop →</a></div>
+
+        <div class="section" id="auteur">
+            <h2><span class="section-icon">👤</span>Author</h2>
+            <div class="author-card">
+                <div class="author-avatar">LT</div>
+                <div class="author-info">
+                    <div class="name">Prof. Lamine THIAW</div>
+                    <div class="role">Department of Electrical Engineering<br>École Supérieure Polytechnique<br>Cheikh Anta Diop University, Dakar</div>
+                    <a href="mailto:lamine.thiaw@ucad.edu.sn">lamine.thiaw@ucad.edu.sn</a><br>
+                    <a href="mailto:lamine.thiaw@esp.sn">lamine.thiaw@esp.sn</a>
+                </div>
+            </div>
+            <p class="small" style="margin-top:14px">November 2026</p>
+        </div>
+    </main>
+</div>
+
+<script>
+    // défilement doux vers les ancres de la page
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){
+        a.addEventListener('click', function(e){
+            var t = document.querySelector(this.getAttribute('href'));
+            if(t){ e.preventDefault(); t.scrollIntoView({behavior: 'smooth', block: 'start'}); }
+        });
+    });
+    // rubrique active dans le menu latéral
+    var navLinks = document.querySelectorAll('#sidebar nav a');
+    if('IntersectionObserver' in window){
+        var obs = new IntersectionObserver(function(entries){
+            entries.forEach(function(en){
+                if(en.isIntersecting) navLinks.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#' + en.target.id); });
+            });
+        }, {rootMargin: '-20% 0px -70% 0px'});
+        document.querySelectorAll('.section[id]').forEach(function(s){ obs.observe(s); });
+    }
+</script>
+</body>
+</html>

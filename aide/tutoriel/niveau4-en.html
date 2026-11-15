@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Level 4 — Economic studies — NRJXpert tutorial</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tutoriel.css">
+<script src="tutoriel.js"></script>
+</head>
+<body>
+<div id="top"></div>
+
+<!-- ════════════════ MENU LATÉRAL ════════════════ -->
+<aside id="sidebar">
+    <div id="sidebar-header">
+        <div class="app-name">NRJXpert</div>
+        <div class="app-version">Version 2.0.0 · Tutorial › Level 4</div>
+    </div>
+    <nav>
+        <a href="#intro"><span class="nav-icon">📘</span>Introduction</a>
+        <a href="#n4-1"><span class="nav-icon">🔹</span>Time value of money</a>
+        <a href="#n4-2"><span class="nav-icon">💰</span>Life-cycle cost and discounted cost</a>
+        <a href="#n4-3"><span class="nav-icon">💰</span>Levelised cost of energy (LCOE)</a>
+        <a href="#n4-4"><span class="nav-icon">📙</span>NPV, IRR and payback</a>
+        <a href="#n4-5"><span class="nav-icon">🧩</span>Minimum tariff and subsidy</a>
+        <a href="#n4-6"><span class="nav-icon">📘</span>Sensitivity and comparison of solutions</a>
+        <a href="#n4-ex"><span class="nav-icon">🎯</span>Exercises</a>
+        <a href="#n4-qcm"><span class="nav-icon">📋</span>Level 4 quiz</a>
+        <a href="#auteur"><span class="nav-icon">👤</span>Author</a>
+    </nav>
+    <div class="side-links"><a href="index-en.html">🏠 Tutorial home</a><a href="niveau3-en.html">← Level 3</a><a href="niveau5-en.html">Level 5 →</a><a href="../help-en.html">📖 User guide</a></div>
+</aside>
+
+<!-- ════════════════ ZONE PRINCIPALE ════════════════ -->
+<div id="main">
+    <div id="hero">
+        <h1><span class="badge b4">Level 4</span> Economic studies</h1>
+        <div class="tagline">A technically correct installation is only useful if it is the cheapest of the solutions that meet the need, or if it is
+profitable. This level gives the tools to demonstrate it.</div>
+        <div class="badges">
+            <span class="hero-badge">Tutorial</span>
+            <span class="hero-badge">Version 2.0.0</span>
+            <span class="hero-badge">November 2026</span>
+            <a class="hero-badge language-link" href="./niveau4.html" lang="fr" aria-label="Click to show the French version">
+                EN / FR
+                <small>Click for the French version</small>
+            </a>
+        </div>
+    </div>
+
+    <div id="topbar">
+        <div class="title">Level 4 — Economic studies</div>
+        <span class="meta">NRJXpert 2.0.0 · November 2026</span>
+    </div>
+
+    <main id="content">
+        <div id="toc-section">
+            <h2>Contents</h2>
+            <div class="toc-grid">
+                <a href="#intro"><span class="toc-num">00</span>Introduction</a>
+                <a href="#n4-1"><span class="toc-num">4.1</span>Time value of money</a>
+                <a href="#n4-2"><span class="toc-num">4.2</span>Life-cycle cost and discounted cost</a>
+                <a href="#n4-3"><span class="toc-num">4.3</span>Levelised cost of energy (LCOE)</a>
+                <a href="#n4-4"><span class="toc-num">4.4</span>NPV, IRR and payback</a>
+                <a href="#n4-5"><span class="toc-num">4.5</span>Minimum tariff and subsidy</a>
+                <a href="#n4-6"><span class="toc-num">4.6</span>Sensitivity and comparison of solutions</a>
+                <a href="#n4-ex"><span class="toc-num">07</span>Exercises</a>
+                <a href="#n4-qcm"><span class="toc-num">08</span>Level 4 quiz</a>
+            </div>
+        </div>
+
+        <div class="section" id="intro">
+            <h2><span class="section-icon">📘</span>Introduction</h2>
+<div class="objectifs">
+<h4>Objectives</h4>
+<ul>
+<li>Discount cash flows, account for inflation, calculate an annuity.</li>
+<li>Calculate the discounted cost of a project (investment, operation, replacements, residual value) and the cost of the kWh (LCOE).</li>
+<li>Assess profitability: NPV, IRR, simple and discounted payback; determine the minimum tariff and subsidy.</li>
+<li>Carry out a sensitivity analysis and compare solutions (PV, diesel, grid).</li>
+</ul>
+<p class="prereq">Prerequisites: level 3. Duration: 10 to 12 h.</p>
+</div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n4-1">
+            <h2><span class="section-icon">🔹</span>4.1 Time value of money</h2>
+<p>A franc available today is worth more than a franc in ten years: it can be invested, and the future is uncertain. The <b>discount rate</b>
+<i>a</i> expresses this preference (cost of capital of the investor, 6 to 12 % in West Africa).</p>
+<div class="eq">Present value of an amount F<sub>n</sub> paid in year n: F<sub>n</sub>/(1 + a)<sup>n</sup><br>
+Future cost with inflation i: C<sub>n</sub> = C₀·(1 + i)<sup>n</sup> &nbsp;&nbsp; real rate: (1 + a)/(1 + i) − 1<br>
+Constant annuity repaying I in N years: A = I·CRF, &nbsp; CRF = a(1 + a)<sup>N</sup>/((1 + a)<sup>N</sup> − 1)</div>
+<div class="ex"><h4>Example 4.1</h4>
+<p>(a) Present value of 1 MF spent in 10 years at 8 %? (b) Annuity of a 3 000 kF investment over 20 years at 8 %? (c) Real rate for
+<i>a</i> = 8 % and <i>i</i> = 3 %?</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>(a) 1 000/1.08¹⁰ = <span class="result">463 kF</span>. (b) CRF = 0.10185; <i>A</i> = <span class="result">305.6 kF/yr</span>.
+(c) 1.08/1.03 − 1 = <span class="result">4.85 %</span>.</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n4-2">
+            <h2><span class="section-icon">💰</span>4.2 Life-cycle cost and discounted cost</h2>
+<p>The costs of a system over its operating period <i>N</i> include:</p>
+<ul>
+<li>the <b>investment</b> <i>I</i>₀: equipment, installation, wiring, civil works;</li>
+<li>annual <b>operation and maintenance</b> (O&amp;M), increased by inflation;</li>
+<li>the <b>replacements</b> of equipment whose lifetime is shorter than <i>N</i> (batteries 5 years, electronics 10 years);</li>
+<li>the <b>fuel</b> for a genset;</li>
+<li>deducted, the <b>residual value</b> of recent equipment at the end of the project (straight-line depreciation).</li>
+</ul>
+<div class="eq">Discounted cost (NPV of costs): C<sub>disc</sub> = I₀ + Σ<sub>n=1..N</sub> (O&amp;M<sub>n</sub> + R<sub>n</sub> + fuel<sub>n</sub>)/(1 + a)<sup>n</sup> − V<sub>res</sub>/(1 + a)<sup>N</sup></div>
+<p>NRJXpert also shows the « life-cycle cost » of the original program (depreciation annuities over the depreciation period + undiscounted
+operating costs): useful to compare variants of the same project, but only the discounted cost is comparable with published studies.</p>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n4-3">
+            <h2><span class="section-icon">💰</span>4.3 Levelised cost of energy (LCOE)</h2>
+<div class="eq">LCOE = C<sub>disc</sub> / Σ<sub>n=1..N</sub> E<sub>n</sub>/(1 + a)<sup>n</sup></div>
+<p>Energy is discounted like money: a kWh produced in 15 years is « worth » less than a kWh produced next year. The LCOE is the constant selling
+price that makes the project just profitable (NPV = 0). It allows technologies with different lifetimes and cost profiles to be compared. For a
+stand-alone system, <i>E</i> is the <b>useful</b> energy (consumed by the appliances), not the energy produced.</p>
+
+<div class="ex"><h4>Example 4.2 — 10 kWp grid-connected plant</h4>
+<p>Investment 5 000 kF (500 kF/kWp); O&amp;M 150 kF/yr (year-0 prices, inflation 3 %); inverters replaced at 10 years (600 kF); production
+15 810 kWh in the first year (example 3.5), decreasing by 0.5 %/yr; 20 years; discount rate 8 %.</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>Present value of O&amp;M: Σ 150 × 1.03<sup>n</sup>/1.08<sup>n</sup> = 1 892.6 kF; of the replacement: 600 × 1.03¹⁰/1.08¹⁰ = 373.5 kF.
+<i>C</i><sub>disc</sub> = 5 000 + 1 892.6 + 373.5 = <span class="result">7 266 kF</span>.</p>
+<p>Discounted energy: Σ 15 810 × 0.995<sup>n−1</sup>/1.08<sup>n</sup> = 149 901 kWh. LCOE = 7 266/149 901 = 0.0485 kF/kWh =
+<span class="result">48.5 F/kWh</span>.</p>
+</details></div>
+<div class="calc" data-calc="finance"></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n4-4">
+            <h2><span class="section-icon">📙</span>4.4 NPV, IRR and payback</h2>
+<div class="eq">Cash flow of year n: F<sub>n</sub> = revenue<sub>n</sub> − costs<sub>n</sub> (F₀ = −I₀) &nbsp;&nbsp; NPV = Σ<sub>n=0..N</sub> F<sub>n</sub>/(1 + a)<sup>n</sup><br>
+IRR: rate that cancels the NPV &nbsp;&nbsp; payback: year when the cumulated cash flows (discounted or not) become positive</div>
+<ul>
+<li><b>NPV &gt; 0</b>: the project earns more than an investment at rate <i>a</i>; between two mutually exclusive projects, the larger NPV is preferred.</li>
+<li><b>IRR &gt; a</b>: equivalent to NPV &gt; 0 for a single project; convenient to compare with the cost of credit.</li>
+<li><b>Payback</b>: risk (liquidity) indicator; it ignores what happens afterwards.</li>
+</ul>
+<div class="ex"><h4>Example 4.3 — Profitability of the 10 kWp plant</h4>
+<p>The energy is sold (or saved) at 60 F/kWh, constant tariff.</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>Cash flow of year 1: 15 810 × 0.060 − 150 × 1.03 = 794 kF; year 10: negative (−101 kF) because of the inverter replacement.
+NPV = <span class="result">+1 728 kF</span>; IRR = <span class="result">12.8 %</span>; payback <span class="result">6.5 years</span>
+(discounted: 11.0 years). The project is profitable at the 8 % rate.</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n4-5">
+            <h2><span class="section-icon">🧩</span>4.5 Minimum tariff and subsidy</h2>
+<p>The NPV is a <b>linear</b> function of the tariff and the subsidy; they are therefore obtained exactly (NRJXpert does not scan):</p>
+<div class="eq">Minimum tariff (NPV = 0) = LCOE (if revenue follows the energy) &nbsp;&nbsp; Minimum subsidy = max(0, −NPV<sub>without subsidy</sub>/I₀)</div>
+<div class="ex"><h4>Example 4.4</h4>
+<p>For the 10 kWp plant: minimum tariff? If the tariff is only 40 F/kWh, what share of the investment must be subsidised?</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>Minimum tariff = LCOE = <span class="result">48.5 F/kWh</span>. At 40 F/kWh, NPV = −1 270 kF: minimum subsidy = 1 270/5 000 =
+<span class="result">25.4 %</span>. Check: NPV(50 F/kWh) = +229 kF, NPV(60) = +1 728 kF, NPV(70) = +3 227 kF: the NPV increases by 150 kF per F/kWh
+(= discounted energy × 1 F).</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n4-6">
+            <h2><span class="section-icon">📘</span>4.6 Sensitivity and comparison of solutions</h2>
+<table>
+<tr><th>Discount rate</th><th>4 %</th><th>6 %</th><th>8 %</th><th>10 %</th><th>12 %</th></tr>
+<tr><td>LCOE of the plant (F/kWh)</td><td class="num">40.0</td><td class="num">44.1</td><td class="num">48.5</td><td class="num">53.1</td><td class="num">58.1</td></tr>
+</table>
+<p>A PV plant is a <b>capital-intensive</b> energy: its cost depends mainly on the discount rate (access to credit), unlike the genset, whose cost
+depends mainly on the price of diesel.</p>
+<table>
+<tr><th>Solution (orders of magnitude, 20 years, 8 %)</th><th>Cost of the kWh</th><th>Dominant item</th></tr>
+<tr><td>Grid-connected PV plant (example 4.2)</td><td class="num">≈ 50 F/kWh</td><td>investment</td></tr>
+<tr><td>5 kVA genset, 0.35 l/kWh, diesel 750 F/l</td><td class="num">≈ 385 F/kWh</td><td>fuel (262 F/kWh)</td></tr>
+<tr><td>Stand-alone PV with batteries (health post, example 3.3)</td><td class="num">≈ 580 F/kWh</td><td>batteries (77 %)</td></tr>
+</table>
+<p>Stand-alone PV looks expensive, but it must be compared with the real alternative on the site (genset, grid extension over several
+kilometres) and with the value of the service (vaccine cold chain). A <b>hybrid</b> PV-battery-genset solution, optimised at level 5, is often the
+cheapest.</p>
+<div class="lab"><h4>Lab 9 — « Economic viability » tab of the PV window</h4>
+<ol class="steps">
+<li><div class="step-content">PV window, tab 6: <b>grid-connected</b> system, 10 kWp, module and inverter models from the database or imported.</div></li>
+<li><div class="step-content">Enter the costs of example 4.2 (installation 500 kF/kW, operation 15 kF/kW/yr), tariff 60 F/kWh, 20 years, inflation 3 %, discount rate 8 %.</div></li>
+<li><div class="step-content">Compare NPV, IRR, payback and LCOE with example 4.3. The differences come from the hourly calculation (I-V model, temperature, clipping,
+system losses): identify them in the report.</div></li>
+<li><div class="step-content"><b>Minimum tariff</b> and <b>Minimum subsidy</b> buttons; <b>Sensitivity</b> sub-tab: export the table NPV = f(tariff, power).</div></li>
+<li><div class="step-content">Repeat the study as <b>stand-alone</b>: how do the LCOE and the share of the batteries change?</div></li>
+</ol>
+</div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n4-ex">
+            <h2><span class="section-icon">🎯</span>Exercises</h2>
+<div class="ex"><h4>Exercise 1 — Replacing a genset</h4>
+<p>A genset consumes 4 000 l/yr of diesel (750 F/l) and costs 400 kF/yr in maintenance. A PV-battery system of 18 MF would replace it entirely,
+with 300 kF/yr of maintenance and 6 MF of batteries to replace in years 7 and 14. Over 20 years at 8 % (without inflation), what is the NPV of the
+operation (savings − costs)?</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>Annual saving: 3 000 + 400 − 300 = 3 100 kF; Σ 1/1.08<sup>n</sup> (20 years) = 9.818 → 30 437 kF. Replacements:
+6 000 × (1/1.08⁷ + 1/1.08¹⁴) = 6 000 × (0.5835 + 0.3405) = 5 544 kF. NPV = −18 000 + 30 437 − 5 544 = <span class="result">+6 893 kF</span>.
+Residual value of the year-14 batteries (1/7 of life remaining) neglected: it would improve the result further.</p>
+</details></div>
+<div class="ex"><h4>Exercise 2 — Effect of the rate</h4>
+<p>With the calculator above (investment 10 000 kF, O&amp;M 200 kF/yr, 15 000 kWh/yr, 20 years), from which discount rate does the LCOE exceed
+100 F/kWh?</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>LCOE = (10 000·CRF + 200)/15 000 ≤ 0.1 kF/kWh ⇔ CRF ≤ 0.13. CRF(20 years) = 0.13 for <i>a</i> ≈ <span class="result">11.5 %</span>.</p>
+</details></div>
+<div class="ex"><h4>Exercise 3 — Interpreting a payback period</h4>
+<p>Two projects have the same NPV; the first pays back in 4 years, the second in 9 years. Which one should be chosen and why?</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>For equal NPV, the one that pays back faster exposes the investor for a shorter time (risk of failure, of tariff change, of exchange rate). The
+payback period separates projects that the NPV does not distinguish.</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n4-qcm">
+            <h2><span class="section-icon">📋</span>Level 4 quiz</h2>
+<div class="qcm" data-answer="b"><p class="q">1. At 8 %, 1 000 kF paid in 10 years is worth today:</p>
+<ol><li data-k="a">800 kF</li><li data-k="b">463 kF</li><li data-k="c">1 000 kF</li><li data-k="d">2 159 kF</li></ol>
+<div class="fb">1 000/1.08¹⁰ = 463 kF; 2 159 kF is the future value of 1 000 kF invested for 10 years.</div></div>
+<div class="qcm" data-answer="c"><p class="q">2. The LCOE is:</p>
+<ol><li data-k="a">the investment divided by the power</li><li data-k="b">the price of grid electricity</li><li data-k="c">the discounted cost divided by the discounted energy</li><li data-k="d">the energy cost of the first year</li></ol>
+<div class="fb">It is the constant tariff that cancels the NPV.</div></div>
+<div class="qcm" data-answer="a"><p class="q">3. For a stand-alone system, the LCOE is calculated on:</p>
+<ol><li data-k="a">the useful energy consumed by the appliances</li><li data-k="b">the energy produced by the array</li><li data-k="c">the battery capacity</li><li data-k="d">the peak power</li></ol>
+<div class="fb">The surplus that is not consumed has no value.</div></div>
+<div class="qcm" data-answer="d"><p class="q">4. A project has an IRR of 12 % and the discount rate is 8 %. Then:</p>
+<ol><li data-k="a">NPV &lt; 0</li><li data-k="b">NPV = 0</li><li data-k="c">nothing can be said</li><li data-k="d">NPV &gt; 0</li></ol>
+<div class="fb">NPV(a) &gt; 0 for a &lt; IRR (conventional project: an investment followed by positive cash flows).</div></div>
+<div class="qcm" data-answer="b"><p class="q">5. The residual value at the end of the project:</p>
+<ol><li data-k="a">is added to the costs</li><li data-k="b">is deducted from the costs</li><li data-k="c">only affects the IRR</li><li data-k="d">is always zero</li></ol>
+<div class="fb">Equipment bought shortly before the end of the project still has value.</div></div>
+<div class="qcm" data-answer="c"><p class="q">6. The cost of the kWh of a PV plant is mainly sensitive to:</p>
+<ol><li data-k="a">the price of diesel</li><li data-k="b">inflation</li><li data-k="c">the discount rate</li><li data-k="d">the power factor</li></ol>
+<div class="fb">Capital-intensive energy: the cost of capital dominates.</div></div>
+<div class="qcm" data-answer="a"><p class="q">7. If the NPV without subsidy is −1 270 kF for an investment of 5 000 kF, the minimum subsidy is:</p>
+<ol><li data-k="a">25.4 %</li><li data-k="b">12.7 %</li><li data-k="c">74.6 %</li><li data-k="d">100 %</li></ol>
+<div class="fb">The subsidy reduces the year-0 investment, not discounted: 1 270/5 000.</div></div>
+<div class="qcm" data-answer="d"><p class="q">8. The discounted payback period is:</p>
+<ol><li data-k="a">always shorter than the simple payback</li><li data-k="b">equal to the IRR</li><li data-k="c">independent of the rate</li><li data-k="d">longer than the simple payback</li></ol>
+<div class="fb">Future cash flows are reduced by discounting: more years are needed to offset the investment.</div></div>
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="page-nav"><a href="niveau3-en.html">← Level 3 — Renewable energy</a><a href="niveau5-en.html">Level 5 — DER and smart grids →</a></div>
+
+        <div class="section" id="auteur">
+            <h2><span class="section-icon">👤</span>Author</h2>
+            <div class="author-card">
+                <div class="author-avatar">LT</div>
+                <div class="author-info">
+                    <div class="name">Prof. Lamine THIAW</div>
+                    <div class="role">Department of Electrical Engineering<br>École Supérieure Polytechnique<br>Cheikh Anta Diop University, Dakar</div>
+                    <a href="mailto:lamine.thiaw@ucad.edu.sn">lamine.thiaw@ucad.edu.sn</a><br>
+                    <a href="mailto:lamine.thiaw@esp.sn">lamine.thiaw@esp.sn</a>
+                </div>
+            </div>
+            <p class="small" style="margin-top:14px">November 2026</p>
+        </div>
+    </main>
+</div>
+
+<script>
+    // défilement doux vers les ancres de la page
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){
+        a.addEventListener('click', function(e){
+            var t = document.querySelector(this.getAttribute('href'));
+            if(t){ e.preventDefault(); t.scrollIntoView({behavior: 'smooth', block: 'start'}); }
+        });
+    });
+    // rubrique active dans le menu latéral
+    var navLinks = document.querySelectorAll('#sidebar nav a');
+    if('IntersectionObserver' in window){
+        var obs = new IntersectionObserver(function(entries){
+            entries.forEach(function(en){
+                if(en.isIntersecting) navLinks.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#' + en.target.id); });
+            });
+        }, {rootMargin: '-20% 0px -70% 0px'});
+        document.querySelectorAll('.section[id]').forEach(function(s){ obs.observe(s); });
+    }
+</script>
+</body>
+</html>

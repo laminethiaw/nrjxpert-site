@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grid-voltage>30000.0</grid-voltage><grid-frequency>50.0</grid-frequency>
+<solve>loadFlow</solve><method>newtonRaphson</method><neutral-port-Id>1</neutral-port-Id><dipoles>
+<dipole><type>SlackBus</type><Id>1</Id><name>P1</name><Pload>0</Pload><Qload>0</Qload><V>31.5</V><phase>0.0</phase><IdPorts>[1, 2]</IdPorts>
+<port><Id>1</Id><ownerId>1</ownerId><sign>0</sign><IdConnectedPorts>[3, 5]</IdConnectedPorts></port>
+<port><Id>2</Id><ownerId>1</ownerId><sign>0</sign><IdConnectedPorts>[7, 9]</IdConnectedPorts></port>
+</dipole>
+<dipole><type>PVbus</type><Id>2</Id><name>G2</name><Pgen>3.0</Pgen><Qgen>0</Qgen><Pload>0</Pload><Qload>0</Qload><V>31.4</V><phase>0.0</phase><IdPorts>[3, 4]</IdPorts>
+<port><Id>3</Id><ownerId>2</ownerId><sign>0</sign><IdConnectedPorts>[1, 5]</IdConnectedPorts></port>
+<port><Id>4</Id><ownerId>2</ownerId><sign>0</sign><IdConnectedPorts>[8, 11]</IdConnectedPorts></port>
+</dipole>
+<dipole><type>PQbus</type><Id>3</Id><name>Ch3</name><Pload>5.0</Pload><Qload>2.5</Qload><IdPorts>[5, 6]</IdPorts>
+<port><Id>5</Id><ownerId>3</ownerId><sign>0</sign><IdConnectedPorts>[1, 3]</IdConnectedPorts></port>
+<port><Id>6</Id><ownerId>3</ownerId><sign>0</sign><IdConnectedPorts>[10, 12]</IdConnectedPorts></port>
+</dipole>
+<dipole><type>Impedance</type><Id>4</Id><name>L12</name><R_X>[4.050000000000001, 5.7]</R_X><IdPorts>[7, 8]</IdPorts>
+<port><Id>7</Id><ownerId>4</ownerId><sign>0</sign><IdConnectedPorts>[2, 9]</IdConnectedPorts></port>
+<port><Id>8</Id><ownerId>4</ownerId><sign>0</sign><IdConnectedPorts>[4, 11]</IdConnectedPorts></port>
+</dipole>
+<dipole><type>Impedance</type><Id>5</Id><name>L13</name><R_X>[5.4, 7.6]</R_X><IdPorts>[9, 10]</IdPorts>
+<port><Id>9</Id><ownerId>5</ownerId><sign>0</sign><IdConnectedPorts>[2, 7]</IdConnectedPorts></port>
+<port><Id>10</Id><ownerId>5</ownerId><sign>0</sign><IdConnectedPorts>[6, 12]</IdConnectedPorts></port>
+</dipole>
+<dipole><type>Impedance</type><Id>6</Id><name>L23</name><R_X>[2.7, 3.8]</R_X><IdPorts>[11, 12]</IdPorts>
+<port><Id>11</Id><ownerId>6</ownerId><sign>0</sign><IdConnectedPorts>[4, 8]</IdConnectedPorts></port>
+<port><Id>12</Id><ownerId>6</ownerId><sign>0</sign><IdConnectedPorts>[6, 10]</IdConnectedPorts></port>
+</dipole>
+</dipoles>

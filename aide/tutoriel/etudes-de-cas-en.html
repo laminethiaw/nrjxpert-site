@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Case studies — NRJXpert tutorial</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tutoriel.css">
+<script src="tutoriel.js"></script>
+</head>
+<body>
+<div id="top"></div>
+
+<!-- ════════════════ MENU LATÉRAL ════════════════ -->
+<aside id="sidebar">
+    <div id="sidebar-header">
+        <div class="app-name">NRJXpert</div>
+        <div class="app-version">Version 2.0.0 · Tutorial › Case studies</div>
+    </div>
+    <nav>
+        <a href="#methode"><span class="nav-icon">📘</span>Method of a study</a>
+        <a href="#cas1"><span class="nav-icon">🗂️</span>Case 1 — Electrification of a village (centralised system or individual kits?)</a>
+        <a href="#cas2"><span class="nav-icon">🔌</span>Case 2 — 500 kWp PV plant connected to the MV network</a>
+        <a href="#cas3"><span class="nav-icon">💻</span>Case 3 — Delivery substation and industrial installation</a>
+        <a href="#cas4"><span class="nav-icon">🌬️</span>Case 4 — Wind pumping on the northern coast (Saint-Louis)</a>
+        <a href="#cas5"><span class="nav-icon">💧</span>Case 5 — Solar water pumping for a village</a>
+        <a href="#note"><span class="nav-icon">🧩</span>Design note template</a>
+        <a href="#auteur"><span class="nav-icon">👤</span>Author</a>
+    </nav>
+    <div class="side-links"><a href="index-en.html">🏠 Tutorial home</a><a href="../help-en.html">📖 User guide</a></div>
+</aside>
+
+<!-- ════════════════ ZONE PRINCIPALE ════════════════ -->
+<div id="main">
+    <div id="hero">
+        <h1><span class="badge b2">Consulting</span> Case studies</h1>
+        <div class="tagline">Four complete studies, from data collection to recommendation. The reference results were calculated with NRJXpert; prices are
+indicative (2026) and must be replaced by quotations.</div>
+        <div class="badges">
+            <span class="hero-badge">Tutorial</span>
+            <span class="hero-badge">Version 2.0.0</span>
+            <span class="hero-badge">November 2026</span>
+            <a class="hero-badge language-link" href="./etudes-de-cas.html" lang="fr" aria-label="Click to show the French version">
+                EN / FR
+                <small>Click for the French version</small>
+            </a>
+        </div>
+    </div>
+
+    <div id="topbar">
+        <div class="title">Consulting — Case studies</div>
+        <span class="meta">NRJXpert 2.0.0 · November 2026</span>
+    </div>
+
+    <main id="content">
+        <div id="toc-section">
+            <h2>Contents</h2>
+            <div class="toc-grid">
+                <a href="#methode"><span class="toc-num">01</span>Method of a study</a>
+                <a href="#cas1"><span class="toc-num">02</span>Case 1 — Electrification of a village (centralised system or individual kits?)</a>
+                <a href="#cas2"><span class="toc-num">03</span>Case 2 — 500 kWp PV plant connected to the MV network</a>
+                <a href="#cas3"><span class="toc-num">04</span>Case 3 — Delivery substation and industrial installation</a>
+                <a href="#cas4"><span class="toc-num">05</span>Case 4 — Wind pumping on the northern coast (Saint-Louis)</a>
+                <a href="#cas5"><span class="toc-num">06</span>Case 5 — Solar water pumping for a village</a>
+                <a href="#note"><span class="toc-num">07</span>Design note template</a>
+            </div>
+        </div>
+
+        <div class="section" id="methode">
+            <h2><span class="section-icon">📘</span>Method of a study</h2>
+<ol class="steps">
+<li><div class="step-content"><b>Terms of reference</b>: need (energy, power, profile, quality, reliability), site constraints, budget, horizon.</div></li>
+<li><div class="step-content"><b>Data</b>: weather (Site weather data module), consumption records, characteristics of the existing network, prices.</div></li>
+<li><div class="step-content"><b>Variants</b>: at least two technically correct solutions (centralised / decentralised, 24 / 48 V, PV / hybrid…).</div></li>
+<li><div class="step-content"><b>Calculations</b>: sizing, wiring, load flow and short circuit if a network is involved, economics.</div></li>
+<li><div class="step-content"><b>Sensitivity</b>: on the uncertain assumptions (prices, rates, demand growth, resource).</div></li>
+<li><div class="step-content">Reasoned <b>recommendation</b> and traceable <b>design note</b> (assumptions, methods, results, standards).</div></li>
+</ol>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="cas1">
+            <h2><span class="section-icon">🗂️</span>Case 1 — Electrification of a village (centralised system or individual kits?)</h2>
+<h3>Data</h3>
+<table>
+<tr><th>Users</th><th>Number</th><th>Needs per user</th><th>Wh/d</th></tr>
+<tr><td>Households</td><td class="num">150</td><td>3 lamps 7 W (5 h), television 50 W (4 h), fan 40 W (6 h), charger 10 W (2 h)</td><td class="num">565</td></tr>
+<tr><td>School</td><td class="num">1</td><td>6 lamps 15 W and 2 computers 60 W (4 h, in the morning)</td><td class="num">840</td></tr>
+<tr><td>Health post</td><td class="num">1</td><td>as example 3.3 of level 3</td><td class="num">3 390</td></tr>
+<tr><td>Millet mill</td><td class="num">1</td><td>3 kW motor, cos φ 0.8 (3 h, in the morning)</td><td class="num">9 000</td></tr>
+</table>
+<p>Site: Dakar (locations database). LV network of the centralised system: 30 m per customer, 6 000 kF/km, maintenance 60 kF/km/yr. Current imposed
+equipment (400 Wp module, 12 V 200 Ah AGM battery, 60 A MPPT controller, 1.5 kVA inverter; prices of level 3). Centralised: 48 V bus; individual kits:
+12 V bus. Discount rate 8 %, inflation 3 %, 20 years. File: <code>exemples/pv_village.nxpv</code>.</p>
+<h3>Reference results</h3>
+<table>
+<tr><th></th><th>Centralised (48 V + LV network)</th><th>Decentralised (153 systems)</th></tr>
+<tr><td>Needs</td><td colspan="2">98.0 kWh/d; peak 13.7 kVA</td></tr>
+<tr><td>PV array</td><td>84 modules, 33.6 kWp</td><td>400 Wp per household; 3.2 kWp for the mill</td></tr>
+<tr><td>Batteries</td><td>260 (4 × 65)</td><td>2 per household; 24 for the mill</td></tr>
+<tr><td>LV network</td><td>4.59 km, 27.5 MF</td><td>—</td></tr>
+<tr><td>Investment</td><td class="num">95.2 MF</td><td class="num">204.2 MF</td></tr>
+<tr><td>Discounted cost (20 years)</td><td class="num">192.6 MF</td><td class="num">368.0 MF</td></tr>
+<tr><td>Levelised cost of the kWh</td><td class="num result">549 F/kWh</td><td class="num">1 048 F/kWh</td></tr>
+</table>
+<h3>Analysis</h3>
+<ul>
+<li>The centralised system costs half as much per kWh despite the LV network: a single inverter and a single battery bank pool the peaks (diversity),
+and the mill, very poorly served by a 12 V kit, benefits from the common bank.</li>
+<li>The wiring of the 48 V centralised system reveals its limit: the 28-string array delivers 380 A at 93 V; a single 30 m link would require
+2 × 300 mm². In practice the array is split between several controllers placed near the junction boxes, or a higher-voltage bus is chosen: a point to
+address in the design note.</li>
+<li>Individual kits remain relevant for very scattered dwellings (network &gt; 100 m per customer): redo the study with 0.1 km per customer.</li>
+<li>Extension: replace part of the batteries by a genset (economic dispatch, level 5) and compare.</li>
+</ul>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="cas2">
+            <h2><span class="section-icon">🔌</span>Case 2 — 500 kWp PV plant connected to the MV network</h2>
+<h3>Data</h3>
+<p>64 strings of 20 modules of 400 Wp (512 kWp; 620 V per string), 8 junction boxes of 8 strings, 8 inverters (500 kVA in total), 0.4/30 kV transformer
+30 m from the inverters. Cost excluding wiring 400 kF/kWp; operation 8 kF/kWp/yr; inverters replaced at 12 years (20 MF); yield 1 581 kWh/kWp/yr
+(example 3.5), degradation 0.5 %/yr; 25 years, discount rate 8 %, inflation 3 %.</p>
+<h3>Wiring (calculated by NRJXpert, 40 °C, grouping 0.8)</h3>
+<table>
+<tr><th>Link</th><th>Length</th><th>Cable</th><th>Protection</th><th>ΔU</th><th>Cost</th></tr>
+<tr><td>String → junction box (×64)</td><td class="num">40 m</td><td>2 × 4 mm² Cu</td><td class="num">20 A</td><td class="num">0.99 %</td><td class="num">86.6 kF each</td></tr>
+<tr><td>Box → inverter (×8)</td><td class="num">30 m</td><td>2 × 70 mm² Cu</td><td class="num">160 A</td><td class="num">0.34 %</td><td class="num">604 kF each</td></tr>
+<tr><td>Inverters → transformer</td><td class="num">30 m</td><td>4 × (3 × 240) mm² Cu</td><td class="num">800 A</td><td class="num">0.37 %</td><td class="num">11.4 MF</td></tr>
+<tr><th colspan="5">Total wiring (9.6 % of the investment)</th><th class="num">21.8 MF</th></tr>
+</table>
+<p>In aluminium, the AC link becomes 4 × (4 × 240) mm² Al for 6.9 MF: a saving of 4.5 MF. The box → inverter link is sized by heating (the voltage drop
+alone would require 25 mm²).</p>
+<h3>Economics</h3>
+<table>
+<tr><th>Feed-in tariff</th><th>NPV (MF)</th><th>IRR</th><th>Payback</th></tr>
+<tr><td>35 F/kWh</td><td class="num">−6.1</td><td class="num">7.7 %</td><td class="num">9.9 years</td></tr>
+<tr><td>40 F/kWh</td><td class="num">+35.3</td><td class="num">9.9 %</td><td class="num">8.4 years</td></tr>
+<tr><td>45 F/kWh</td><td class="num">+76.8</td><td class="num">12.1 %</td><td class="num">7.3 years</td></tr>
+</table>
+<p>Investment 226.6 MF; production 809 MWh in the first year; LCOE <span class="result">35.7 F/kWh</span>: this is the minimum tariff. At 35 F/kWh, a
+subsidy of 2.7 % is enough.</p>
+<p><b>To be completed</b> by the student: study of the connection to the MV feeder (load flow: voltage rise at the connection point, hosting capacity,
+level 5) and contribution to the short-circuit current (I<sub>skPF</sub> of the inverters).</p>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="cas3">
+            <h2><span class="section-icon">💻</span>Case 3 — Delivery substation and industrial installation</h2>
+<h3>Data</h3>
+<p>30 kV network with a short-circuit power of 250 MVA; 1 000 kVA, 30/0.4 kV, Dyn11 transformer, u<sub>sc</sub> = 6 %, P<sub>sc</sub> = 10.5 kW; 600 kW
+factory at cos φ = 0.8; one 30 kW motor (efficiency 0.9, cos φ 0.85) 80 m from the main LV switchboard.</p>
+<h3>Calculations</h3>
+<ol>
+<li><b>Impedances referred to 400 V</b>: upstream <i>Z</i><sub>a</sub> = 1.1 × 400²/250·10⁶ = 0.704 mΩ (<i>X</i> = 0.995<i>Z</i>, <i>R</i> = 0.1<i>X</i>);
+transformer <i>Z</i><sub>t</sub> = 9.60 mΩ, <i>R</i><sub>t</sub> = 1.68 mΩ, <i>X</i><sub>t</sub> = 9.45 mΩ.</li>
+<li><b>Short circuit at the main switchboard</b>: <i>R</i> = 1.75 mΩ, <i>X</i> = 10.15 mΩ; I"k3 = 1.05 × 400/(√3 × 10.30 mΩ) = <span class="result">23.5 kA</span>;
+κ = 1.60; ip = <span class="result">53.4 kA</span>. Main breaker 1 600 A (transformer <i>I</i><sub>n</sub> 1 443 A), breaking capacity ≥ 25 kA, making
+capacity ≥ 53 kA.</li>
+<li><b>Motor feeder</b>: <i>I</i> = 30 000/(0.9 × 0.85 × √3 × 400) = 56.6 A; cable chosen by NRJXpert 4 × 16 mm² Cu (ΔU 2.55 %, 63 A protection).
+Short circuit at the end: I"k3 = <span class="result">2.10 kA</span>; minimum phase-to-phase (c = 0.95) ≈ <span class="result">1.65 kA</span>. A 63 A
+D-curve breaker (magnetic tripping up to 14 <i>I</i><sub>n</sub> = 882 A) protects the line well.</li>
+<li><b>Compensation</b>: to go from cos φ = 0.8 to 0.93: <i>Q</i><sub>c</sub> = 600 × (0.750 − 0.395) = <span class="result">213 kvar</span>; <i>S</i>
+goes from 750 to 645 kVA, the current from 1 083 to 931 A: the transformer regains 14 % of margin.</li>
+</ol>
+<div class="lab"><h4>In NRJXpert</h4>
+<p>Draw: equivalent generator of the network (Rd, Xd referred to 400 V), three-phase transformer (Network palette, 1 000 kVA, 30 kV/400 V, usc 6 %,
+Psc 10.5 kW, Dyn), 80 m line (r = 1.406 Ω/km, x = 0.08 Ω/km), fault at the main switchboard then at the motor. Compare the I"k with the values above.
+Reminder: the server does not represent the transformation ratio; all impedances are referred to 400 V.</p>
+</div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="cas4">
+            <h2><span class="section-icon">🌬️</span>Case 4 — Wind pumping on the northern coast (Saint-Louis)</h2>
+<h3>Data</h3>
+<p>Wind at 10 m: Weibull <i>c</i> = 6.0 m/s, <i>k</i> = 2.4; roughness 0.03 m; ρ = 1.18 kg/m³. 10 kW wind turbine (curve of example 3.7), hub at 24 m,
+losses 6 %. Need: pumping of 60 kWh/d on average for market-garden irrigation.</p>
+<h3>Results</h3>
+<p>Wind at hub height: <i>c</i> = 6.90 m/s, mean 6.12 m/s, power density 220 W/m². Mean power 3.11 kW; net production <span class="result">25.6 MWh/yr,
+i.e. 70 kWh/d on average</span>; capacity factor 29 %. One machine covers the need on an annual balance (0.85 machine). But the wind weakens in the rainy
+season: check month by month (tab 4 of the wind window) and <b>store water rather than electricity</b> (tank of 2 to 3 days of consumption, far cheaper
+than a battery bank).</p>
+<p><b>To be completed</b>: wiring of the machine (tab 5, 24 m tower + 30 m), economic study compared with a diesel motor-pump, and PV + wind variant
+(seasonal complementarity).</p>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="cas5">
+            <h2><span class="section-icon">💧</span>Case 5 — Solar water pumping for a village (borehole and water tower)</h2>
+<h3>Data</h3>
+<p>Village of 500 inhabitants (50 l/inh/d, i.e. 25 m³/d), borehole with a TDH of 15 m, irradiation 5 kWh/m²/d, submersible centrifugal pump (η<sub>p</sub> = 0.5, η<sub>m</sub> = 0.85),
+array losses 10 %, pumping over 9 h. File: <code>pompage_village.nxpomp</code> (<b>Help › Open a tutorial example…</b>).</p>
+<h3>Results</h3>
+<p>Pumping energy <span class="result">2 404 Wh/d</span>; peak power <span class="result">534 Wp</span> (energy method) or <span class="result">583 Wp</span> (power method); 420 W motor-pump.
+The hourly simulation shows that 6 modules (600 Wp) cover only <span class="result">86 %</span> of the demand: the selected array is <span class="result">9 modules of 100 Wp</span> (100 % coverage),
+with a 50 m³ tank. With the prices of the supplied database (November 2026) and the default economic parameters, the cost per m³ is about
+<span class="result">126 F</span> against about <span class="result">270 F</span> with a diesel motor-pump providing the same service.</p>
+<p><b>To be completed</b>: choice of the pump in the database (“Pumps” tab), sensitivity to the TDH and to the design margin (10 % by default), battery variant (628 Wp by the formula,
+but a higher cost per m³), and maintenance plan (pump replacement every 8 to 10 years).</p>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="note">
+            <h2><span class="section-icon">🧩</span>Design note template</h2>
+<ol>
+<li><b>Purpose</b> of the study, client, reference and revision index.</li>
+<li><b>Documents and standards</b>: NF C 15-100, UTE C15-712-1, IEC 60909-0, IEC 61400-12-1, IEEE 1547; terms of reference.</li>
+<li><b>Input data</b>: site, weather (source and period), needs (table of appliances), network, prices (date of the quotations).</li>
+<li><b>Assumptions</b>: efficiencies, safety factors, temperatures, lifetimes, discount and inflation rates.</li>
+<li><b>Methods</b>: formulas or software (NRJXpert, version and project files attached).</li>
+<li><b>Results</b>: sizing, wiring (table of links), short-circuit currents and protection, voltage profile, costs.</li>
+<li><b>Checks</b>: hand calculation of at least one result of each type; differences explained.</li>
+<li><b>Sensitivity</b> and <b>risks</b>.</li>
+<li><b>Conclusion</b> and recommendation; reservations.</li>
+</ol>
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="page-nav"><a href="niveau7-en.html">← Level 7</a><a href="guide-enseignant-en.html">Teacher's guide →</a></div>
+
+        <div class="section" id="auteur">
+            <h2><span class="section-icon">👤</span>Author</h2>
+            <div class="author-card">
+                <div class="author-avatar">LT</div>
+                <div class="author-info">
+                    <div class="name">Prof. Lamine THIAW</div>
+                    <div class="role">Department of Electrical Engineering<br>École Supérieure Polytechnique<br>Cheikh Anta Diop University, Dakar</div>
+                    <a href="mailto:lamine.thiaw@ucad.edu.sn">lamine.thiaw@ucad.edu.sn</a><br>
+                    <a href="mailto:lamine.thiaw@esp.sn">lamine.thiaw@esp.sn</a>
+                </div>
+            </div>
+            <p class="small" style="margin-top:14px">November 2026</p>
+        </div>
+    </main>
+</div>
+
+<script>
+    // défilement doux vers les ancres de la page
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){
+        a.addEventListener('click', function(e){
+            var t = document.querySelector(this.getAttribute('href'));
+            if(t){ e.preventDefault(); t.scrollIntoView({behavior: 'smooth', block: 'start'}); }
+        });
+    });
+    // rubrique active dans le menu latéral
+    var navLinks = document.querySelectorAll('#sidebar nav a');
+    if('IntersectionObserver' in window){
+        var obs = new IntersectionObserver(function(entries){
+            entries.forEach(function(en){
+                if(en.isIntersecting) navLinks.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#' + en.target.id); });
+            });
+        }, {rootMargin: '-20% 0px -70% 0px'});
+        document.querySelectorAll('.section[id]').forEach(function(s){ obs.observe(s); });
+    }
+</script>
+</body>
+</html>

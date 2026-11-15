@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Level 7 — Smart grid expert workshop — NRJXpert tutorial</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tutoriel.css">
+<script src="tutoriel.js"></script>
+<script src="expert.js"></script>
+</head>
+<body>
+<div id="top"></div>
+
+<!-- ════════════════ MENU LATÉRAL ════════════════ -->
+<aside id="sidebar">
+    <div id="sidebar-header">
+        <div class="app-name">NRJXpert</div>
+        <div class="app-version">Version 2.0.0 · Tutorial › Level 7</div>
+    </div>
+    <nav>
+        <a href="#intro"><span class="nav-icon">📘</span>Introduction</a>
+        <a href="#n7-1"><span class="nav-icon">🔋</span>Microgrid controller tests (IEEE 2030.7 / IEEE 2030.8)</a>
+        <a href="#n7-2"><span class="nav-icon">📟</span>Smart metering (AMI): balance, technical and non-technical losses</a>
+        <a href="#n7-3"><span class="nav-icon">📗</span>Data collection: DLMS/COSEM (IEC 62056) over G3-PLC or cellular</a>
+        <a href="#n7-4"><span class="nav-icon">📶</span>Demand response: OpenADR 2.0b</a>
+        <a href="#n7-5"><span class="nav-icon">🔒</span>Cybersecurity of the control system: IEC 62443 and IEC 62351</a>
+        <a href="#n7-6"><span class="nav-icon">🎯</span>Expert assignment (synthesis)</a>
+        <a href="#n7-qcm"><span class="nav-icon">📋</span>Level 7 quiz</a>
+        <a href="#auteur"><span class="nav-icon">👤</span>Author</a>
+    </nav>
+    <div class="side-links"><a href="index-en.html">🏠 Tutorial home</a><a href="niveau6-en.html">← Level 6</a><a href="etudes-de-cas-en.html">Case studies →</a><a href="../help-en.html">📖 User guide</a></div>
+</aside>
+
+<!-- ════════════════ ZONE PRINCIPALE ════════════════ -->
+<div id="main">
+    <div id="hero">
+        <h1><span class="badge b6">Level 7</span> Expert workshop: qualify, audit, secure</h1>
+        <div class="tagline">Level 6 teaches how to describe and simulate the functions of a smart grid. This level puts the learner in the position of the
+expert or consultant asked for a reasoned opinion: <b>does the microgrid controller comply?</b>, <b>where do the unbilled kilowatt-hours go?</b>,
+<b>does the virtual power plant deliver its demand response commitment?</b>, <b>is the control system protected well enough?</b> Each section
+links the standard, a hand calculation, an NRJXpert calculation and a report.</div>
+        <div class="badges">
+            <span class="hero-badge">Tutorial</span>
+            <span class="hero-badge">Version 2.0.0</span>
+            <span class="hero-badge">November 2026</span>
+            <a class="hero-badge language-link" href="./niveau7.html" lang="fr" aria-label="Click to show the French version">
+                EN / FR
+                <small>Click for the French version</small>
+            </a>
+        </div>
+    </div>
+
+    <div id="topbar">
+        <div class="title">Level 7 — Expert workshop: qualify, audit, secure</div>
+        <span class="meta">NRJXpert 2.0.0 · November 2026</span>
+    </div>
+
+    <main id="content">
+        <div id="toc-section">
+            <h2>Contents</h2>
+            <div class="toc-grid">
+                <a href="#intro"><span class="toc-num">00</span>Introduction</a>
+                <a href="#n7-1"><span class="toc-num">7.1</span>Microgrid controller tests (IEEE 2030.7 / IEEE 2030.8)</a>
+                <a href="#n7-2"><span class="toc-num">7.2</span>Smart metering (AMI): balance, technical and non-technical losses</a>
+                <a href="#n7-3"><span class="toc-num">7.3</span>Data collection: DLMS/COSEM (IEC 62056) over G3-PLC or cellular</a>
+                <a href="#n7-4"><span class="toc-num">7.4</span>Demand response: OpenADR 2.0b</a>
+                <a href="#n7-5"><span class="toc-num">7.5</span>Cybersecurity of the control system: IEC 62443 and IEC 62351</a>
+                <a href="#n7-6"><span class="toc-num">7.6</span>Expert assignment (synthesis)</a>
+                <a href="#n7-qcm"><span class="toc-num">07</span>Level 7 quiz</a>
+            </div>
+        </div>
+
+        <div class="section" id="intro">
+            <h2><span class="section-icon">📘</span>Introduction</h2>
+<div class="objectifs">
+<h4>Objectives</h4>
+<ul>
+<li>Define an IEEE 2030.8 test campaign (transition and dispatch), set acceptance criteria and write the test report.</li>
+<li>Draw up the energy balance of a distribution network, separate technical and non-technical losses, assess a detection method
+(precision, recall) and size a DLMS/COSEM data collection system.</li>
+<li>Specify an OpenADR 2.0b event, compute a baseline and the settlement of a demand response.</li>
+<li>Carry out an IEC 62443-3-2 risk assessment (zones, conduits, SL-T) and propose an IEC 62443-3-3 / IEC 62351 action plan.</li>
+</ul>
+<p class="small">Prerequisites: level 5 (dynamics, economic dispatch) and level 6 (SGAM, VPP, microgrids, protocols). Duration: 24 to 30 h.
+The software interface is available in English (Options › Language); the example results below were obtained with the server.</p>
+</div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n7-1">
+            <h2><span class="section-icon">🔋</span>7.1 Microgrid controller tests (IEEE 2030.7 / IEEE 2030.8)</h2>
+<p><b>IEEE 2030.7-2017</b> reduces the microgrid controller to two core functions: <b>transition</b> (from grid-connected to islanded mode,
+planned or unplanned, and back through resynchronisation) and <b>dispatch</b> (set-points of the internal resources, islanded as well as
+connected). <b>IEEE 2030.8-2018</b> describes how to test them — in simulation, in real time with hardware in the loop (HIL), then on site —
+and which indicators to record. Voltage and frequency ranges come from the interconnection rules (<b>IEEE 1547-2018</b>, <b>EN 50549-1/-2</b>)
+and <b>IEC 62898</b>.</p>
+<table>
+<tr><th>NRJXpert test</th><th>IEEE 2030.7 function</th><th>Simulated scenario</th><th>What is judged</th></tr>
+<tr><td>T1 unplanned islanding</td><td>unplanned transition</td><td>opening of the point of common coupling (PCC) at 1 s, without preparation</td><td>nadir, RoCoF, island voltage, settling</td></tr>
+<tr><td>T2 planned islanding</td><td>planned transition</td><td>the controller cancels the PCC exchange (set-point ramp from 0.2 to 1.8 s), then opens at 2 s</td><td>bumpless islanding</td></tr>
+<tr><td>T3 resynchronisation</td><td>reconnection</td><td>unplanned islanding, reconnection request at 5 s: synchroniser + synchro-check</td><td>duration, Δf / ΔV / Δφ at closing, return to nominal</td></tr>
+<tr><td>T4 load step</td><td>island dispatch (primary control)</td><td>+20 % of the island load at the most loaded bus at 5 s</td><td>nadir, steady-state frequency (droop)</td></tr>
+<tr><td>T5 loss of generation</td><td>island dispatch (reserve)</td><td>loss of the largest grid-following generation (PV, wind) at 5 s</td><td>nadir, RoCoF, island survival</td></tr>
+<tr><td>T6 dispatch function</td><td>economic dispatch</td><td>24 h economic dispatch, connected then islanded (MILP)</td><td>energy not supplied, SOC, cost</td></tr>
+</table>
+<div class="eq">Initial RoCoF ≈ ΔP·f₀ / (2·H·ΣSn); steady-state droop deviation Δf ≈ R·ΔP/ΣSn·f₀; synchro-check (IEEE 1547 table 39):
+0.3 Hz / 10 % / 20° up to 500 kVA, 0.2 Hz / 5 % / 15° up to 1.5 MVA, 0.1 Hz / 3 % / 10° above.</div>
+<p><b>Default acceptance criteria</b> (Simulation › DER study settings › Microgrid tests): frequency within 47.5–51.5 Hz (EN 50549 withstand
+range at 50 Hz), RoCoF ≤ 2 Hz/s over 500 ms, final frequency within ± 0.5 Hz, settling (± 0.1 Hz) in less than 5 s, island voltage between
+0.88 and 1.10 pu after 200 ms, resynchronisation in less than 10 s, energy not supplied in island mode ≤ 0.1 %. In a real specification these
+values are negotiated: they depend on the loads (process sensitivity), the interface protection and the operator.</p>
+
+<div class="ex"><h4>Example 7.1 — 0.9 MW site: 1 MVA battery (VSM), 0.8 MVA genset, 0.6 MVA PV (<code>exemples/banc_essai_microreseau.xml</code>)</h4>
+<details class="sol" open><summary>Test bench results</summary>
+<p>Exchange at the PCC before islanding: 0.10 MW. <b>T1</b>: nadir <span class="result">49.93 Hz</span>, steady-state frequency 49.94 Hz (droop).
+<b>T2</b>: as the exchange is taken over before opening, the nadir is only <span class="result">49.99 Hz</span> (RoCoF ÷ 9).
+<b>T3</b>: reconnection at 6.36 s, i.e. <span class="result">1.36 s</span> after the request (Δf = 0.10 Hz, ΔV = 0.08 %, Δφ = 6.4°; 2.4 MVA island,
+hence limits 0.1 Hz / 3 % / 10°, met — just — in frequency), back to 50 Hz. <b>T4</b>: nadir 49.83 Hz. <b>T5</b> (loss of the PV, 0.5 MW):
+nadir <span class="result">49.58 Hz</span>, RoCoF 0.71 Hz/s. <b>T6</b>: 79 F/kWh connected, 235 F/kWh islanded (3 917 L of diesel per day),
+4.5 kWh not supplied (0.03 %). Compliance: <b>6 / 6</b>.</p>
+<p>Without damping of the genset (tag <code>&lt;D&gt;</code> removed), the frequency still oscillates by ± 0.2 Hz 3.5 s after reconnection:
+T3 fails on the settling time. This is exactly the kind of defect a 2030.8 campaign must reveal before commissioning.</p></details></div>
+<div class="xp" data-tool="island"></div>
+<div class="lab"><h4>Lab 7.1 — Test campaign and test report</h4>
+<ol>
+<li>Open the example (Help › Open a tutorial example › <code>banc_essai_microreseau.xml</code>) and run it. Open the <b>Report…</b>: it is the
+test report (summary, criteria, sequence of events, measured values).</li>
+<li>Check by hand the RoCoF and steady-state frequency of T5 with the calculator above (ΔP = 0.5 MW). Explain the difference with the value
+measured over 500 ms.</li>
+<li>Replace the VSM battery (<code>gfmMode</code> vsm) by pure droop, then reduce H to 0.5 s: which tests fail? Why does planned islanding (T2)
+remain compliant?</li>
+<li>On your own diagram (« Smart grid » palette): place a breaker between the substation and the site, choose <b>Microgrid controller test
+bench</b> in Calculation, select the PCC in the <b>Microgrid tests</b> tab, and write acceptance criteria suited to the client (hospital,
+factory, campus).</li>
+</ol></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n7-2">
+            <h2><span class="section-icon">📟</span>7.2 Smart metering (AMI): balance, technical and non-technical losses</h2>
+<p>Smart metering gives the utility the data it was missing: the consumption <b>of every customer, every 15 or 30 min</b>. Together with the
+<b>supervision meter</b> of each MV/LV substation and the load flow, it allows a <b>balance per substation</b>:</p>
+<div class="eq">E<sub>injected</sub> = E<sub>metered</sub> + technical losses + non-technical losses;
+substation gap = (E<sub>substation</sub> − Σ E<sub>meters</sub>) / E<sub>substation</sub>.</div>
+<p>Technical losses (Joule effect, iron losses) are calculated; non-technical losses (theft, faulty meters, unregistered customers, billing
+errors) are deduced. In many West African networks they weigh as much as or more than technical losses: this is often the first business
+argument of an AMI project.</p>
+<p>The NRJXpert <b>Smart metering (AMI)</b> calculation rebuilds, for every load bus (a substation) and each of its « customers », one week of real
+and recorded load profiles; some customers steal (some since always, others from a given day), others honestly reduce their consumption
+(absence, efficient appliance). Three detection methods are compared with the simulated truth:</p>
+<table>
+<tr><th>Method</th><th>Principle</th><th>Strengths / weaknesses</th></tr>
+<tr><td>Consumption drop</td><td>recent / historical consumption, relative to the trend of the neighbours on the same substation</td><td>blind to old frauds; false alarms (holidays)</td></tr>
+<tr><td>Drop + substation balance</td><td>only the drops in substations in alarm are kept</td><td>far fewer false alarms, low recall</td></tr>
+<tr><td>Substation balance + targeted inspection</td><td>on-site check of the customers of substations in alarm</td><td>also finds old frauds; cost of the field visits</td></tr>
+</table>
+<div class="eq">Precision = TP / (TP + FP) (share of correct alarms); recall = TP / (TP + FN) (share of frauds found).</div>
+<div class="ex"><h4>Example 7.2 — IEEE 33-bus, 1 857 customers, two high-risk districts (<code>exemples/ami_ieee33.xml</code>)</h4>
+<details class="sol" open><summary>Results (7 days, 15 min interval)</summary>
+<p>Energy supplied 402.7 MWh, technical losses <span class="result">3.04 %</span>, non-technical losses <span class="result">1.81 %</span>
+(7.3 MWh in one week). 5 substations in alarm (3 % threshold), including B18 (13.5 %) and B19 (15.9 %), where a quarter of the customers steal.
+Detection by drop: precision 50 %, recall 55 %; balance + targeted inspection: precision <span class="result">77 %</span>, recall 27 %. The
+substation balance says <i>where</i> to look, the load-profile analytics <i>whom</i> to check: in practice both are combined and iterated.</p></details></div>
+<div class="xp" data-tool="ntl"></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n7-3">
+            <h2><span class="section-icon">📗</span>7.3 Data collection: DLMS/COSEM (IEC 62056) over G3-PLC or cellular</h2>
+<p><b>COSEM</b> is the object model of the meter, each data item being identified by an <b>OBIS</b> code (A-B:C.D.E*F); <b>DLMS</b> provides the services
+(GET, SET, ACTION, notifications) and the security (suites 0 to 2: AES-GCM-128, ECDSA, ECDH). The load profile (class 7, OBIS 1.0.99.1.0.255)
+records at each period: clock (0.0.1.0.0.255), status (0.0.96.10.1.255), A+ register (1.0.1.8.0.255) and A− register (1.0.2.8.0.255),
+voltage (1.0.32.7.0.255).</p>
+<p><b>G3-PLC</b> (ITU-T G.9903, CENELEC A band 35–91 kHz, OFDM) carries IPv6 (6LoWPAN) in a mesh: a meter far from the concentrator relays
+through its neighbours. Each hop may fail (noise, LV network impedance); retries compensate. Cellular (NB-IoT, LTE-M) suits sparse areas and
+large customers.</p>
+<div class="eq">Frame success: 1 − (1 − pⁿ)^(r+1) (p: one hop, n: hops, r: retries); daily completeness = (frame success)^(frames per day).</div>
+<p>In example 7.2: 1.56 hops on average, daily completeness <span class="result">99.88 %</span>, 3.24 kB per meter and per day, 20.7 min to
+collect the largest substation (210 meters).</p>
+<div class="xp" data-tool="g3plc"></div>
+<div class="lab"><h4>Lab 7.2 — Loss audit of a feeder</h4>
+<ol>
+<li>Run <code>ami_ieee33.xml</code>, open the report: energy balance, substations in alarm, largest drops (with the simulated truth).</li>
+<li>Vary the balance alarm threshold (1, 3, 5 %) and the suspicious drop (20, 30, 50 %): plot precision and recall. Which setting would you
+choose if one inspection costs 15 000 F and one fraud 60 000 F per year?</li>
+<li>Switch to cellular, then to G3-PLC with p = 85 % and 5 hops (spread-out district): completeness? Consequence for the substation balance?</li>
+<li>With calculator 7.2, estimate the payback of an 8 000-meter roll-out. Write the one-page note to the management.</li>
+</ol></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n7-4">
+            <h2><span class="section-icon">📶</span>7.4 Demand response: OpenADR 2.0b</h2>
+<p>OpenADR links a <b>VTN</b> (Virtual Top Node: grid operator, aggregator) to <b>VENs</b> (Virtual End Nodes: buildings, charging hubs, virtual power
+plant). Profile 2.0b exchanges XML messages (EiEvent, EiReport, EiOpt…) over HTTPS or XMPP; an event (<code>oadrDistributeEvent</code>) carries an
+active period, a notification delay and signals per interval:</p>
+<table>
+<tr><th>Signal</th><th>Value</th><th>Expected response</th></tr>
+<tr><td>SIMPLE</td><td>level 0 to 3</td><td>reduce according to an agreed plan (NRJXpert: 10 / 20 / 40 % of the baseline import)</td></tr>
+<tr><td>LOAD_DISPATCH (x-loadControlCapacity)</td><td>reduction in MW</td><td>reduce by the requested value with respect to the baseline</td></tr>
+<tr><td>ELECTRICITY_PRICE</td><td>price (F/kWh)</td><td>react to the price (no volume commitment)</td></tr>
+</table>
+<p>The difficult point is the <b>baseline</b>: what the site would have consumed without the event. It is estimated with an « X of Y » rule (mean of
+the X highest of the last Y comparable days) with a day-of adjustment. NRJXpert optimises the VPP twice, without then with the event: the baseline
+is therefore the best possible one, and the difference with an « X of Y » rule is discussed in the lab.</p>
+<div class="ex"><h4>Example 7.3 — 0.4 MW reduction from 18:00 to 21:00 (<code>exemples/openadr_effacement.xml</code>)</h4>
+<details class="sol" open><summary>Response of the virtual power plant (PV, battery, 30 EVs in V2G, 10 % curtailable load)</summary>
+<p>Requested: 1 200 kWh; delivered <span class="result">1 076 kWh (89.7 %)</span>: 0.4 MW held at 18:00 and 19:00, 0.28 MW at 20:00 (the battery
+is empty). Payment 269 kF, penalty 12 kF; <span class="result">net gain 203 kF</span> compared with the day without event. The report contains
+the <code>oadrDistributeEvent</code> message (57 lines) the VTN would send; Simulation › Save the OpenADR 2.0b message exports it.</p></details></div>
+<div class="xp" data-tool="baseline"></div>
+<div class="lab"><h4>Lab 7.3 — Negotiating a demand response contract</h4>
+<ol>
+<li>In the <b>Virtual power plant</b> tab, enable the event; try LOAD_DISPATCH 0.2 / 0.4 / 0.6 MW. From which value does the VPP lose money?</li>
+<li>Replace it by an ELECTRICITY_PRICE signal of +400 F/kWh: volume reduced? Which signal does the aggregator prefer, which one the grid operator?</li>
+<li>Read the OpenADR message: find <code>eventID</code>, <code>dtstart</code>, <code>duration</code>, <code>x-eiNotification</code>, <code>signalType</code>, the intervals.</li>
+<li>With calculator 7.3, show how a site can « inflate » its baseline if the rule is « 10 of 10 » without adjustment.</li>
+</ol></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n7-5">
+            <h2><span class="section-icon">🔒</span>7.5 Cybersecurity of the control system: IEC 62443 and IEC 62351</h2>
+<p>A smart grid opens command paths to thousands of devices: remote-controlled switches, inverters, chargers, meters able to disconnect a customer.
+<b>IEC 62443</b> (industrial automation and control systems) provides the method, <b>IEC 62351</b> the security of the energy protocols
+(IEC 60870-5-104, IEC 61850 MMS and GOOSE, DNP3), <b>IEC 62056-5-3</b> that of DLMS/COSEM.</p>
+<ol>
+<li><b>Zones and conduits</b> (IEC 62443-3-2): group the assets with the same requirements (control centre, substations, producers, chargers,
+AMI, aggregator, IT) and identify the flows between zones (conduits).</li>
+<li><b>Target security level SL-T</b> of each zone, from 1 (error, casual violation) to 4 (state-level attacker, extended resources).</li>
+<li><b>Achieved level SL-A</b> for each of the seven foundational requirements FR1…FR7 (IEC 62443-3-3): identification and authentication,
+use control, integrity, confidentiality, restricted data flow, response to events, availability.</li>
+<li><b>Risk</b> = consequence × likelihood; <b>action plan</b> to close SL-T − SL-A, starting with the exposed conduits.</li>
+</ol>
+<p>In NRJXpert: <b>Tools › Cybersecurity risk assessment (IEC 62443)…</b>. The assets come from the diagram; set the SL-T, tick the measures in
+place per zone, qualify the conduits (protection, exposure to the Internet). The Results tab and the HTML report give the risk matrix and the
+ordered list of missing measures. The settings are saved with the project.</p>
+<div class="xp" data-tool="sl"></div>
+<div class="lab"><h4>Lab 7.4 — Risk assessment of the synthesis project</h4>
+<ol>
+<li>Open <code>smartgrid_deux_departs.nxp</code>, run the assessment: how many assets, which zones? What is the risk of the control centre with the
+initial settings? Why?</li>
+<li>Set the « Data collection » conduit to « encryption and authentication » and tick FR4 SL2 for the AMI zone: effect on the matrix?</li>
+<li>Draw up a three-batch plan (6, 18, 36 months) that brings all zones to their SL-T; justify the order.</li>
+<li>For the VPP of example 7.3, which new risks does the OpenADR conduit introduce (forged price, injected event)? Which measures?</li>
+</ol></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n7-6">
+            <h2><span class="section-icon">🎯</span>7.6 Expert assignment (synthesis)</h2>
+<div class="ex"><h4>Subject — Microgrid of a university campus</h4>
+<p>A campus with a 2 MW peak, supplied by a 30 kV feeder, wants a microgrid (1.5 MWp PV, 1 MW / 2 MWh battery, existing 1 MVA genset), smart
+metering of its 40 buildings, and to take part in the national aggregator's demand response programme. You are the owner's engineer (AMOA).</p>
+<ol>
+<li>Draw the network and write the IEC 62559 use case « planned islanding » (level 6).</li>
+<li>Define the IEEE 2030.8 test campaign and its criteria; simulate it; attach the test report.</li>
+<li>Draw up the loss balance from the AMI calculation and estimate the value of metering.</li>
+<li>Propose the demand response contract (signal, power, window, payment) with the profitability calculation.</li>
+<li>Hand over the IEC 62443 assessment and the action plan.</li>
+</ol>
+<p class="small">Indicative marking: model and use case 20 %, tests 25 %, AMI 15 %, demand response 15 %, cybersecurity 15 %, report quality 10 %.</p></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n7-qcm">
+            <h2><span class="section-icon">📋</span>Level 7 quiz</h2>
+<div class="qcm" data-answer="c"><p class="q">1. According to IEEE 2030.7, the two core functions of a microgrid controller are:</p>
+<ol><li data-k="a">protection and metering</li><li data-k="b">forecasting and billing</li><li data-k="c">transition and dispatch</li><li data-k="d">SCADA and DMS</li></ol>
+<div class="fb">Transition (islanding, reconnection) and dispatch (set-points of the resources); IEEE 2030.8 describes their tests.</div></div>
+<div class="qcm" data-answer="b"><p class="q">2. Planned islanding is smoother than unplanned islanding because:</p>
+<ol><li data-k="a">the battery has more inertia</li><li data-k="b">the exchange at the PCC is cancelled before opening</li><li data-k="c">the synchro-check is disabled</li><li data-k="d">loads are shed</li></ol>
+<div class="fb">At opening, ΔP ≈ 0: no frequency jump, no RoCoF (example 7.1: nadir 49.99 Hz instead of 49.93 Hz).</div></div>
+<div class="qcm" data-answer="d"><p class="q">3. For a 2.4 MVA island, closing the coupling breaker requires (IEEE 1547):</p>
+<ol><li data-k="a">Δf ≤ 0.3 Hz, ΔV ≤ 10 %, Δφ ≤ 20°</li><li data-k="b">Δf ≤ 0.2 Hz, ΔV ≤ 5 %, Δφ ≤ 15°</li><li data-k="c">exactly Δf = 0</li><li data-k="d">Δf ≤ 0.1 Hz, ΔV ≤ 3 %, Δφ ≤ 10°</li></ol>
+<div class="fb">Above 1.5 MVA the limits are the strictest.</div></div>
+<div class="qcm" data-answer="a"><p class="q">4. Non-technical losses are obtained:</p>
+<ol><li data-k="a">by difference: injected energy − metered energy − technical losses</li><li data-k="b">by the load flow</li><li data-k="c">by measuring the neutral current</li><li data-k="d">with R·I²</li></ol>
+<div class="fb">Only technical losses are calculated; non-technical losses are deduced from the balance.</div></div>
+<div class="qcm" data-answer="c"><p class="q">5. A fraud detection method has a precision of 77 % and a recall of 27 %. This means:</p>
+<ol><li data-k="a">77 % of frauds are found</li><li data-k="b">27 % of the alarms are false</li><li data-k="c">77 % of the alarms are correct but 73 % of frauds are missed</li><li data-k="d">the method is useless</li></ol>
+<div class="fb">Precision = share of correct alarms, recall = share of frauds found. A precise but insensitive method is used to target field visits.</div></div>
+<div class="qcm" data-answer="b"><p class="q">6. OBIS code 1.0.1.8.0.255 is:</p>
+<ol><li data-k="a">the voltage of phase 1</li><li data-k="b">the imported active energy register (A+)</li><li data-k="c">the meter clock</li><li data-k="d">the load profile</li></ol>
+<div class="fb">Load profile 1.0.99.1.0.255, clock 0.0.1.0.0.255, voltage L1 1.0.32.7.0.255.</div></div>
+<div class="qcm" data-answer="d"><p class="q">7. With 3 G3-PLC hops at 90 % and 2 retries, a frame gets through with a probability of about:</p>
+<ol><li data-k="a">73 %</li><li data-k="b">90 %</li><li data-k="c">95 %</li><li data-k="d">98 %</li></ol>
+<div class="fb">pⁿ = 0.729; 1 − (1 − 0.729)³ = 0.980.</div></div>
+<div class="qcm" data-answer="a"><p class="q">8. In OpenADR 2.0b, the grid operator or aggregator that issues the events is:</p>
+<ol><li data-k="a">the VTN</li><li data-k="b">the VEN</li><li data-k="c">the CPO</li><li data-k="d">the EVSE</li></ol>
+<div class="fb">Virtual Top Node → Virtual End Nodes (sites, VPP, charging hubs).</div></div>
+<div class="qcm" data-answer="c"><p class="q">9. In IEC 62443, the achieved level SL-A of a zone for a foundational requirement is:</p>
+<ol><li data-k="a">the mean of the ticked measures</li><li data-k="b">the level of the best measure</li><li data-k="c">the highest level whose measures up to that level are all in place</li><li data-k="d">set by the vendor</li></ol>
+<div class="fb">An SL3 measure without the SL2 one does not raise the level.</div></div>
+<div class="qcm" data-answer="b"><p class="q">10. The security of IEC 60870-5-104 and IEC 61850 (TLS, GOOSE authentication) is covered by:</p>
+<ol><li data-k="a">IEC 62056</li><li data-k="b">IEC 62351</li><li data-k="c">IEC 62559</li><li data-k="d">IEEE 2030.8</li></ol>
+<div class="fb">IEC 62351-3 (TLS), -5 (104/DNP3), -6 (GOOSE/SV), -9 (keys); IEC 62056-5-3 covers DLMS/COSEM.</div></div>
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="page-nav"><a href="niveau6-en.html">← Level 6 — Smart grids</a><a href="etudes-de-cas-en.html">Case studies →</a></div>
+
+        <div class="section" id="auteur">
+            <h2><span class="section-icon">👤</span>Author</h2>
+            <div class="author-card">
+                <div class="author-avatar">LT</div>
+                <div class="author-info">
+                    <div class="name">Prof. Lamine THIAW</div>
+                    <div class="role">Department of Electrical Engineering<br>École Supérieure Polytechnique<br>Cheikh Anta Diop University, Dakar</div>
+                    <a href="mailto:lamine.thiaw@ucad.edu.sn">lamine.thiaw@ucad.edu.sn</a><br>
+                    <a href="mailto:lamine.thiaw@esp.sn">lamine.thiaw@esp.sn</a>
+                </div>
+            </div>
+            <p class="small" style="margin-top:14px">November 2026</p>
+        </div>
+    </main>
+</div>
+
+<script>
+    // défilement doux vers les ancres de la page
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){
+        a.addEventListener('click', function(e){
+            var t = document.querySelector(this.getAttribute('href'));
+            if(t){ e.preventDefault(); t.scrollIntoView({behavior: 'smooth', block: 'start'}); }
+        });
+    });
+    // rubrique active dans le menu latéral
+    var navLinks = document.querySelectorAll('#sidebar nav a');
+    if('IntersectionObserver' in window){
+        var obs = new IntersectionObserver(function(entries){
+            entries.forEach(function(en){
+                if(en.isIntersecting) navLinks.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#' + en.target.id); });
+            });
+        }, {rootMargin: '-20% 0px -70% 0px'});
+        document.querySelectorAll('.section[id]').forEach(function(s){ obs.observe(s); });
+    }
+</script>
+</body>
+</html>

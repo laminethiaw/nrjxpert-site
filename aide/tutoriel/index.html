@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tutoriel NRJXpert — Systèmes électriques et énergies renouvelables</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tutoriel.css">
+<script src="tutoriel.js"></script>
+</head>
+<body>
+<div id="top"></div>
+
+<!-- ════════════════ MENU LATÉRAL ════════════════ -->
+<aside id="sidebar">
+    <div id="sidebar-header">
+        <div class="app-name">NRJXpert</div>
+        <div class="app-version">Version 2.0.0 · Tutoriel et formation</div>
+    </div>
+    <nav>
+        <a href="#public"><span class="nav-icon">📋</span>À qui s&#x27;adresse ce tutoriel ?</a>
+        <a href="#parcours"><span class="nav-icon">🪜</span>Le parcours</a>
+        <a href="#methode"><span class="nav-icon">🔸</span>Comment travailler</a>
+        <a href="#conventions"><span class="nav-icon">📗</span>Conventions</a>
+        <a href="#contenu"><span class="nav-icon">📙</span>Contenu détaillé</a>
+        <a href="#auteur"><span class="nav-icon">👤</span>Auteur</a>
+    </nav>
+    <div class="side-links"><a href="index.html">🏠 Accueil du tutoriel</a><a href="../aide-fr.html">📖 Guide de l'utilisateur</a></div>
+</aside>
+
+<!-- ════════════════ ZONE PRINCIPALE ════════════════ -->
+<div id="main">
+    <div id="hero">
+        <h1>Tutoriel NRJXpert</h1>
+        <div class="tagline">Se former aux systèmes électriques et aux systèmes à énergies renouvelables, de la loi d'Ohm à l'optimisation
+d'un micro-réseau, en calculant à la main puis en vérifiant avec le logiciel.</div>
+        <div class="badges">
+            <span class="hero-badge">Tutoriel</span>
+            <span class="hero-badge">Version 2.0.0</span>
+            <span class="hero-badge">Novembre 2026</span>
+            <a class="hero-badge language-link" href="index-en.html" lang="en" aria-label="Cliquer pour afficher la version anglaise">
+                FR / EN
+                <small>Cliquer pour la version anglaise</small>
+            </a>
+        </div>
+    </div>
+
+    <div id="topbar">
+        <div class="title">Tutoriel NRJXpert</div>
+        <span class="meta">NRJXpert 2.0.0 · Novembre 2026</span>
+    </div>
+
+    <main id="content">
+        <div id="toc-section">
+            <h2>Table des matières</h2>
+            <div class="toc-grid">
+                <a href="#public"><span class="toc-num">01</span>À qui s&#x27;adresse ce tutoriel ?</a>
+                <a href="#parcours"><span class="toc-num">02</span>Le parcours</a>
+                <a href="#methode"><span class="toc-num">03</span>Comment travailler</a>
+                <a href="#conventions"><span class="toc-num">04</span>Conventions</a>
+                <a href="#contenu"><span class="toc-num">05</span>Contenu détaillé</a>
+            </div>
+        </div>
+
+        <div class="section" id="public">
+            <h2><span class="section-icon">📋</span>À qui s'adresse ce tutoriel ?</h2>
+<table>
+<tr><th>Public</th><th>Parcours conseillé</th><th>Durée indicative</th></tr>
+<tr><td><b>Technicien</b> (BTS, DUT, licence professionnelle), électricien, installateur PV</td><td>Niveaux 1 et 3 (§ 3.1 à 3.4), niveau 4 (§ 4.1 et 4.2)</td><td>40 h</td></tr>
+<tr><td><b>Étudiant ingénieur</b> (licence, master, cycle ingénieur)</td><td>Niveaux 1 à 4 complets, puis niveau 5 (§ 5.1 et 5.2)</td><td>80 à 100 h</td></tr>
+<tr><td><b>Ingénieur d'études, bureau d'études</b></td><td>Niveaux 2, 3 et 4 (méthodes et hypothèses), niveau 5, études de cas</td><td>À la carte</td></tr>
+<tr><td><b>Enseignant</b></td><td>Guide de l'enseignant : progressions, séances de TP, barèmes, sujets</td><td>—</td></tr>
+</table>
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="parcours">
+            <h2><span class="section-icon">🪜</span>Le parcours</h2>
+<div class="cards">
+  <a class="card" href="niveau1.html"><span class="badge b1">Niveau 1</span><h3>Fondamentaux</h3>
+    <p>Lois de base et conventions, méthodes de calcul (mailles, nœuds, Thévenin, Kennelly), phaseurs, puissances et compensation, résonance, triphasé équilibré et déséquilibré, composantes symétriques. Prise en main de NRJXpert.</p></a>
+  <a class="card" href="niveau2.html"><span class="badge b2">Niveau 2</span><h3>Réseaux électriques</h3>
+    <p>Lignes et câbles (modèles courte, moyenne et longue, puissance naturelle, effet Ferranti), transformateurs, per-unit, chute de tension, load flow (Gauss-Seidel, Newton-Raphson), court-circuit CEI 60909, répartition économique de la production.</p></a>
+  <a class="card" href="niveau3.html"><span class="badge b3">Niveau 3</span><h3>Énergies renouvelables</h3>
+    <p>Gisement solaire et éolien, module PV, dimensionnement PV autonome et raccordé, câblage et coûts, éolien et loi de Weibull, pompage solaire.</p></a>
+  <a class="card" href="niveau4.html"><span class="badge b4">Niveau 4</span><h3>Études économiques</h3>
+    <p>Actualisation, coût global, LCOE, VAN, TRI, temps de retour, tarif et subvention minimaux, sensibilité.</p></a>
+  <a class="card" href="niveau5.html"><span class="badge b5">Niveau 5</span><h3>DER et réseaux intelligents</h3>
+    <p>Load flow de distribution, onduleurs pilotés, capacité d'accueil, dynamique, court-circuit des onduleurs, optimisation.</p></a>
+  <a class="card" href="niveau6.html"><span class="badge b6">Niveau 6</span><h3>Smart Grids : architecture, conduite, AMOA</h3>
+    <p>SGAM, SCADA/ADMS/DERMS, auto-cicatrisation et fiabilité, IVVC/r, VPP, micro-réseaux, mobilité électrique, CIM et IEC 61850, cas d'usage IEC 62559, compétences de l'expert.</p></a>
+  <a class="card" href="niveau7.html"><span class="badge b6">Niveau 7</span><h3>Atelier expert</h3>
+    <p>Banc d'essai du contrôleur de micro-réseau (IEEE 2030.8), comptage évolué et pertes non techniques (DLMS/COSEM, G3-PLC), effacement OpenADR 2.0b, cybersécurité IEC 62443 / IEC 62351.</p></a>
+  <a class="card" href="etudes-de-cas.html"><span class="badge b2">Bureau d'études</span><h3>Études de cas</h3>
+    <p>Électrification d'un village, centrale PV raccordée, poste industriel, éolien côtier, pompage solaire : de la donnée à la note de calcul.</p></a>
+</div>
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="methode">
+            <h2><span class="section-icon">🔸</span>Comment travailler</h2>
+<ol class="steps">
+  <li><div class="step-content"><b>Lire la théorie</b> de chaque section : définitions, hypothèses, équations. Les encadrés bleus rappellent les formules à retenir.</div></li>
+  <li><div class="step-content"><b>Faire l'exemple à la main</b> (calculatrice, tableur) avant de regarder la solution : c'est là que l'on comprend.</div></li>
+  <li><div class="step-content"><b>Vérifier avec NRJXpert</b> dans les encadrés « Travail pratique » 🛠 : on dessine le schéma ou on saisit les données,
+      on lance le calcul et on compare au calcul à la main. Un écart doit toujours s'expliquer (hypothèse, arrondi, modèle).</div></li>
+  <li><div class="step-content"><b>S'entraîner</b> avec les exercices corrigés (« Voir la solution ») et les calculatrices 🧮, puis répondre au <b>QCM</b> de fin de niveau.</div></li>
+  <li><div class="step-content"><b>Faire varier</b> les données : que devient le résultat si la longueur double, si la tension passe de 24 à 48 V, si le taux
+      d'actualisation change ? C'est l'habitude qui fait l'ingénieur.</div></li>
+</ol>
+<div class="note"><b>Fichiers d'exemple.</b> Les projets cités dans le tutoriel se trouvent dans le dossier
+<code>~/.nrjxpert/aide/tutoriel/exemples/</code>, créé à la première ouverture du tutoriel. Dans NRJXpert, <b>Aide › Ouvrir un
+exemple du tutoriel…</b> ouvre chaque fichier dans la bonne fenêtre : schémas de réseau <code>.nxp</code>, projets photovoltaïques
+<code>.nxpv</code>, projets éoliens <code>.nxeol</code>, projets de pompage solaire <code>.nxpomp</code>. Les fichiers <code>.xml</code> sont des réseaux tels que le client les envoie au
+serveur de calcul : ils s'ouvrent dans la fenêtre <b>Calculer un fichier réseau (XML)</b>, où l'on peut modifier les valeurs avant
+de lancer le calcul.</div>
+
+<div class="note"><b>Serveur de calcul.</b> Les calculs de réseau (niveaux 1, 2 et 5, études de cas 2 et 3) sont faits par le serveur
+de calcul de NRJXpert, hébergé à distance : il faut une <b>connexion Internet</b>, l'adresse du serveur et la clé d'accès fournie avec le
+logiciel (Simulation › Paramètres du calcul et du serveur › Tester la connexion). Les niveaux 3 et 4 (photovoltaïque, éolien, économie) se travaillent hors ligne.</div>
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="conventions">
+            <h2><span class="section-icon">📗</span>Conventions</h2>
+<div class="kv">
+  <span>Décimales</span><span>virgule (2,5 mm²) ; le logiciel accepte la virgule et le point</span>
+  <span>Monnaie</span><span>unité monétaire au choix de l'utilisateur (franc CFA par défaut) ; « k » = millier, « M » = million de l'unité choisie. Dans ce tutoriel, les montants sont donnés en francs CFA (F) : kF = 1 000 F ; MF = 1 000 000 F. Les prix sont indicatifs (2026)</span>
+  <span>Tensions alternatives</span><span>valeurs efficaces ; triphasé : U composée (entre phases), V simple (phase-neutre), U = √3·V</span>
+  <span>Puissances</span><span>P active (W), Q réactive (var, positive pour une charge inductive), S apparente (VA)</span>
+  <span>Phaseurs</span><span>notation polaire 230∠0° ou complexe 230 + j0 ; j² = −1</span>
+  <span>Normes citées</span><span>NF C 15-100 / CEI 60364 (installations BT), UTE C15-712-1 (PV), CEI 60909-0:2016 (court-circuit),
+      CEI 61400-12-1 (éolien), IEEE 1547-2018 (raccordement des DER)</span>
+</div>
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="contenu">
+            <h2><span class="section-icon">📙</span>Contenu détaillé</h2>
+<div class="grid2">
+<div>
+<h4>Niveau 1 — Fondamentaux</h4>
+<ol><li>Grandeurs, lois d'Ohm et de Kirchhoff</li><li>Régime sinusoïdal, impédances, puissances</li><li>Compensation de l'énergie réactive</li><li>Systèmes triphasés</li><li>Prise en main de NRJXpert</li></ol>
+<h4>Niveau 2 — Réseaux électriques</h4>
+<ol><li>Modèles des lignes et des câbles</li><li>Transformateurs</li><li>Système per-unit</li><li>Chute de tension et pertes</li><li>Load flow : formulation</li><li>Gauss-Seidel, Newton-Raphson, découplé rapide</li><li>Court-circuit : CEI 60909, composantes symétriques</li><li>Protections : pouvoir de coupure, sélectivité</li></ol>
+<h4>Niveau 3 — Énergies renouvelables</h4>
+<ol><li>Gisement solaire</li><li>Le module photovoltaïque</li><li>Dimensionnement PV autonome</li><li>Câblage : sections, protections, coûts</li><li>PV raccordé au réseau</li><li>Gisement éolien et loi de Weibull</li><li>Production et dimensionnement éolien</li><li>Pompage solaire</li></ol>
+</div>
+<div>
+<h4>Niveau 4 — Études économiques</h4>
+<ol><li>Valeur de l'argent dans le temps</li><li>Coût global et coût actualisé</li><li>LCOE</li><li>VAN, TRI, temps de retour</li><li>Tarif et subvention minimaux</li><li>Sensibilité et comparaison de solutions</li></ol>
+<h4>Niveau 5 — DER et réseaux intelligents</h4>
+<ol><li>Load flow des réseaux de distribution</li><li>Onduleurs pilotés et capacité d'accueil</li><li>Séries temporelles</li><li>Dynamique des micro-réseaux</li><li>Court-circuit des onduleurs</li><li>Gestion économique et OPF</li><li>Dimensionnement optimal hybride</li></ol>
+<h4>Niveau 6 — Smart Grids : architecture, conduite, AMOA</h4>
+<ol><li>Architecture SGAM (IEC SRD 63200)</li><li>Conduite OT/IT : SCADA, ADMS, DERMS</li><li>Auto-cicatrisation (FLISR) et fiabilité</li><li>Contrôle Volt/VAR (IVVC, IVVC/r, CVR)</li><li>Centrales virtuelles</li><li>Micro-réseaux et onduleurs intelligents</li><li>Mobilité électrique (V1G, V2G)</li><li>Modèles de données et protocoles</li><li>AMOA et gouvernance de projet</li><li>Matrice des compétences</li></ol>
+<h4>Niveau 7 — Atelier expert</h4>
+<ol><li>Essais du contrôleur de micro-réseau (IEEE 2030.7 / 2030.8)</li><li>Comptage évolué : pertes techniques et non techniques, fraude</li><li>Télérelève DLMS/COSEM, G3-PLC</li><li>Effacement OpenADR 2.0b</li><li>Cybersécurité IEC 62443 / IEC 62351</li><li>Mission d'expertise</li></ol>
+<h4>Compléments</h4>
+<ul><li>Quatre études de cas de bureau d'études</li><li>Guide de l'enseignant : progressions, 10 séances de TP, barèmes, sujets</li><li>Annexes : formulaire, tables de câbles, facteurs c, constantes</li></ul>
+</div>
+</div>
+<p class="small">Tutoriel rédigé pour NRJXpert — Lamine Thiaw, Département de Génie électrique, École Supérieure Polytechnique,
+Université Cheikh Anta Diop de Dakar. Les valeurs numériques des exemples ont été vérifiées avec le logiciel.</p>
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+
+        <div class="section" id="auteur">
+            <h2><span class="section-icon">👤</span>Auteur</h2>
+            <div class="author-card">
+                <div class="author-avatar">LT</div>
+                <div class="author-info">
+                    <div class="name">Prof. Lamine THIAW</div>
+                    <div class="role">Département de Génie Électrique<br>École Supérieure Polytechnique<br>Université Cheikh Anta Diop, Dakar</div>
+                    <a href="mailto:lamine.thiaw@ucad.edu.sn">lamine.thiaw@ucad.edu.sn</a><br>
+                    <a href="mailto:lamine.thiaw@esp.sn">lamine.thiaw@esp.sn</a>
+                </div>
+            </div>
+            <p class="small" style="margin-top:14px">Novembre 2026</p>
+        </div>
+    </main>
+</div>
+
+<script>
+    // défilement doux vers les ancres de la page
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){
+        a.addEventListener('click', function(e){
+            var t = document.querySelector(this.getAttribute('href'));
+            if(t){ e.preventDefault(); t.scrollIntoView({behavior: 'smooth', block: 'start'}); }
+        });
+    });
+    // rubrique active dans le menu latéral
+    var navLinks = document.querySelectorAll('#sidebar nav a');
+    if('IntersectionObserver' in window){
+        var obs = new IntersectionObserver(function(entries){
+            entries.forEach(function(en){
+                if(en.isIntersecting) navLinks.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#' + en.target.id); });
+            });
+        }, {rootMargin: '-20% 0px -70% 0px'});
+        document.querySelectorAll('.section[id]').forEach(function(s){ obs.observe(s); });
+    }
+</script>
+</body>
+</html>

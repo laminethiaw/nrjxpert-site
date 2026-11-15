@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Level 5 — DER and smart grids — NRJXpert tutorial</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tutoriel.css">
+<script src="tutoriel.js"></script>
+</head>
+<body>
+<div id="top"></div>
+
+<!-- ════════════════ MENU LATÉRAL ════════════════ -->
+<aside id="sidebar">
+    <div id="sidebar-header">
+        <div class="app-name">NRJXpert</div>
+        <div class="app-version">Version 2.0.0 · Tutorial › Level 5</div>
+    </div>
+    <nav>
+        <a href="#intro"><span class="nav-icon">📘</span>Introduction</a>
+        <a href="#n5-1"><span class="nav-icon">🔌</span>Load flow of distribution networks</a>
+        <a href="#n5-2"><span class="nav-icon">🔸</span>Controlled inverters and hosting capacity</a>
+        <a href="#n5-3"><span class="nav-icon">📗</span>Time series</a>
+        <a href="#n5-4"><span class="nav-icon">🔋</span>Microgrid dynamics</a>
+        <a href="#n5-5"><span class="nav-icon">⚡</span>Short circuit of inverter-based generators</a>
+        <a href="#n5-6"><span class="nav-icon">💰</span>Economic dispatch and OPF</a>
+        <a href="#n5-7"><span class="nav-icon">🔹</span>Optimal sizing of a hybrid system</a>
+        <a href="#n5-ex"><span class="nav-icon">🎯</span>Projects</a>
+        <a href="#n5-qcm"><span class="nav-icon">📋</span>Level 5 quiz</a>
+        <a href="#auteur"><span class="nav-icon">👤</span>Author</a>
+    </nav>
+    <div class="side-links"><a href="index-en.html">🏠 Tutorial home</a><a href="niveau4-en.html">← Level 4</a><a href="niveau6-en.html">Level 6 →</a><a href="../help-en.html">📖 User guide</a></div>
+</aside>
+
+<!-- ════════════════ ZONE PRINCIPALE ════════════════ -->
+<div id="main">
+    <div id="hero">
+        <h1><span class="badge b5">Level 5</span> Distributed energy resources and smart grids</h1>
+        <div class="tagline">When generation becomes distributed and controlled by power electronics: voltage profiles, inertia, low fault currents and
+optimised operation.</div>
+        <div class="badges">
+            <span class="hero-badge">Tutorial</span>
+            <span class="hero-badge">Version 2.0.0</span>
+            <span class="hero-badge">November 2026</span>
+            <a class="hero-badge language-link" href="./niveau5.html" lang="fr" aria-label="Click to show the French version">
+                EN / FR
+                <small>Click for the French version</small>
+            </a>
+        </div>
+    </div>
+
+    <div id="topbar">
+        <div class="title">Level 5 — Distributed energy resources and smart grids</div>
+        <span class="meta">NRJXpert 2.0.0 · November 2026</span>
+    </div>
+
+    <main id="content">
+        <div id="toc-section">
+            <h2>Contents</h2>
+            <div class="toc-grid">
+                <a href="#intro"><span class="toc-num">00</span>Introduction</a>
+                <a href="#n5-1"><span class="toc-num">5.1</span>Load flow of distribution networks</a>
+                <a href="#n5-2"><span class="toc-num">5.2</span>Controlled inverters and hosting capacity</a>
+                <a href="#n5-3"><span class="toc-num">5.3</span>Time series</a>
+                <a href="#n5-4"><span class="toc-num">5.4</span>Microgrid dynamics</a>
+                <a href="#n5-5"><span class="toc-num">5.5</span>Short circuit of inverter-based generators</a>
+                <a href="#n5-6"><span class="toc-num">5.6</span>Economic dispatch and OPF</a>
+                <a href="#n5-7"><span class="toc-num">5.7</span>Optimal sizing of a hybrid system</a>
+                <a href="#n5-ex"><span class="toc-num">08</span>Projects</a>
+                <a href="#n5-qcm"><span class="toc-num">09</span>Level 5 quiz</a>
+            </div>
+        </div>
+
+        <div class="section" id="intro">
+            <h2><span class="section-icon">📘</span>Introduction</h2>
+<div class="objectifs">
+<h4>Objectives</h4>
+<ul>
+<li>Calculate a radial distribution feeder by backward/forward sweep and know its limits.</li>
+<li>Choose an inverter control law (cos φ, Q(V), P(V)) and determine the hosting capacity of a feeder.</li>
+<li>Interpret a dynamic simulation: nadir, RoCoF, grid-forming and grid-following inverters.</li>
+<li>Explain the limited contribution of inverters to short circuits and its consequences for protection.</li>
+<li>Formulate and read an economic dispatch optimisation (MILP), an OPF and a hybrid sizing.</li>
+</ul>
+<p class="prereq">Prerequisites: levels 2 to 4; notions of linear optimisation. Calculations made by the remote server (with SciPy): Internet
+connection required. Duration: 20 h and a project.</p>
+</div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n5-1">
+            <h2><span class="section-icon">🔌</span>5.1 Load flow of distribution networks</h2>
+<p>MV and LV feeders are <b>radial</b>, with <b>high R/X</b>, often <b>unbalanced</b> (single-phase loads). Fast decoupled converges poorly on them
+(level 2); the <b>backward/forward sweep</b> (Kersting) is used:</p>
+<ol class="steps">
+<li><div class="step-content">Injections: current of each load and each DER at the current voltage (ZIP loads, inverters according to their control law).</div></li>
+<li><div class="step-content">Backward sweep: current of each branch = sum of the downstream currents.</div></li>
+<li><div class="step-content">Forward sweep: voltage of each node = voltage of the upstream node − Z·I of the branch.</div></li>
+<li><div class="step-content">Repeat until the voltages no longer move (10⁻⁶ pu).</div></li>
+</ol>
+<div class="ex"><h4>Example 5.1 — IEEE 33-bus test network (Baran and Wu)</h4>
+<details class="sol" open><summary>Results (NRJXpert server, file <code>exemples/ieee33_distribution.xml</code>)</summary>
+<p>12.66 kV, total load 3.715 MW + 2.300 Mvar. Losses <span class="result">202.68 kW</span> (published reference: 202.67 kW); minimum voltage
+<span class="result">0.9131 pu at node 18</span>; the substation supplies 3.918 MW and 2.435 Mvar; 8 iterations. The server's Newton-Raphson gives
+the same voltages to within 10⁻⁶ pu.</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n5-2">
+            <h2><span class="section-icon">🔸</span>5.2 Controlled inverters and hosting capacity</h2>
+<p>Generation at the end of a feeder <b>raises the voltage</b> (ΔU ≈ (R·P + X·Q)/U² changes sign) and may <b>reduce then increase</b> the losses.
+Inverters have standardised control laws (IEEE 1547-2018):</p>
+<table>
+<tr><th>Control</th><th>Principle</th><th>Effect</th></tr>
+<tr><td>Imposed P, Q / fixed cos φ</td><td>Q = P·tan φ</td><td>simple; does not react to voltage</td></tr>
+<tr><td>Q(V) (volt-var)</td><td>absorbs reactive power when V &gt; 1.02 pu, supplies it when V &lt; 0.98 pu</td><td>clips overvoltages, increases losses</td></tr>
+<tr><td>P(V) (volt-watt)</td><td>reduces P above 1.06 pu</td><td>last resort: loss of production</td></tr>
+</table>
+<p>The <b>hosting capacity</b> of a node is the maximum power that can be connected without violating the constraints (V ≤ V<sub>max</sub>,
+current ratings), at the worst moment: high production and <b>low load</b>.</p>
+<div class="ex"><h4>Example 5.2 — PV at node 18 of the IEEE 33 network</h4>
+<details class="sol" open><summary>Server results</summary>
+<table>
+<tr><th>PV at node 18</th><th>Losses (kW)</th><th>V<sub>min</sub> (pu)</th><th>V<sub>max</sub> (pu)</th></tr>
+<tr><td>none</td><td class="num">202.7</td><td class="num">0.913 (18)</td><td class="num">1.000</td></tr>
+<tr><td>0.5 MW, cos φ = 1</td><td class="num">153.4</td><td class="num">0.925 (33)</td><td class="num">1.000</td></tr>
+<tr><td>1.0 MW, cos φ = 1</td><td class="num">145.8</td><td class="num">0.932 (33)</td><td class="num">1.000</td></tr>
+<tr><td>2.0 MW, cos φ = 1</td><td class="num">226.7</td><td class="num">0.944</td><td class="num">1.045 (18)</td></tr>
+<tr><td>2.0 MW, Q(V)</td><td class="num">249.8</td><td class="num">0.941</td><td class="num">1.033 (18)</td></tr>
+</table>
+<p>Losses go through a minimum around 1 MW then rise again: beyond that, the PV « exports » to the substation through the whole feeder. At 2 MW,
+Q(V) absorbs 0.21 Mvar and brings the overvoltage from 1.045 down to 1.033 pu, at the cost of 23 kW of additional losses. Hosting capacity at node
+18 at 30 % load, V ≤ 1.05 pu: <span class="result">1.14 MW</span>.</p>
+</details></div>
+<div class="lab"><h4>Lab 10 — Hosting capacity in NRJXpert</h4>
+<ol class="steps">
+<li><div class="step-content">Draw a feeder, or open <code>exemples/hostingCapacity_ieee33.xml</code> (Help › Open a tutorial example) and calculate it in the
+« Calculate a network file (XML) » window.</div></li>
+<li><div class="step-content">Place a <b>photovoltaic generator</b> (Distributed resources palette) at the end of the feeder; Q(V) control.</div></li>
+<li><div class="step-content"><b>Simulation › DER study settings</b>, Hosting capacity tab: bus, V<sub>max</sub> = 1.05, load during the test 30 %.</div></li>
+<li><div class="step-content">Calculation <b>PV hosting capacity</b>; then <b>Distribution load flow</b> with this power: check that V<sub>max</sub> = 1.05 pu.</div></li>
+<li><div class="step-content">Repeat in the middle of the feeder: is the hosting capacity larger? Why?</div></li>
+</ol>
+</div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n5-3">
+            <h2><span class="section-icon">📗</span>5.3 Time series</h2>
+<p>A single operating point is not enough: PV production peaks at noon, consumption in the evening. The <b>Time series</b> calculation chains one
+load flow per time step (24 h, one week…) with the load and generation profiles, and counts the hours out of range, the energy lost and the energy
+curtailed. On the example <code>exemples/timeSeries_ieee33.xml</code>, the minimum voltage drops to 0.918 pu at 19:00 (evening peak), 8 hours are
+below 0.95 pu and the losses amount to 1.78 MWh/day for 55.5 MWh supplied (3.2 %).</p>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n5-4">
+            <h2><span class="section-icon">🔋</span>5.4 Microgrid dynamics</h2>
+<p>A network supplied by rotating machines has <b>inertia</b>: after a loss of generation, the frequency falls slowly, which gives the governors time
+to react. Swing equation: 2<i>H</i>·dω/dt = <i>P</i><sub>m</sub> − <i>P</i><sub>e</sub> − <i>D</i>(ω − 1). Inverters have no inertia of their own; two
+families:</p>
+<ul>
+<li><b>Grid-following</b> (most PV inverters): current sources synchronised by a PLL; they need a voltage reference.</li>
+<li><b>Grid-forming</b> (microgrid batteries): voltage sources with P-f and Q-V droop or « virtual synchronous machine » (VSM); they can hold an
+island alone and provide synthetic inertia.</li>
+</ul>
+<div class="eq">Indicators: frequency nadir (minimum), RoCoF (derivative, Hz/s, over 100 ms), final frequency (droop: Δf = −R·ΔP)</div>
+<div class="ex"><h4>Example 5.3 — Islanded microgrid</h4>
+<p>File <code>exemples/dynamics_microreseau.xml</code>: 2 MVA genset DG (synchronous machine), 1 MVA battery BESS (grid-forming), 0.5 MVA PV
+(grid-following), loads 0.6 and 0.5 MW. At 0.5 s, a cloud reduces the available PV power to 20 %; at 2.0 s, 100 ms three-phase fault at node Ch2.</p>
+<details class="sol" open><summary>Server results (RMS simulation, 4 s)</summary>
+<p>Genset frequency: nadir <span class="result">49.79 Hz</span>, RoCoF 1.76 Hz/s, final frequency 49.83 Hz (droop: the battery and the genset share
+the lost power). The PLL of the PV inverter sees larger excursions during the fault (49.42 to 50.50 Hz): it is the local measurement disturbed by the
+voltage dip, not the network frequency.</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n5-5">
+            <h2><span class="section-icon">⚡</span>5.5 Short circuit of inverter-based generators</h2>
+<p>An inverter limits its current (1.1 to 1.5 times rated): IEC 60909-0:2016 represents it as a <b>current source</b> <i>I</i><sub>skPF</sub> in the
+positive-sequence network, absent from the negative- and zero-sequence networks:</p>
+<div class="eq">I"k3 = (c·U<sub>n</sub>/√3 + Σ|Z<sub>1</sub>(f,j)|·I<sub>skPF,j</sub>) / |Z₁| &nbsp;&nbsp; ip: no DC component for the inverter share</div>
+<p>Consequences: in an island supplied only by inverters, the fault current is barely higher than the load current; overcurrent protections no
+longer see the fault. Undervoltage or differential protections, or batteries oversized in current, are needed. NRJXpert illustrates it: 11 kV feeder
+with PV, wind, battery and genset, three-phase fault → I"k = 1.656 kA of which only 76 A come from the three inverters.</p>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n5-6">
+            <h2><span class="section-icon">💰</span>5.6 Economic dispatch and OPF</h2>
+<p><b>Economic dispatch</b> decides, hour by hour, who produces: start-up of the gensets, charging and discharging of the batteries, purchases and sales
+to the grid, load curtailment. It is a <b>mixed-integer linear programme</b> (MILP): continuous variables (powers, states of charge) and binary ones
+(genset on or off, charging or discharging).</p>
+<div class="eq">min Σ<sub>t</sub> [ fuel cost + start-ups + purchases − sales + battery wear + load shedding ]<br>
+subject to: power balance at each hour; P<sub>min</sub>·u ≤ P ≤ P<sub>n</sub>·u; SOC<sub>t</sub> = SOC<sub>t−1</sub> + (η<sub>c</sub>P<sub>c</sub> − P<sub>d</sub>/η<sub>d</sub>)Δt; spinning reserve</div>
+<div class="ex"><h4>Example 5.4 — Islanded microgrid over 24 h</h4>
+<p>File <code>exemples/dispatch_microreseau_ilote.xml</code>: 1.5 MVA genset (diesel 800 F/l), 0.8 MW PV, 0.9 MWh / 0.3 MW battery.</p>
+<details class="sol" open><summary>Server results</summary>
+<p>Energy served 16.6 MWh; fuel 4 664 l; renewable share <span class="result">36.6 %</span>; no curtailment or load shedding; cost
+<span class="result">3.75 MF/day, i.e. 226 F/kWh</span>, 99.5 % of which is fuel. The battery does 0.24 cycle: with this PV size, it mainly serves to
+avoid genset start-ups.</p>
+</details></div>
+<p>The <b>OPF</b> (optimal power flow) adds the network constraints: voltages between V<sub>min</sub> and V<sub>max</sub>, currents, losses (DistFlow model
+of Baran and Wu, linearised by tangent planes), and also controls the reactive power of the inverters. NRJXpert recalculates each hour with an AC load
+flow to check: on <code>exemples/opf_microreseau.xml</code>, the difference between the OPF losses and those of the AC load flow is below 0.1 %.</p>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n5-7">
+            <h2><span class="section-icon">🔹</span>5.7 Optimal sizing of a hybrid system</h2>
+<p>Optimal sizing chooses both the <b>sizes</b> (kWp of PV, number of wind turbines, kWh of batteries, number of gensets, grid connection) and the
+<b>operation</b> over typical days, minimising the annual cost (investments annualised by the CRF + operation), with reliability (energy not supplied)
+and renewable-share constraints. Demonstration of the server calculation package (run by the administrator): 100 kW peak site in Dakar — genset alone
+<b>317 F/kWh</b>; hybrid optimum 360 kWp of PV + 933 kWh of batteries + one back-up genset, <b>105 F/kWh</b>, 97 % renewable. The prices of the
+demonstration are indicative: redo the study with current prices.</p>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n5-ex">
+            <h2><span class="section-icon">🎯</span>Projects</h2>
+<p>The projects start from the example XML files: <b>Help › Open a tutorial example</b>, then change the values in the « Calculate a network file
+(XML) » window (tags <code>&lt;Pgen&gt;</code>, <code>&lt;derControl&gt;</code>, <code>&lt;H&gt;</code>, <code>&lt;Emax&gt;</code>…) and <b>Calculate on the
+server</b>; « Save as… » keeps each variant.</p>
+<div class="ex"><h4>Project A — Voltage profile of a rural feeder</h4>
+<p>From <code>ieee33_distribution.xml</code>, place 3 PV plants of 0.5 MW at nodes 18, 25 and 33. Compare cos φ = 1, Q(V) and P(V) in 24 h time series:
+hours of overvoltage, losses, energy curtailed. Propose a connection rule.</p></div>
+<div class="ex"><h4>Project B — Stability of an island</h4>
+<p>In <code>dynamics_microreseau.xml</code>, reduce the inertia of the genset (H) then switch the battery from « droop » to « VSM »: plot the nadir and the
+RoCoF. What grid-forming battery power is needed to keep a RoCoF below 1 Hz/s?</p></div>
+<div class="ex"><h4>Project C — Hybridisation of a diesel plant</h4>
+<p>With <code>dispatch_microreseau_ilote.xml</code>, vary the PV power (0.4; 0.8; 1.2; 1.6 MW) and the battery capacity. Plot the cost of the kWh and the
+renewable share; identify when curtailment appears. Complete with the economic analysis of level 4 (investments).</p></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n5-qcm">
+            <h2><span class="section-icon">📋</span>Level 5 quiz</h2>
+<div class="qcm" data-answer="c"><p class="q">1. Why the backward/forward sweep rather than fast decoupled in distribution?</p>
+<ol><li data-k="a">it is more accurate in transmission</li><li data-k="b">it handles meshed networks better</li><li data-k="c">it converges on radial, high-R/X and unbalanced networks</li><li data-k="d">it needs no slack node</li></ol>
+<div class="fb">It does not assume R ≪ X and handles the three phases; on the other hand, it requires a radial network.</div></div>
+<div class="qcm" data-answer="b"><p class="q">2. A large PV production at the end of a feeder, at cos φ = 1:</p>
+<ol><li data-k="a">lowers the voltage</li><li data-k="b">raises the voltage</li><li data-k="c">does not change the voltage</li><li data-k="d">changes the frequency</li></ol>
+<div class="fb">The flow reverses: ΔU ≈ (R·P + X·Q)/U² with P negative towards the substation.</div></div>
+<div class="qcm" data-answer="a"><p class="q">3. The Q(V) law reduces overvoltages by:</p>
+<ol><li data-k="a">absorbing reactive power when the voltage is high</li><li data-k="b">supplying reactive power when the voltage is high</li><li data-k="c">reducing the frequency</li><li data-k="d">disconnecting the PV</li></ol>
+<div class="fb">Q &lt; 0 lowers the voltage through X; limited effect on very resistive networks.</div></div>
+<div class="qcm" data-answer="d"><p class="q">4. The hosting capacity is calculated at:</p>
+<ol><li data-k="a">full load, without generation</li><li data-k="b">full load and full generation</li><li data-k="c">night time</li><li data-k="d">low load and high generation</li></ol>
+<div class="fb">This is the situation that maximises the overvoltage and the reverse flow.</div></div>
+<div class="qcm" data-answer="c"><p class="q">5. A « grid-forming » inverter:</p>
+<ol><li data-k="a">needs a PLL to synchronise on an existing network in order to operate</li><li data-k="b">is a current source</li><li data-k="c">imposes a voltage and can hold an island alone</li><li data-k="d">does not take part in frequency control</li></ol>
+<div class="fb">It is a voltage source with droop or VSM.</div></div>
+<div class="qcm" data-answer="b"><p class="q">6. The RoCoF is higher when:</p>
+<ol><li data-k="a">the inertia is large</li><li data-k="b">the inertia is low and the power loss large</li><li data-k="c">the droop is small</li><li data-k="d">the network is in overvoltage</li></ol>
+<div class="fb">dω/dt = ΔP/(2H) at the first instant.</div></div>
+<div class="qcm" data-answer="a"><p class="q">7. In IEC 60909-0:2016, an inverter-based generator is represented in short circuit by:</p>
+<ol><li data-k="a">a current source in the positive-sequence network only</li><li data-k="b">an emf behind its subtransient reactance</li><li data-k="c">an infinite impedance</li><li data-k="d">an ideal voltage source</li></ol>
+<div class="fb">I<sub>skPF</sub> limited by the electronics; nothing in the negative or zero sequence.</div></div>
+<div class="qcm" data-answer="d"><p class="q">8. The economic dispatch of a microgrid uses binary variables for:</p>
+<ol><li data-k="a">the voltages</li><li data-k="b">the prices</li><li data-k="c">the losses</li><li data-k="d">on/off of the gensets and the charge/discharge exclusion</li></ol>
+<div class="fb">Hence a MILP problem, solved by HiGHS (SciPy).</div></div>
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="page-nav"><a href="niveau4-en.html">← Level 4 — Economic studies</a><a href="niveau6-en.html">Level 6 — Smart grids →</a></div>
+
+        <div class="section" id="auteur">
+            <h2><span class="section-icon">👤</span>Author</h2>
+            <div class="author-card">
+                <div class="author-avatar">LT</div>
+                <div class="author-info">
+                    <div class="name">Prof. Lamine THIAW</div>
+                    <div class="role">Department of Electrical Engineering<br>École Supérieure Polytechnique<br>Cheikh Anta Diop University, Dakar</div>
+                    <a href="mailto:lamine.thiaw@ucad.edu.sn">lamine.thiaw@ucad.edu.sn</a><br>
+                    <a href="mailto:lamine.thiaw@esp.sn">lamine.thiaw@esp.sn</a>
+                </div>
+            </div>
+            <p class="small" style="margin-top:14px">November 2026</p>
+        </div>
+    </main>
+</div>
+
+<script>
+    // défilement doux vers les ancres de la page
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){
+        a.addEventListener('click', function(e){
+            var t = document.querySelector(this.getAttribute('href'));
+            if(t){ e.preventDefault(); t.scrollIntoView({behavior: 'smooth', block: 'start'}); }
+        });
+    });
+    // rubrique active dans le menu latéral
+    var navLinks = document.querySelectorAll('#sidebar nav a');
+    if('IntersectionObserver' in window){
+        var obs = new IntersectionObserver(function(entries){
+            entries.forEach(function(en){
+                if(en.isIntersecting) navLinks.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#' + en.target.id); });
+            });
+        }, {rootMargin: '-20% 0px -70% 0px'});
+        document.querySelectorAll('.section[id]').forEach(function(s){ obs.observe(s); });
+    }
+</script>
+</body>
+</html>

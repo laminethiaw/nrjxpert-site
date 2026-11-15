@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Appendices: formulas and tables — NRJXpert tutorial</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tutoriel.css">
+<script src="tutoriel.js"></script>
+</head>
+<body>
+<div id="top"></div>
+
+<!-- ════════════════ MENU LATÉRAL ════════════════ -->
+<aside id="sidebar">
+    <div id="sidebar-header">
+        <div class="app-name">NRJXpert</div>
+        <div class="app-version">Version 2.0.0 · Tutorial › Appendices</div>
+    </div>
+    <nav>
+        <a href="#a1"><span class="nav-icon">📐</span>Formula sheet</a>
+        <a href="#a2"><span class="nav-icon">🧵</span>Wiring tables (copper, XLPE insulation, installation method C, 30 °C)</a>
+        <a href="#a3"><span class="nav-icon">⚡</span>Short circuit: factor c and coefficient κ</a>
+        <a href="#a4"><span class="nav-icon">📗</span>Orders of magnitude</a>
+        <a href="#a5"><span class="nav-icon">⚙️</span>Calculators</a>
+        <a href="#a6"><span class="nav-icon">🧩</span>Bibliography and standards</a>
+        <a href="#auteur"><span class="nav-icon">👤</span>Author</a>
+    </nav>
+    <div class="side-links"><a href="index-en.html">🏠 Tutorial home</a><a href="../help-en.html">📖 User guide</a></div>
+</aside>
+
+<!-- ════════════════ ZONE PRINCIPALE ════════════════ -->
+<div id="main">
+    <div id="hero">
+        <h1>Appendices: formulas and tables</h1>
+        <div class="tagline"></div>
+        <div class="badges">
+            <span class="hero-badge">Tutorial</span>
+            <span class="hero-badge">Version 2.0.0</span>
+            <span class="hero-badge">November 2026</span>
+            <a class="hero-badge language-link" href="./annexes.html" lang="fr" aria-label="Click to show the French version">
+                EN / FR
+                <small>Click for the French version</small>
+            </a>
+        </div>
+    </div>
+
+    <div id="topbar">
+        <div class="title">Appendices: formulas and tables</div>
+        <span class="meta">NRJXpert 2.0.0 · November 2026</span>
+    </div>
+
+    <main id="content">
+        <div id="toc-section">
+            <h2>Contents</h2>
+            <div class="toc-grid">
+                <a href="#a1"><span class="toc-num">A.1</span>Formula sheet</a>
+                <a href="#a2"><span class="toc-num">A.2</span>Wiring tables (copper, XLPE insulation, installation method C, 30 °C)</a>
+                <a href="#a3"><span class="toc-num">A.3</span>Short circuit: factor c and coefficient κ</a>
+                <a href="#a4"><span class="toc-num">A.4</span>Orders of magnitude</a>
+                <a href="#a5"><span class="toc-num">A.5</span>Calculators</a>
+                <a href="#a6"><span class="toc-num">A.6</span>Bibliography and standards</a>
+            </div>
+        </div>
+
+        <div class="section" id="a1">
+            <h2><span class="section-icon">📐</span>A.1 Formula sheet</h2>
+<h3>Circuits</h3>
+<div class="eq">U = Z·I &nbsp; S = U·I* = P + jQ &nbsp; Z<sub>L</sub> = jLω &nbsp; Z<sub>C</sub> = 1/(jCω) &nbsp; ω = 2πf<br>
+Three-phase: U = √3·V &nbsp; P = √3·U·I·cos φ &nbsp; Q<sub>C</sub> = P(tan φ₁ − tan φ₂) &nbsp; C = Q<sub>C</sub>/(ωU²)</div>
+<h3>Networks</h3>
+<div class="eq">Z<sub>b</sub> = U<sub>b</sub>²/S<sub>b</sub> &nbsp; I<sub>b</sub> = S<sub>b</sub>/(√3U<sub>b</sub>) &nbsp; ΔU/U ≈ (RP + XQ)/U² &nbsp; ΔP = R(P² + Q²)/U²<br>
+Transformer: Z<sub>sc</sub> = u<sub>sc</sub>U²/S<sub>n</sub> &nbsp; R<sub>sc</sub> = P<sub>sc</sub>U²/S<sub>n</sub>² &nbsp; X<sub>sc</sub> = √(Z<sub>sc</sub>² − R<sub>sc</sub>²)<br>
+Load flow: S<sub>i</sub>* = V<sub>i</sub>*Σ<sub>k</sub>Y<sub>ik</sub>V<sub>k</sub> &nbsp; Gauss-Seidel: V<sub>i</sub> = [(P<sub>i</sub> − jQ<sub>i</sub>)/V<sub>i</sub>* − Σ<sub>k≠i</sub>Y<sub>ik</sub>V<sub>k</sub>]/Y<sub>ii</sub></div>
+<h3>Short circuit (IEC 60909-0)</h3>
+<div class="eq">I"k3 = cU<sub>n</sub>/(√3|Z₁|) &nbsp; I"k2 = cU<sub>n</sub>/|Z₁ + Z₂| &nbsp; I"k1 = √3cU<sub>n</sub>/|Z₁ + Z₂ + Z₀|<br>
+I"<sub>kE2E</sub> = √3cU<sub>n</sub>|Z₂|/|Z₁Z₂ + Z₁Z₀ + Z₂Z₀| &nbsp; i<sub>p</sub> = κ√2 I"k &nbsp; κ = 1.02 + 0.98e<sup>−3R/X</sup> &nbsp; S"k = √3U<sub>n</sub>I"k</div>
+<h3>Solar</h3>
+<div class="eq">δ = 23.45 sin(360(284 + n)/365) &nbsp; ω<sub>s</sub> = arccos(−tan φ tan δ) &nbsp; K<sub>t</sub> = H/H₀<br>
+H<sub>β</sub> = H[(1 − H<sub>d</sub>/H)R<sub>b</sub> + (H<sub>d</sub>/H)(1 + cos β)/2 + ρ(1 − cos β)/2]<br>
+P = P<sub>p</sub>(G/1000)(1 + γ(T<sub>c</sub> − 25)) &nbsp; T<sub>c</sub> = T<sub>a</sub> + (NOCT − 20)G/800 &nbsp; E = P<sub>p</sub>·H<sub>β</sub>·PR</div>
+<h3>Stand-alone PV (NRJXpert method)</h3>
+<div class="eq">Q<sub>d</sub> = E<sub>d</sub>/(U·η<sub>conv</sub>·0.98·0.9) &nbsp; C = Q<sub>d</sub>·autonomy(h)/24 &nbsp; N<sub>p,batt</sub> = ⌈C/(C<sub>batt</sub>·DoD)⌉<br>
+PWM: N<sub>p</sub> = ⌈Q<sub>d</sub>/(0.9·H·I<sub>mp</sub>)⌉ &nbsp; MPPT: P<sub>p</sub> = Q<sub>d</sub>U/(H·0.9·f<sub>T</sub>·0.96) &nbsp; charge controller and inverter: × 1.25</div>
+<h3>Wiring</h3>
+<div class="eq">I<sub>b</sub> = 1.25·I &nbsp; I<sub>n</sub> ≥ I<sub>b</sub> &nbsp; I<sub>z0</sub>(S)·k<sub>θ</sub>·k<sub>g</sub> ≥ I<sub>n</sub> &nbsp; k<sub>θ</sub> = √((90 − θ<sub>a</sub>)/60)<br>
+ΔU = b(ρL/S cos φ + λL sin φ)I &nbsp; (b = 2 DC and single-phase, 1 three-phase on V) &nbsp; ρ<sub>Cu</sub> = 0.0225 &nbsp; ρ<sub>Al</sub> = 0.036 Ω·mm²/m &nbsp; λ = 0.08 mΩ/m</div>
+<h3>Wind</h3>
+<div class="eq">P = ½ρAv³ &nbsp; f(v) = (k/c)(v/c)<sup>k−1</sup>e<sup>−(v/c)<sup>k</sup></sup> &nbsp; v̄ = cΓ(1 + 1/k) &nbsp; ½ρc³Γ(1 + 3/k)<br>
+v(H) = v(H<sub>meas</sub>)ln(H/z₀)/ln(H<sub>meas</sub>/z₀) &nbsp; E = 8 760∫P(v)f(v)dv(1 − losses) &nbsp; CF = E/(8 760P<sub>n</sub>)</div>
+<h3>Solar water pumping</h3>
+<div class="eq">TDH = HG + P<sub>C</sub> &nbsp; E<sub>el</sub> = 2.725·V·TDH/(η<sub>p</sub>η<sub>m</sub>η<sub>conv</sub>) &nbsp; P<sub>c</sub> = E<sub>el</sub>/(Ens·η<sub>c</sub>)<br>
+Q<sub>max</sub> = πV/(2ΔT) &nbsp; P<sub>H</sub> = Q<sub>max</sub>·TDH/367 &nbsp; P<sub>c</sub> = P<sub>H</sub>/(η<sub>p</sub>η<sub>m</sub>η<sub>conv</sub>η<sub>c</sub>)·1 000/G &nbsp; (V in m³/d, Q in m³/h, P<sub>H</sub> in kW)</div>
+<h3>Economics</h3>
+<div class="eq">CRF = a(1 + a)<sup>N</sup>/((1 + a)<sup>N</sup> − 1) &nbsp; NPV = ΣF<sub>n</sub>/(1 + a)<sup>n</sup> &nbsp; LCOE = C<sub>disc</sub>/ΣE<sub>n</sub>/(1 + a)<sup>n</sup><br>
+real rate = (1 + a)/(1 + i) − 1 &nbsp; minimum subsidy = max(0, −NPV/I₀)</div>
+<h3>Smart grids (levels 6 and 7)</h3>
+<div class="eq">SAIDI = Σ(N<sub>i</sub>·t<sub>i</sub>)/N<sub>T</sub> &nbsp; SAIFI = ΣN<sub>i</sub>/N<sub>T</sub> &nbsp; CVRf ≈ 2Z + I &nbsp; RoCoF ≈ ΔP·f₀/(2H·ΣSn)<br>
+NTL = E<sub>injected</sub> − E<sub>metered</sub> − E<sub>technical</sub> &nbsp; precision = TP/(TP + FP) &nbsp; recall = TP/(TP + FN) &nbsp; frame success = 1 − (1 − pⁿ)^(r+1)</div>
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="a2">
+            <h2><span class="section-icon">🧵</span>A.2 Wiring tables (copper, XLPE insulation, installation method C, 30 °C)</h2>
+<table>
+<tr><th>Cross-section (mm²)</th><th>1.5</th><th>2.5</th><th>4</th><th>6</th><th>10</th><th>16</th><th>25</th><th>35</th><th>50</th><th>70</th><th>95</th><th>120</th><th>150</th><th>185</th><th>240</th><th>300</th></tr>
+<tr><td>I<sub>z0</sub>, 2 loaded conductors (A)</td><td>24</td><td>33</td><td>45</td><td>58</td><td>80</td><td>107</td><td>138</td><td>171</td><td>209</td><td>269</td><td>328</td><td>382</td><td>441</td><td>506</td><td>599</td><td>693</td></tr>
+<tr><td>I<sub>z0</sub>, 3 loaded conductors (A)</td><td>22</td><td>30</td><td>40</td><td>52</td><td>71</td><td>96</td><td>119</td><td>147</td><td>179</td><td>229</td><td>278</td><td>322</td><td>371</td><td>424</td><td>500</td><td>576</td></tr>
+</table>
+<p class="small">Source: IEC 60364-5-52, table B.52.5 (values used by NRJXpert). Aluminium: about 78 % of these values, from 16 mm².</p>
+<table>
+<tr><th>Ambient temperature (°C)</th><th>25</th><th>30</th><th>35</th><th>40</th><th>45</th><th>50</th><th>55</th><th>60</th></tr>
+<tr><td>k<sub>θ</sub> (XLPE insulation, 90 °C)</td><td>1.04</td><td>1.00</td><td>0.96</td><td>0.91</td><td>0.87</td><td>0.82</td><td>0.76</td><td>0.71</td></tr>
+</table>
+<table>
+<tr><th>Bunched circuits</th><th>1</th><th>2</th><th>3</th><th>4</th><th>6</th><th>9</th></tr>
+<tr><td>Grouping factor k<sub>g</sub> (indicative)</td><td>1.00</td><td>0.80</td><td>0.70</td><td>0.65</td><td>0.57</td><td>0.50</td></tr>
+</table>
+<p>Standard ratings (A): 2, 4, 6, 10, 16, 20, 25, 32, 40, 50, 63, 80, 100, 125, 160, 200, 250, 315, 400, 500, 630, 800, 1 000, 1 250, 1 600.</p>
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="a3">
+            <h2><span class="section-icon">⚡</span>A.3 Short circuit: factor c and coefficient κ</h2>
+<table>
+<tr><th>Nominal voltage</th><th>c<sub>max</sub></th><th>c<sub>min</sub></th></tr>
+<tr><td>≤ 1 kV (tolerance +6 %)</td><td class="num">1.05</td><td class="num">0.95</td></tr>
+<tr><td>≤ 1 kV (tolerance +10 %)</td><td class="num">1.10</td><td class="num">0.95</td></tr>
+<tr><td>&gt; 1 kV</td><td class="num">1.10</td><td class="num">1.00</td></tr>
+</table>
+<table>
+<tr><th>R/X</th><th>0</th><th>0.1</th><th>0.2</th><th>0.3</th><th>0.5</th><th>0.7</th><th>1.0</th></tr>
+<tr><td>κ</td><td>2.00</td><td>1.75</td><td>1.56</td><td>1.42</td><td>1.24</td><td>1.14</td><td>1.07</td></tr>
+</table>
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="a4">
+            <h2><span class="section-icon">📗</span>A.4 Orders of magnitude</h2>
+<table>
+<tr><th>Quantity</th><th>Typical value</th></tr>
+<tr><td>Irradiation in Senegal</td><td>4.3 (December) to 6.7 (April) kWh/m²/d on the horizontal plane in Dakar; ≈ 2 000 kWh/m²/yr</td></tr>
+<tr><td>Grid-connected PV yield</td><td>1 500 to 1 650 kWh/kWp/yr (PR 0.75 to 0.82)</td></tr>
+<tr><td>Coastal wind at 10 m</td><td>4 to 6 m/s on average (northern coast), lower inland</td></tr>
+<tr><td>Solar pumping</td><td>rural demand 20 to 50 l/inh/d; pump × motor efficiency 30 to 50 %; tank of 1 to 3 days of consumption</td></tr>
+<tr><td>Lifetimes</td><td>modules 25 years; lead-acid batteries 3 to 7 years, LFP 10 to 12 years; inverters 8 to 12 years; charge controllers 10 to 15 years; cables 25 years</td></tr>
+<tr><td>Efficiencies</td><td>inverter 92 to 97 %; MPPT 96 to 98 %; lead-acid battery 80 to 85 %, lithium 92 to 95 %</td></tr>
+<tr><td>Genset consumption</td><td>0.25 l/kWh at full load, 0.35 to 0.45 l/kWh at low load</td></tr>
+<tr><td>Discount rate</td><td>6 to 12 %; inflation 2 to 4 %</td></tr>
+<tr><td>Non-technical losses</td><td>from 1 to more than 15 % of the energy supplied depending on the network; smart meter + installation ≈ 50 to 100 kF</td></tr>
+</table>
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="a5">
+            <h2><span class="section-icon">⚙️</span>A.5 Calculators</h2>
+<div class="calc" data-calc="cable"></div>
+<div class="calc" data-calc="pu"></div>
+<div class="calc" data-calc="icc3"></div>
+<div class="calc" data-calc="fortescue"></div>
+<div class="calc" data-calc="dispatch"></div>
+<div class="calc" data-calc="pv"></div>
+<div class="calc" data-calc="weibull"></div>
+<div class="calc" data-calc="finance"></div>
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="a6">
+            <h2><span class="section-icon">🧩</span>A.6 Bibliography and standards</h2>
+<ul>
+<li>H. Saadat, <i>Power System Analysis</i>, McGraw-Hill — load flow, short circuit, symmetrical components.</li>
+<li>J. J. Grainger, W. D. Stevenson, <i>Power System Analysis</i>, McGraw-Hill.</li>
+<li>W. H. Kersting, <i>Distribution System Modeling and Analysis</i>, CRC Press — backward/forward sweep, unbalanced networks.</li>
+<li>M. E. Baran, F. F. Wu, “Network reconfiguration in distribution systems for loss reduction and load balancing”, <i>IEEE Trans. Power Delivery</i>, 1989 — IEEE 33-bus network.</li>
+<li>J. A. Duffie, W. A. Beckman, <i>Solar Engineering of Thermal Processes</i>, Wiley — solar geometry, tilted plane.</li>
+<li>J. F. Manwell, J. G. McGowan, A. L. Rogers, <i>Wind Energy Explained</i>, Wiley — Weibull, power curves.</li>
+<li>IEC 60909-0:2016 (short-circuit currents); IEC 60364 / NF C 15-100 (LV installations); UTE C15-712-1 (PV installations); IEC 61400-12-1 (wind
+turbine power curves); IEEE 1547-2018 (DER interconnection); IEEE 2030.7 / 2030.8 (microgrids); IEC 62056 (DLMS/COSEM); OpenADR 2.0b;
+IEC 62443 and IEC 62351 (cybersecurity).</li>
+</ul>
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="page-nav"><a href="guide-enseignant-en.html">← Teacher's guide</a><a href="index-en.html">Tutorial home →</a></div>
+
+        <div class="section" id="auteur">
+            <h2><span class="section-icon">👤</span>Author</h2>
+            <div class="author-card">
+                <div class="author-avatar">LT</div>
+                <div class="author-info">
+                    <div class="name">Prof. Lamine THIAW</div>
+                    <div class="role">Department of Electrical Engineering<br>École Supérieure Polytechnique<br>Cheikh Anta Diop University, Dakar</div>
+                    <a href="mailto:lamine.thiaw@ucad.edu.sn">lamine.thiaw@ucad.edu.sn</a><br>
+                    <a href="mailto:lamine.thiaw@esp.sn">lamine.thiaw@esp.sn</a>
+                </div>
+            </div>
+            <p class="small" style="margin-top:14px">November 2026</p>
+        </div>
+    </main>
+</div>
+
+<script>
+    // défilement doux vers les ancres de la page
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){
+        a.addEventListener('click', function(e){
+            var t = document.querySelector(this.getAttribute('href'));
+            if(t){ e.preventDefault(); t.scrollIntoView({behavior: 'smooth', block: 'start'}); }
+        });
+    });
+    // rubrique active dans le menu latéral
+    var navLinks = document.querySelectorAll('#sidebar nav a');
+    if('IntersectionObserver' in window){
+        var obs = new IntersectionObserver(function(entries){
+            entries.forEach(function(en){
+                if(en.isIntersecting) navLinks.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#' + en.target.id); });
+            });
+        }, {rootMargin: '-20% 0px -70% 0px'});
+        document.querySelectorAll('.section[id]').forEach(function(s){ obs.observe(s); });
+    }
+</script>
+</body>
+</html>

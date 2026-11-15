@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Niveau 4 — Études économiques — Tutoriel NRJXpert</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tutoriel.css">
+<script src="tutoriel.js"></script>
+</head>
+<body>
+<div id="top"></div>
+
+<!-- ════════════════ MENU LATÉRAL ════════════════ -->
+<aside id="sidebar">
+    <div id="sidebar-header">
+        <div class="app-name">NRJXpert</div>
+        <div class="app-version">Version 2.0.0 · Tutoriel › Niveau 4</div>
+    </div>
+    <nav>
+        <a href="#intro"><span class="nav-icon">📘</span>Introduction</a>
+        <a href="#n4-1"><span class="nav-icon">🔹</span>Valeur de l&#x27;argent dans le temps</a>
+        <a href="#n4-2"><span class="nav-icon">💰</span>Coût global et coût actualisé</a>
+        <a href="#n4-3"><span class="nav-icon">💰</span>Coût actualisé du kWh (LCOE)</a>
+        <a href="#n4-4"><span class="nav-icon">📙</span>VAN, TRI et temps de retour</a>
+        <a href="#n4-5"><span class="nav-icon">🧩</span>Tarif et subvention minimaux</a>
+        <a href="#n4-6"><span class="nav-icon">📘</span>Sensibilité et comparaison de solutions</a>
+        <a href="#n4-ex"><span class="nav-icon">🎯</span>Exercices</a>
+        <a href="#n4-qcm"><span class="nav-icon">✅</span>QCM du niveau 4</a>
+        <a href="#auteur"><span class="nav-icon">👤</span>Auteur</a>
+    </nav>
+    <div class="side-links"><a href="index.html">🏠 Accueil du tutoriel</a><a href="niveau3.html">← Niveau 3</a><a href="niveau5.html">Niveau 5 →</a><a href="../aide-fr.html">📖 Guide de l'utilisateur</a></div>
+</aside>
+
+<!-- ════════════════ ZONE PRINCIPALE ════════════════ -->
+<div id="main">
+    <div id="hero">
+        <h1><span class="badge b4">Niveau 4</span> Études économiques</h1>
+        <div class="tagline">Une installation techniquement correcte n'est utile que si elle est la moins chère des solutions qui répondent au
+besoin, ou si elle est rentable. Ce niveau donne les outils pour le démontrer.</div>
+        <div class="badges">
+            <span class="hero-badge">Tutoriel</span>
+            <span class="hero-badge">Version 2.0.0</span>
+            <span class="hero-badge">Novembre 2026</span>
+            <a class="hero-badge language-link" href="niveau4-en.html" lang="en" aria-label="Cliquer pour afficher la version anglaise">
+                FR / EN
+                <small>Cliquer pour la version anglaise</small>
+            </a>
+        </div>
+    </div>
+
+    <div id="topbar">
+        <div class="title">Niveau 4 — Études économiques</div>
+        <span class="meta">NRJXpert 2.0.0 · Novembre 2026</span>
+    </div>
+
+    <main id="content">
+        <div id="toc-section">
+            <h2>Table des matières</h2>
+            <div class="toc-grid">
+                <a href="#intro"><span class="toc-num">00</span>Introduction</a>
+                <a href="#n4-1"><span class="toc-num">4.1</span>Valeur de l&#x27;argent dans le temps</a>
+                <a href="#n4-2"><span class="toc-num">4.2</span>Coût global et coût actualisé</a>
+                <a href="#n4-3"><span class="toc-num">4.3</span>Coût actualisé du kWh (LCOE)</a>
+                <a href="#n4-4"><span class="toc-num">4.4</span>VAN, TRI et temps de retour</a>
+                <a href="#n4-5"><span class="toc-num">4.5</span>Tarif et subvention minimaux</a>
+                <a href="#n4-6"><span class="toc-num">4.6</span>Sensibilité et comparaison de solutions</a>
+                <a href="#n4-ex"><span class="toc-num">07</span>Exercices</a>
+                <a href="#n4-qcm"><span class="toc-num">08</span>QCM du niveau 4</a>
+            </div>
+        </div>
+
+        <div class="section" id="intro">
+            <h2><span class="section-icon">📘</span>Introduction</h2>
+<div class="objectifs">
+<h4>Objectifs</h4>
+<ul>
+<li>Actualiser des flux, tenir compte de l'inflation, calculer une annuité.</li>
+<li>Calculer le coût actualisé d'un projet (investissement, exploitation, remplacements, valeur résiduelle) et le coût du kWh (LCOE).</li>
+<li>Juger la rentabilité : VAN, TRI, temps de retour simple et actualisé ; déterminer le tarif et la subvention minimaux.</li>
+<li>Mener une analyse de sensibilité et comparer des solutions (PV, diesel, réseau).</li>
+</ul>
+<p class="prereq">Prérequis : niveau 3. Durée : 10 à 12 h.</p>
+</div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="n4-1">
+            <h2><span class="section-icon">🔹</span>4.1 Valeur de l'argent dans le temps</h2>
+<p>Un franc disponible aujourd'hui vaut plus qu'un franc dans dix ans : on peut le placer, et l'avenir est incertain. Le
+<b>taux d'actualisation</b> <i>a</i> traduit cette préférence (coût du capital de l'investisseur, 6 à 12 % en Afrique de l'Ouest).</p>
+<div class="eq">Valeur actuelle d'un montant F<sub>n</sub> payé l'année n : F<sub>n</sub>/(1 + a)<sup>n</sup><br>
+Coût futur avec inflation i : C<sub>n</sub> = C₀·(1 + i)<sup>n</sup> &nbsp;&nbsp; taux réel : (1 + a)/(1 + i) − 1<br>
+Annuité constante remboursant I en N ans : A = I·CRF, &nbsp; CRF = a(1 + a)<sup>N</sup>/((1 + a)<sup>N</sup> − 1)</div>
+<div class="ex"><h4>Exemple 4.1</h4>
+<p>(a) Valeur actuelle de 1 MF dépensé dans 10 ans à 8 % ? (b) Annuité d'un investissement de 3 000 kF sur 20 ans à 8 % ?
+(c) Taux réel pour <i>a</i> = 8 % et <i>i</i> = 3 % ?</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>(a) 1 000/1,08¹⁰ = <span class="result">463 kF</span>. (b) CRF = 0,10185 ; <i>A</i> = <span class="result">305,6 kF/an</span>.
+(c) 1,08/1,03 − 1 = <span class="result">4,85 %</span>.</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="n4-2">
+            <h2><span class="section-icon">💰</span>4.2 Coût global et coût actualisé</h2>
+<p>Les coûts d'un système sur sa durée d'exploitation <i>N</i> comprennent :</p>
+<ul>
+<li>l'<b>investissement</b> <i>I</i>₀ : matériel, installation, câblage, génie civil ;</li>
+<li>l'<b>exploitation-maintenance</b> (E&amp;M) annuelle, augmentée de l'inflation ;</li>
+<li>les <b>remplacements</b> des équipements dont la durée de vie est inférieure à <i>N</i> (batteries 5 ans, électronique 10 ans) ;</li>
+<li>le <b>carburant</b> pour un groupe électrogène ;</li>
+<li>déduite, la <b>valeur résiduelle</b> des équipements récents en fin de projet (amortissement linéaire).</li>
+</ul>
+<div class="eq">Coût actualisé (VAN des coûts) : C<sub>act</sub> = I₀ + Σ<sub>n=1..N</sub> (E&amp;M<sub>n</sub> + R<sub>n</sub> + carburant<sub>n</sub>)/(1 + a)<sup>n</sup> − V<sub>rés</sub>/(1 + a)<sup>N</sup></div>
+<p>NRJXpert affiche aussi le « coût global » du programme d'origine (annuités d'amortissement sur la durée d'amortissement + coûts
+d'exploitation non actualisés) : utile pour comparer des variantes d'un même projet, mais seul le coût actualisé est comparable aux
+études publiées.</p>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="n4-3">
+            <h2><span class="section-icon">💰</span>4.3 Coût actualisé du kWh (LCOE)</h2>
+<div class="eq">LCOE = C<sub>act</sub> / Σ<sub>n=1..N</sub> E<sub>n</sub>/(1 + a)<sup>n</sup></div>
+<p>L'énergie est actualisée comme l'argent : un kWh produit dans 15 ans « vaut » moins qu'un kWh produit l'an prochain. Le LCOE est
+le prix de vente constant qui rend le projet tout juste rentable (VAN = 0). Il permet de comparer des technologies de durées de vie
+et de profils de coûts différents. Pour un système autonome, <i>E</i> est l'énergie <b>utile</b> (consommée par les récepteurs), pas
+l'énergie produite.</p>
+
+<div class="ex"><h4>Exemple 4.2 — Centrale de 10 kWc raccordée</h4>
+<p>Investissement 5 000 kF (500 kF/kWc) ; E&amp;M 150 kF/an (prix de l'année 0, inflation 3 %) ; onduleurs remplacés à 10 ans (600 kF) ;
+production 15 810 kWh la première année (exemple 3.5), baisse de 0,5 %/an ; 20 ans ; actualisation 8 %.</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>Valeur actuelle de l'E&amp;M : Σ 150 × 1,03<sup>n</sup>/1,08<sup>n</sup> = 1 892,6 kF ; du remplacement : 600 × 1,03¹⁰/1,08¹⁰ = 373,5 kF.
+<i>C</i><sub>act</sub> = 5 000 + 1 892,6 + 373,5 = <span class="result">7 266 kF</span>.</p>
+<p>Énergie actualisée : Σ 15 810 × 0,995<sup>n−1</sup>/1,08<sup>n</sup> = 149 901 kWh. LCOE = 7 266/149 901 = 0,0485 kF/kWh =
+<span class="result">48,5 F/kWh</span>.</p>
+</details></div>
+<div class="calc" data-calc="finance"></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="n4-4">
+            <h2><span class="section-icon">📙</span>4.4 VAN, TRI et temps de retour</h2>
+<div class="eq">Flux de l'année n : F<sub>n</sub> = recettes<sub>n</sub> − coûts<sub>n</sub> (F₀ = −I₀) &nbsp;&nbsp; VAN = Σ<sub>n=0..N</sub> F<sub>n</sub>/(1 + a)<sup>n</sup><br>
+TRI : taux qui annule la VAN &nbsp;&nbsp; temps de retour : année où le cumul des flux (actualisés ou non) devient positif</div>
+<ul>
+<li><b>VAN &gt; 0</b> : le projet rapporte plus que le placement au taux <i>a</i> ; entre deux projets exclusifs, on préfère la plus grande VAN.</li>
+<li><b>TRI &gt; a</b> : équivalent à VAN &gt; 0 pour un projet isolé ; pratique pour comparer au coût du crédit.</li>
+<li><b>Temps de retour</b> : indicateur de risque (liquidité) ; il ignore ce qui se passe ensuite.</li>
+</ul>
+<div class="ex"><h4>Exemple 4.3 — Rentabilité de la centrale de 10 kWc</h4>
+<p>L'énergie est vendue (ou économisée) à 60 F/kWh, tarif constant.</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>Flux de l'année 1 : 15 810 × 0,060 − 150 × 1,03 = 794 kF ; année 10 : négatif (−101 kF) à cause du remplacement des onduleurs.
+VAN = <span class="result">+1 728 kF</span> ; TRI = <span class="result">12,8 %</span> ; temps de retour <span class="result">6,5 ans</span>
+(actualisé : 11,0 ans). Le projet est rentable au taux de 8 %.</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="n4-5">
+            <h2><span class="section-icon">🧩</span>4.5 Tarif et subvention minimaux</h2>
+<p>La VAN est une fonction <b>linéaire</b> du tarif et de la subvention ; on les obtient donc exactement (NRJXpert ne balaie pas) :</p>
+<div class="eq">Tarif minimal (VAN = 0) = LCOE (si les recettes suivent l'énergie) &nbsp;&nbsp; Subvention minimale = max(0, −VAN<sub>sans subvention</sub>/I₀)</div>
+<div class="ex"><h4>Exemple 4.4</h4>
+<p>Pour la centrale de 10 kWc : tarif minimal ? Si le tarif n'est que de 40 F/kWh, quelle part de l'investissement faut-il subventionner ?</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>Tarif minimal = LCOE = <span class="result">48,5 F/kWh</span>. À 40 F/kWh, VAN = −1 270 kF : subvention minimale = 1 270/5 000 =
+<span class="result">25,4 %</span>. Vérification : VAN(50 F/kWh) = +229 kF, VAN(60) = +1 728 kF, VAN(70) = +3 227 kF : la VAN augmente de
+150 kF par F/kWh (= énergie actualisée × 1 F).</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="n4-6">
+            <h2><span class="section-icon">📘</span>4.6 Sensibilité et comparaison de solutions</h2>
+<table>
+<tr><th>Taux d'actualisation</th><th>4 %</th><th>6 %</th><th>8 %</th><th>10 %</th><th>12 %</th></tr>
+<tr><td>LCOE de la centrale (F/kWh)</td><td class="num">40,0</td><td class="num">44,1</td><td class="num">48,5</td><td class="num">53,1</td><td class="num">58,1</td></tr>
+</table>
+<p>Une centrale PV est une énergie <b>à forte intensité capitalistique</b> : son coût dépend surtout du taux d'actualisation (accès au
+crédit), contrairement au groupe électrogène, dont le coût dépend surtout du prix du gasoil.</p>
+<table>
+<tr><th>Solution (ordres de grandeur, 20 ans, 8 %)</th><th>Coût du kWh</th><th>Poste dominant</th></tr>
+<tr><td>Centrale PV raccordée (exemple 4.2)</td><td class="num">≈ 50 F/kWh</td><td>investissement</td></tr>
+<tr><td>Groupe électrogène 5 kVA, 0,35 l/kWh, gasoil 750 F/l</td><td class="num">≈ 385 F/kWh</td><td>carburant (262 F/kWh)</td></tr>
+<tr><td>PV autonome avec batteries (case de santé, exemple 3.3)</td><td class="num">≈ 580 F/kWh</td><td>batteries (77 %)</td></tr>
+</table>
+<p>Le PV autonome paraît cher, mais il faut le comparer à la vraie alternative du site (groupe électrogène, extension de réseau sur
+plusieurs kilomètres) et à la valeur du service (chaîne du froid des vaccins). Une solution <b>hybride</b> PV-batterie-groupe, optimisée
+au niveau 5, est souvent la moins chère.</p>
+<div class="lab"><h4>Travail pratique 9 — Onglet « Viabilité économique » de la fenêtre PV</h4>
+<ol class="steps">
+<li><div class="step-content">Fenêtre PV, onglet 6 : système <b>raccordé</b>, 10 kWc, modèle de module et onduleurs de la base ou importés.</div></li>
+<li><div class="step-content">Saisir les coûts de l'exemple 4.2 (installation 500 kF/kW, exploitation 15 kF/kW/an), tarif 60 F/kWh, 20 ans, inflation 3 %, actualisation 8 %.</div></li>
+<li><div class="step-content">Comparer VAN, TRI, temps de retour et LCOE à l'exemple 4.3. Les écarts viennent du calcul horaire (modèle I-V, température,
+écrêtage, pertes système) : les identifier dans le rapport.</div></li>
+<li><div class="step-content">Boutons <b>Tarif minimal</b> et <b>Subvention minimale</b> ; sous-onglet <b>Sensibilité</b> : exporter le tableau VAN = f(tarif, puissance).</div></li>
+<li><div class="step-content">Refaire l'étude en <b>autonome</b> : comment évoluent le LCOE et la part des batteries ?</div></li>
+</ol>
+</div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="n4-ex">
+            <h2><span class="section-icon">🎯</span>Exercices</h2>
+<div class="ex"><h4>Exercice 1 — Remplacer un groupe électrogène</h4>
+<p>Un groupe consomme 4 000 l/an de gasoil (750 F/l) et coûte 400 kF/an d'entretien. Un système PV-batteries de 18 MF le remplacerait
+entièrement, avec 300 kF/an d'entretien et 6 MF de batteries à remplacer en années 7 et 14. Sur 20 ans à 8 % (sans inflation), quelle est la
+VAN de l'opération (économies − coûts) ?</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>Économie annuelle : 3 000 + 400 − 300 = 3 100 kF ; Σ 1/1,08<sup>n</sup> (20 ans) = 9,818 → 30 437 kF. Remplacements :
+6 000 × (1/1,08⁷ + 1/1,08¹⁴) = 6 000 × (0,5835 + 0,3405) = 5 544 kF. VAN = −18 000 + 30 437 − 5 544 = <span class="result">+6 893 kF</span>.
+Valeur résiduelle des batteries de l'année 14 (1/7 de vie restante) négligée : elle améliorerait encore le résultat.</p>
+</details></div>
+<div class="ex"><h4>Exercice 2 — Effet du taux</h4>
+<p>Avec la calculatrice ci-dessus (investissement 10 000 kF, E&amp;M 200 kF/an, 15 000 kWh/an, 20 ans), à partir de quel taux d'actualisation
+le LCOE dépasse-t-il 100 F/kWh ?</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>LCOE = (10 000·CRF + 200)/15 000 ≤ 0,1 kF/kWh ⇔ CRF ≤ 0,13. CRF(20 ans) = 0,13 pour <i>a</i> ≈ <span class="result">11,5 %</span>.</p>
+</details></div>
+<div class="ex"><h4>Exercice 3 — Interpréter un temps de retour</h4>
+<p>Deux projets ont la même VAN ; le premier se rembourse en 4 ans, le second en 9 ans. Lequel choisir et pourquoi ?</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>À VAN égale, celui qui se rembourse le plus vite expose moins longtemps l'investisseur (risque de panne, de variation de tarif, de
+change). Le temps de retour départage des projets que la VAN ne distingue pas.</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="n4-qcm">
+            <h2><span class="section-icon">✅</span>QCM du niveau 4</h2>
+<div class="qcm" data-answer="b"><p class="q">1. À 8 %, 1 000 kF payés dans 10 ans valent aujourd'hui :</p>
+<ol><li data-k="a">800 kF</li><li data-k="b">463 kF</li><li data-k="c">1 000 kF</li><li data-k="d">2 159 kF</li></ol>
+<div class="fb">1 000/1,08¹⁰ = 463 kF ; 2 159 kF est la valeur future de 1 000 kF placés 10 ans.</div></div>
+<div class="qcm" data-answer="c"><p class="q">2. Le LCOE est :</p>
+<ol><li data-k="a">l'investissement divisé par la puissance</li><li data-k="b">le prix du kWh du réseau</li><li data-k="c">le coût actualisé divisé par l'énergie actualisée</li><li data-k="d">le coût de l'énergie de la première année</li></ol>
+<div class="fb">C'est le tarif constant qui annule la VAN.</div></div>
+<div class="qcm" data-answer="a"><p class="q">3. Pour un système autonome, le LCOE se calcule sur :</p>
+<ol><li data-k="a">l'énergie utile consommée par les récepteurs</li><li data-k="b">l'énergie produite par le champ</li><li data-k="c">la capacité des batteries</li><li data-k="d">la puissance crête</li></ol>
+<div class="fb">L'excédent non consommé n'a pas de valeur.</div></div>
+<div class="qcm" data-answer="d"><p class="q">4. Un projet a un TRI de 12 % et le taux d'actualisation est de 8 %. Alors :</p>
+<ol><li data-k="a">VAN &lt; 0</li><li data-k="b">VAN = 0</li><li data-k="c">on ne peut rien dire</li><li data-k="d">VAN &gt; 0</li></ol>
+<div class="fb">VAN(a) &gt; 0 pour a &lt; TRI (projet classique : un investissement suivi de flux positifs).</div></div>
+<div class="qcm" data-answer="b"><p class="q">5. La valeur résiduelle en fin de projet :</p>
+<ol><li data-k="a">s'ajoute aux coûts</li><li data-k="b">se déduit des coûts</li><li data-k="c">n'intervient que dans le TRI</li><li data-k="d">est toujours nulle</li></ol>
+<div class="fb">Un équipement acheté peu avant la fin du projet a encore de la valeur.</div></div>
+<div class="qcm" data-answer="c"><p class="q">6. Le coût du kWh d'une centrale PV est surtout sensible :</p>
+<ol><li data-k="a">au prix du gasoil</li><li data-k="b">à l'inflation</li><li data-k="c">au taux d'actualisation</li><li data-k="d">au facteur de puissance</li></ol>
+<div class="fb">Énergie à forte intensité capitalistique : le coût du capital domine.</div></div>
+<div class="qcm" data-answer="a"><p class="q">7. Si la VAN sans subvention vaut −1 270 kF pour un investissement de 5 000 kF, la subvention minimale est :</p>
+<ol><li data-k="a">25,4 %</li><li data-k="b">12,7 %</li><li data-k="c">74,6 %</li><li data-k="d">100 %</li></ol>
+<div class="fb">La subvention réduit l'investissement de l'année 0, non actualisé : 1 270/5 000.</div></div>
+<div class="qcm" data-answer="d"><p class="q">8. Le temps de retour actualisé est :</p>
+<ol><li data-k="a">toujours plus court que le temps de retour simple</li><li data-k="b">égal au TRI</li><li data-k="c">indépendant du taux</li><li data-k="d">plus long que le temps de retour simple</li></ol>
+<div class="fb">Les flux futurs sont diminués par l'actualisation : il faut plus d'années pour compenser l'investissement.</div></div>
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="page-nav"><a href="niveau3.html">← Niveau 3 — Énergies renouvelables</a><a href="niveau5.html">Niveau 5 — DER et réseaux intelligents →</a></div>
+
+        <div class="section" id="auteur">
+            <h2><span class="section-icon">👤</span>Auteur</h2>
+            <div class="author-card">
+                <div class="author-avatar">LT</div>
+                <div class="author-info">
+                    <div class="name">Prof. Lamine THIAW</div>
+                    <div class="role">Département de Génie Électrique<br>École Supérieure Polytechnique<br>Université Cheikh Anta Diop, Dakar</div>
+                    <a href="mailto:lamine.thiaw@ucad.edu.sn">lamine.thiaw@ucad.edu.sn</a><br>
+                    <a href="mailto:lamine.thiaw@esp.sn">lamine.thiaw@esp.sn</a>
+                </div>
+            </div>
+            <p class="small" style="margin-top:14px">Novembre 2026</p>
+        </div>
+    </main>
+</div>
+
+<script>
+    // défilement doux vers les ancres de la page
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){
+        a.addEventListener('click', function(e){
+            var t = document.querySelector(this.getAttribute('href'));
+            if(t){ e.preventDefault(); t.scrollIntoView({behavior: 'smooth', block: 'start'}); }
+        });
+    });
+    // rubrique active dans le menu latéral
+    var navLinks = document.querySelectorAll('#sidebar nav a');
+    if('IntersectionObserver' in window){
+        var obs = new IntersectionObserver(function(entries){
+            entries.forEach(function(en){
+                if(en.isIntersecting) navLinks.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#' + en.target.id); });
+            });
+        }, {rootMargin: '-20% 0px -70% 0px'});
+        document.querySelectorAll('.section[id]').forEach(function(s){ obs.observe(s); });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Études de cas — Tutoriel NRJXpert</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tutoriel.css">
+<script src="tutoriel.js"></script>
+</head>
+<body>
+<div id="top"></div>
+
+<!-- ════════════════ MENU LATÉRAL ════════════════ -->
+<aside id="sidebar">
+    <div id="sidebar-header">
+        <div class="app-name">NRJXpert</div>
+        <div class="app-version">Version 2.0.0 · Tutoriel › Études de cas</div>
+    </div>
+    <nav>
+        <a href="#methode"><span class="nav-icon">🗂️</span>Méthode d&#x27;une étude</a>
+        <a href="#cas1"><span class="nav-icon">🗂️</span>Cas 1 — Électrification d&#x27;un village (système centralisé ou kits individuels ?)</a>
+        <a href="#cas2"><span class="nav-icon">☀️</span>Cas 2 — Centrale PV de 500 kWc raccordée au réseau HTA</a>
+        <a href="#cas3"><span class="nav-icon">💻</span>Cas 3 — Poste de livraison et installation industrielle</a>
+        <a href="#cas4"><span class="nav-icon">🌬️</span>Cas 4 — Pompage éolien sur la côte nord (Saint-Louis)</a>
+        <a href="#cas5"><span class="nav-icon">💧</span>Cas 5 — Pompage solaire pour un village</a>
+        <a href="#note"><span class="nav-icon">⚙️</span>Modèle de note de calcul</a>
+        <a href="#auteur"><span class="nav-icon">👤</span>Auteur</a>
+    </nav>
+    <div class="side-links"><a href="index.html">🏠 Accueil du tutoriel</a><a href="../aide-fr.html">📖 Guide de l'utilisateur</a></div>
+</aside>
+
+<!-- ════════════════ ZONE PRINCIPALE ════════════════ -->
+<div id="main">
+    <div id="hero">
+        <h1><span class="badge b2">Bureau d'études</span> Études de cas</h1>
+        <div class="tagline">Quatre études complètes, de la collecte des données à la recommandation. Les résultats de référence ont été calculés
+avec NRJXpert ; les prix sont indicatifs (2026) et doivent être remplacés par des devis.</div>
+        <div class="badges">
+            <span class="hero-badge">Tutoriel</span>
+            <span class="hero-badge">Version 2.0.0</span>
+            <span class="hero-badge">Novembre 2026</span>
+            <a class="hero-badge language-link" href="etudes-de-cas-en.html" lang="en" aria-label="Cliquer pour afficher la version anglaise">
+                FR / EN
+                <small>Cliquer pour la version anglaise</small>
+            </a>
+        </div>
+    </div>
+
+    <div id="topbar">
+        <div class="title">Bureau d&#x27;études — Études de cas</div>
+        <span class="meta">NRJXpert 2.0.0 · Novembre 2026</span>
+    </div>
+
+    <main id="content">
+        <div id="toc-section">
+            <h2>Table des matières</h2>
+            <div class="toc-grid">
+                <a href="#methode"><span class="toc-num">01</span>Méthode d&#x27;une étude</a>
+                <a href="#cas1"><span class="toc-num">02</span>Cas 1 — Électrification d&#x27;un village (système centralisé ou kits individuels ?)</a>
+                <a href="#cas2"><span class="toc-num">03</span>Cas 2 — Centrale PV de 500 kWc raccordée au réseau HTA</a>
+                <a href="#cas3"><span class="toc-num">04</span>Cas 3 — Poste de livraison et installation industrielle</a>
+                <a href="#cas4"><span class="toc-num">05</span>Cas 4 — Pompage éolien sur la côte nord (Saint-Louis)</a>
+                <a href="#cas5"><span class="toc-num">06</span>Cas 5 — Pompage solaire pour un village</a>
+                <a href="#note"><span class="toc-num">07</span>Modèle de note de calcul</a>
+            </div>
+        </div>
+
+        <div class="section" id="methode">
+            <h2><span class="section-icon">🗂️</span>Méthode d'une étude</h2>
+<ol class="steps">
+<li><div class="step-content"><b>Cahier des charges</b> : besoin (énergie, puissance, profil, qualité, fiabilité), contraintes du site, budget, horizon.</div></li>
+<li><div class="step-content"><b>Données</b> : météo (module Données météo), relevés de consommation, caractéristiques du réseau existant, prix.</div></li>
+<li><div class="step-content"><b>Variantes</b> : au moins deux solutions techniquement correctes (centralisé / décentralisé, 24 / 48 V, PV / hybride…).</div></li>
+<li><div class="step-content"><b>Calculs</b> : dimensionnement, câblage, load flow et court-circuit si un réseau est concerné, économie.</div></li>
+<li><div class="step-content"><b>Sensibilité</b> : sur les hypothèses incertaines (prix, taux, croissance de la demande, gisement).</div></li>
+<li><div class="step-content"><b>Recommandation</b> argumentée et <b>note de calcul</b> traçable (hypothèses, méthodes, résultats, normes).</div></li>
+</ol>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="cas1">
+            <h2><span class="section-icon">🗂️</span>Cas 1 — Électrification d'un village (système centralisé ou kits individuels ?)</h2>
+<h3>Données</h3>
+<table>
+<tr><th>Usagers</th><th>Nombre</th><th>Besoins par usager</th><th>Wh/j</th></tr>
+<tr><td>Ménages</td><td class="num">150</td><td>3 lampes 7 W (5 h), télévision 50 W (4 h), ventilateur 40 W (6 h), chargeur 10 W (2 h)</td><td class="num">565</td></tr>
+<tr><td>École</td><td class="num">1</td><td>6 lampes 15 W et 2 ordinateurs 60 W (4 h, le matin)</td><td class="num">840</td></tr>
+<tr><td>Case de santé</td><td class="num">1</td><td>comme l'exemple 3.3 du niveau 3</td><td class="num">3 390</td></tr>
+<tr><td>Moulin à mil</td><td class="num">1</td><td>moteur 3 kW, cos φ 0,8 (3 h, le matin)</td><td class="num">9 000</td></tr>
+</table>
+<p>Site : Dakar (base des localités). Réseau BT du système centralisé : 30 m par abonné, 6 000 kF/km, entretien 60 kF/km/an.
+Équipements actuels imposés (module 400 Wc, batterie AGM 12 V 200 Ah, régulateur MPPT 60 A, onduleur 1,5 kVA ; prix du niveau 3).
+Centralisé : bus 48 V ; kits individuels : bus 12 V. Actualisation 8 %, inflation 3 %, 20 ans.
+Fichier : <code>exemples/pv_village.nxpv</code>.</p>
+<h3>Résultats de référence</h3>
+<table>
+<tr><th></th><th>Centralisé (48 V + réseau BT)</th><th>Décentralisé (153 systèmes)</th></tr>
+<tr><td>Besoins</td><td colspan="2">98,0 kWh/j ; pointe 13,7 kVA</td></tr>
+<tr><td>Champ PV</td><td>84 modules, 33,6 kWc</td><td>400 Wc par ménage ; 3,2 kWc pour le moulin</td></tr>
+<tr><td>Batteries</td><td>260 (4 × 65)</td><td>2 par ménage ; 24 pour le moulin</td></tr>
+<tr><td>Réseau BT</td><td>4,59 km, 27,5 MF</td><td>—</td></tr>
+<tr><td>Investissement</td><td class="num">95,2 MF</td><td class="num">204,2 MF</td></tr>
+<tr><td>Coût actualisé (20 ans)</td><td class="num">192,6 MF</td><td class="num">368,0 MF</td></tr>
+<tr><td>Coût actualisé du kWh</td><td class="num result">549 F/kWh</td><td class="num">1 048 F/kWh</td></tr>
+</table>
+<h3>Analyse</h3>
+<ul>
+<li>Le système centralisé coûte deux fois moins cher par kWh malgré le réseau BT : un seul onduleur et un seul parc de batteries
+mutualisent les pointes (foisonnement), et le moulin, très mal servi par un kit 12 V, profite du parc commun.</li>
+<li>Le câblage du système centralisé à 48 V révèle sa limite : le champ de 28 chaînes débite 380 A sous 93 V ; une liaison unique
+de 30 m demanderait 2 × 300 mm². Dans la pratique, on répartit le champ entre plusieurs régulateurs placés près des boîtes de jonction,
+ou l'on choisit un bus à plus haute tension : c'est un point à traiter dans la note de calcul.</li>
+<li>Les kits individuels restent pertinents pour des habitats très dispersés (réseau &gt; 100 m par abonné) : refaire l'étude avec
+0,1 km par abonné.</li>
+<li>Prolongement : remplacer une partie des batteries par un groupe électrogène (gestion économique, niveau 5) et comparer.</li>
+</ul>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="cas2">
+            <h2><span class="section-icon">☀️</span>Cas 2 — Centrale PV de 500 kWc raccordée au réseau HTA</h2>
+<h3>Données</h3>
+<p>64 chaînes de 20 modules de 400 Wc (512 kWc ; 620 V par chaîne), 8 boîtes de jonction de 8 chaînes, 8 onduleurs (500 kVA au total),
+transformateur 0,4/30 kV à 30 m des onduleurs. Coût hors câblage 400 kF/kWc ; exploitation 8 kF/kWc/an ; onduleurs remplacés à 12 ans
+(20 MF) ; productible 1 581 kWh/kWc/an (exemple 3.5), dégradation 0,5 %/an ; 25 ans, actualisation 8 %, inflation 3 %.</p>
+<h3>Câblage (calculé par NRJXpert, 40 °C, groupement 0,8)</h3>
+<table>
+<tr><th>Liaison</th><th>Longueur</th><th>Câble</th><th>Protection</th><th>ΔU</th><th>Coût</th></tr>
+<tr><td>Chaîne → boîte de jonction (×64)</td><td class="num">40 m</td><td>2 × 4 mm² Cu</td><td class="num">20 A</td><td class="num">0,99 %</td><td class="num">86,6 kF chacune</td></tr>
+<tr><td>Boîte → onduleur (×8)</td><td class="num">30 m</td><td>2 × 70 mm² Cu</td><td class="num">160 A</td><td class="num">0,34 %</td><td class="num">604 kF chacune</td></tr>
+<tr><td>Onduleurs → transformateur</td><td class="num">30 m</td><td>4 × (3 × 240) mm² Cu</td><td class="num">800 A</td><td class="num">0,37 %</td><td class="num">11,4 MF</td></tr>
+<tr><th colspan="5">Total câblage (9,6 % de l'investissement)</th><th class="num">21,8 MF</th></tr>
+</table>
+<p>En aluminium, la liaison alternative passe à 4 × (4 × 240) mm² Al pour 6,9 MF : 4,5 MF d'économie. La liaison boîte → onduleur est
+dimensionnée par l'échauffement (la chute de tension seule demanderait 25 mm²).</p>
+<h3>Économie</h3>
+<table>
+<tr><th>Tarif d'achat</th><th>VAN (MF)</th><th>TRI</th><th>Temps de retour</th></tr>
+<tr><td>35 F/kWh</td><td class="num">−6,1</td><td class="num">7,7 %</td><td class="num">9,9 ans</td></tr>
+<tr><td>40 F/kWh</td><td class="num">+35,3</td><td class="num">9,9 %</td><td class="num">8,4 ans</td></tr>
+<tr><td>45 F/kWh</td><td class="num">+76,8</td><td class="num">12,1 %</td><td class="num">7,3 ans</td></tr>
+</table>
+<p>Investissement 226,6 MF ; production 809 MWh la première année ; LCOE <span class="result">35,7 F/kWh</span> : c'est le tarif
+minimal. À 35 F/kWh, une subvention de 2,7 % suffit.</p>
+<p><b>À compléter</b> par l'étudiant : étude du raccordement au départ HTA (load flow : élévation de tension au point de raccordement,
+capacité d'accueil, niveau 5) et contribution au courant de court-circuit (I<sub>skPF</sub> des onduleurs).</p>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="cas3">
+            <h2><span class="section-icon">💻</span>Cas 3 — Poste de livraison et installation industrielle</h2>
+<h3>Données</h3>
+<p>Réseau 30 kV de puissance de court-circuit 250 MVA ; transformateur 1 000 kVA, 30/0,4 kV, Dyn11, u<sub>cc</sub> = 6 %,
+P<sub>cc</sub> = 10,5 kW ; usine de 600 kW sous cos φ = 0,8 ; un moteur de 30 kW (rendement 0,9, cos φ 0,85) à 80 m du TGBT.</p>
+<h3>Calculs</h3>
+<ol>
+<li><b>Impédances ramenées à 400 V</b> : amont <i>Z</i><sub>a</sub> = 1,1 × 400²/250·10⁶ = 0,704 mΩ (<i>X</i> = 0,995<i>Z</i>, <i>R</i> = 0,1<i>X</i>) ;
+transformateur <i>Z</i><sub>t</sub> = 9,60 mΩ, <i>R</i><sub>t</sub> = 1,68 mΩ, <i>X</i><sub>t</sub> = 9,45 mΩ.</li>
+<li><b>Court-circuit au TGBT</b> : <i>R</i> = 1,75 mΩ, <i>X</i> = 10,15 mΩ ; I"k3 = 1,05 × 400/(√3 × 10,30 mΩ) = <span class="result">23,5 kA</span> ;
+κ = 1,60 ; ip = <span class="result">53,4 kA</span>. Disjoncteur général 1 600 A (<i>I</i><sub>n</sub> transformateur 1 443 A), pouvoir de coupure ≥ 25 kA,
+pouvoir de fermeture ≥ 53 kA.</li>
+<li><b>Départ moteur</b> : <i>I</i> = 30 000/(0,9 × 0,85 × √3 × 400) = 56,6 A ; câble choisi par NRJXpert 4 × 16 mm² Cu (ΔU 2,55 %, protection 63 A).
+Court-circuit en bout : I"k3 = <span class="result">2,10 kA</span> ; biphasé minimal (c = 0,95) ≈ <span class="result">1,65 kA</span>.
+Un disjoncteur 63 A courbe D (déclenchement magnétique jusqu'à 14 <i>I</i><sub>n</sub> = 882 A) protège bien la ligne.</li>
+<li><b>Compensation</b> : pour passer de cos φ = 0,8 à 0,93 : <i>Q</i><sub>c</sub> = 600 × (0,750 − 0,395) = <span class="result">213 kvar</span> ;
+<i>S</i> passe de 750 à 645 kVA, le courant de 1 083 à 931 A : le transformateur retrouve 14 % de marge.</li>
+</ol>
+<div class="lab"><h4>Dans NRJXpert</h4>
+<p>Dessiner : générateur équivalent du réseau (Rd, Xd ramenés à 400 V), transformateur triphasé (palette Réseau, 1 000 kVA, 30 kV/400 V,
+ucc 6 %, Pcc 10,5 kW, Dyn), ligne de 80 m (r = 1,406 Ω/km, x = 0,08 Ω/km), défaut sur le TGBT puis au moteur. Comparer les I"k aux
+valeurs ci-dessus. Rappel : le serveur ne représente pas le rapport de transformation ; toutes les impédances sont ramenées à 400 V.</p>
+</div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="cas4">
+            <h2><span class="section-icon">🌬️</span>Cas 4 — Pompage éolien sur la côte nord (Saint-Louis)</h2>
+<h3>Données</h3>
+<p>Vent à 10 m : Weibull <i>c</i> = 6,0 m/s, <i>k</i> = 2,4 ; rugosité 0,03 m ; ρ = 1,18 kg/m³. Aérogénérateur de 10 kW (courbe de l'exemple 3.7),
+moyeu à 24 m, pertes 6 %. Besoin : pompage de 60 kWh/j en moyenne pour l'irrigation maraîchère.</p>
+<h3>Résultats</h3>
+<p>Vent au moyeu : <i>c</i> = 6,90 m/s, moyenne 6,12 m/s, densité de puissance 220 W/m². Puissance moyenne 3,11 kW ; production nette
+<span class="result">25,6 MWh/an, soit 70 kWh/j en moyenne</span> ; facteur de charge 29 %. Une machine couvre le besoin en bilan annuel
+(0,85 machine). Mais le vent faiblit en saison des pluies : il faut vérifier mois par mois (onglet 4 de la fenêtre éolienne) et
+<b>stocker l'eau plutôt que l'électricité</b> (réservoir de 2 à 3 jours de consommation, bien moins cher qu'un parc de batteries).</p>
+<p><b>À compléter</b> : câblage de la machine (onglet 5, 24 m de mât + 30 m), étude économique comparée à une motopompe diesel, et
+variante PV + éolien (complémentarité saisonnière).</p>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="cas5">
+            <h2><span class="section-icon">💧</span>Cas 5 — Pompage solaire pour un village (forage et château d'eau)</h2>
+<h3>Données</h3>
+<p>Village de 500 habitants (50 l/hab/j, soit 25 m³/j), forage avec HMT de 15 m, ensoleillement 5 kWh/m²/j, pompe immergée centrifuge (η<sub>p</sub> = 0,5, η<sub>m</sub> = 0,85), pertes du
+champ 10 %, pompage sur 9 h. Fichier : <code>pompage_village.nxpomp</code> (<b>Aide › Ouvrir un exemple du tutoriel…</b>).</p>
+<h3>Résultats</h3>
+<p>Énergie de pompage <span class="result">2 404 Wh/j</span> ; puissance crête <span class="result">534 Wc</span> (énergies) ou <span class="result">583 Wc</span> (puissances) ; motopompe de 420 W.
+La simulation horaire montre que 6 modules (600 Wc) ne couvrent que <span class="result">86 %</span> du besoin : le champ retenu est de <span class="result">9 modules de 100 Wc</span> (couverture 100 %),
+avec un réservoir de 50 m³. Avec les prix de la base fournie (novembre 2026) et les paramètres économiques par défaut, le coût du m³ est de l'ordre de
+<span class="result">126 F</span> contre environ <span class="result">270 F</span> avec une motopompe diesel de même service.</p>
+<p><b>À compléter</b> : choix de la pompe dans la base (onglet « Pompes »), sensibilité à la HMT et à la marge de dimensionnement (10 % par défaut), variante avec batterie (champ de 628 Wc
+par la formule, mais coût du m³ plus élevé), et plan de maintenance (changement de la pompe tous les 8 à 10 ans).</p>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="note">
+            <h2><span class="section-icon">⚙️</span>Modèle de note de calcul</h2>
+<ol>
+<li><b>Objet</b> de l'étude, maître d'ouvrage, référence et indice de révision.</li>
+<li><b>Documents et normes</b> : NF C 15-100, UTE C15-712-1, CEI 60909-0, CEI 61400-12-1, IEEE 1547 ; cahier des charges.</li>
+<li><b>Données d'entrée</b> : site, météo (source et période), besoins (tableau des récepteurs), réseau, prix (date des devis).</li>
+<li><b>Hypothèses</b> : rendements, coefficients de sécurité, températures, durées de vie, taux d'actualisation et d'inflation.</li>
+<li><b>Méthodes</b> : formules ou logiciel (NRJXpert, version et fichiers de projet joints).</li>
+<li><b>Résultats</b> : dimensionnement, câblage (tableau des liaisons), courants de court-circuit et protections, plan de tension, coûts.</li>
+<li><b>Vérifications</b> : calcul à la main d'au moins un résultat de chaque type ; écarts expliqués.</li>
+<li><b>Sensibilité</b> et <b>risques</b>.</li>
+<li><b>Conclusion</b> et recommandation ; réserves.</li>
+</ol>
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="page-nav"><a href="niveau7.html">← Niveau 7</a><a href="guide-enseignant.html">Guide de l'enseignant →</a></div>
+
+        <div class="section" id="auteur">
+            <h2><span class="section-icon">👤</span>Auteur</h2>
+            <div class="author-card">
+                <div class="author-avatar">LT</div>
+                <div class="author-info">
+                    <div class="name">Prof. Lamine THIAW</div>
+                    <div class="role">Département de Génie Électrique<br>École Supérieure Polytechnique<br>Université Cheikh Anta Diop, Dakar</div>
+                    <a href="mailto:lamine.thiaw@ucad.edu.sn">lamine.thiaw@ucad.edu.sn</a><br>
+                    <a href="mailto:lamine.thiaw@esp.sn">lamine.thiaw@esp.sn</a>
+                </div>
+            </div>
+            <p class="small" style="margin-top:14px">Novembre 2026</p>
+        </div>
+    </main>
+</div>
+
+<script>
+    // défilement doux vers les ancres de la page
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){
+        a.addEventListener('click', function(e){
+            var t = document.querySelector(this.getAttribute('href'));
+            if(t){ e.preventDefault(); t.scrollIntoView({behavior: 'smooth', block: 'start'}); }
+        });
+    });
+    // rubrique active dans le menu latéral
+    var navLinks = document.querySelectorAll('#sidebar nav a');
+    if('IntersectionObserver' in window){
+        var obs = new IntersectionObserver(function(entries){
+            entries.forEach(function(en){
+                if(en.isIntersecting) navLinks.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#' + en.target.id); });
+            });
+        }, {rootMargin: '-20% 0px -70% 0px'});
+        document.querySelectorAll('.section[id]').forEach(function(s){ obs.observe(s); });
+    }
+</script>
+</body>
+</html>

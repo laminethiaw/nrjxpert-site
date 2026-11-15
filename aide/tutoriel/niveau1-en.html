@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Level 1 — Fundamentals — NRJXpert tutorial</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tutoriel.css">
+<script src="tutoriel.js"></script>
+</head>
+<body>
+<div id="top"></div>
+
+<!-- ════════════════ MENU LATÉRAL ════════════════ -->
+<aside id="sidebar">
+    <div id="sidebar-header">
+        <div class="app-name">NRJXpert</div>
+        <div class="app-version">Version 2.0.0 · Tutorial › Level 1</div>
+    </div>
+    <nav>
+        <a href="#intro"><span class="nav-icon">📘</span>Introduction</a>
+        <a href="#n1-1"><span class="nav-icon">🔹</span>Basic quantities and laws</a>
+        <a href="#n1-2"><span class="nav-icon">🔸</span>Sinusoidal steady state</a>
+        <a href="#n1-3"><span class="nav-icon">⚡</span>Power and reactive power compensation</a>
+        <a href="#n1-4"><span class="nav-icon">🔺</span>Three-phase systems</a>
+        <a href="#n1-5"><span class="nav-icon">🧩</span>Getting started with NRJXpert</a>
+        <a href="#n1-ex"><span class="nav-icon">🎯</span>Exercises</a>
+        <a href="#n1-qcm"><span class="nav-icon">📋</span>Level 1 quiz</a>
+        <a href="#auteur"><span class="nav-icon">👤</span>Author</a>
+    </nav>
+    <div class="side-links"><a href="index-en.html">🏠 Tutorial home</a><a href="niveau2-en.html">Level 2 — Power networks →</a><a href="../help-en.html">📖 User guide</a></div>
+</aside>
+
+<!-- ════════════════ ZONE PRINCIPALE ════════════════ -->
+<div id="main">
+    <div id="hero">
+        <h1><span class="badge b1">Level 1</span> Fundamentals</h1>
+        <div class="tagline">The laws behind every NRJXpert calculation: Ohm, Kirchhoff, complex impedances, power and three-phase systems.</div>
+        <div class="badges">
+            <span class="hero-badge">Tutorial</span>
+            <span class="hero-badge">Version 2.0.0</span>
+            <span class="hero-badge">November 2026</span>
+            <a class="hero-badge language-link" href="./niveau1.html" lang="fr" aria-label="Click to show the French version">
+                EN / FR
+                <small>Click for the French version</small>
+            </a>
+        </div>
+    </div>
+
+    <div id="topbar">
+        <div class="title">Level 1 — Fundamentals</div>
+        <span class="meta">NRJXpert 2.0.0 · November 2026</span>
+    </div>
+
+    <main id="content">
+        <div id="toc-section">
+            <h2>Contents</h2>
+            <div class="toc-grid">
+                <a href="#intro"><span class="toc-num">00</span>Introduction</a>
+                <a href="#n1-1"><span class="toc-num">1.1</span>Basic quantities and laws</a>
+                <a href="#n1-2"><span class="toc-num">1.2</span>Sinusoidal steady state</a>
+                <a href="#n1-3"><span class="toc-num">1.3</span>Power and reactive power compensation</a>
+                <a href="#n1-4"><span class="toc-num">1.4</span>Three-phase systems</a>
+                <a href="#n1-5"><span class="toc-num">1.5</span>Getting started with NRJXpert</a>
+                <a href="#n1-ex"><span class="toc-num">06</span>Exercises</a>
+                <a href="#n1-qcm"><span class="toc-num">07</span>Level 1 quiz</a>
+            </div>
+        </div>
+
+        <div class="section" id="intro">
+            <h2><span class="section-icon">📘</span>Introduction</h2>
+<div class="objectifs">
+<h4>Objectives</h4>
+<ul>
+<li>Calculate currents, voltages and power in a DC or single-phase AC circuit.</li>
+<li>Handle phasors and complex impedances; draw the power triangle.</li>
+<li>Size a power-factor correction capacitor bank.</li>
+<li>Convert between phase and line quantities in three-phase systems; calculate star and delta loads.</li>
+<li>Draw a circuit in NRJXpert, run the calculation and read the results.</li>
+</ul>
+<p class="prereq">Prerequisites: complex number algebra (rectangular and polar forms), trigonometry. Duration: 8 to 12 h.</p>
+</div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n1-1">
+            <h2><span class="section-icon">🔹</span>1.1 Basic quantities and laws</h2>
+<h3>Voltage, current, power</h3>
+<p><b>Voltage</b> <i>U</i> (volt, V) is a potential difference between two points; <b>current</b> <i>I</i> (ampere, A) is the flow rate of
+charges in a conductor. A two-terminal element receives the power <i>P</i> = <i>U·I</i> (watt, W) in the <b>load convention</b> (arrows of
+<i>U</i> and <i>I</i> in opposite directions); if it supplies it (generator), the generator convention is used. Energy is
+<i>W</i> = <i>P·t</i> (joule; in practice Wh or kWh: 1 kWh = 3.6 MJ).</p>
+<h3>Ohm's law and combinations</h3>
+<div class="eq">U = R·I &nbsp;&nbsp; P = R·I² = U²/R<br>
+Series: R<sub>eq</sub> = R₁ + R₂ + … &nbsp;&nbsp; Parallel: 1/R<sub>eq</sub> = 1/R₁ + 1/R₂ + … (two resistors: R₁R₂/(R₁ + R₂))</div>
+<p>Voltage divider (series): <i>U</i>₂ = <i>E</i>·<i>R</i>₂/(<i>R</i>₁ + <i>R</i>₂). Current divider (parallel):
+<i>I</i>₂ = <i>I</i>·<i>R</i>₁/(<i>R</i>₁ + <i>R</i>₂).</p>
+<p>The resistance of a conductor of length <i>L</i> and cross-section <i>S</i> is <i>R</i> = ρ·<i>L</i>/<i>S</i>; for copper
+ρ ≈ 0.0175 Ω·mm²/m at 20 °C and 0.0225 Ω·mm²/m at the operating temperature used by NF C 15-100. This formula is used everywhere in cable
+selection (level 3).</p>
+
+<h3>Kirchhoff's laws</h3>
+<div class="eq">Current law: Σ incoming currents = Σ outgoing currents &nbsp;&nbsp; Voltage law: Σ voltages around a loop = 0</div>
+<p>For a node connected to several branches (<i>E<sub>k</sub></i>, <i>R<sub>k</sub></i>), <b>Millman's theorem</b> gives its voltage directly:
+<i>V</i> = Σ(<i>E<sub>k</sub></i>/<i>R<sub>k</sub></i>) / Σ(1/<i>R<sub>k</sub></i>). It is the one-node special case of the <b>nodal voltage
+method</b> used by the NRJXpert server: the current law is written at every node, which gives a linear system <b>Y·V = J</b> (admittance matrix
+<b>Y</b>, potentials <b>V</b>, injected currents <b>J</b>).</p>
+
+<div class="ex"><h4>Example 1.1 — Series and parallel circuit</h4>
+<p>A battery <i>E</i> = 12 V supplies <i>R</i>₁ = 4 Ω and <i>R</i>₂ = 8 Ω. Calculate currents, voltages and power
+(a) in series, (b) in parallel.</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>(a) <i>R</i><sub>eq</sub> = 12 Ω; <i>I</i> = 12/12 = <span class="result">1 A</span>; <i>U</i>₁ = 4 V, <i>U</i>₂ = 8 V (voltage divider:
+12 × 8/12); <i>P</i> = 12 W (4 W + 8 W).</p>
+<p>(b) <i>R</i><sub>eq</sub> = 4 × 8/12 = 2.667 Ω; <i>I</i> = <span class="result">4.5 A</span>; <i>I</i>₁ = 3 A, <i>I</i>₂ = 1.5 A;
+<i>P</i> = 54 W. The smallest resistance takes the largest current.</p>
+</details></div>
+
+<div class="ex"><h4>Example 1.2 — Two sources in parallel (Millman)</h4>
+<p>A source <i>E</i>₁ = 12 V with internal resistance <i>R</i>₁ = 2 Ω and a source <i>E</i>₂ = 9 V, <i>R</i>₂ = 3 Ω together supply a load
+<i>R</i>₃ = 6 Ω. Calculate the load voltage and the current of each source.</p>
+<details class="sol"><summary>Show the solution</summary>
+<p><i>V</i> = (12/2 + 9/3 + 0/6)/(1/2 + 1/3 + 1/6) = 9/1 = <span class="result">9 V</span>. <i>I</i>₃ = 9/6 = 1.5 A;
+<i>I</i>₁ = (12 − 9)/2 = 1.5 A; <i>I</i>₂ = (9 − 9)/3 = 0 A. The 9 V source supplies nothing: its emf equals the node voltage.
+With <i>E</i>₂ = 8 V it would absorb current (it would be charged): this is what happens to a weak battery put in parallel with a charged one.</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n1-2">
+            <h2><span class="section-icon">🔸</span>1.2 Sinusoidal steady state</h2>
+<h3>Sinusoidal quantities and phasors</h3>
+<p>A voltage <i>u</i>(<i>t</i>) = <i>U</i>√2·sin(ω<i>t</i> + φ<sub>u</sub>) is characterised by its RMS value <i>U</i>, its angular frequency
+ω = 2π<i>f</i> (314.16 rad/s at 50 Hz) and its phase φ<sub>u</sub>. It is represented by the <b>phasor</b> (complex number)
+<b><i>U</i></b> = <i>U</i>·e<sup>jφu</sup> = <i>U</i>∠φ<sub>u</sub>. All quantities of a linear circuit have the same frequency: phasors turn the
+differential equations into complex algebraic equations, and Ohm's and Kirchhoff's laws apply unchanged.</p>
+<h3>Impedances</h3>
+<table>
+<tr><th>Element</th><th>Impedance <b>Z</b></th><th>Phase of <i>u</i> relative to <i>i</i></th><th>In DC (f = 0)</th></tr>
+<tr><td>Resistance R</td><td>R</td><td>0</td><td>R</td></tr>
+<tr><td>Inductance L</td><td>jLω = jX<sub>L</sub></td><td>+90° (the current lags)</td><td>short circuit</td></tr>
+<tr><td>Capacitor C</td><td>1/(jCω) = −jX<sub>C</sub></td><td>−90° (the current leads)</td><td>open circuit</td></tr>
+<tr><td>R, L, C in series</td><td>R + j(Lω − 1/(Cω))</td><td>φ = arctan(X/R)</td><td>—</td></tr>
+</table>
+<div class="eq"><b>U</b> = <b>Z</b>·<b>I</b> &nbsp;&nbsp; |<b>Z</b>| = √(R² + X²) &nbsp;&nbsp; φ = arg <b>Z</b> &nbsp;&nbsp; admittance <b>Y</b> = 1/<b>Z</b> = G + jB</div>
+<p>NRJXpert calculates the impedances at the network frequency (<b>Simulation › Calculation settings</b>); if all sources are DC it works at
+0 Hz: inductances become short circuits and capacitors open circuits.</p>
+
+<div class="ex"><h4>Example 1.3 — Load supplied through a line</h4>
+<p>A 230 V, 50 Hz source supplies a 10 Ω resistance through a line <i>R</i> = 0.5 Ω, <i>L</i> = 10 mH. Calculate the current, the voltage across
+the load and the voltage drop in the line.</p>
+<details class="sol"><summary>Show the solution</summary>
+<p><i>X</i> = 2π·50·0.01 = 3.1416 Ω; <b>Z</b> = 10.5 + j3.1416 Ω; |<b>Z</b>| = 10.960 Ω; φ = 16.66°.</p>
+<p><i>I</i> = 230/10.960 = <span class="result">20.99 A</span> (lagging the source voltage by 16.66°). Load voltage:
+10 × 20.99 = <span class="result">209.9 V</span>; voltage across the line: |0.5 + j3.1416| × 20.99 = 66.8 V.</p>
+<p>Note: 209.9 + 66.8 ≠ 230 V: voltages add up <b>as complex numbers</b>, not as RMS values. The « useful » voltage drop is
+230 − 209.9 = 20.1 V (8.7 %).</p>
+</details></div>
+
+<div class="lab"><h4>Lab 1 — Checking example 1.3 in NRJXpert</h4>
+<ol class="steps">
+<li><div class="step-content">Start NRJXpert and check the connection to the calculation server (Internet connection required):
+<b>Simulation › Calculation and server settings › Test the connection</b>.</div></li>
+<li><div class="step-content">In the palette, choose the <b>Single-line</b> variant (only one terminal visible: the return through the neutral is implicit).</div></li>
+<li><div class="step-content">Place an <b>AC voltage source</b> (Sources section): double-click → 230 V, phase 0, 50 Hz.</div></li>
+<li><div class="step-content">Place a 10 Ω <b>resistor</b> (Passive elements section).</div></li>
+<li><div class="step-content">In <b>Calculation settings</b> choose the <b>RL</b> line model, then draw a link from the source terminal to the resistor terminal (drag from one
+terminal to the other); double-click on the link: R = 0.5 Ω, L = 10 mH (or per-length r and l × length).</div></li>
+<li><div class="step-content">Calculation: <b>Linear network</b>, method <b>Nodal voltages</b>; <kbd>F5</kbd>.</div></li>
+<li><div class="step-content">Read in the results table: <i>I</i> = 20.99 A, ∠<i>I</i> = −16.66°, resistor voltage 209.9 V. Hover over the link: voltage drop and losses
+<i>R·I</i>² = 220 W.</div></li>
+</ol>
+<p class="small">Variant: replace 50 Hz by 60 Hz; the current decreases (X<sub>L</sub> increases). Replace the source by a 230 V DC source: the
+inductance becomes a short circuit and <i>I</i> = 230/10.5 = 21.90 A.</p>
+</div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n1-3">
+            <h2><span class="section-icon">⚡</span>1.3 Power and reactive power compensation</h2>
+<div class="eq"><b>S</b> = <b>U</b>·<b>I</b>* = P + jQ &nbsp;&nbsp; P = U·I·cos φ (W) &nbsp;&nbsp; Q = U·I·sin φ (var) &nbsp;&nbsp; S = U·I = √(P² + Q²) (VA)
+&nbsp;&nbsp; cos φ = P/S</div>
+<p>Active power <i>P</i> produces work (heat, motion); reactive power <i>Q</i> only makes the energy « oscillate » between the source and the
+magnetic fields (motors, transformers) or electric fields (capacitors). It is not billed at low voltage, but it <b>increases the current</b> for the
+same active power: more losses (<i>R·I</i>²), more voltage drop and larger cables. Hence <b>compensation</b>: a capacitor in parallel supplies the
+reactive power the load absorbs.</p>
+<div class="eq">Q<sub>C</sub> = P·(tan φ₁ − tan φ₂) &nbsp;&nbsp; C = Q<sub>C</sub>/(ω·U²) (single-phase) &nbsp;&nbsp; three-phase, delta-connected capacitors: C = Q<sub>C</sub>/(3ω·U²)</div>
+
+<div class="ex"><h4>Example 1.4 — Compensating an inductive load</h4>
+<p>A load <i>R</i> = 10 Ω in series with <i>L</i> = 10 mH is connected to 230 V, 50 Hz. Calculate <i>I</i>, <i>P</i>, <i>Q</i>, cos φ, then the
+capacitance that brings cos φ to 1 and the new line current.</p>
+<details class="sol"><summary>Show the solution</summary>
+<p><b>Z</b> = 10 + j3.1416 Ω, |<b>Z</b>| = 10.482 Ω; <i>I</i> = 21.94 A; <i>P</i> = 10 × 21.94² = <span class="result">4 815 W</span>;
+<i>Q</i> = 3.1416 × 21.94² = <span class="result">1 513 var</span>; cos φ = 0.954.</p>
+<p><i>C</i> = 1 513/(314.16 × 230²) = <span class="result">91 µF</span>. The line current becomes <i>P</i>/<i>U</i> = 20.93 A (−4.6 %); the losses
+in the supply line fall by 9 % (ratio of the squares). The current in the load itself does not change.</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n1-4">
+            <h2><span class="section-icon">🔺</span>1.4 Three-phase systems</h2>
+<p>A balanced three-phase system has three voltages of the same RMS value, shifted by 120°: <b>V</b><sub>a</sub> = V∠0°,
+<b>V</b><sub>b</sub> = V∠−120°, <b>V</b><sub>c</sub> = V∠+120° (positive sequence). <b>Phase</b> voltages <i>V</i> are measured between phase and
+neutral, <b>line</b> voltages <i>U</i> between phases: <i>U</i> = √3·<i>V</i> (230/400 V at low voltage).</p>
+<table>
+<tr><th>Connection</th><th>Voltage across one branch</th><th>Line current</th><th>Power</th></tr>
+<tr><td>Star (Y)</td><td>V = U/√3</td><td>I = J (branch current)</td><td rowspan="2">P = √3·U·I·cos φ; Q = √3·U·I·sin φ</td></tr>
+<tr><td>Delta (Δ)</td><td>U</td><td>I = √3·J</td></tr>
+</table>
+<p>For the same impedance per branch, delta absorbs <b>3 times</b> the power of star. In balanced operation the neutral current is zero (sum of
+three equal phasors shifted by 120°): <b>one phase only</b> is studied (single-phase equivalent, or « single-line » diagram), as NRJXpert does in
+load-flow and short-circuit calculations. In unbalanced operation (single-phase loads) the neutral carries the sum of the phase currents.</p>
+
+<div class="ex"><h4>Example 1.5 — Balanced three-phase load</h4>
+<p>A three-phase load (<i>R</i> = 10 Ω, <i>L</i> = 10 mH per branch) is supplied at 400 V, 50 Hz. Calculate the line current and the power
+(a) in star, (b) in delta. (c) In star with neutral, phase c is disconnected: what is the neutral current?</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>|<b>Z</b>| = 10.482 Ω, cos φ = 0.954.</p>
+<p>(a) <i>V</i> = 230.9 V; <i>I</i> = 230.9/10.482 = <span class="result">22.03 A</span>; <i>P</i> = 3 × 10 × 22.03² = <span class="result">14.56 kW</span>;
+<i>Q</i> = 4.58 kvar.</p>
+<p>(b) Branch current <i>J</i> = 400/10.482 = 38.16 A; line current <i>I</i> = √3 × 38.16 = <span class="result">66.10 A</span>;
+<i>P</i> = <span class="result">43.69 kW</span> (3 times more).</p>
+<p>(c) <b>I</b><sub>N</sub> = <b>I</b><sub>a</sub> + <b>I</b><sub>b</sub>: two 22.03 A phasors shifted by 120°, whose sum has the same magnitude,
+<span class="result">22.03 A</span>. The neutral must therefore have the same cross-section as the phases.</p>
+</details></div>
+
+<div class="lab"><h4>Lab 2 — Three-phase source and load</h4>
+<ol class="steps">
+<li><div class="step-content">Palette, <b>Complete</b> variant: place a <b>three-phase voltage source</b> (U = 400 V, φa = 0, 50 Hz, positive sequence) and a
+<b>three-phase RLC load</b> (star with neutral connected; R = 10 Ω, L = 10 mH, C = 0: these are the proposed values).</div></li>
+<li><div class="step-content">Connect a, b, c of the source to a, b, c of the load (three links).</div></li>
+<li><div class="step-content">Calculation <b>Linear network</b>, <kbd>F5</kbd>. Hover over the load: <i>I</i> = 22.03 A in each phase, shifted by 120°.</div></li>
+<li><div class="step-content">Change the connection to <b>delta</b>: line current 66.10 A. Then go back to star and delete the link of phase c: compare the currents of
+phases a and b.</div></li>
+</ol>
+</div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n1-5">
+            <h2><span class="section-icon">🧩</span>1.5 Getting started with NRJXpert</h2>
+<p>The software has a <b>client</b> (drawing the diagrams, data entry, display) and a <b>calculation server</b> (Python), hosted remotely and
+reached over the Internet, which receives the diagram, turns it into equations and returns the results. The menus are detailed in the
+<a href="../help-en.html">user guide</a>; the essentials:</p>
+<table>
+<tr><th>Action</th><th>How</th></tr>
+<tr><td>Place a component</td><td>click in the palette then click in the diagram; <kbd>Esc</kbd> stops placing</td></tr>
+<tr><td>Connect</td><td>drag from one terminal to another (the link model — wire, R, L, RL, RLC π — is chosen in the calculation settings)</td></tr>
+<tr><td>Parameters</td><td>double-click (or <kbd>Ctrl+E</kbd>); invalid fields are framed in red</td></tr>
+<tr><td>Rotate, delete</td><td><kbd>Ctrl+R</kbd>, <kbd>Del</kbd>; multiple selection with a rectangle, grouping <kbd>Ctrl+G</kbd></td></tr>
+<tr><td>Calculate</td><td>choose the calculation and the method in the toolbar, <kbd>F5</kbd></td></tr>
+<tr><td>Read the results</td><td>table on the right (I, ∠I, U, ∠U), tooltips of components and links, Selection panel</td></tr>
+<tr><td>Save</td><td><kbd>Ctrl+S</kbd> (<code>.nxp</code> file)</td></tr>
+</table>
+<div class="warn">A software result is never a proof. Before using it, check an order of magnitude by hand (current ≈ voltage/impedance,
+power ≈ sum of the loads) and the units entered (mH or H, kV or V, µF or F).</div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n1-ex">
+            <h2><span class="section-icon">🎯</span>Exercises</h2>
+<div class="ex"><h4>Exercise 1 — Water heater</h4>
+<p>A 2 kW, 230 V water heater is supplied by a 25 m, 2 × 2.5 mm² copper cable. (a) Resistance of the element? (b) Cable resistance
+(ρ = 0.0225) and voltage drop? (c) Energy consumed in 3 h and cost at 120 F/kWh?</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>(a) <i>R</i> = 230²/2000 = 26.45 Ω. (b) <i>R</i><sub>cable</sub> = 0.0225 × 2 × 25/2.5 = 0.45 Ω (go and return); <i>I</i> ≈ 230/26.9 = 8.55 A;
+ΔU = 3.85 V, i.e. <span class="result">1.7 %</span>. (c) Actual <i>P</i> = 26.45 × 8.55² = 1 934 W; 5.8 kWh; <span class="result">696 F</span>.</p>
+</details></div>
+<div class="ex"><h4>Exercise 2 — Single-phase motor</h4>
+<p>A motor absorbs 1.5 kW at 230 V with cos φ = 0.75. (a) Current, <i>Q</i>, <i>S</i>? (b) Capacitor to obtain cos φ = 0.95? (c) New current?</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>(a) <i>S</i> = 2 000 VA; <i>I</i> = <span class="result">8.70 A</span>; <i>Q</i> = 2000 × sin(41.41°) = 1 323 var.
+(b) <i>Q<sub>C</sub></i> = 1500 × (0.8819 − 0.3287) = 830 var; <i>C</i> = 830/(314.16 × 230²) = <span class="result">50 µF</span>.
+(c) <i>I</i> = 1500/(230 × 0.95) = <span class="result">6.86 A</span> (−21 %).</p>
+</details></div>
+<div class="ex"><h4>Exercise 3 — Three-phase workshop</h4>
+<p>A 400 V workshop has 3 motors of 11 kW (efficiency 0.9, cos φ = 0.85) and 6 kW of lighting (cos φ = 1) spread over the three phases. Calculate
+<i>P</i>, <i>Q</i>, <i>S</i>, the overall cos φ and the line current.</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>Motors: <i>P</i> = 3 × 11/0.9 = 36.67 kW; <i>Q</i> = 36.67 × tan(31.79°) = 22.72 kvar. Total: <i>P</i> = 42.67 kW, <i>Q</i> = 22.72 kvar,
+<i>S</i> = 48.34 kVA; cos φ = <span class="result">0.883</span>; <i>I</i> = 48 340/(√3 × 400) = <span class="result">69.8 A</span>.</p>
+</details></div>
+<div class="ex"><h4>Exercise 4 — With NRJXpert: divider and Millman</h4>
+<p>Draw example 1.2 (two DC sources with series resistance, 6 Ω load) and check <i>V</i> = 9 V. Replace <i>E</i>₂ by 8 V: what is the sign of the
+current of this source? Interpret.</p>
+<details class="sol"><summary>Show the solution</summary>
+<p><i>V</i> = (6 + 8/3)/1 = 8.667 V; <i>I</i>₂ = (8 − 8.667)/3 = <span class="result">−0.222 A</span>: the 8 V source receives current (it behaves
+as a load). The software shows this negative current (or shifted by 180°) in the direction of the source.</p>
+</details></div>
+
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n1-qcm">
+            <h2><span class="section-icon">📋</span>Level 1 quiz</h2>
+<div class="qcm" data-answer="c"><p class="q">1. Two resistors of 6 Ω and 3 Ω in parallel have an equivalent resistance of:</p>
+<ol><li data-k="a">9 Ω</li><li data-k="b">4.5 Ω</li><li data-k="c">2 Ω</li><li data-k="d">0.5 Ω</li></ol>
+<div class="fb">6 × 3/(6 + 3) = 2 Ω: the equivalent is always smaller than the smallest resistance.</div></div>
+<div class="qcm" data-answer="b"><p class="q">2. At 50 Hz, a 10 mH inductance has a reactance of:</p>
+<ol><li data-k="a">0.5 Ω</li><li data-k="b">3.14 Ω</li><li data-k="c">31.4 Ω</li><li data-k="d">500 Ω</li></ol>
+<div class="fb">X = 2πfL = 314.16 × 0.01 = 3.14 Ω.</div></div>
+<div class="qcm" data-answer="a"><p class="q">3. In DC steady state, a capacitor behaves as:</p>
+<ol><li data-k="a">an open circuit</li><li data-k="b">a short circuit</li><li data-k="c">a resistance 1/C</li><li data-k="d">an ideal voltage source</li></ol>
+<div class="fb">1/(jCω) becomes infinite when ω → 0: no permanent current.</div></div>
+<div class="qcm" data-answer="d"><p class="q">4. An inductive load absorbs:</p>
+<ol><li data-k="a">P &lt; 0 and Q &gt; 0</li><li data-k="b">P &gt; 0 and Q &lt; 0</li><li data-k="c">P = 0 and Q &gt; 0</li><li data-k="d">P &gt; 0 and Q &gt; 0</li></ol>
+<div class="fb">In the load convention, an R-L load absorbs active and reactive power; a capacitor « supplies » reactive power (Q &lt; 0).</div></div>
+<div class="qcm" data-answer="b"><p class="q">5. Compensating the reactive power of an installation mainly:</p>
+<ol><li data-k="a">reduces the active power consumed</li><li data-k="b">reduces the current and therefore the line losses</li><li data-k="c">increases the frequency</li><li data-k="d">reduces the voltage</li></ol>
+<div class="fb">At constant P, I = P/(U·cos φ) decreases when cos φ increases.</div></div>
+<div class="qcm" data-answer="c"><p class="q">6. On a 230/400 V network, the voltage between two phases is:</p>
+<ol><li data-k="a">230 V</li><li data-k="b">326 V</li><li data-k="c">400 V</li><li data-k="d">690 V</li></ol>
+<div class="fb">U = √3·V = 1.732 × 230.9 = 400 V.</div></div>
+<div class="qcm" data-answer="a"><p class="q">7. For equal branch impedances, a delta load absorbs, compared with star:</p>
+<ol><li data-k="a">3 times more power</li><li data-k="b">√3 times more</li><li data-k="c">the same</li><li data-k="d">3 times less</li></ol>
+<div class="fb">Each branch receives U instead of U/√3: the power (in U²) is multiplied by 3.</div></div>
+<div class="qcm" data-answer="b"><p class="q">8. The neutral current of a balanced star-connected three-phase load is:</p>
+<ol><li data-k="a">equal to the line current</li><li data-k="b">zero</li><li data-k="c">√3 times the line current</li><li data-k="d">3 times the line current</li></ol>
+<div class="fb">I<sub>a</sub> + I<sub>b</sub> + I<sub>c</sub> = 0 for three equal phasors shifted by 120°.</div></div>
+<div class="qcm" data-answer="d"><p class="q">9. The NRJXpert server calculates a linear network by:</p>
+<ol><li data-k="a">the mesh method</li><li data-k="b">Thévenin's theorem</li><li data-k="c">the Newton-Raphson method</li><li data-k="d">the nodal voltage method (Y·V = J)</li></ol>
+<div class="fb">Newton-Raphson is used for the load flow (non-linear power equations), not for the linear network.</div></div>
+<div class="qcm" data-answer="c"><p class="q">10. 209.9 V across the load and 66.8 V across the line, for a 230 V source: why is the sum not 230 V?</p>
+<ol><li data-k="a">rounding error of the software</li><li data-k="b">losses in the line</li><li data-k="c">the voltages are phase-shifted and add up as complex numbers</li><li data-k="d">the frequency is not 50 Hz</li></ol>
+<div class="fb">The voltage law applies to phasors: |<b>U</b><sub>1</sub> + <b>U</b><sub>2</sub>| ≤ |<b>U</b><sub>1</sub>| + |<b>U</b><sub>2</sub>|.</div></div>
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="page-nav"><a href="index-en.html">← Tutorial home</a><a href="niveau2-en.html">Level 2 — Power networks →</a></div>
+
+        <div class="section" id="auteur">
+            <h2><span class="section-icon">👤</span>Author</h2>
+            <div class="author-card">
+                <div class="author-avatar">LT</div>
+                <div class="author-info">
+                    <div class="name">Prof. Lamine THIAW</div>
+                    <div class="role">Department of Electrical Engineering<br>École Supérieure Polytechnique<br>Cheikh Anta Diop University, Dakar</div>
+                    <a href="mailto:lamine.thiaw@ucad.edu.sn">lamine.thiaw@ucad.edu.sn</a><br>
+                    <a href="mailto:lamine.thiaw@esp.sn">lamine.thiaw@esp.sn</a>
+                </div>
+            </div>
+            <p class="small" style="margin-top:14px">November 2026</p>
+        </div>
+    </main>
+</div>
+
+<script>
+    // défilement doux vers les ancres de la page
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){
+        a.addEventListener('click', function(e){
+            var t = document.querySelector(this.getAttribute('href'));
+            if(t){ e.preventDefault(); t.scrollIntoView({behavior: 'smooth', block: 'start'}); }
+        });
+    });
+    // rubrique active dans le menu latéral
+    var navLinks = document.querySelectorAll('#sidebar nav a');
+    if('IntersectionObserver' in window){
+        var obs = new IntersectionObserver(function(entries){
+            entries.forEach(function(en){
+                if(en.isIntersecting) navLinks.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#' + en.target.id); });
+            });
+        }, {rootMargin: '-20% 0px -70% 0px'});
+        document.querySelectorAll('.section[id]').forEach(function(s){ obs.observe(s); });
+    }
+</script>
+</body>
+</html>

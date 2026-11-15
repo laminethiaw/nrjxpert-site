@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Niveau 7 — Atelier expert Smart Grids — Tutoriel NRJXpert</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tutoriel.css">
+<script src="tutoriel.js"></script>
+<script src="expert.js"></script>
+</head>
+<body>
+<div id="top"></div>
+
+<!-- ════════════════ MENU LATÉRAL ════════════════ -->
+<aside id="sidebar">
+    <div id="sidebar-header">
+        <div class="app-name">NRJXpert</div>
+        <div class="app-version">Version 2.0.0 · Tutoriel › Niveau 7</div>
+    </div>
+    <nav>
+        <a href="#intro"><span class="nav-icon">📘</span>Introduction</a>
+        <a href="#n7-1"><span class="nav-icon">🔋</span>Essais du contrôleur de micro-réseau (IEEE 2030.7 / IEEE 2030.8)</a>
+        <a href="#n7-2"><span class="nav-icon">📟</span>Comptage évolué (AMI) : bilan, pertes techniques et non techniques</a>
+        <a href="#n7-3"><span class="nav-icon">📗</span>Télérelève : DLMS/COSEM (IEC 62056) sur G3-PLC ou cellulaire</a>
+        <a href="#n7-4"><span class="nav-icon">📶</span>Effacement de consommation : OpenADR 2.0b</a>
+        <a href="#n7-5"><span class="nav-icon">🔒</span>Cybersécurité du système de conduite : IEC 62443 et IEC 62351</a>
+        <a href="#n7-6"><span class="nav-icon">🎓</span>Mission d&#x27;expertise (synthèse)</a>
+        <a href="#n7-qcm"><span class="nav-icon">✅</span>QCM du niveau 7</a>
+        <a href="#auteur"><span class="nav-icon">👤</span>Auteur</a>
+    </nav>
+    <div class="side-links"><a href="index.html">🏠 Accueil du tutoriel</a><a href="niveau6.html">← Niveau 6</a><a href="etudes-de-cas.html">Études de cas →</a><a href="../aide-fr.html">📖 Guide de l'utilisateur</a></div>
+</aside>
+
+<!-- ════════════════ ZONE PRINCIPALE ════════════════ -->
+<div id="main">
+    <div id="hero">
+        <h1><span class="badge b6">Niveau 7</span> Atelier expert : qualifier, auditer, sécuriser</h1>
+        <div class="tagline">Le niveau 6 apprend à décrire et à simuler les fonctions d'un réseau intelligent. Ce niveau met l'élève dans la position de
+l'expert ou du consultant à qui l'on demande un avis argumenté : <b>le contrôleur de micro-réseau est-il conforme ?</b>, <b>où
+partent les kilowattheures non facturés ?</b>, <b>la centrale virtuelle tient-elle son engagement d'effacement ?</b>, <b>le système
+de conduite est-il assez protégé ?</b> Chaque section associe la norme, un calcul à la main, un calcul NRJXpert et un rapport.</div>
+        <div class="badges">
+            <span class="hero-badge">Tutoriel</span>
+            <span class="hero-badge">Version 2.0.0</span>
+            <span class="hero-badge">Novembre 2026</span>
+            <a class="hero-badge language-link" href="niveau7-en.html" lang="en" aria-label="Cliquer pour afficher la version anglaise">
+                FR / EN
+                <small>Cliquer pour la version anglaise</small>
+            </a>
+        </div>
+    </div>
+
+    <div id="topbar">
+        <div class="title">Niveau 7 — Atelier expert : qualifier, auditer, sécuriser</div>
+        <span class="meta">NRJXpert 2.0.0 · Novembre 2026</span>
+    </div>
+
+    <main id="content">
+        <div id="toc-section">
+            <h2>Table des matières</h2>
+            <div class="toc-grid">
+                <a href="#intro"><span class="toc-num">00</span>Introduction</a>
+                <a href="#n7-1"><span class="toc-num">7.1</span>Essais du contrôleur de micro-réseau (IEEE 2030.7 / IEEE 2030.8)</a>
+                <a href="#n7-2"><span class="toc-num">7.2</span>Comptage évolué (AMI) : bilan, pertes techniques et non techniques</a>
+                <a href="#n7-3"><span class="toc-num">7.3</span>Télérelève : DLMS/COSEM (IEC 62056) sur G3-PLC ou cellulaire</a>
+                <a href="#n7-4"><span class="toc-num">7.4</span>Effacement de consommation : OpenADR 2.0b</a>
+                <a href="#n7-5"><span class="toc-num">7.5</span>Cybersécurité du système de conduite : IEC 62443 et IEC 62351</a>
+                <a href="#n7-6"><span class="toc-num">7.6</span>Mission d&#x27;expertise (synthèse)</a>
+                <a href="#n7-qcm"><span class="toc-num">07</span>QCM du niveau 7</a>
+            </div>
+        </div>
+
+        <div class="section" id="intro">
+            <h2><span class="section-icon">📘</span>Introduction</h2>
+<div class="objectifs">
+<h4>Objectifs</h4>
+<ul>
+<li>Définir une campagne d'essais IEEE 2030.8 (transition et dispatch), fixer des critères d'acceptation et rédiger le procès-verbal.</li>
+<li>Établir le bilan énergétique d'un réseau de distribution, séparer pertes techniques et non techniques, évaluer une méthode de détection
+(précision, rappel) et dimensionner une télérelève DLMS/COSEM.</li>
+<li>Spécifier un évènement OpenADR 2.0b, calculer une référence (baseline) et le règlement d'un effacement.</li>
+<li>Conduire une analyse de risque IEC 62443-3-2 (zones, conduits, SL-T) et proposer un plan de mesures IEC 62443-3-3 / IEC 62351.</li>
+</ul>
+<p class="small">Prérequis : niveau 5 (dynamique, gestion économique) et niveau 6 (SGAM, VPP, micro-réseaux, protocoles). Durée : 24 à 30 h.</p>
+</div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="n7-1">
+            <h2><span class="section-icon">🔋</span>7.1 Essais du contrôleur de micro-réseau (IEEE 2030.7 / IEEE 2030.8)</h2>
+<p>L'<b>IEEE 2030.7-2017</b> ramène le contrôleur de micro-réseau à deux fonctions de base : la <b>transition</b> (passage du mode
+raccordé au mode îloté, programmé ou subi, et retour par resynchronisation) et le <b>dispatch</b> (consignes des ressources internes,
+en îlotage comme en raccordé). L'<b>IEEE 2030.8-2018</b> décrit comment les essayer — en simulation, en temps réel avec le matériel dans
+la boucle (HIL), puis sur site — et quels indicateurs relever. Les plages de tension et de fréquence viennent des règles de raccordement
+(<b>IEEE 1547-2018</b>, <b>EN 50549-1/-2</b>) et de l'<b>IEC 62898</b>.</p>
+<table>
+<tr><th>Essai NRJXpert</th><th>Fonction IEEE 2030.7</th><th>Scénario simulé</th><th>Ce que l'on juge</th></tr>
+<tr><td>T1 îlotage subi</td><td>transition non programmée</td><td>ouverture du point de couplage (PCC) à 1 s, sans préparation</td><td>nadir, RoCoF, tension de l'îlot, stabilisation</td></tr>
+<tr><td>T2 îlotage programmé</td><td>transition programmée</td><td>le contrôleur annule l'échange au PCC (rampe des consignes de 0,2 à 1,8 s), puis ouvre à 2 s</td><td>îlotage « sans à-coup »</td></tr>
+<tr><td>T3 resynchronisation</td><td>reconnexion</td><td>îlotage subi, demande de reconnexion à 5 s : synchroniseur + synchro-check</td><td>durée, Δf / ΔV / Δφ à la fermeture, retour au nominal</td></tr>
+<tr><td>T4 échelon de charge</td><td>dispatch en îlotage (réglage primaire)</td><td>+20 % de la charge de l'îlot au bus le plus chargé à 5 s</td><td>nadir, fréquence établie (statisme)</td></tr>
+<tr><td>T5 perte de production</td><td>dispatch en îlotage (réserve)</td><td>perte de la plus grande production suiveuse (PV, éolien) à 5 s</td><td>nadir, RoCoF, tenue de l'îlot</td></tr>
+<tr><td>T6 fonction de dispatch</td><td>dispatch économique</td><td>gestion économique 24 h raccordé puis îloté (MILP)</td><td>énergie non distribuée, SOC, coût</td></tr>
+</table>
+<div class="eq">RoCoF initial ≈ ΔP·f₀ / (2·H·ΣSn) ; écart établi par statisme Δf ≈ R·ΔP/ΣSn·f₀ ; synchro-check (IEEE 1547 tableau 39) :
+0,3 Hz / 10 % / 20° jusqu'à 500 kVA, 0,2 Hz / 5 % / 15° jusqu'à 1,5 MVA, 0,1 Hz / 3 % / 10° au-delà.</div>
+<p><b>Critères d'acceptation par défaut</b> (réglables dans Simulation › Paramètres des études DER › Essais micro-réseau) : fréquence dans
+47,5–51,5 Hz (plage de tenue EN 50549 à 50 Hz), RoCoF ≤ 2 Hz/s sur 500 ms, fréquence finale à ± 0,5 Hz, stabilisation (± 0,1 Hz) en moins de
+5 s, tension de l'îlot entre 0,88 et 1,10 pu passé 200 ms, resynchronisation en moins de 10 s, énergie non distribuée en îlotage ≤ 0,1 %.
+Dans un vrai cahier des charges, ces valeurs se négocient : elles dépendent des charges (sensibilité des procédés), des protections de
+découplage et de l'exploitant.</p>
+
+<div class="ex"><h4>Exemple 7.1 — Site de 0,9 MW : batterie 1 MVA (VSM), groupe 0,8 MVA, PV 0,6 MVA (<code>exemples/banc_essai_microreseau.xml</code>)</h4>
+<details class="sol" open><summary>Résultats du banc d'essai</summary>
+<p>Échange au PCC avant îlotage : 0,10 MW. <b>T1</b> : nadir <span class="result">49,93 Hz</span>, fréquence établie 49,94 Hz (statisme).
+<b>T2</b> : l'échange étant repris avant l'ouverture, le nadir n'est plus que de <span class="result">49,99 Hz</span> (RoCoF ÷ 9).
+<b>T3</b> : reconnexion à 6,36 s, soit <span class="result">1,36 s</span> après la demande (Δf = 0,10 Hz, ΔV = 0,08 %, Δφ = 6,4° ; îlot de 2,4 MVA,
+donc limites 0,1 Hz / 3 % / 10°, respectées de justesse en fréquence), retour à 50 Hz. <b>T4</b> : nadir 49,83 Hz. <b>T5</b> (perte du PV,
+0,5 MW) : nadir <span class="result">49,58 Hz</span>, RoCoF 0,71 Hz/s. <b>T6</b> : 79 F/kWh raccordé, 235 F/kWh îloté (3 917 L de gazole par
+jour), 4,5 kWh non distribués (0,03 %). Conformité : <b>6 / 6</b>.</p>
+<p>Sans amortissement du groupe (balise <code>&lt;D&gt;</code> supprimée), la fréquence oscille encore de ± 0,2 Hz 3,5 s après la reconnexion :
+T3 échoue sur le temps de stabilisation. C'est exactement le genre de défaut que la campagne 2030.8 doit révéler avant la mise en service.</p></details></div>
+<div class="xp" data-tool="island"></div>
+<div class="lab"><h4>TP 7.1 — Campagne d'essais et procès-verbal</h4>
+<ol>
+<li>Ouvrir l'exemple (Aide › Ouvrir un exemple du tutoriel › <code>banc_essai_microreseau.xml</code>) et lancer le calcul. Ouvrir le
+<b>Rapport…</b> : c'est le procès-verbal (synthèse, critères, déroulement, grandeurs mesurées).</li>
+<li>Vérifier à la main le RoCoF et la fréquence établie de T5 avec la calculatrice ci-dessus (ΔP = 0,5 MW). Expliquer l'écart avec la valeur
+mesurée sur 500 ms.</li>
+<li>Remplacer la batterie VSM (<code>gfmMode</code> vsm) par un statisme pur (droop), puis réduire H à 0,5 s : quels essais échouent ? Pourquoi
+l'îlotage programmé (T2) reste-t-il conforme ?</li>
+<li>Sur votre schéma (palette « Réseau intelligent ») : placer un disjoncteur entre le poste et le site, choisir <b>Banc d'essai du
+micro-réseau</b> dans Calcul, désigner le PCC dans l'onglet <b>Essais micro-réseau</b>, et rédiger les critères d'acceptation adaptés au client
+(hôpital, usine, campus).</li>
+</ol></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="n7-2">
+            <h2><span class="section-icon">📟</span>7.2 Comptage évolué (AMI) : bilan, pertes techniques et non techniques</h2>
+<p>Le comptage évolué apporte la donnée qui manquait au distributeur : la consommation <b>de chaque client, au pas de 15 ou 30 min</b>.
+Combinée au <b>compteur de supervision</b> de chaque poste HTA/BT et au load flow, elle permet un <b>bilan par poste</b> :</p>
+<div class="eq">E<sub>injectée</sub> = E<sub>comptée</sub> + pertes techniques + pertes non techniques ;
+écart du poste = (E<sub>poste</sub> − Σ E<sub>compteurs</sub>) / E<sub>poste</sub>.</div>
+<p>Les pertes techniques (effet Joule, pertes fer) se calculent ; les pertes non techniques (fraude, compteurs défaillants, clients
+non enregistrés, erreurs de facturation) se déduisent. Dans beaucoup de réseaux d'Afrique de l'Ouest, elles pèsent autant ou plus que
+les pertes techniques : c'est souvent le premier argument économique d'un projet AMI.</p>
+<p>Le calcul <b>Comptage évolué (AMI)</b> de NRJXpert reconstitue, pour chaque bus de charge (un poste) et chacun de ses « clients », une
+semaine de courbes de charge réelles et relevées ; une part des clients fraude (certains depuis toujours, d'autres à partir d'un jour donné),
+d'autres baissent honnêtement leur consommation (absence, équipement économe). Trois méthodes de détection sont comparées à la vérité simulée :</p>
+<table>
+<tr><th>Méthode</th><th>Principe</th><th>Forces / faiblesses</th></tr>
+<tr><td>Baisse de consommation</td><td>consommation récente / historique, rapportée à la tendance des voisins du poste</td><td>ne voit pas les fraudes anciennes ; fausses alertes (vacances)</td></tr>
+<tr><td>Baisse + bilan du poste</td><td>on ne retient que les baisses dans les postes en alarme</td><td>beaucoup moins de fausses alertes, rappel faible</td></tr>
+<tr><td>Bilan du poste + inspection ciblée</td><td>contrôle sur place des clients des postes en alarme</td><td>trouve aussi les fraudes anciennes ; coût des tournées</td></tr>
+</table>
+<div class="eq">Précision = VP / (VP + FP) (part des alertes justes) ; rappel = VP / (VP + FN) (part des fraudes trouvées).</div>
+<div class="ex"><h4>Exemple 7.2 — IEEE 33 nœuds, 1 857 clients, deux quartiers à risque (<code>exemples/ami_ieee33.xml</code>)</h4>
+<details class="sol" open><summary>Résultats (7 jours, pas de 15 min)</summary>
+<p>Énergie fournie 402,7 MWh, pertes techniques <span class="result">3,04 %</span>, pertes non techniques <span class="result">1,81 %</span>
+(7,3 MWh en une semaine). 5 postes en alarme (seuil 3 %), dont B18 (13,5 %) et B19 (15,9 %), où un quart des clients fraude. Détection par la
+baisse : précision 50 %, rappel 55 % ; bilan + inspection ciblée : précision <span class="result">77 %</span>, rappel 27 %. Le bilan par poste
+indique <i>où</i> chercher, l'analyse des courbes <i>qui</i> contrôler : en pratique on combine les deux et on itère.</p></details></div>
+<div class="xp" data-tool="ntl"></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="n7-3">
+            <h2><span class="section-icon">📗</span>7.3 Télérelève : DLMS/COSEM (IEC 62056) sur G3-PLC ou cellulaire</h2>
+<p><b>COSEM</b> donne le modèle d'objets du compteur, chaque donnée étant repérée par un code <b>OBIS</b> (A-B:C.D.E*F) ; <b>DLMS</b> donne les
+services (GET, SET, ACTION, notifications) et la sécurité (suites 0 à 2 : AES-GCM-128, ECDSA, ECDH). Le profil de charge (classe 7,
+OBIS 1.0.99.1.0.255) enregistre à chaque période : horloge (0.0.1.0.0.255), statut (0.0.96.10.1.255), index A+ (1.0.1.8.0.255) et A−
+(1.0.2.8.0.255), tension (1.0.32.7.0.255).</p>
+<p>Le <b>G3-PLC</b> (ITU-T G.9903, bande CENELEC A 35–91 kHz, OFDM) transporte IPv6 (6LoWPAN) en maillage : un compteur éloigné du
+concentrateur passe par ses voisins. Chaque saut peut échouer (bruit, impédance du réseau BT) ; les répétitions compensent. Le cellulaire
+(NB-IoT, LTE-M) convient aux zones peu denses et aux gros clients.</p>
+<div class="eq">Réussite d'une trame : 1 − (1 − pⁿ)^(r+1) (p : saut, n : sauts, r : répétitions) ; complétude journalière = (réussite d'une trame)^(trames par jour).</div>
+<p>Dans l'exemple 7.2 : 1,56 saut en moyenne, complétude journalière <span class="result">99,88 %</span>, 3,24 ko par compteur et par jour,
+20,7 min pour collecter le plus grand poste (210 compteurs).</p>
+<div class="xp" data-tool="g3plc"></div>
+<div class="lab"><h4>TP 7.2 — Audit des pertes d'un départ</h4>
+<ol>
+<li>Lancer <code>ami_ieee33.xml</code>, ouvrir le rapport : bilan énergétique, postes en alarme, plus fortes baisses (avec la vérité simulée).</li>
+<li>Faire varier le seuil d'alarme du bilan (1, 3, 5 %) et la baisse jugée suspecte (20, 30, 50 %) : tracer précision et rappel. Quel réglage
+choisir si une inspection coûte 15 000 F et une fraude 60 000 F par an ?</li>
+<li>Passer en cellulaire, puis en G3-PLC avec p = 85 % et 5 sauts (quartier étendu) : complétude ? Conséquence sur le bilan du poste ?</li>
+<li>Avec la calculatrice 7.2, estimer le temps de retour d'un déploiement de 8 000 compteurs. Rédiger la note pour la direction (une page).</li>
+</ol></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="n7-4">
+            <h2><span class="section-icon">📶</span>7.4 Effacement de consommation : OpenADR 2.0b</h2>
+<p>OpenADR relie un <b>VTN</b> (<i>Virtual Top Node</i> : gestionnaire de réseau, agrégateur) à des <b>VEN</b> (<i>Virtual End Nodes</i> : bâtiments,
+parcs de bornes, centrale virtuelle). Le profil 2.0b échange des messages XML (EiEvent, EiReport, EiOpt…) sur HTTPS ou XMPP ; un évènement
+(<code>oadrDistributeEvent</code>) porte une période active, un préavis, et des signaux par intervalle :</p>
+<table>
+<tr><th>Signal</th><th>Valeur</th><th>Réponse attendue</th></tr>
+<tr><td>SIMPLE</td><td>niveau 0 à 3</td><td>réduire selon un plan convenu (NRJXpert : 10 / 20 / 40 % de l'achat de référence)</td></tr>
+<tr><td>LOAD_DISPATCH (x-loadControlCapacity)</td><td>réduction en MW</td><td>réduire de la valeur demandée par rapport à la référence</td></tr>
+<tr><td>ELECTRICITY_PRICE</td><td>prix (F/kWh)</td><td>réagir au prix (pas d'engagement de volume)</td></tr>
+</table>
+<p>Le point délicat est la <b>référence</b> (baseline) : ce que le site aurait consommé sans l'évènement. On l'estime par une règle « X parmi Y »
+(moyenne des X jours les plus forts parmi les Y derniers jours comparables) avec un ajustement du jour. NRJXpert optimise la VPP deux fois,
+sans puis avec l'évènement : la référence est donc la meilleure possible, et l'écart avec une règle « X parmi Y » se discute en TP.</p>
+<div class="ex"><h4>Exemple 7.3 — Effacement de 0,4 MW de 18 h à 21 h (<code>exemples/openadr_effacement.xml</code>)</h4>
+<details class="sol" open><summary>Réponse de la centrale virtuelle (PV, batterie, 30 VE en V2G, 10 % d'effacement possible)</summary>
+<p>Demandé : 1 200 kWh ; réalisé <span class="result">1 076 kWh (89,7 %)</span> : 0,4 MW tenus à 18 h et 19 h, 0,28 MW à 20 h (la batterie est
+vide). Rémunération 269 kF, pénalité 12 kF ; <span class="result">gain net 203 kF</span> par rapport à la journée sans évènement. Le rapport
+contient le message <code>oadrDistributeEvent</code> (57 lignes) que le VTN enverrait ; Simulation › Enregistrer le message OpenADR 2.0b l'exporte.</p></details></div>
+<div class="xp" data-tool="baseline"></div>
+<div class="lab"><h4>TP 7.3 — Négocier un contrat d'effacement</h4>
+<ol>
+<li>Dans l'onglet <b>Centrale virtuelle</b>, activer l'évènement ; tester LOAD_DISPATCH 0,2 / 0,4 / 0,6 MW. À partir de quelle valeur la VPP perd-elle
+de l'argent ?</li>
+<li>Remplacer par un signal ELECTRICITY_PRICE de +400 F/kWh : volume effacé ? Quel signal préfère l'agrégateur, quel signal le gestionnaire de réseau ?</li>
+<li>Lire le message OpenADR : repérer <code>eventID</code>, <code>dtstart</code>, <code>duration</code>, <code>x-eiNotification</code>, <code>signalType</code>, les intervalles.</li>
+<li>Avec la calculatrice 7.3, montrer comment un site peut « gonfler » sa référence si la règle est « 10 parmi 10 » sans ajustement.</li>
+</ol></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="n7-5">
+            <h2><span class="section-icon">🔒</span>7.5 Cybersécurité du système de conduite : IEC 62443 et IEC 62351</h2>
+<p>Un réseau intelligent ouvre des chemins de commande vers des milliers d'équipements : interrupteurs télécommandés, onduleurs, bornes,
+compteurs capables de couper un client. L'<b>IEC 62443</b> (systèmes d'automatisme industriels) fournit la démarche, l'<b>IEC 62351</b> la
+sécurité des protocoles de l'énergie (IEC 60870-5-104, IEC 61850 MMS et GOOSE, DNP3), l'<b>IEC 62056-5-3</b> celle du DLMS/COSEM.</p>
+<ol>
+<li><b>Zones et conduits</b> (IEC 62443-3-2) : regrouper les actifs de même exigence (centre de conduite, postes, producteurs, bornes, AMI,
+agrégateur, IT) et identifier les flux entre zones (conduits).</li>
+<li><b>Niveau de sécurité cible SL-T</b> de chaque zone, de 1 (erreur, malveillance occasionnelle) à 4 (attaquant étatique, moyens importants).</li>
+<li><b>Niveau atteint SL-A</b> pour chacune des sept exigences fondamentales FR1…FR7 (IEC 62443-3-3) : identification et authentification,
+contrôle d'utilisation, intégrité, confidentialité, flux restreints, réponse aux évènements, disponibilité.</li>
+<li><b>Risque</b> = conséquence × vraisemblance ; <b>plan de mesures</b> pour combler SL-T − SL-A, en commençant par les conduits exposés.</li>
+</ol>
+<p>Dans NRJXpert : <b>Outils › Analyse de risque de cybersécurité (IEC 62443)…</b>. Les actifs sont tirés du schéma ; on règle le SL-T, on coche
+les mesures en place par zone, on qualifie les conduits (protection, exposition à Internet). L'onglet Résultats et le rapport HTML donnent la
+matrice de risque et la liste ordonnée des mesures manquantes. Les réglages sont enregistrés avec le projet.</p>
+<div class="xp" data-tool="sl"></div>
+<div class="lab"><h4>TP 7.4 — Analyse de risque du projet de synthèse</h4>
+<ol>
+<li>Ouvrir <code>smartgrid_deux_departs.nxp</code>, lancer l'analyse : combien d'actifs, quelles zones ? Quel est le risque du centre de conduite
+avec les réglages initiaux ? Pourquoi ?</li>
+<li>Passer le conduit « Télérelève » en « chiffrement et authentification » et cocher FR4 SL2 pour l'AMI : effet sur la matrice ?</li>
+<li>Établir un plan en trois lots (6 mois, 18 mois, 36 mois) qui amène toutes les zones à leur SL-T ; justifier l'ordre.</li>
+<li>Pour la VPP de l'exemple 7.3, quels risques nouveaux introduit le conduit OpenADR (prix falsifié, évènement injecté) ? Quelles mesures ?</li>
+</ol></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="n7-6">
+            <h2><span class="section-icon">🎓</span>7.6 Mission d'expertise (synthèse)</h2>
+<div class="ex"><h4>Sujet — Micro-réseau d'un campus universitaire</h4>
+<p>Un campus de 2 MW de pointe, alimenté par un départ 30 kV, veut un micro-réseau (PV 1,5 MWc, batterie 1 MW / 2 MWh, groupe existant 1 MVA),
+le comptage évolué de ses 40 bâtiments, et participer à un programme d'effacement de l'agrégateur national. Vous êtes l'AMOA.</p>
+<ol>
+<li>Dessiner le réseau et rédiger la fiche de cas d'usage IEC 62559 « îlotage programmé » (niveau 6).</li>
+<li>Définir la campagne d'essais IEEE 2030.8 et ses critères ; la simuler ; joindre le procès-verbal.</li>
+<li>Faire le bilan des pertes à partir du calcul AMI et estimer la valeur du comptage.</li>
+<li>Proposer le contrat d'effacement (signal, puissance, plage, rémunération) avec le calcul de rentabilité.</li>
+<li>Remettre l'analyse IEC 62443 et le plan de mesures.</li>
+</ol>
+<p class="small">Barème indicatif : modèle et cas d'usage 20 %, essais 25 %, AMI 15 %, effacement 15 %, cybersécurité 15 %, qualité du rapport 10 %.</p></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="n7-qcm">
+            <h2><span class="section-icon">✅</span>QCM du niveau 7</h2>
+<div class="qcm" data-answer="c"><p class="q">1. Les deux fonctions de base d'un contrôleur de micro-réseau selon l'IEEE 2030.7 sont :</p>
+<ol><li data-k="a">protection et comptage</li><li data-k="b">prévision et facturation</li><li data-k="c">transition et dispatch</li><li data-k="d">SCADA et DMS</li></ol>
+<div class="fb">La transition (îlotage, reconnexion) et le dispatch (consignes des ressources) ; l'IEEE 2030.8 décrit leurs essais.</div></div>
+<div class="qcm" data-answer="b"><p class="q">2. L'îlotage programmé est plus doux que l'îlotage subi parce que :</p>
+<ol><li data-k="a">la batterie a plus d'inertie</li><li data-k="b">l'échange au point de couplage est annulé avant l'ouverture</li><li data-k="c">le synchro-check est désactivé</li><li data-k="d">les charges sont délestées</li></ol>
+<div class="fb">À l'ouverture, ΔP ≈ 0 : ni saut de fréquence ni RoCoF (exemple 7.1 : nadir 49,99 Hz au lieu de 49,93 Hz).</div></div>
+<div class="qcm" data-answer="d"><p class="q">3. Pour un îlot de 2,4 MVA, la fermeture du disjoncteur de couplage exige (IEEE 1547) :</p>
+<ol><li data-k="a">Δf ≤ 0,3 Hz, ΔV ≤ 10 %, Δφ ≤ 20°</li><li data-k="b">Δf ≤ 0,2 Hz, ΔV ≤ 5 %, Δφ ≤ 15°</li><li data-k="c">Δf = 0 exactement</li><li data-k="d">Δf ≤ 0,1 Hz, ΔV ≤ 3 %, Δφ ≤ 10°</li></ol>
+<div class="fb">Au-delà de 1,5 MVA, les limites sont les plus strictes.</div></div>
+<div class="qcm" data-answer="a"><p class="q">4. Les pertes non techniques se calculent :</p>
+<ol><li data-k="a">par différence : énergie injectée − énergie comptée − pertes techniques</li><li data-k="b">par le load flow</li><li data-k="c">en mesurant le courant de neutre</li><li data-k="d">avec la formule R·I²</li></ol>
+<div class="fb">Seules les pertes techniques se calculent ; les pertes non techniques se déduisent du bilan.</div></div>
+<div class="qcm" data-answer="c"><p class="q">5. Une méthode de détection de fraude a une précision de 77 % et un rappel de 27 %. Cela signifie :</p>
+<ol><li data-k="a">77 % des fraudes sont trouvées</li><li data-k="b">27 % des alertes sont fausses</li><li data-k="c">77 % des alertes sont justes mais 73 % des fraudes échappent</li><li data-k="d">la méthode est inutilisable</li></ol>
+<div class="fb">Précision = part des alertes justes, rappel = part des fraudes trouvées. Une méthode précise mais peu sensible sert à cibler les tournées.</div></div>
+<div class="qcm" data-answer="b"><p class="q">6. Le code OBIS 1.0.1.8.0.255 désigne :</p>
+<ol><li data-k="a">la tension de la phase 1</li><li data-k="b">l'index d'énergie active importée (A+)</li><li data-k="c">l'horloge du compteur</li><li data-k="d">le profil de charge</li></ol>
+<div class="fb">Le profil de charge est 1.0.99.1.0.255, l'horloge 0.0.1.0.0.255, la tension L1 1.0.32.7.0.255.</div></div>
+<div class="qcm" data-answer="d"><p class="q">7. Avec 3 sauts G3-PLC à 90 % et 2 répétitions, une trame passe avec une probabilité d'environ :</p>
+<ol><li data-k="a">73 %</li><li data-k="b">90 %</li><li data-k="c">95 %</li><li data-k="d">98 %</li></ol>
+<div class="fb">pⁿ = 0,729 ; 1 − (1 − 0,729)³ = 0,980.</div></div>
+<div class="qcm" data-answer="a"><p class="q">8. Dans OpenADR 2.0b, le gestionnaire de réseau ou l'agrégateur qui émet les évènements est :</p>
+<ol><li data-k="a">le VTN</li><li data-k="b">le VEN</li><li data-k="c">le CPO</li><li data-k="d">l'EVSE</li></ol>
+<div class="fb">Virtual Top Node → Virtual End Nodes (sites, VPP, parcs de bornes).</div></div>
+<div class="qcm" data-answer="c"><p class="q">9. Dans l'IEC 62443, le niveau atteint SL-A d'une zone pour une exigence fondamentale est :</p>
+<ol><li data-k="a">la moyenne des mesures cochées</li><li data-k="b">le niveau de la meilleure mesure</li><li data-k="c">le plus haut niveau dont toutes les mesures jusqu'à ce niveau sont en place</li><li data-k="d">fixé par le fournisseur</li></ol>
+<div class="fb">Une mesure SL3 sans la mesure SL2 ne fait pas monter le niveau.</div></div>
+<div class="qcm" data-answer="b"><p class="q">10. La sécurité des protocoles IEC 60870-5-104 et IEC 61850 (TLS, authentification de GOOSE) relève de :</p>
+<ol><li data-k="a">l'IEC 62056</li><li data-k="b">l'IEC 62351</li><li data-k="c">l'IEC 62559</li><li data-k="d">l'IEEE 2030.8</li></ol>
+<div class="fb">IEC 62351-3 (TLS), -5 (104/DNP3), -6 (GOOSE/SV), -9 (clés) ; l'IEC 62056-5-3 couvre le DLMS/COSEM.</div></div>
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="page-nav"><a href="niveau6.html">← Niveau 6 — Smart Grids</a><a href="etudes-de-cas.html">Études de cas →</a></div>
+
+        <div class="section" id="auteur">
+            <h2><span class="section-icon">👤</span>Auteur</h2>
+            <div class="author-card">
+                <div class="author-avatar">LT</div>
+                <div class="author-info">
+                    <div class="name">Prof. Lamine THIAW</div>
+                    <div class="role">Département de Génie Électrique<br>École Supérieure Polytechnique<br>Université Cheikh Anta Diop, Dakar</div>
+                    <a href="mailto:lamine.thiaw@ucad.edu.sn">lamine.thiaw@ucad.edu.sn</a><br>
+                    <a href="mailto:lamine.thiaw@esp.sn">lamine.thiaw@esp.sn</a>
+                </div>
+            </div>
+            <p class="small" style="margin-top:14px">Novembre 2026</p>
+        </div>
+    </main>
+</div>
+
+<script>
+    // défilement doux vers les ancres de la page
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){
+        a.addEventListener('click', function(e){
+            var t = document.querySelector(this.getAttribute('href'));
+            if(t){ e.preventDefault(); t.scrollIntoView({behavior: 'smooth', block: 'start'}); }
+        });
+    });
+    // rubrique active dans le menu latéral
+    var navLinks = document.querySelectorAll('#sidebar nav a');
+    if('IntersectionObserver' in window){
+        var obs = new IntersectionObserver(function(entries){
+            entries.forEach(function(en){
+                if(en.isIntersecting) navLinks.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#' + en.target.id); });
+            });
+        }, {rootMargin: '-20% 0px -70% 0px'});
+        document.querySelectorAll('.section[id]').forEach(function(s){ obs.observe(s); });
+    }
+</script>
+</body>
+</html>
