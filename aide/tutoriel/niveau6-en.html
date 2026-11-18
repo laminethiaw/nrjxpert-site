@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="tutoriel.css">
 <script src="tutoriel.js"></script>
 <script src="smartgrid-en.js"></script>
+<script src="glossaire.js" defer></script>
 </head>
 <body>
 <div id="top"></div>
@@ -30,6 +31,7 @@
         <a href="#n6-8"><span class="nav-icon">📡</span>Semantic data models and protocols</a>
         <a href="#n6-9"><span class="nav-icon">🏛️</span>Project governance and owner&#x27;s engineering</a>
         <a href="#n6-10"><span class="nav-icon">🌐</span>Skills matrix of the smart grid expert</a>
+        <a href="#n6-11"><span class="nav-icon">🧱</span>NRJXpert SGAM workshop: method, tools and labs</a>
         <a href="#n6-ex"><span class="nav-icon">🎯</span>Synthesis project — owner&#x27;s engineering mission on an urban feeder</a>
         <a href="#n6-qcm"><span class="nav-icon">📋</span>Level 6 quiz</a>
         <a href="#auteur"><span class="nav-icon">👤</span>Author</a>
@@ -75,7 +77,8 @@ acceptance).</div>
                 <a href="#n6-8"><span class="toc-num">6.8</span>Semantic data models and protocols</a>
                 <a href="#n6-9"><span class="toc-num">6.9</span>Project governance and owner&#x27;s engineering</a>
                 <a href="#n6-10"><span class="toc-num">6.10</span>Skills matrix of the smart grid expert</a>
-                <a href="#n6-ex"><span class="toc-num">11</span>Synthesis project — owner&#x27;s engineering mission on an urban feeder</a>
+                <a href="#n6-11"><span class="toc-num">6.11</span>NRJXpert SGAM workshop: method, tools and labs</a>
+                <a href="#n6-ex"><span class="toc-num">12</span>Synthesis project — owner&#x27;s engineering mission on an urban feeder</a>
                 <a href="#n6-qcm"><span class="toc-num">12</span>Level 6 quiz</a>
             </div>
         </div>
@@ -92,9 +95,10 @@ acceptance).</div>
 <li>Aggregate DER into a virtual power plant, control EV charging (V1G, V2G) and simulate the islanding of a microgrid.</li>
 <li>Choose data models and protocols (CIM, IEC 61850, DLMS/COSEM, IEC 60870-5-104, Modbus, OCPP, OpenADR, IEEE 2030.5).</li>
 <li>Write an IEC 62559 use case and conduct the five phases of a project as owner's engineer.</li>
+<li>Model a project architecture with the NRJXpert SGAM workshop (layers, use cases, traceability, checks) and exchange it in CIM format.</li>
 </ul>
 <p class="prereq">Prerequisites: levels 2 and 5. Source: <i>Smart grid specialisation guide and consulting framework</i> (L. Thiaw, ESP-UCAD,
-October 2026). Calculations are made by the NRJXpert server. Duration: 30 h and a project.</p>
+October 2026). Calculations are made by the NRJXpert server. Duration: 38 h and a project.</p>
 </div>
 
 <!-- ================================================================== -->
@@ -124,8 +128,10 @@ standard exists, that it is used by all actors and that no interoperability brea
 <div class="sg" data-tool="sgam"></div>
 <div class="lab"><h4>Lab 6.1 — Mapping the network drawn in NRJXpert</h4>
 <p>Open <code>exemples/smartgrid_deux_departs.nxp</code> (Help › Open a tutorial example). For each symbol of the « Smart grid » and « Distributed
-resources » palettes, place in the tool above the equipment (Component layer), its protocol (Communication) and its data model (Information). Then
-use <b>Tools › Telecontrol points list</b>: each line of the file produced corresponds to an arrow between two zones (Field → Station → Operation).</p></div>
+resources » palettes, first place <b>by hand</b>, in the tool above, the equipment (Component layer), its protocol (Communication) and its data model
+(Information). Then open <b>Tools › SGAM architecture</b> and click <b>Generate from the diagram</b>: compare your mapping with the workshop's and
+explain the differences. Finally, <b>Tools › Telecontrol points list</b>: each line of the file produced corresponds to an arrow between two zones
+(Field → Station → Operation). The complete method and six guided labs are given in section <a href="#n6-11">6.11</a>.</p></div>
 
 <!-- ================================================================== -->
             <a href="#top" class="back-to-top">↑ Back to top</a>
@@ -322,9 +328,10 @@ RTU/TCP (16-bit registers, no semantics).</li>
 <div class="sg" data-tool="protocols"></div>
 <div class="lab"><h4>Lab 6.8 — From the diagram to the information systems</h4>
 <ol>
-<li><b>Tools › Export the network in CIM format</b>: open the RDF/XML file produced; find the <code>ConnectivityNode</code>, the <code>Terminal</code>, the
+<li><b>File › Export the network in CIM format</b>, type "Single CIM RDF/XML file" (or CGMES archive, see lab 6.11-E): open the file produced; find the <code>ConnectivityNode</code>, the <code>Terminal</code>, the
 <code>ACLineSegment</code>, the <code>Breaker</code> / <code>LoadBreakSwitch</code> (<code>normalOpen</code>), the <code>FaultIndicator</code>, the
-<code>PowerElectronicsConnection</code> with their <code>PhotoVoltaicUnit</code> / <code>BatteryUnit</code>. How does the ADMS rebuild the topology?</li>
+<code>PowerElectronicsConnection</code> with their <code>PhotoVoltaicUnit</code> / <code>BatteryUnit</code>, the <code>PowerTransformer</code> and the
+<code>TopologicalNode</code>. How does the ADMS rebuild the topology?</li>
 <li><b>Tools › Telecontrol points list</b>: open the CSV in a spreadsheet. For each switching device, check the ASDU type (M_DP_TB_1 for a double point,
 C_DC_NA_1 for a command), the IEC 61850 logical node and the Modbus register. Complete the addresses according to the operator's addressing plan. The
 proposed mappings are indicative: they are validated against the profiles of the selected equipment.</li>
@@ -365,6 +372,235 @@ governance, economics and regulation. Assess yourself, then follow the proposed 
 <!-- ================================================================== -->
             <a href="#top" class="back-to-top">↑ Back to top</a>
         </div>
+        <div class="section" id="n6-11">
+            <h2><span class="section-icon">🧱</span>6.11 Modelling an architecture with the NRJXpert SGAM workshop</h2>
+<p>Section 6.1 introduced the SGAM framework; this section shows how to use it as a genuine <b>modelling language</b> to design, document and check
+the architecture of a smart grid project. The workshop opens with <b>Tools › SGAM architecture</b>. It works on the drawn network and produces
+deliverables that can go straight into a specification: SGAM planes, IEC 62559-2 use cases, traceability matrix, consistency findings, CIM model.</p>
+<div class="objectifs"><h4>Objectives of the section</h4><ul>
+<li>Describe a system with the elements and relations of the SGAM language, separating the <b>logical</b> viewpoint from the <b>technical</b> one.</li>
+<li>Go from a drawn power network to a complete architecture on the five layers.</li>
+<li>Write an IEC 62559-2 use case and derive the information exchanges and protocols from it.</li>
+<li>Check cross-layer consistency, carry out a gap analysis and link the architecture to the CIM model of the network.</li>
+</ul><p class="prereq">Duration: 8 h (lecture 2 h, labs 6 h). Prerequisites: sections 6.1, 6.2, 6.8.</p></div>
+
+<h3>6.11.1 The building blocks of the language</h3>
+<p>Each <b>element</b> belongs to a layer, has a <b>kind</b>, and sits in a cell (domain × zone). It also has a <b>viewpoint</b>: <i>logical</i>
+(what must be done, independently of technology: "islanding detection function") or <i>technical</i> (what it is done with: "vendor X interface
+relay, IEC 61850"). A good architecture starts from the logical view and <b>allocates</b> each logical element to one or more technical elements:
+this is what makes it possible to compare several bids on the same basis.</p>
+<table class="sgam-fig">
+<tr><th>Layer</th><th>Element kinds</th><th>Examples from NRJXpert</th></tr>
+<tr><td><b>Business</b></td><td>actor, business goal, regulatory requirement, business model</td><td>DSO; "Improve continuity of supply"; grid code (IEEE 1366); monetising flexibility</td></tr>
+<tr><td><b>Function</b></td><td>high-level use case, use case, function</td><td>Self-healing (FLISR); IVVC; virtual power plant and demand response</td></tr>
+<tr><td><b>Information</b></td><td>information object, data model</td><td>Measurements and states (MMXU, XCBR); load profiles (OBIS codes); CIM network model</td></tr>
+<tr><td><b>Communication</b></td><td>communication network, gateway</td><td>Substation local network (IEC 61850-8-1, PRP/HSR); G3-PLC metering network</td></tr>
+<tr><td><b>Component</b></td><td>electrical equipment, field device, IT system, telecom equipment</td><td>Switching devices; IEDs; SCADA/ADMS; data concentrator</td></tr>
+</table>
+<p><b>Relations</b> connect elements; each one has a direction and a rule:</p>
+<table>
+<tr><th>Relation</th><th>From → to</th><th>Label</th><th>Where to see it</th></tr>
+<tr><td>communicates</td><td>component → component</td><td>protocol (e.g. IEC 61850 MMS)</td><td>communication layer plane</td></tr>
+<tr><td>exchanges</td><td>component → component</td><td>information object</td><td>information layer plane</td></tr>
+<tr><td>realises</td><td>component → function</td><td>—</td><td>traceability matrix</td></tr>
+<tr><td>traces</td><td>goal or requirement → function</td><td>—</td><td>traceability matrix</td></tr>
+<tr><td>participates</td><td>actor → function</td><td>—</td><td>matrix, use cases</td></tr>
+<tr><td>allocates</td><td>logical element → technical element</td><td>—</td><td>business and function layer planes</td></tr>
+<tr><td>connected to</td><td>component → component</td><td>—</td><td>component layer plane (dashed)</td></tr>
+</table>
+<p>Reading the planes: <b>dashed frame</b> = logical element, <b>solid frame</b> = technical element; in the information and communication layers,
+components appear <b>in grey</b> (watermark) to locate the flows. The <b>cube</b> stacks the five planes with one dot per element, showing at a glance
+where the architecture is dense and where it is empty. (In the workshop, relation types keep their French names: <i>communique, échange, réalise,
+trace, participe, alloue, raccordé à</i>.)</p>
+
+<h3>6.11.2 What the workshop derives from the diagram</h3>
+<p>The <b>Generate from the diagram</b> button reads the drawn network (as for a calculation) and creates the matching elements. Existing elements
+(same name, same layer) are kept: you can generate, edit, then regenerate after completing the diagram.</p>
+<table>
+<tr><th>In the diagram</th><th>Components created (domain / zone)</th><th>Links and protocols</th><th>Functions</th></tr>
+<tr><td>"grid" slack bus</td><td>HV/MV primary substation (Transmission / Process)</td><td>—</td><td>network supervision and control</td></tr>
+<tr><td>always</td><td>distribution network, RTU (Station), SCADA/ADMS (Operation), GIS (Enterprise)</td><td>RTU → SCADA: IEC 60870-5-104 + IEC 62351-3; GIS → SCADA: IEC 61968-100</td><td>—</td></tr>
+<tr><td>switching devices</td><td>switchgear (Process), protection and control IEDs (Field), FPIs if ticked</td><td>IEDs, FPIs → RTU: IEC 61850</td><td>FLISR if remote-controlled switches, FPIs or tie</td></tr>
+<tr><td>capacitor banks</td><td>banks, bank controller</td><td>IEC 61850 MMS</td><td>IVVC</td></tr>
+<tr><td>PV, wind, battery, genset</td><td>generation (DER / Process), controllers (DER / Field), DERMS (DER / Operation)</td><td>controller → DERMS: IEEE 2030.5 / IEC 61850-7-420 + TLS</td><td>DER control, hosting capacity, microgrid (battery or genset)</td></tr>
+<tr><td>loads</td><td>customer installations, meters (Field), concentrator (Station), HES, MDMS</td><td>DLMS/COSEM over G3-PLC then 4G; IEC 61968-9</td><td>remote reading and anomaly detection (AMI)</td></tr>
+<tr><td>EV chargers</td><td>chargers, charger controller, CSMS</td><td>OCPP 2.0.1</td><td>smart charging</td></tr>
+<tr><td>EV chargers, or DER with battery</td><td>aggregation platform (Enterprise), market platform (Market)</td><td>OpenADR 2.0b, IEC 62325</td><td>virtual power plant and demand response</td></tr>
+</table>
+<p>Generation gives a plausible <b>reference architecture</b>, not a solution: the designer must criticise and adapt it (protocol choices, grouping of
+functions into one system, security, operator constraints).</p>
+
+<h3>6.11.3 Six-step method</h3>
+<div class="lab"><h4>From the network map to the architecture file</h4>
+<ol class="steps">
+<li><div class="step-content"><b>Draw or open the network</b> (or import it with <b>File › Import a CIM network model</b>) and check it with a load flow.</div></li>
+<li><div class="step-content"><b>Generate</b> the reference architecture, then review it layer by layer (Business … Component buttons).</div></li>
+<li><div class="step-content"><b>Add the project's use cases</b> (<b>Template use cases</b> menu, or <b>New</b> in the Use cases tab) and complete their IEC 62559-2 sheet: scope, objectives, indicators, actors, scenario.</div></li>
+<li><div class="step-content"><b>Adjust</b>: move misplaced elements (drag and drop), add logical elements and <i>allocates</i> relations, specify standards and protocols.</div></li>
+<li><div class="step-content"><b>Check</b> (Check tab) and process each finding; read the <b>traceability matrix</b>: each goal must lead to a function, each function to components, information and protocols.</div></li>
+<li><div class="step-content"><b>Produce the deliverables</b>: HTML report (planes, cube, use cases, findings), SGAM model as XML, planes as SVG, CIM network model (CGMES), telecontrol points list.</div></li>
+</ol></div>
+
+<h3>6.11.4 Consistency checks</h3>
+<table>
+<tr><th>Severity</th><th>Check</th><th>What to do</th></tr>
+<tr><td>✖ error</td><td>relation that breaks its rule (e.g. "communicates" between a function and a component; "realises" not going from a component to a function); relation to a deleted element</td><td>fix the direction or type of the relation</td></tr>
+<tr><td>⚠ warning</td><td>empty layer; function realised by no component; goal linked to no function; information object carried by no link; link without protocol or exchange without information object</td><td>complete the model: this is an architecture <b>gap</b></td></tr>
+<tr><td>⚠ warning</td><td>protocol used outside its usual zones (e.g. IEC 61850 towards the market, Modbus towards operation, OpenADR inside a substation)</td><td>justify the choice or add a gateway: this is an <b>interoperability gap</b></td></tr>
+<tr><td>⚠ warning</td><td>use case without scenario or actor; step whose producer or receiver is not a model element</td><td>complete the sheet or create the missing element</td></tr>
+<tr><td>ℹ information</td><td>field (or station) to operation link without IEC 62351 or TLS; isolated component or actor; field device without standard; unallocated logical element</td><td>point to examine and take into the cyber-security analysis (Tools › Risk analysis, IEC 62443)</td></tr>
+</table>
+
+<h3>6.11.5 SGAM and CIM: two complementary models</h3>
+<p>The SGAM model describes <b>who exchanges what, with which protocol</b>; the CIM model describes <b>the power network itself</b> (equipment,
+connections, parameters, state). In the workshop, the information object "CIM network model" exchanged between the GIS and the ADMS
+(IEC 61968-100) is exactly the file produced by <b>File › Export the network in CIM format</b>: a CGMES archive with the EQ (equipment), TP (topology),
+SSH (steady-state hypothesis) and SV (load-flow results) profiles. Conversely, a CIM model received from a network operator can be imported,
+computed in NRJXpert, then used as the basis for generating the architecture.</p>
+
+<h3>6.11.6 Labs in NRJXpert</h3>
+<div class="lab"><h4>Lab 6.11-A — Generate and read the architecture of a self-healing feeder (1 h 30)</h4>
+<ol class="steps">
+<li><div class="step-content">Help › Open a tutorial example: <code>flisr_deux_departs.xml</code>. The "Calculation" list shows "Self-healing" (calculation saved in the file; it is also what the preselection proposes as soon as there is a tie switch); run the calculation.</div></li>
+<li><div class="step-content">Tools › SGAM architecture › <b>Generate from the diagram</b>. Note the number of elements in each layer (status bar and cube).</div></li>
+<li><div class="step-content"><b>Component</b> layer: in which cells are the IEDs, FPIs, RTU, SCADA/ADMS and concentrator? Why is the primary substation in the Transmission domain?</div></li>
+<li><div class="step-content"><b>Communication</b> layer: note the protocol of each link. Which chain crosses the most zones?</div></li>
+<li><div class="step-content">Template use cases › <b>UC-FLISR</b>; Use cases tab: read the scenario and sequence diagram; <b>Traceability</b> tab: from the goal "Improve continuity of supply" to the protocols.</div></li>
+<li><div class="step-content"><b>Check</b> tab, then <b>HTML report</b>; save the project (the SGAM model is saved with it).</div></li>
+</ol>
+<details class="sol"><summary>Expected results</summary>
+<p>Generation: <b>29 elements</b> (business 5, function 3, information 5, communication 3, component 13) and 36 relations; no inconsistency.
+After UC-FLISR: 40 relations, 1 use case, 6 steps.</p>
+<p>Cells: IEDs and FPIs in Distribution / Field; RTU and concentrator in Distribution / Station; SCADA/ADMS in Distribution / Operation; GIS in
+Distribution / Enterprise; meters in Customer premises / Field; HES in Customer premises / Operation; MDMS in Customer premises / Enterprise. The HV/MV
+primary substation sits on the transmission–distribution boundary: its transformer and incoming busbar belong to the Transmission domain.</p>
+<p>Protocols: IED → RTU <i>IEC 61850 MMS / GOOSE</i>; FPI → RTU <i>IEC 61850 MMS / IEC 60870-5-104</i>; RTU → SCADA <i>IEC 60870-5-104 + IEC 62351-3</i>;
+GIS → SCADA and MDMS → SCADA <i>IEC 61968-100</i>; meters → concentrator <i>DLMS/COSEM / G3-PLC</i>; concentrator → HES <i>DLMS/COSEM / 4G + TLS</i>.
+The meter → concentrator → HES → MDMS → ADMS chain crosses the Field, Station, Operation and Enterprise zones.</p>
+<p>FLISR traceability: goal "Improve continuity of supply" and DSO actor → FLISR function → components SCADA/ADMS, IEDs, FPIs → information
+"Measurements and states", "Switching orders", "CIM network model" → protocols IEC 61850, IEC 60870-5-104, IEC 61968-100.</p>
+</details></div>
+
+<div class="lab"><h4>Lab 6.11-B — Write and check an IEC 62559-2 use case (1 h 30)</h4>
+<ol class="steps">
+<li><div class="step-content">Open <code>vpp_ve_batterie.xml</code>, generate the architecture, then add the template use case <b>UC-VPP</b> (OpenADR demand response).</div></li>
+<li><div class="step-content">Complete the sheet: quantified indicators (e.g. "0.5 MW curtailed for 2 h; comfort: EV SOC ≥ 80 % at departure"), preconditions, actor "Charge point operator".</div></li>
+<li><div class="step-content">Add two steps: <i>"Curtailment schedule"</i> sent by the aggregation platform to the charging station management system, with the information "Charging profiles"; then <i>"Report"</i> from the charging station management system to the aggregation platform ("Measurements and states").</div></li>
+<li><div class="step-content">In step 7, deliberately type "CSMS" instead of the exact name of the producer: what does the Check tab report? Fix it.</div></li>
+<li><div class="step-content">Compare the scenario with a simulation: "Virtual power plant" calculation, demand response enabled in Simulation › DER study settings; note the curtailed power and the shifted energy.</div></li>
+</ol>
+<details class="sol"><summary>Expected results</summary>
+<p>Generation: 52 elements (business 12, function 8, information 8, communication 4, component 20); with UC-VPP, 65 relations and a 5-step scenario,
+then 7 after the additions. The producer "CSMS" triggers the warning <i>"Demand response by a virtual power plant (OpenADR), step 7: “CSMS” is not an
+element of the model"</i>: the scenario must use the exact element names (here "Charging station management system (CSMS)"), otherwise the exchanges
+cannot be linked to components or protocols.</p>
+</details></div>
+
+<div class="lab"><h4>Lab 6.11-C — From logical to technical: comparing two solutions (1 h)</h4>
+<ol class="steps">
+<li><div class="step-content">On the model of lab A, create in the Function layer the <b>logical</b> element "Faulted-section detection" (Distribution / Operation).</div></li>
+<li><div class="step-content">Create two <b>technical</b> elements in the Component layer: "Centralised ADMS FLISR algorithm" (Distribution / Operation) and "Decentralised peer-to-peer IED automation (GOOSE)" (Distribution / Field).</div></li>
+<li><div class="step-content">Relations: <i>allocates</i> from the logical function to each of the two solutions; <i>realises</i> from each solution to the logical function. Check: no finding should concern these elements.</div></li>
+<li><div class="step-content">Deliberately create an <i>allocates</i> relation in the reverse direction: read the finding, then delete it.</div></li>
+<li><div class="step-content">Write a comparison table of the two solutions: restoration time, dependence on telecoms, cost, maintenance, cyber security.</div></li>
+</ol>
+<details class="sol"><summary>Answer outline</summary>
+<p>Without the <i>realises</i> relation the workshop would report <i>"Function “Faulted-section detection” realised by no component"</i>. With the
+reversed relation, the expected finding is <i>"…: “allocates” goes from a logical element to a technical element"</i>. Centralised solution: restoration
+in 1–3 min, needs an up-to-date CIM network model and an available SCADA, easy to extend; decentralised solution: restoration in under 1 s to a few
+seconds, independent of the control centre but requiring fast communication between IEDs (fibre, private radio) and reconfiguration at every
+network change. Both realise the same logical function: that is the basis on which bids are compared.</p>
+</details></div>
+
+<div class="lab"><h4>Lab 6.11-D — Gap analysis and link security (1 h)</h4>
+<ol class="steps">
+<li><div class="step-content">On the model of lab A, add a <i>communicates</i> relation from "Fault passage indicators (FPI)" to "Utility SCADA / ADMS" labelled "IEC 60870-5-104 (GPRS)".</div></li>
+<li><div class="step-content">Add a <i>communicates</i> relation from "Utility SCADA / ADMS" to the "Market platform" (create it in Transmission / Market if it does not exist) labelled "IEC 61850 MMS".</div></li>
+<li><div class="step-content">Check: note and explain the findings. Fix each link (suitable protocol, security).</div></li>
+<li><div class="step-content">Open Tools › Cyber-security risk analysis (IEC 62443) and relate the findings to the foundational requirements FR1 to FR7.</div></li>
+</ol>
+<details class="sol"><summary>Answer outline</summary>
+<p>FPI → SCADA link: information <i>"link between field and operation; provide IEC 62351 security"</i> — fix as "IEC 60870-5-104 + IEC 62351-3 (TLS)" over a
+private APN (FR1 authentication, FR4 confidentiality, FR3 integrity). SCADA → market link over IEC 61850: warning <i>"unusual protocol between zones
+Operation and Market"</i> — IEC 61850 is designed for substations; market exchanges use the CIM messages of IEC 62325 (or IEC 61968-100 towards the
+aggregator), through a demilitarised zone (FR5 restricted data flow).</p>
+</details></div>
+
+<div class="lab"><h4>Lab 6.11-E — Exchanging the network model in CIM format (1 h)</h4>
+<ol class="steps">
+<li><div class="step-content">Open <code>ieee33_distribution.xml</code>; "Distribution load flow" calculation; run it.</div></li>
+<li><div class="step-content"><b>File › Export the network in CIM format</b>, type "CGMES archive". Open the archive: how many files? In the EQ file, find an <code>ACLineSegment</code> (r, x), an <code>EnergyConsumer</code> and the <code>ExternalNetworkInjection</code>; in the SSH file, the power of load B18; in the SV file, the lowest voltage.</div></li>
+<li><div class="step-content">New project, then <b>File › Import a CIM network model</b> with the archive. Run the load flow again: compare the voltages with the original calculation.</div></li>
+<li><div class="step-content">In the SGAM workshop, locate this exchange: which information object, between which components, with which standard?</div></li>
+</ol>
+<details class="sol"><summary>Expected results</summary>
+<p>The archive contains 4 files (EQ, TP, SSH, SV; SV only appears if a load flow has been run). EQ: 32 <code>ACLineSegment</code>, 32
+<code>EnergyConsumer</code>, 1 <code>ExternalNetworkInjection</code>; SSH: <code>EnergyConsumer.p</code> in MW (load sign convention: generation is negative);
+SV: minimum voltage ≈ 0.913 pu (≈ 11.56 kV for 12.66 kV) at node 18. After re-import, 32 impedances, 32 loads and 1 slack bus are redrawn and the load
+flow gives the same voltages. In the SGAM: object "CIM network model" (IEC 61970-301 / 61968-11, CGMES), exchanged between the GIS / network data
+repository and the SCADA / ADMS via IEC 61968-100.</p>
+</details></div>
+
+<div class="lab"><h4>Lab 6.11-F — Microgrid architecture and islanding (1 h)</h4>
+<ol class="steps">
+<li><div class="step-content">Open <code>banc_essai_microreseau.xml</code> ("Microgrid tests" calculation); generate the architecture; add <b>UC-ILOT</b>.</div></li>
+<li><div class="step-content">Locate the coupling breaker (PCC), the microgrid controller, the BMS / PCS and the genset governor; check their standards.</div></li>
+<li><div class="step-content">Add the regulatory requirement "IEEE 2030.7 — transitions to and from island mode" and link it with <i>traces</i> to the function "Microgrid management and islanding".</div></li>
+<li><div class="step-content">Run the IEEE 2030.8 tests ("Microgrid tests" calculation); report in the use-case sheet (indicators) the measured transition time, frequency deviation and RoCoF.</div></li>
+</ol>
+<details class="sol"><summary>Expected results</summary>
+<p>Generation: 53 elements (component 22); with UC-ILOT: 24 components, 78 relations, no inconsistency. The PCC is in Distribution / Process, the
+microgrid controller in DER / Station (IEEE 2030.7, IEC 61850-7-420), the BMS / PCS and the genset governor in DER / Field. The scenario has 5 steps:
+islanding detection, PCC opening, battery switching to grid-forming mode, balance (load shedding, genset), grid return with synchronisation.</p>
+</details></div>
+
+<h3>6.11.7 Exercises</h3>
+<div class="ex"><h4>Exercise 1 — Placing elements in the SGAM</h4>
+<p>Give the layer, domain and zone of: (a) a 500 kW PV inverter; (b) its controller; (c) a DERMS; (d) a smart meter; (e) the MDMS; (f) a flexibility
+auction platform; (g) the OpenADR "EiEvent" message; (h) the G3-PLC network.</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>(a) Component, DER, Process; (b) Component, DER, Field; (c) Component, DER, Operation; (d) Component, Customer premises, Field; (e) Component,
+Customer premises (or Distribution), Enterprise; (f) Component, Transmission or Distribution, Market; (g) Information (object "Demand-response
+signals"), DER, Enterprise; (h) Communication, Customer premises, Field.</p>
+</details></div>
+<div class="ex"><h4>Exercise 2 — Choosing protocols</h4>
+<p>Propose a protocol for each link and justify it by the zone: IED ↔ IED in a substation; RTU → SCADA; inverter → DERMS; charger → CSMS; aggregator →
+industrial customer; HES → MDMS; meter → concentrator.</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>IEC 61850 GOOSE (Station, real time &lt; 10 ms); IEC 60870-5-104 or DNP3 with IEC 62351 (Station → Operation); IEEE 2030.5 or IEC 61850-7-420,
+Modbus SunSpec locally (Field → Operation); OCPP 2.0.1 (Field → Operation); OpenADR 2.0b (Enterprise → Field); IEC 61968-9 / 61968-100 (Operation →
+Enterprise); DLMS/COSEM over G3-PLC (Field → Station).</p>
+</details></div>
+<div class="ex"><h4>Exercise 3 — Finding inconsistencies</h4>
+<p>A model contains: (1) "Aggregator" <i>realises</i> "Virtual power plant"; (2) "Meters" <i>communicates</i> "HES" without label; (3) "Improve continuity"
+with no relation; (4) "Modbus" between the SCADA (Operation) and the RTU (Station); (5) "Load-shedding function" (logical) <i>allocates</i>
+"Under-frequency relay" (technical). Which findings does the workshop produce?</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>(1) error: "realises" starts from a component, not an actor — use "participates"; (2) warning: protocol not specified; (3) warning: goal linked to
+no function; (4) warning: unusual protocol between Station and Operation (Modbus is a field protocol without time-stamping or security), plus
+information: station–operation link without IEC 62351; (5) correct.</p>
+</details></div>
+<div class="ex"><h4>Exercise 4 — Writing a use case</h4>
+<p>Write the IEC 62559-2 sheet for "Connecting a 1 MW PV generator to an MV feeder": scope, objectives, actors, 5-step scenario with the information
+exchanged, indicators.</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>Scope: connection request, study, connection and operation of a 1 MW PV plant. Objectives: connect without exceeding 1.05 pu or thermal limits, at
+least reinforcement cost. Actors: generator owner, DSO, engineering consultant, DERMS, inverter. Scenario: (1) the owner submits the request (power,
+connection point) to the DSO; (2) the DSO exports the feeder's CIM model to the consultant (CIM network model); (3) the consultant computes the hosting
+capacity with and without Q(V) and sends the report; (4) the DSO notifies the required settings (Q(V), P(f), FRT) to the owner; (5) in operation, the
+DERMS sends set points to the inverter (P/Q set points, IEEE 2030.5). Indicators: connection lead time, MW connectable without reinforcement, annual
+curtailment.</p>
+</details></div>
+<div class="ex"><h4>Exercise 5 — Traceability of a quantified goal</h4>
+<p>The goal is "reduce SAIDI by 40 %". Build the traceability chain down to the protocols and state which NRJXpert studies verify that the goal is met.</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>Goal (business) → FLISR function → components: ADMS, IEDs and remote-controlled switches, FPIs, RTU → information: measurements and states,
+switching orders, CIM network model → protocols: IEC 61850, IEC 60870-5-104 + IEC 62351, IEC 61968-100. Verification: annual reliability study
+("Self-healing" calculation, annual option) with 2, 4 and 6 remote-controlled switches; keep the smallest number giving −40 % SAIDI with a positive
+discounted benefit (avoided ENS − cost of switches).</p>
+</details></div>
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
         <div class="section" id="n6-ex">
             <h2><span class="section-icon">🎯</span>Synthesis project — owner's engineering mission on an urban feeder</h2>
 <div class="ex"><h4>Subject</h4>
@@ -372,10 +608,13 @@ governance, economics and regulation. Assess yourself, then follow the proposed 
 <ol>
 <li><b>Scoping</b>: draw the feeder in NRJXpert (switching devices, loads with number of customers, PV, EV charger, capacitor banks); distribution load
 flow and hosting capacity.</li>
-<li><b>Requirements</b>: three IEC 62559 sheets (FLISR, IVVC/r, smart charging); SGAM mapping.</li>
+<li><b>Requirements</b>: three IEC 62559 sheets (FLISR, IVVC/r, smart charging) written in the SGAM workshop (Tools › SGAM architecture);
+architecture generated from the diagram then completed (logical elements allocated to technical solutions); check without errors or warnings;
+workshop HTML report attached to the file.</li>
 <li><b>Studies</b>: annual reliability study for 2, 4 then 6 remote-controlled switches; IVVC (S0 to S3); VPP with the aggregator's programme; islanding
 of a priority site.</li>
-<li><b>Specification</b>: CIM export and points list; communication and security requirements.</li>
+<li><b>Specification</b>: CIM export (CGMES archive with load-flow results) and points list; communication and security requirements drawn
+from the communication layer (protocols, IEC 62351) and the IEC 62443 analysis.</li>
 <li><b>Bids and acceptance</b>: evaluation grid and TCO of two solutions; FAT/SAT plan.</li>
 </ol>
 <p>Deliverable: 20-page report and 20 min presentation (marking scheme in the teacher's guide).</p></div>
@@ -421,6 +660,21 @@ of a priority site.</li>
 <div class="qcm" data-answer="d"><p class="q">12. The owner's engineering phase in which the IEC 62559 use case sheets are written is:</p>
 <ol><li data-k="a">scoping</li><li data-k="b">bid analysis</li><li data-k="c">acceptance</li><li data-k="d">requirements engineering</li></ol>
 <div class="fb">Phase 2, with the SGAM mapping of the information nodes and interoperability needs.</div></div>
+<div class="qcm" data-answer="c"><p class="q">13. In the SGAM workshop, a dashed frame denotes:</p>
+<ol><li data-k="a">a faulty component</li><li data-k="b">a component recalled as a watermark</li><li data-k="c">a logical element (what must be done)</li><li data-k="d">an element imported from a CIM file</li></ol>
+<div class="fb">Solid frame: technical element; dashed: logical element, to be allocated to one or more technical solutions.</div></div>
+<div class="qcm" data-answer="a"><p class="q">14. The "realises" relation connects:</p>
+<ol><li data-k="a">a component to a function</li><li data-k="b">an actor to a function</li><li data-k="c">a goal to a function</li><li data-k="d">two components</li></ol>
+<div class="fb">Actor → function: "participates"; goal → function: "traces"; component → component: "communicates" or "exchanges".</div></div>
+<div class="qcm" data-answer="d"><p class="q">15. An IEC 61850 MMS link between the SCADA (Operation) and a market platform (Market) triggers:</p>
+<ol><li data-k="a">no finding</li><li data-k="b">a relation error</li><li data-k="c">an empty layer</li><li data-k="d">an unusual-protocol-between-zones warning</li></ol>
+<div class="fb">IEC 61850 is designed for the Process to Operation zones; towards the market, the CIM messages of IEC 62325 are used.</div></div>
+<div class="qcm" data-answer="b"><p class="q">16. The CGMES profile that contains the computed bus voltages is:</p>
+<ol><li data-k="a">EQ</li><li data-k="b">SV</li><li data-k="c">SSH</li><li data-k="d">TP</li></ol>
+<div class="fb">EQ: equipment; TP: topology; SSH: steady-state hypothesis (powers, states); SV: state variables (results).</div></div>
+<div class="qcm" data-answer="c"><p class="q">17. In an IEC 62559-2 scenario, the workshop reports that a producer "is not an element of the model". You must:</p>
+<ol><li data-k="a">delete the step</li><li data-k="b">change layer</li><li data-k="c">use exactly the name of an actor or component of the model, or create it</li><li data-k="d">add a protocol</li></ol>
+<div class="fb">The scenario is linked to components, information and protocols only through element names.</div></div>
             <a href="#top" class="back-to-top">↑ Back to top</a>
         </div>
         <div class="page-nav"><a href="niveau5-en.html">← Level 5 — DER and smart grids</a><a href="niveau7-en.html">Level 7 — Expert workshop →</a></div>
@@ -432,8 +686,7 @@ of a priority site.</li>
                 <div class="author-info">
                     <div class="name">Prof. Lamine THIAW</div>
                     <div class="role">Department of Electrical Engineering<br>École Supérieure Polytechnique<br>Cheikh Anta Diop University, Dakar</div>
-                    <a href="mailto:lamine.thiaw@ucad.edu.sn">lamine.thiaw@ucad.edu.sn</a><br>
-                    <a href="mailto:lamine.thiaw@esp.sn">lamine.thiaw@esp.sn</a>
+                    <a href="mailto:nrjxpert@niitan.com">nrjxpert@niitan.com</a>
                 </div>
             </div>
             <p class="small" style="margin-top:14px">November 2026</p>

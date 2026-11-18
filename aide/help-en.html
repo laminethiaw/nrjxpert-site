@@ -6,6 +6,7 @@
 <title>NRJXpert — User guide</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="aide.css">
+<script src="tutoriel/glossaire.js" defer></script>
 </head>
 <body>
 <div id="top"></div>
@@ -147,11 +148,11 @@ not keep the diagrams.</li>
 <h3 id="menus">3.1 Menus and toolbar</h3>
 <table>
 <tr><th>Menu</th><th>Commands</th></tr>
-<tr><td>File</td><td>New, Open (<code>.nxp</code>), Save, Save as, Quit.</td></tr>
+<tr><td>File</td><td>New, Open (<code>.nxp</code>), Save, Save as, Import a CIM network model (IEC 61970 / CGMES), Export the network in CIM format, Quit.</td></tr>
 <tr><td>Edit</td><td>Undo, Redo, Component parameters, Rotate right / left, Delete, Stop placing / deselect, Copy, Paste, Group, Ungroup.</td></tr>
 <tr><td>Simulation</td><td>Run the simulation, Calculation and server settings, DER study settings…, Result curves…, Expert report of the last calculation (HTML)…,
 Save the OpenADR 2.0b message…, Calculate a network file (XML)…, Clear the results.</td></tr>
-<tr><td>Tools</td><td>Photovoltaic systems, Wind systems, Site weather data, Export the network in CIM format (IEC 61970 / 61968), Telecontrol points
+<tr><td>Tools</td><td>Photovoltaic systems, Wind systems, Site weather data, Import / export a CIM model (IEC 61970 / 61968, CGMES), SGAM architecture (Smart Grid Architecture Model), Telecontrol points
 list (IEC 61850, 60870-5-104, Modbus), Cybersecurity risk assessment (IEC 62443).</td></tr>
 <tr><td>Options</td><td>Language (Français, English).</td></tr>
 <tr><td>Help</td><td>Help — complete guide (this document), Tutorial and training (course in 7 levels, exercises, quizzes, case studies, teacher's guide),
@@ -270,6 +271,12 @@ optimised charging (V1G) and feed-in (V2G).</td></tr>
         </div>
         <div class="section" id="calcul">
             <h2><span class="section-icon">⚙️</span>5. Calculations and results</h2>
+<p><b>Calculation type preselection.</b> While you draw, NRJXpert analyses the diagram and picks the most likely calculation in the "Calculation"
+list; the status bar gives the reason. Rules, in order: short-circuit point placed → Short circuit; no bus (R, L, C, sources, meters) → Linear
+network; metering anomalies → AMI; tie switch or at least three switching devices → Self-healing; coupling breaker with battery → Microgrid tests
+(with genset) or Dynamics; EV chargers → Virtual power plant; capacitor banks → Volt/VAR; distributed resources → Economic dispatch (genset without
+grid), OPF (genset, battery and grid), Dynamics (events defined), Time series (load profile) or Distribution load flow; otherwise Load flow. The
+choice changes only when the nature of the diagram changes: a calculation chosen by hand is kept, as is the one saved with a project.</p>
 <p>Choose the calculation type and method in the toolbar, then <kbd>F5</kbd>. The diagram is sent to the remote calculation server (XML); the answer appears in the results table, the Selection panel and the tooltips. The calculation runs in the background (time-outs: connection 5 s, answer 60 s).</p>
 <h3 id="lineaire">5.1 Linear network</h3>
 <p>Node voltage method (modified nodal analysis for ideal sources and zero-impedance branches). Frequency: that of the AC sources; 0 Hz if all sources are DC; mixing DC and AC sources is rejected. Current and voltage of each dipole are given in its own direction.</p>
@@ -331,9 +338,31 @@ penalty) and sale of fast reserve; network check by a load flow at each step (DE
 microgrid events (IEEE 2030.7): <b>Islanding</b> (opening of the coupling point), <b>Synchronised reconnection</b> (synchroniser and synchro-check according
 to IEEE 1547: Δf, ΔV, Δφ depending on the island rating; maximum delay), <b>Closing without synchro-check</b>. Grid-following inverters have a
 Frequency-Watt function (droop, dead band <code>fwDeadband</code> in Hz).</p>
-<p><b>Tools › Export the network in CIM format</b>: RDF/XML file (IEC 61970-301 / 61968-13, equipment profile): nodes, terminals, line segments, loads,
-sources, machines, inverters (PhotoVoltaicUnit, BatteryUnit), capacitor banks, breakers and switches (normal state), FPIs. <b>Tools › Telecontrol points
-list</b>: CSV of the states, measurements, commands and set-points of each element, with the IEC 61850 logical node, the IEC 60870-5-104 ASDU type and
+<h3 id="cim">Model exchange in CIM format (IEC 61970 / 61968, CGMES)</h3>
+<p><b>File › Export the network in CIM format</b>: CGMES 3.0 <code>.zip</code> archive (one file per profile: <b>EQ</b> equipment, <b>TP</b> topology,
+<b>SSH</b> steady-state hypothesis, <b>SV</b> state variables if a load flow has been run) or a single RDF/XML file. The hidden elements of a line
+(π-model R, L, C) or of a transformer (Rcc, Lcc, Rfe, Lm) are grouped into one <code>ACLineSegment</code> (r, x, bch, length) or a two-winding
+<code>PowerTransformer</code> (rated voltages and power, vector group, clock number). "Grid" slack bus → <code>ExternalNetworkInjection</code>
+(short-circuit current derived from Rd, Xd); genset → <code>SynchronousMachine</code>; PV, battery, wind → <code>PowerElectronicsConnection</code> with
+<code>PhotoVoltaicUnit</code> / <code>BatteryUnit</code> / <code>PowerElectronicsWindUnit</code>; loads → <code>EnergyConsumer</code>; capacitor banks →
+<code>LinearShuntCompensator</code>; switching devices → <code>Breaker</code>, <code>Recloser</code>, <code>LoadBreakSwitch</code>; FPIs →
+<code>FaultIndicator</code>. CGMES units: kV, MW, Mvar, MVA, km. NRJXpert-specific parameters (profiles, inverter control…) go into an extension namespace
+ignored by other tools, which makes a lossless round trip possible. The export was checked with an independent tool (pandapower CGMES import and load
+flow of the IEEE 33-bus network: same voltages).</p>
+<p><b>File › Import a CIM network model</b>: one or more RDF/XML files (EQ, TP, SSH, SV…) or a <code>.zip</code> archive. The diagram is drawn
+automatically. A network with several voltage levels is referred to the source voltage (impedances × (V<sub>ref</sub>/V)², transformers at nominal
+ratio), which is equivalent to a per-unit calculation. Classes not imported are listed at the end.</p>
+<h3 id="sgam">SGAM architecture</h3>
+<p><b>Tools › SGAM architecture</b> opens the modelling workshop based on the SGAM framework (5 layers: business, function, information, communication,
+component; 5 domains; 6 zones). <b>Generate from the diagram</b> creates the components (primary substation, switchgear, IEDs, inverters, meters,
+chargers…), the systems (SCADA/ADMS, DERMS, HES, MDMS, CSMS, aggregator), the communication links and their protocols, the information objects, the
+functions and the actors matching the drawn network. <b>Template use cases</b> adds a use case described according to IEC 62559-2 (FLISR, IVVC, virtual
+power plant, AMI, smart charging, islanding) with its step-by-step scenario and sequence diagram. Tabs: plane of each layer (drag an element to change
+its cell; logical or technical viewpoint), SGAM cube, use cases, traceability matrix (goals → functions → components → information → protocols) and
+<b>Check</b> of cross-layer consistency (function not realised, link without protocol, unusual protocol between two zones, field–operation link without
+IEC 62351…). <b>HTML report</b>: planes and cube as SVG, tables, use cases and findings; <b>File</b>: model exchange as XML, export of the displayed plane
+as SVG. The model is saved with the project.</p>
+<p><b>Tools › Telecontrol points list</b>: CSV of the states, measurements, commands and set-points of each element, with the IEC 61850 logical node, the IEC 60870-5-104 ASDU type and
 address, Modbus registers (SunSpec models of the inverters) and OCPP messages of the chargers — indicative mappings to be validated with the selected
 equipment.</p>
 
@@ -447,7 +476,12 @@ server, editable before sending; the window shows a summary (global sections, bu
 <p>For the <b>centralised</b> system (one generator and the local grid) and the <b>decentralised</b> systems (one system per infrastructure):</p>
 <ul>
 <li><b>Optimised choice</b> of the equipment (minimum life-cycle cost among the database) or imposed equipment;</li>
+<li><b>Connection compatibility</b> (optimised or imposed choice): batteries whose voltage divides the DC bus voltage (12.8 V LFP for 12 V…), off-grid inverters with the same DC voltage as the bus, charge controllers of the right type (MPPT/PWM) accepting the battery voltage, maximum input voltage ≥ cold string Voc (1.1 × Voc), input current ≥ 1.25 × Isc of the connected strings and sufficient output current (a string is never shared between two controllers); with PWM, string Vmp ≤ 2 × bus voltage. Module and controller are chosen together: the cheapest compatible combination is kept, even if it costs more than a combination that cannot be connected. The “Connection” line of the results summarises the wiring; without a compatible combination, a warning lists the unmet constraints.</li>
+<li><b>Automatic choice of bus voltage and controller type</b> (box under “lowest life-cycle cost”, ticked for new projects): the six variants 12, 24, 48 V × MPPT, PWM are sized and the one with the lowest cost per kWh among those whose connections all comply is kept; the “Automatic choice” line of the results compares the variants. Wiring counts one array → controller and controller → battery link per controller, and one battery → inverter and inverter → board link per inverter (cross-sections sized for each unit’s current).</li>
 <li><b>DC bus voltage</b> (12, 24, 48 V…), battery <b>autonomy</b> (h), <b>depth of discharge</b> (%);</li>
+<li><b>loads supplied by the battery</b>: <i>all loads</i>, or <i>priority loads only</i> ("Priority" column of the appliances): the smaller battery is
+sized on priority needs only and the other loads are shed during the autonomy period; the PV array always covers all loads. Same choice in the wind
+window (storage): non-priority loads are shed there when wind is lacking and the battery falls below half of its usable energy;</li>
 <li><b>MPPT charge controller</b> (otherwise PWM) — essential with 60- or 72-cell modules;</li>
 <li><b>lifetimes</b> used when the database gives none: batteries (5 years), inverters and charge controllers (10 years); empty field = default value;</li>
 <li><b>design margin</b> (%): increases the needs (Ah/d) before the array and battery are sized, to cover the uncertainty on the load profile, demand growth and ageing; 10 % by default for new projects, 0 % for projects saved before it was introduced;</li>
@@ -475,7 +509,7 @@ links machine → electronics and electronics → connection or battery.</p>
 <li><div class="step-content"><b>Irradiance and temperature</b>: 12 typical days of the site (downloaded profiles when available, otherwise half-sine and entered day/night spread), or an hourly measurement file (Excel or text: 24 columns, one irradiance row in W/m² then one temperature row per day; 2, 60 or 730 rows for a typical day, month or year; the “?” button recalls the expected format).</div></li>
 <li><div class="step-content"><b>Equipment</b>: module (Pp, Vmp, Imp, Voc, Isc, cost), inverter (DC voltage, kVA, cost), battery and controller (stand-alone), autonomy in hours of average daily production. Equipment chosen from the equipment databases (their values cannot be edited here).</div></li>
 <li><div class="step-content"><b>Economic data</b>: O&amp;M, installation, insurance (per kW), subsidy, tariff and its growth, lifetime, inflation, discount rate.</div></li>
-<li><div class="step-content"><b>Model parameters…</b>: cells, reference conditions, NOCT, Pmax temperature coefficient, system losses, degradation, clipping, inverter efficiency and power factor, depth of discharge, battery efficiency and stored share, lifetimes.</div></li>
+<li><div class="step-content"><b>Model parameters…</b>  (window toolbar, next to “Equipment databases…”; the <b>system losses, NOCT and temperature coefficient</b> are also used by the sizing: loss factor = 1 − losses, cell temperature Ta + (NOCT − 20) at 800 W/m², power correction by the coefficient): cells, reference conditions, NOCT, Pmax temperature coefficient, system losses, degradation, clipping, inverter efficiency and power factor, depth of discharge, battery efficiency and stored share, lifetimes.</div></li>
 <li><div class="step-content"><b>Compute</b>; <b>Sensitivity analysis</b> (NPV, IRR, break-even tariff versus power and tariff; CSV export); <b>Minimum subsidy</b>, <b>Minimum tariff</b>; <b>Report</b> (savable text).</div></li>
 </ol>
 <p>Results: installed power, number of modules, inverters, batteries, controllers, annual energy, specific yield (kWh/kWp/yr) and performance ratio PR, investment, NPV, IRR, simple and discounted payback, LCOE, minimum tariff, minimum subsidy, charts (weather, hourly and monthly production, cash flows, sensitivity).</p>
@@ -661,6 +695,7 @@ renamed <code>aerogenerateurs.avant-2026-11.csv</code>.</p>
 <tr><td><code>~/.nrjxpert/pv/</code></td><td>Modified PV equipment databases (CSV).</td></tr>
 <tr><td><code>~/.nrjxpert/meteo/cache/</code></td><td>Weather service answers (90 days).</td></tr>
 <tr><td><code>~/.nrjxpert/aide/</code></td><td>Copy of this guide, opened in the browser.</td></tr>
+<tr><td>Figure and table exports</td><td><b>Right-click</b> any chart: PNG image (high resolution, white background), CSV data, copy the image or the data (paste into Excel). Right-click any table: CSV export (visible columns, all rows) or copy for Excel. CSV is UTF-8; ";" separator and decimal comma in French, "," and decimal point in English.</td></tr>
 <tr><td>Exports</td><td>Monthly averages (CSV, “;” separator, decimal comma), sensitivities (CSV), reports (text).</td></tr>
 </table>
 
@@ -764,8 +799,7 @@ between the slack bus (upstream grid, dynamic model « grid ») and the site, in
                 <div class="author-info">
                     <div class="name">Prof. Lamine THIAW</div>
                     <div class="role">Department of Electrical Engineering<br>École Supérieure Polytechnique<br>Cheikh Anta Diop University, Dakar</div>
-                    <a href="mailto:lamine.thiaw@ucad.edu.sn">lamine.thiaw@ucad.edu.sn</a><br>
-                    <a href="mailto:lamine.thiaw@esp.sn">lamine.thiaw@esp.sn</a>
+                    <a href="mailto:nrjxpert@niitan.com">nrjxpert@niitan.com</a>
                 </div>
             </div>
             <p class="small" style="margin-top:14px">November 2026</p>

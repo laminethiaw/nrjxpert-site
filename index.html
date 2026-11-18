@@ -110,11 +110,12 @@ footer a:hover{ color:var(--gold); }
 
 /* ── galerie / carrousel ── */
 #apercu .carousel{ position:relative; max-width:860px; margin:0 auto; }
-.viewport{ position:relative; overflow:hidden; border-radius:16px; border:1px solid var(--line); box-shadow:var(--shadow); background:var(--panel); }
-.slides{ display:flex; }
+.viewport{ position:relative; overflow:hidden; transition:height .35s ease; border-radius:16px; border:1px solid var(--line); box-shadow:var(--shadow); background:var(--panel); }
+.slides{ display:flex; align-items:flex-start; }
 .slides.anim{ transition:transform .55s cubic-bezier(.4,0,.2,1); }
 .slide{ min-width:100%; margin:0; }
-.slide img{ width:100%; display:block; }
+.slide img{ width:100%; display:block; object-fit:contain; }
+.slide img.tall{ max-height:480px; }   /* capture en portrait (fenêtre étroite) : taille réduite, centrée */
 .cbtn{ position:absolute; top:50%; transform:translateY(-50%); z-index:2; width:42px; height:42px; border-radius:50%;
   border:1px solid var(--line); background:rgba(255,255,255,.9); color:var(--ink); font-size:1.5rem; line-height:1; cursor:pointer;
   display:grid; place-items:center; box-shadow:0 2px 10px rgba(16,24,40,.15); transition:background .15s; }
@@ -178,7 +179,6 @@ footer a:hover{ color:var(--gold); }
   <div class="hero">
     <div class="wrap">
       <div>
-        <div class="kicker"><span lang="fr">ESP · UCAD · Dakar</span><span lang="en">ESP · UCAD · Dakar</span></div>
         <h1 lang="fr">Simuler les réseaux électriques et les énergies renouvelables</h1>
         <h1 lang="en">Simulate power networks and renewable energy systems</h1>
         <p class="lead" lang="fr">NRJXpert réunit l'éditeur de schémas, les calculs de réseau (load flow, court-circuit, dynamique), le dimensionnement des systèmes photovoltaïques, éoliens et hybrides, et un parcours de formation complet jusqu'aux réseaux intelligents.</p>
@@ -247,8 +247,8 @@ footer a:hover{ color:var(--gold); }
         <div class="kicker dark"><span lang="fr">En images</span><span lang="en">In pictures</span></div>
         <h2 lang="fr">L'application en action</h2>
         <h2 lang="en">The application in action</h2>
-        <p lang="fr">Éditeur de schémas, calculs de réseau, données météo et dimensionnement des systèmes photovoltaïques et éoliens.</p>
-        <p lang="en">Schematic editor, network calculations, weather data and sizing of photovoltaic and wind systems.</p>
+        <p lang="fr">Éditeur de schémas, calculs de réseau (dont simulation dynamique), données météo, dimensionnement et viabilité économique des systèmes photovoltaïques, éoliens et de pompage solaire, architecture réseau intelligent SGAM.</p>
+        <p lang="en">Schematic editor, network calculations (including dynamic simulation), weather data, sizing and economic viability of photovoltaic, wind and solar pumping systems, SGAM smart grid architecture.</p>
       </div>
       <div class="carousel">
         <div class="viewport">
@@ -357,7 +357,7 @@ footer a:hover{ color:var(--gold); }
 
 <footer>
   <div class="wrap">
-    <div>© <span id="year">2026</span> NRJXpert — ESP / UCAD, Dakar</div>
+    <div>© <span id="year">2026</span> NRJXpert — <span lang="fr">distribué par</span><span lang="en">distributed by</span> <b>Niitan</b> <small>Smart technologies</small> - <a href="https://www.niitan.com" target="_blank" rel="noopener">www.niitan.com</a></div>
     <nav>
       <a data-doc="guide" href="aide/aide-fr.html"><span lang="fr">Guide</span><span lang="en">Guide</span></a>
       <a data-doc="tuto" href="aide/tutoriel/index.html"><span lang="fr">Tutoriel</span><span lang="en">Tutorial</span></a>
@@ -409,17 +409,48 @@ footer a:hover{ color:var(--gold); }
    puis ajoutez une ligne { src:"img/mon-image.webp", fr:"Légende FR", en:"Caption EN" } ci-dessous. */
 (function(){
   var SHOTS = [
-    { src:"img/edit-schemas.webp",     fr:"Éditeur de schémas et calculs de réseau",                                en:"Schematic editor and network calculations" },
-    { src:"img/donnees-meteo.webp",    fr:"Données météo du site : solaire et vent (NASA POWER, PVGIS, Open-Meteo)", en:"Site weather data: solar and wind (NASA POWER, PVGIS, Open-Meteo)" },
-    { src:"img/systemes-pv.webp",      fr:"Dimensionnement des systèmes photovoltaïques",                           en:"Photovoltaic system sizing" },
-    { src:"img/systemes-eoliens.webp", fr:"Analyse du vent et systèmes éoliens",                                    en:"Wind analysis and wind systems" }
+    { src:"img/nrj-edit-schema.webp", fr:"Éditeur de schémas et calculs de réseau", en:"Schematic editor and network calculations" },
+    { src:"img/nrj-circuit3ph-lin.webp", fr:"Circuit triphasé linéaire : wattmètre, ampèremètre et voltmètre, résultats en valeurs efficaces", en:"Linear three-phase circuit: wattmeter, ammeter and voltmeter, RMS results" },
+    { src:"img/nrj-load-flow-dynamic-schema.webp", fr:"Simulation dynamique (RMS) d'un micro-réseau : groupe diesel, batterie, PV et charges, avec défaut triphasé", en:"Dynamic (RMS) simulation of a micro-grid: diesel genset, battery, PV and loads, with a three-phase fault" },
+    { src:"img/nrj-load-flow-dynamic-f.webp", fr:"Simulation dynamique : fréquence de chaque source (nadir et rétablissement)", en:"Dynamic simulation: frequency of each source (nadir and recovery)" },
+    { src:"img/nrj-load-flow-dynamic-u.webp", fr:"Simulation dynamique : creux de tension pendant le défaut puis rétablissement", en:"Dynamic simulation: voltage sag during the fault, then recovery" },
+    { src:"img/nrj-load-flow-dynamic-p.webp", fr:"Simulation dynamique : partage de la puissance active entre les sources", en:"Dynamic simulation: active power sharing between the sources" },
+    { src:"img/nrj-load-flow-dynamic-i.webp", fr:"Simulation dynamique : courants de défaut des sources", en:"Dynamic simulation: fault currents of the sources" },
+    { src:"img/nrj-architecture-sgam.webp", fr:"Architecture SGAM générée depuis le schéma : cube couches × domaines × zones", en:"SGAM architecture generated from the schematic: layers × domains × zones cube" },
+    { src:"img/nrj-schema-systeme-pv-dc-ac.webp", fr:"Schéma d'un système PV autonome : météo, générateur, régulateur, bus continu, batterie, onduleur et charges", en:"Stand-alone PV system schematic: weather, generator, regulator, DC bus, battery, inverter and loads" },
+    { src:"img/nrj-donnees-meteo.webp", fr:"Données météo du site : solaire et vent (NASA POWER, PVGIS, Open-Meteo)", en:"Site weather data: solar and wind (NASA POWER, PVGIS, Open-Meteo)" },
+    { src:"img/nrj-pv-site-mesures.webp", fr:"Systèmes photovoltaïques : site et mesures d'ensoleillement", en:"Photovoltaic systems: site and irradiation measurements" },
+    { src:"img/nrj-pv-besoins.webp", fr:"Systèmes photovoltaïques : besoins en énergie et profil de charge", en:"Photovoltaic systems: energy needs and load profile" },
+    { src:"img/nrj-pv-recepteur.webp", fr:"Systèmes photovoltaïques : définition d'un récepteur et de ses horaires", en:"Photovoltaic systems: defining a load and its operating hours" },
+    { src:"img/nrj-pv-options-couts.webp", fr:"Systèmes photovoltaïques : options de dimensionnement et coûts", en:"Photovoltaic systems: sizing options and costs" },
+    { src:"img/nrj-pv-resultats-dimensionnement.webp", fr:"Dimensionnement PV : équipements retenus, câblage et protections", en:"PV sizing: selected equipment, cabling and protections" },
+    { src:"img/nrj-pv-resultats-dimensionnement-suite.webp", fr:"Dimensionnement PV : système centralisé et systèmes décentralisés", en:"PV sizing: centralized and decentralized systems" },
+    { src:"img/nrj-pc-dc-ac-1.webp", fr:"Simulation annuelle d'un système PV avec batterie : production, stockage, déficit", en:"Yearly simulation of a PV system with battery: production, storage, deficit" },
+    { src:"img/nrj-pc-dc-ac-2.webp", fr:"Simulation horaire d'un mois : production, consommation et état de la batterie", en:"Hourly simulation of a month: production, consumption and battery state" },
+    { src:"img/nrj-pv-viabilite-production.webp", fr:"Viabilité économique PV : production et énergie", en:"PV economic viability: production and energy" },
+    { src:"img/nrj-pv-viabilite-flux-tresorerie.webp", fr:"Viabilité économique PV : flux de trésorerie cumulé", en:"PV economic viability: cumulative cash flow" },
+    { src:"img/nrj-pv-viabilite-sensibilite.webp", fr:"Viabilité économique PV : analyse de sensibilité", en:"PV economic viability: sensitivity analysis" },
+    { src:"img/nrj-systems-eoliens.webp", fr:"Analyse du vent et systèmes éoliens", en:"Wind analysis and wind systems" },
+    { src:"img/nrj-eolien-site-mesures.webp", fr:"Systèmes éoliens : site et mesures de vent", en:"Wind systems: site and wind measurements" },
+    { src:"img/nrj-eolien-analyse-vent.webp", fr:"Systèmes éoliens : analyse statistique du vent", en:"Wind systems: statistical wind analysis" },
+    { src:"img/nrj-eolien-rose-vents.webp", fr:"Rose des vents et rose d'énergie : directions dominantes et énergie par secteur", en:"Wind rose and energy rose: dominant directions and energy by sector" },
+    { src:"img/nrj-eolien-aerogenerateur.webp", fr:"Systèmes éoliens : choix de l'aérogénérateur", en:"Wind systems: wind turbine selection" },
+    { src:"img/nrj-eolien-production-dimensionnement.webp", fr:"Systèmes éoliens : production et dimensionnement", en:"Wind systems: production and sizing" },
+    { src:"img/nrj-eolien-viabilite-energie.webp", fr:"Viabilité économique éolienne : énergie produite", en:"Wind economic viability: energy produced" },
+    { src:"img/nrj-eolien-viabilite.webp", fr:"Viabilité économique éolienne : rentabilité", en:"Wind economic viability: profitability" },
+    { src:"img/nrj-pompage-site-mesures.webp", fr:"Pompage solaire : site et mesures", en:"Solar pumping: site and measurements" },
+    { src:"img/nrj-pompage-besoins-eau.webp", fr:"Pompage solaire : besoins en eau", en:"Solar pumping: water needs" },
+    { src:"img/nrj-pompage-pome-dimensionnement.webp", fr:"Pompage solaire : dimensionnement de la pompe et du champ PV", en:"Solar pumping: pump and PV array sizing" },
+    { src:"img/nrj-pompage-simulation.webp", fr:"Pompage solaire : simulation", en:"Solar pumping: simulation" },
+    { src:"img/nrj-pompage-simulation-bilan-mensuel.webp", fr:"Pompage solaire : bilan mensuel de la simulation", en:"Solar pumping: monthly simulation balance" },
+    { src:"img/nrj-pompage-viabilite.webp", fr:"Pompage solaire : viabilité économique", en:"Solar pumping: economic viability" }
   ];
   var slides=document.getElementById("slides"), dotsBox=document.getElementById("cdots"),
       cap=document.getElementById("ccaption"), prev=document.getElementById("cprev"), next=document.getElementById("cnext");
   if(!slides) return;
   SHOTS.forEach(function(s,i){
     var fig=document.createElement("figure"); fig.className="slide";
-    var img=document.createElement("img"); img.src=s.src; img.alt="NRJXpert"; img.loading = i===0 ? "eager" : "lazy";
+    var img=document.createElement("img"); img.src=s.src; img.alt="NRJXpert"; img.loading = i===0 ? "eager" : "lazy"; img.addEventListener("load", function(){ if(img.naturalHeight>img.naturalWidth) img.classList.add("tall"); if(i===cur) fit(); });
     fig.appendChild(img); slides.appendChild(fig);
     var d=document.createElement("button"); d.className="dot"+(i===0?" on":""); d.type="button";
     d.setAttribute("aria-label","Image "+(i+1)); d.addEventListener("click", function(){ go(i); });
@@ -427,9 +458,17 @@ footer a:hover{ color:var(--gold); }
   });
   var n=SHOTS.length, cur=0, timer=null;
   var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var viewport=slides.parentNode;
+  /* la hauteur du cadre suit celle de l'image affichée (les captures n'ont pas toutes les mêmes proportions) */
+  function fit(){
+    var im=slides.children[cur] && slides.children[cur].firstChild;
+    if(im && im.offsetHeight>0) viewport.style.height=im.offsetHeight+"px";
+  }
+  window.addEventListener("resize", fit);
   function render(){
     slides.classList.add("anim");
     slides.style.transform = "translateX(-"+(cur*100)+"%)";
+    fit();
     var s=SHOTS[cur];
     cap.innerHTML = '<span lang="fr">'+s.fr+'</span><span lang="en">'+s.en+'</span>';
     var dd=dotsBox.children; for(var i=0;i<dd.length;i++) dd[i].classList.toggle("on", i===cur);

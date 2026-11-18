@@ -7,6 +7,8 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="tutoriel.css">
 <script src="tutoriel.js"></script>
+<script src="economie.js" defer></script>
+<script src="glossaire.js" defer></script>
 </head>
 <body>
 <div id="top"></div>
@@ -19,6 +21,7 @@
     </div>
     <nav>
         <a href="#intro"><span class="nav-icon">📘</span>Introduction</a>
+        <a href="#n4-0"><span class="nav-icon">🧭</span>The six essential notions</a>
         <a href="#n4-1"><span class="nav-icon">🔹</span>Time value of money</a>
         <a href="#n4-2"><span class="nav-icon">💰</span>Life-cycle cost and discounted cost</a>
         <a href="#n4-3"><span class="nav-icon">💰</span>Levelised cost of energy (LCOE)</a>
@@ -59,6 +62,7 @@ profitable. This level gives the tools to demonstrate it.</div>
             <h2>Contents</h2>
             <div class="toc-grid">
                 <a href="#intro"><span class="toc-num">00</span>Introduction</a>
+                <a href="#n4-0"><span class="toc-num">4.0</span>The six essential notions</a>
                 <a href="#n4-1"><span class="toc-num">4.1</span>Time value of money</a>
                 <a href="#n4-2"><span class="toc-num">4.2</span>Life-cycle cost and discounted cost</a>
                 <a href="#n4-3"><span class="toc-num">4.3</span>Levelised cost of energy (LCOE)</a>
@@ -75,6 +79,7 @@ profitable. This level gives the tools to demonstrate it.</div>
 <div class="objectifs">
 <h4>Objectives</h4>
 <ul>
+<li>Understand the six notions of project appraisal (inflation, discount rate, discounted cost, NPV, IRR, payback): the question each one answers and its decision criterion.</li>
 <li>Discount cash flows, account for inflation, calculate an annuity.</li>
 <li>Calculate the discounted cost of a project (investment, operation, replacements, residual value) and the cost of the kWh (LCOE).</li>
 <li>Assess profitability: NPV, IRR, simple and discounted payback; determine the minimum tariff and subsidy.</li>
@@ -84,6 +89,154 @@ profitable. This level gives the tools to demonstrate it.</div>
 </div>
 
 <!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n4-0">
+            <h2><span class="section-icon">🧭</span>4.0 The six essential notions of project appraisal</h2>
+<p>Before calculating, you need to understand what each indicator <b>measures</b> and which <b>question</b> it answers. Six notions are
+enough to appraise an energy project: the <b>inflation rate</b>, the <b>discount rate</b>, the <b>discounted cost</b>, the <b>NPV</b>, the
+<b>IRR</b> and the <b>payback period</b>. They build on one another: the first two are <i>assumptions</i> you choose, the other four are
+<i>results</i> you calculate and interpret.</p>
+<div class="note"><b>Running example.</b> Mrs Diop runs a shop in Thiès. She is considering investing <b>1,000 kF</b> in a small photovoltaic
+installation that would save her <b>250 kF per year</b> on electricity and diesel for <b>10 years</b>. Her bank lends at <b>8 %</b>. Is the
+project worthwhile? Each notion below provides part of the answer.</div>
+
+<h3>1. The inflation rate: how much value does money lose?</h3>
+<p><b>Definition.</b> The percentage <b>general and sustained</b> increase in the prices of goods and services over a period, usually one year.
+It measures the <b>loss of purchasing power</b> of money.</p>
+<p><b>Intuition.</b> With 3 % inflation, a basket of groceries that cost 100 last year costs 103 today: with the same 100 you buy less.
+Inflation makes nobody richer; it only changes the unit of measurement from one year to the next.</p>
+<div class="eq">Price in year n: C<sub>n</sub> = C₀ · (1 + i)<sup>n</sup></div>
+<div class="ex"><h4>Example 4.0.1 — Diesel in ten years</h4>
+<p>A litre of diesel costs 750 F. If prices rise by 4 % per year, how much will it cost in 10 years?</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>750 × 1.04¹⁰ = <span class="result">1,110 F/l</span> (+48 %). A genset burning 4,000 l/yr will see its bill rise from 3,000 kF to over
+4,400 kF per year: inflation weighs heavily on solutions with high running costs, and little on a PV plant, most of which is paid on day one.</p>
+</details></div>
+<p><b>In NRJXpert.</b> The "Inflation" field of the economic viability tabs (PV, wind) makes operating, fuel and replacement costs grow each year.</p>
+
+<h3>2. The discount rate: what is a future franc worth today?</h3>
+<p><b>Definition.</b> The rate used to <b>convert a future amount into its equivalent value today</b>.</p>
+<p><b>Intuition: 1 franc today is worth more than 1 franc tomorrow</b>, for three reasons:</p>
+<ul>
+<li><b>inflation</b>: tomorrow that franc will buy less;</li>
+<li><b>risk</b>: the future may not go as planned (breakdowns, lower tariffs, unpaid bills);</li>
+<li><b>opportunity cost</b>: available today, the franc could be invested and earn interest.</li>
+</ul>
+<p>In practice it is the <b>minimum rate of return</b> an investor requires before tying money up in a project (cost of borrowing, or a
+risk-free return plus a risk premium).</p>
+<div class="eq">Present value: PV = F<sub>n</sub> / (1 + d)<sup>n</sup> &nbsp;&nbsp; discount factor: DF<sub>n</sub> = 1/(1 + d)<sup>n</sup></div>
+<table>
+<tr><th>Year n</th><th>1</th><th>5</th><th>10</th><th>20</th></tr>
+<tr><td>Present value of 1,000 F received in year n, at 8 %</td><td class="num">926 F</td><td class="num">681 F</td><td class="num">463 F</td><td class="num">215 F</td></tr>
+</table>
+<p>At 8 %, a franc received in 20 years "weighs" only 21 % of a franc today. The higher the rate, the less distant gains count — which
+penalises long-lived projects such as solar.</p>
+<div class="ex"><h4>Example 4.0.2</h4>
+<p>You are promised 1,000,000 F in 5 years. What amount would you accept today if your discount rate is 8 %?</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>1,000,000/1.08⁵ = <span class="result">680,583 F</span>. Above that amount, you are better off taking the money now.</p>
+</details></div>
+<div class="note"><b>Nominal or real rate?</b> If cash flows are in current francs (including inflation), discount at the <b>nominal</b> rate;
+if they are in constant francs (excluding inflation), discount at the <b>real</b> rate: (1 + d<sub>nominal</sub>) = (1 + d<sub>real</sub>)(1 + i).
+Mixing the two is the most common mistake.</div>
+
+<h3>3. The discounted cost: how much will this project really cost in total?</h3>
+<p><b>Definition.</b> The sum of <b>all expenses</b> of a project over its life — initial purchase, installation, maintenance, energy, repairs
+and replacements — <b>brought back to today's value</b> with the discount rate.</p>
+<div class="eq">C<sub>disc</sub> = I₀ + Σ<sub>n=1..N</sub> C<sub>n</sub> / (1 + d)<sup>n</sup></div>
+<p><b>What is it for?</b> To <b>compare objectively</b> two items that provide the same service: a machine that is cheap to buy but consumes a
+lot for 10 years may cost more than an expensive but efficient one.</p>
+<div class="ex"><h4>Example 4.0.3 — Two refrigerators for a health post</h4>
+<p>Refrigerator A: 150 kF, 1.6 kWh/day. Refrigerator B: 350 kF, 0.6 kWh/day. Electricity at 120 F/kWh, 10 years, 8 % discount rate,
+constant prices. Which is cheaper?</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>Annual energy cost: A = 1.6 × 365 × 0.120 = 70.08 kF; B = 0.6 × 365 × 0.120 = 26.28 kF. Sum of discount factors over 10 years at 8 %:
+Σ 1/1.08<sup>n</sup> = 6.710.</p>
+<p>C<sub>disc</sub>(A) = 150 + 70.08 × 6.710 = <span class="result">620 kF</span>; C<sub>disc</sub>(B) = 350 + 26.28 × 6.710 =
+<span class="result">526 kF</span>. Refrigerator B, more than twice as expensive to buy, saves 94 kF in today's money — and it also
+relieves the PV system that powers it.</p>
+</details></div>
+<p><b>In NRJXpert.</b> The discounted cost of a system (investment, operation, battery and inverter replacements, residual value) is computed in the
+"Economic viability" tab; divided by the discounted energy, it gives the <b>LCOE</b> (section 4.3).</p>
+
+<h3>4. NPV: how much money does this project make me?</h3>
+<p><b>Definition.</b> The <b>net present value</b> is the net wealth created by a project, expressed in today's money: add up all discounted
+future gains and subtract the initial investment.</p>
+<div class="eq">NPV = sum of discounted future gains − initial investment = −I₀ + Σ<sub>n=1..N</sub> F<sub>n</sub> / (1 + d)<sup>n</sup></div>
+<table>
+<tr><th>Result</th><th>Interpretation</th><th>Decision</th></tr>
+<tr><td>NPV &gt; 0</td><td>the project earns more than the minimum required by the discount rate</td><td>invest</td></tr>
+<tr><td>NPV = 0</td><td>it just repays the investment and the required return, with no surplus</td><td>indifferent</td></tr>
+<tr><td>NPV &lt; 0</td><td>the project destroys value</td><td>abandon it (or seek a subsidy, section 4.5)</td></tr>
+</table>
+<div class="ex"><h4>Example 4.0.4 — Mrs Diop's project</h4>
+<p>Investment 1,000 kF, savings 250 kF/yr for 10 years, rate 8 %. NPV?</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>NPV = −1,000 + 250 × 6.710 = <span class="result">+678 kF</span>. The project is profitable: on top of repaying her 8 % loan, Mrs Diop
+gains 678 kF in today's money.</p>
+</details></div>
+
+<h3>5. IRR: what is the annual return of this project?</h3>
+<p><b>Definition.</b> The <b>internal rate of return</b> is the project's actual annual rate of return. Mathematically, it is the exact discount
+rate that <b>makes the NPV zero</b>.</p>
+<div class="eq">IRR: Σ<sub>n=0..N</sub> F<sub>n</sub> / (1 + IRR)<sup>n</sup> = 0 &nbsp; (found by trial and error or bisection)</div>
+<p><b>How to interpret it?</b> Compare it directly with the discount rate or the interest rate of a loan:</p>
+<ul>
+<li>if the bank lends at 4 % and the IRR is 9 %, the project is very attractive: it yields a 5-point margin;</li>
+<li>if the IRR is below the discount rate, the project is not profitable enough for the risk taken.</li>
+</ul>
+<div class="ex"><h4>Example 4.0.5</h4>
+<p>What is the IRR of Mrs Diop's project?</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>Find r such that 250 × Σ<sub>n=1..10</sub> 1/(1 + r)<sup>n</sup> = 1,000, i.e. a sum of discount factors equal to 4. It is 4.19 at 20 % and
+3.92 at 22 %: by bisection, <span class="result">IRR ≈ 21.4 %</span>, well above the 8 % loan rate.</p>
+</details></div>
+<div class="note"><b>Limits.</b> When cash flows change sign several times (costly battery replacement mid-life), there may be several IRRs or none:
+NPV then remains the reference criterion. Between two mutually exclusive projects of different sizes, the higher IRR is not necessarily the higher NPV.</div>
+
+<h3>6. Payback period: how many years to recover my outlay?</h3>
+<p><b>Definition.</b> The time (in years or months) needed for the project's <b>cumulative gains</b> to repay the initial outlay exactly.
+<i>Note: in French the acronym TRI is sometimes also used for "temps de retour sur investissement" (payback); in NRJXpert, TRI always means internal
+rate of return.</i></p>
+<div class="eq">Simple payback = I₀ / annual gain &nbsp;&nbsp; discounted payback: first year in which Σ F<sub>n</sub>/(1 + d)<sup>n</sup> ≥ I₀</div>
+<div class="ex"><h4>Example 4.0.6</h4>
+<p>Simple and discounted payback of Mrs Diop's project?</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>Simple: 1,000/250 = <span class="result">4 years</span>. Discounted: cumulative discounted savings are 828 kF after 4 years, 998 kF after 5 years
+and 1,156 kF after 6 years: <span class="result">≈ 5.0 years</span>. Discounting always lengthens the payback period.</p>
+</details></div>
+<p><b>Limits.</b> It is a very simple <b>risk and liquidity</b> indicator, but incomplete: it ignores what happens after payback (a project that is slow
+to pay back may earn a great deal over 20 years) and, in its simple form, discounting.</p>
+
+<h3>In summary: how do the six notions fit together?</h3>
+<table>
+<tr><th>Indicator</th><th>Question it answers</th><th>Decision criterion</th></tr>
+<tr><td>Inflation</td><td>How much value does money lose?</td><td>calculation basis (growth of future costs)</td></tr>
+<tr><td>Discount rate</td><td>What is a future franc worth today?</td><td>used to compute NPV and discounted cost</td></tr>
+<tr><td>Discounted cost</td><td>How much will this project really cost in total?</td><td>choose the lowest cost (for the same service)</td></tr>
+<tr><td>NPV</td><td>How much money does this project make me?</td><td>must be positive (&gt; 0)</td></tr>
+<tr><td>IRR</td><td>What is the project's annual return (in %)?</td><td>must exceed the discount rate</td></tr>
+<tr><td>Payback period</td><td>How many years to recover my outlay?</td><td>as short as possible (risk indicator)</td></tr>
+</table>
+<div class="lab"><h4>Four-step method</h4>
+<ol class="steps">
+<li><div class="step-content"><b>Set the assumptions</b>: study period, inflation, discount rate (nominal or real, consistently with the cash flows).</div></li>
+<li><div class="step-content"><b>If the options provide the same service</b> (supplying a village: PV, diesel or grid), compute their <b>discounted cost</b>
+or <b>LCOE</b> and keep the lowest.</div></li>
+<li><div class="step-content"><b>If the project generates revenue or savings</b>, compute the <b>NPV</b>: if positive, it is profitable; then the <b>IRR</b> to
+compare with the cost of credit.</div></li>
+<li><div class="step-content"><b>Assess the risk</b> with the <b>payback period</b> and a <b>sensitivity analysis</b> (section 4.6): what happens to the NPV if
+the tariff falls by 20 % or the rate rises to 12 %?</div></li>
+</ol>
+</div>
+<div class="note"><b>Pitfalls to avoid.</b> (1) Discounting constant-franc flows at a nominal rate (or the reverse). (2) Forgetting replacements
+(batteries every 5–10 years, inverters every 10 years). (3) Comparing by NPV two projects with different lifetimes: compare their annuities or LCOE
+instead. (4) Believing that a short payback proves profitability. (5) Confusing the IRR (a rate, in %) with the payback period (a duration, in years).</div>
+<h3>Step-by-step calculator</h3>
+<p>Enter your project: the calculator shows the year-by-year cash-flow table (current value, discounted value, cumulative) and the six indicators.
+Change one parameter at a time to feel its effect.</p>
+<div class="eco-calc" data-lang="en"></div>
             <a href="#top" class="back-to-top">↑ Back to top</a>
         </div>
         <div class="section" id="n4-1">
@@ -232,6 +385,30 @@ Residual value of the year-14 batteries (1/7 of life remaining) neglected: it wo
 payback period separates projects that the NPV does not distinguish.</p>
 </details></div>
 
+<div class="ex"><h4>Exercise 4 — Inflation and real rate</h4>
+<p>Maintenance of an installation costs 200 kF/yr today; inflation is 4 % and the nominal discount rate 10 %. (a) What is the real rate?
+(b) What is the present value of maintenance over the next 10 years? Compute it in two ways.</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>(a) 1.10/1.04 − 1 = <span class="result">5.77 %</span>. (b) In current francs at the nominal rate: Σ 200 × 1.04<sup>n</sup>/1.10<sup>n</sup>;
+in constant francs at the real rate: 200 × Σ 1/1.0577<sup>n</sup>. Both give <span class="result">1,488 kF</span>: flows and rate are consistent.
+Classic mistake: 200 × Σ 1/1.10<sup>n</sup> = 1,229 kF (constant prices discounted at the nominal rate), 17 % too low.</p>
+</details></div>
+<div class="ex"><h4>Exercise 5 — IRR and cost of credit</h4>
+<p>A project costs 2,000 kF and earns 400 kF/yr for 8 years. (a) NPV at 8 % and at 10 %? (b) IRR? (c) Should it be financed with a loan at 10 %? at 13 %?</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>(a) NPV(8 %) = −2,000 + 400 × 5.747 = <span class="result">+299 kF</span>; NPV(10 %) = −2,000 + 400 × 5.335 = <span class="result">+134 kF</span>.
+(b) <span class="result">IRR ≈ 11.8 %</span>. (c) At 10 %, yes (IRR &gt; cost of credit, 1.8-point margin, thin: check sensitivity); at 13 %, no: the
+project would not cover the interest.</p>
+</details></div>
+<div class="ex"><h4>Exercise 6 — The payback trap</h4>
+<p>Project A: 1,000 kF invested, 500 kF/yr for 3 years. Project B: 1,000 kF invested, 250 kF/yr for 10 years. Rate 8 %. Compare their payback periods
+and NPVs. Which one should be chosen?</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>Payback: A = <span class="result">2 years</span>, B = <span class="result">4 years</span>. NPV: A = −1,000 + 500 × 2.577 = <span class="result">+289 kF</span>;
+B = <span class="result">+678 kF</span>. B creates more than twice as much value although it pays back twice as slowly: payback ignores what happens
+afterwards. Choose B, unless cash is very tight or the risk beyond 4 years is high.</p>
+</details></div>
+
 <!-- ================================================================== -->
             <a href="#top" class="back-to-top">↑ Back to top</a>
         </div>
@@ -261,6 +438,21 @@ payback period separates projects that the NPV does not distinguish.</p>
 <div class="qcm" data-answer="d"><p class="q">8. The discounted payback period is:</p>
 <ol><li data-k="a">always shorter than the simple payback</li><li data-k="b">equal to the IRR</li><li data-k="c">independent of the rate</li><li data-k="d">longer than the simple payback</li></ol>
 <div class="fb">Future cash flows are reduced by discounting: more years are needed to offset the investment.</div></div>
+<div class="qcm" data-answer="c"><p class="q">9. With 3 % inflation, a basket that cost 100 last year costs today:</p>
+<ol><li data-k="a">97</li><li data-k="b">100</li><li data-k="c">103</li><li data-k="d">130</li></ol>
+<div class="fb">100 × 1.03 = 103: with the same 100 you buy less (loss of purchasing power).</div></div>
+<div class="qcm" data-answer="b"><p class="q">10. A zero NPV means the project:</p>
+<ol><li data-k="a">earns nothing at all</li><li data-k="b">just repays the investment and the required return, with no surplus</li><li data-k="c">destroys value</li><li data-k="d">has a zero IRR</li></ol>
+<div class="fb">At NPV = 0 the project earns exactly the discount rate: its IRR equals that rate.</div></div>
+<div class="qcm" data-answer="a"><p class="q">11. The bank lends at 4 %; the project's IRR is 9 %. Then:</p>
+<ol><li data-k="a">the project is attractive: a 5-point margin</li><li data-k="b">an IRR of at least 13 % is needed</li><li data-k="c">the NPV at 4 % is negative</li><li data-k="d">no conclusion is possible without the payback</li></ol>
+<div class="fb">IRR &gt; cost of credit: the project repays the interest and leaves a margin; the NPV at 4 % is positive.</div></div>
+<div class="qcm" data-answer="d"><p class="q">12. Which indicator ignores what happens after the initial outlay is recovered?</p>
+<ol><li data-k="a">NPV</li><li data-k="b">IRR</li><li data-k="c">discounted cost</li><li data-k="d">payback period</li></ol>
+<div class="fb">Payback stops at recovery: a project slow to pay back may earn a lot afterwards.</div></div>
+<div class="qcm" data-answer="c"><p class="q">13. To choose between two refrigerators providing the same service, compare:</p>
+<ol><li data-k="a">their purchase prices</li><li data-k="b">their IRRs</li><li data-k="c">their discounted life-cycle costs</li><li data-k="d">their first-year consumption</li></ol>
+<div class="fb">Discounted cost combines purchase, energy, maintenance and replacements in today's money: keep the lowest.</div></div>
             <a href="#top" class="back-to-top">↑ Back to top</a>
         </div>
         <div class="page-nav"><a href="niveau3-en.html">← Level 3 — Renewable energy</a><a href="niveau5-en.html">Level 5 — DER and smart grids →</a></div>
@@ -272,8 +464,7 @@ payback period separates projects that the NPV does not distinguish.</p>
                 <div class="author-info">
                     <div class="name">Prof. Lamine THIAW</div>
                     <div class="role">Department of Electrical Engineering<br>École Supérieure Polytechnique<br>Cheikh Anta Diop University, Dakar</div>
-                    <a href="mailto:lamine.thiaw@ucad.edu.sn">lamine.thiaw@ucad.edu.sn</a><br>
-                    <a href="mailto:lamine.thiaw@esp.sn">lamine.thiaw@esp.sn</a>
+                    <a href="mailto:nrjxpert@niitan.com">nrjxpert@niitan.com</a>
                 </div>
             </div>
             <p class="small" style="margin-top:14px">November 2026</p>

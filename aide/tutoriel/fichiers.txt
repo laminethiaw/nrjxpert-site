@@ -16,6 +16,8 @@ smartgrid.js
 expert.js
 tutoriel.css
 tutoriel.js
+glossaire.js
+economie.js
 exemples/courtcircuit_20kV_monophase.xml
 exemples/dispatch_microreseau_ilote.xml
 exemples/dynamics_microreseau.xml

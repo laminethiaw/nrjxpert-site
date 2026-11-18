@@ -8,6 +8,7 @@
 <link rel="stylesheet" href="tutoriel.css">
 <script src="tutoriel.js"></script>
 <script src="smartgrid.js"></script>
+<script src="glossaire.js" defer></script>
 </head>
 <body>
 <div id="top"></div>
@@ -30,6 +31,7 @@
         <a href="#n6-8"><span class="nav-icon">📡</span>Modèles de données sémantiques et protocoles</a>
         <a href="#n6-9"><span class="nav-icon">🏛️</span>Gouvernance de projet et démarche AMOA</a>
         <a href="#n6-10"><span class="nav-icon">🌐</span>Matrice des compétences de l&#x27;expert Smart Grid</a>
+        <a href="#n6-11"><span class="nav-icon">🧱</span>Atelier SGAM de NRJXpert : méthode, outils et TP</a>
         <a href="#n6-ex"><span class="nav-icon">🎯</span>Projet de synthèse — mission AMOA sur un départ urbain</a>
         <a href="#n6-qcm"><span class="nav-icon">✅</span>QCM du niveau 6</a>
         <a href="#auteur"><span class="nav-icon">👤</span>Auteur</a>
@@ -75,7 +77,8 @@ comprendre les fonctions avancées du centre de conduite, les simuler avec NRJXp
                 <a href="#n6-8"><span class="toc-num">6.8</span>Modèles de données sémantiques et protocoles</a>
                 <a href="#n6-9"><span class="toc-num">6.9</span>Gouvernance de projet et démarche AMOA</a>
                 <a href="#n6-10"><span class="toc-num">6.10</span>Matrice des compétences de l&#x27;expert Smart Grid</a>
-                <a href="#n6-ex"><span class="toc-num">11</span>Projet de synthèse — mission AMOA sur un départ urbain</a>
+                <a href="#n6-11"><span class="toc-num">6.11</span>Atelier SGAM de NRJXpert : méthode, outils et TP</a>
+                <a href="#n6-ex"><span class="toc-num">12</span>Projet de synthèse — mission AMOA sur un départ urbain</a>
                 <a href="#n6-qcm"><span class="toc-num">12</span>QCM du niveau 6</a>
             </div>
         </div>
@@ -92,9 +95,10 @@ comprendre les fonctions avancées du centre de conduite, les simuler avec NRJXp
 <li>Agréger des DER en centrale virtuelle, piloter la recharge des véhicules (V1G, V2G) et simuler l'îlotage d'un micro-réseau.</li>
 <li>Choisir les modèles de données et protocoles (CIM, IEC 61850, DLMS/COSEM, IEC 60870-5-104, Modbus, OCPP, OpenADR, IEEE 2030.5).</li>
 <li>Rédiger une fiche de cas d'usage IEC 62559 et conduire les cinq phases d'un projet en AMOA.</li>
+<li>Modéliser l'architecture d'un projet avec l'atelier SGAM de NRJXpert (couches, cas d'usage, traçabilité, vérification) et l'échanger au format CIM.</li>
 </ul>
 <p class="prereq">Prérequis : niveaux 2 et 5. Source : <i>Guide de spécialisation et cadre de consultance Smart Grids</i> (L. Thiaw, ESP-UCAD,
-octobre 2026). Les calculs sont faits par le serveur NRJXpert. Durée : 30 h et un projet.</p>
+octobre 2026). Les calculs sont faits par le serveur NRJXpert. Durée : 38 h et un projet.</p>
 </div>
 
 <!-- ================================================================== -->
@@ -124,9 +128,11 @@ consommateurs. Trois usages : cartographier un système sur ses couches, positio
 <div class="sg" data-tool="sgam"></div>
 <div class="lab"><h4>TP 6.1 — Cartographier le réseau dessiné dans NRJXpert</h4>
 <p>Ouvrir <code>exemples/smartgrid_deux_departs.nxp</code> (Aide › Ouvrir un exemple du tutoriel). Pour chaque symbole de la palette
-« Réseau intelligent » et « Ressources décentralisées », placer dans l'outil ci-dessus l'équipement (couche Component), son protocole
-(Communication) et son modèle de données (Information). Puis utiliser <b>Outils › Liste des points de téléconduite</b> : chaque ligne du
-fichier produit correspond à une flèche entre deux zones (Terrain → Poste → Exploitation).</p></div>
+« Réseau intelligent » et « Ressources décentralisées », placer d'abord <b>à la main</b>, dans l'outil ci-dessus, l'équipement (couche Component),
+son protocole (Communication) et son modèle de données (Information). Puis ouvrir <b>Outils › Architecture SGAM</b> et cliquer sur
+<b>Générer depuis le schéma</b> : comparer votre cartographie à celle de l'atelier et expliquer les écarts. Enfin, <b>Outils › Liste des points
+de téléconduite</b> : chaque ligne du fichier produit correspond à une flèche entre deux zones (Terrain → Poste → Exploitation). La méthode
+complète et six TP guidés sont donnés à la section <a href="#n6-11">6.11</a>.</p></div>
 
 <!-- ================================================================== -->
             <a href="#top" class="back-to-top">↑ Retour en haut</a>
@@ -325,9 +331,10 @@ cellulaire NB-IoT, LTE-M, 4G, 5G.</li>
 <div class="sg" data-tool="protocols"></div>
 <div class="lab"><h4>TP 6.8 — Du schéma aux systèmes d'information</h4>
 <ol>
-<li><b>Outils › Exporter le réseau au format CIM</b> : ouvrir le fichier RDF/XML produit ; retrouver les <code>ConnectivityNode</code>, les
+<li><b>Fichier › Exporter le réseau au format CIM</b>, type « Fichier CIM unique RDF/XML » (ou archive CGMES, voir TP 6.11-E) : ouvrir le fichier produit ; retrouver les <code>ConnectivityNode</code>, les
 <code>Terminal</code>, les <code>ACLineSegment</code>, les <code>Breaker</code> / <code>LoadBreakSwitch</code> (<code>normalOpen</code>), les
-<code>FaultIndicator</code>, les <code>PowerElectronicsConnection</code> avec leurs <code>PhotoVoltaicUnit</code> / <code>BatteryUnit</code>.
+<code>FaultIndicator</code>, les <code>PowerElectronicsConnection</code> avec leurs <code>PhotoVoltaicUnit</code> / <code>BatteryUnit</code>, les
+<code>PowerTransformer</code> et les <code>TopologicalNode</code>.
 Comment l'ADMS reconstitue-t-il la topologie ?</li>
 <li><b>Outils › Liste des points de téléconduite</b> : ouvrir le CSV dans un tableur. Pour chaque organe, vérifier le type ASDU
 (M_DP_TB_1 pour une position double, C_DC_NA_1 pour une commande), le nœud logique IEC 61850 et le registre Modbus. Compléter les adresses
@@ -371,6 +378,239 @@ cybersécurité ; gouvernance, économie et régulation. S'évaluer, puis suivre
 <!-- ================================================================== -->
             <a href="#top" class="back-to-top">↑ Retour en haut</a>
         </div>
+        <div class="section" id="n6-11">
+            <h2><span class="section-icon">🧱</span>6.11 Modéliser une architecture avec l'atelier SGAM de NRJXpert</h2>
+<p>La section 6.1 a présenté le cadre SGAM ; cette section montre comment s'en servir comme d'un véritable <b>langage de modélisation</b> pour
+concevoir, documenter et vérifier l'architecture d'un projet Smart Grid. L'atelier s'ouvre par <b>Outils › Architecture SGAM</b>. Il travaille
+sur le réseau dessiné et produit des livrables directement réutilisables dans un cahier des charges : plans SGAM, cas d'usage IEC 62559-2,
+matrice de traçabilité, constats de cohérence, modèle CIM.</p>
+<div class="objectifs"><h4>Objectifs de la section</h4><ul>
+<li>Décrire un système avec les éléments et les relations du langage SGAM, en distinguant le point de vue <b>logique</b> du point de vue <b>technique</b>.</li>
+<li>Passer d'un réseau électrique dessiné à une architecture complète sur les cinq couches.</li>
+<li>Rédiger un cas d'usage IEC 62559-2 et en déduire les échanges d'information et les protocoles.</li>
+<li>Vérifier la cohérence entre couches, faire une analyse d'écart et relier l'architecture au modèle CIM du réseau.</li>
+</ul><p class="prereq">Durée : 8 h (cours 2 h, TP 6 h). Prérequis : sections 6.1, 6.2, 6.8.</p></div>
+
+<h3>6.11.1 Les briques du langage</h3>
+<p>Chaque <b>élément</b> appartient à une couche, a une <b>nature</b>, et occupe une case (domaine × zone). Il porte aussi un <b>point de vue</b> :
+<i>logique</i> (ce qu'il faut faire, indépendamment de la technologie : « fonction de détection d'îlotage ») ou <i>technique</i> (avec quoi on le
+fait : « relais de découplage du fabricant X, IEC 61850 »). Une bonne architecture part du logique et <b>alloue</b> chaque élément logique à un ou
+plusieurs éléments techniques : c'est ce qui permet de comparer plusieurs offres sur une même base.</p>
+<table class="sgam-fig">
+<tr><th>Couche</th><th>Natures d'éléments</th><th>Exemples tirés de NRJXpert</th></tr>
+<tr><td><b>Métier</b></td><td>acteur, objectif métier, exigence réglementaire, modèle d'affaires</td><td>GRD ; « Améliorer la continuité de service » ; code de réseau (IEEE 1366) ; valorisation de la flexibilité</td></tr>
+<tr><td><b>Fonction</b></td><td>cas d'usage de haut niveau, cas d'usage, fonction</td><td>Auto-cicatrisation (FLISR) ; IVVC ; centrale virtuelle et effacement</td></tr>
+<tr><td><b>Information</b></td><td>objet d'information, modèle de données</td><td>Mesures et états (MMXU, XCBR) ; courbes de charge (codes OBIS) ; modèle de réseau CIM</td></tr>
+<tr><td><b>Communication</b></td><td>réseau de communication, passerelle</td><td>Réseau local de poste (IEC 61850-8-1, PRP/HSR) ; réseau de comptage G3-PLC</td></tr>
+<tr><td><b>Composant</b></td><td>équipement électrique, équipement de terrain, système informatique, équipement de télécommunication</td><td>Organes de coupure ; IED ; SCADA/ADMS ; concentrateur de données</td></tr>
+</table>
+<p>Les <b>relations</b> relient les éléments ; chacune a un sens et une règle :</p>
+<table>
+<tr><th>Relation</th><th>De → vers</th><th>Libellé</th><th>Où la voir</th></tr>
+<tr><td>communique</td><td>composant → composant</td><td>protocole (ex. IEC 61850 MMS)</td><td>plan de la couche communication</td></tr>
+<tr><td>échange</td><td>composant → composant</td><td>objet d'information</td><td>plan de la couche information</td></tr>
+<tr><td>réalise</td><td>composant → fonction</td><td>—</td><td>matrice de traçabilité</td></tr>
+<tr><td>trace</td><td>objectif ou exigence → fonction</td><td>—</td><td>matrice de traçabilité</td></tr>
+<tr><td>participe</td><td>acteur → fonction</td><td>—</td><td>matrice, cas d'usage</td></tr>
+<tr><td>alloue</td><td>élément logique → élément technique</td><td>—</td><td>plans des couches métier et fonction</td></tr>
+<tr><td>raccordé à</td><td>composant → composant</td><td>—</td><td>plan de la couche composant (tirets)</td></tr>
+</table>
+<p>Lecture des plans : <b>cadre en tirets</b> = élément logique, <b>cadre plein</b> = élément technique ; dans les couches information et
+communication, les composants apparaissent <b>en gris</b> (filigrane) pour situer les flux. Le <b>cube</b> superpose les cinq plans : un point par
+élément, ce qui montre d'un coup d'œil où l'architecture est dense et où elle est vide.</p>
+
+<h3>6.11.2 Ce que l'atelier déduit du schéma</h3>
+<p>Le bouton <b>Générer depuis le schéma</b> lit le réseau dessiné (comme pour un calcul) et crée les éléments correspondants. Les éléments déjà
+présents (même nom, même couche) sont conservés : on peut générer, modifier, puis régénérer après avoir complété le schéma.</p>
+<table>
+<tr><th>Dans le schéma</th><th>Composants créés (domaine / zone)</th><th>Liaisons et protocoles</th><th>Fonctions</th></tr>
+<tr><td>bus balancier « réseau »</td><td>poste source HTB/HTA (Transport / Processus)</td><td>—</td><td>supervision et conduite</td></tr>
+<tr><td>toujours</td><td>réseau de distribution, RTU (Poste), SCADA/ADMS (Exploitation), SIG (Entreprise)</td><td>RTU → SCADA : IEC 60870-5-104 + IEC 62351-3 ; SIG → SCADA : IEC 61968-100</td><td>—</td></tr>
+<tr><td>organes de coupure</td><td>organes (Processus), IED de protection et de commande (Terrain), IPD si cochés</td><td>IED, IPD → RTU : IEC 61850</td><td>FLISR si organes télécommandés, IPD ou bouclage</td></tr>
+<tr><td>gradins de condensateurs</td><td>gradins, contrôleur des gradins</td><td>IEC 61850 MMS</td><td>IVVC</td></tr>
+<tr><td>PV, éolien, batterie, groupe</td><td>production (DER / Processus), contrôleurs (DER / Terrain), DERMS (DER / Exploitation)</td><td>contrôleur → DERMS : IEEE 2030.5 / IEC 61850-7-420 + TLS</td><td>pilotage des DER, capacité d'accueil, micro-réseau (batterie ou groupe)</td></tr>
+<tr><td>charges</td><td>installations clients, compteurs (Terrain), concentrateur (Poste), HES, MDMS</td><td>DLMS/COSEM sur G3-PLC puis 4G ; IEC 61968-9</td><td>télérelève et détection d'anomalies (AMI)</td></tr>
+<tr><td>bornes VE</td><td>bornes, contrôleur de borne, CSMS</td><td>OCPP 2.0.1</td><td>recharge intelligente</td></tr>
+<tr><td>bornes VE, ou DER avec batterie</td><td>plateforme d'agrégation (Entreprise), plateforme de marché (Marché)</td><td>OpenADR 2.0b, IEC 62325</td><td>centrale virtuelle et effacement</td></tr>
+</table>
+<p>La génération donne une <b>architecture de référence</b> plausible, pas une solution : c'est au concepteur de la critiquer et de l'adapter
+(choix des protocoles, regroupement de fonctions dans un même système, sécurité, contraintes de l'exploitant).</p>
+
+<h3>6.11.3 Démarche en six étapes</h3>
+<div class="lab"><h4>De la carte du réseau au dossier d'architecture</h4>
+<ol class="steps">
+<li><div class="step-content"><b>Dessiner ou ouvrir le réseau</b> (ou l'importer par <b>Fichier › Importer un modèle de réseau CIM</b>) et vérifier par un load flow qu'il est cohérent.</div></li>
+<li><div class="step-content"><b>Générer</b> l'architecture de référence, puis la relire couche par couche (boutons Métier … Composant).</div></li>
+<li><div class="step-content"><b>Ajouter les cas d'usage</b> du projet (menu <b>Cas d'usage types</b>, ou <b>Nouveau</b> dans l'onglet Cas d'usage) et compléter leur fiche IEC 62559-2 : portée, objectifs, indicateurs, acteurs, scénario.</div></li>
+<li><div class="step-content"><b>Ajuster</b> : déplacer les éléments mal placés (glisser-déposer), ajouter les éléments logiques et les relations <i>alloue</i>, préciser les normes et les protocoles.</div></li>
+<li><div class="step-content"><b>Vérifier</b> (onglet Vérification) et traiter chaque constat ; lire la <b>matrice de traçabilité</b> : chaque objectif doit mener à une fonction, chaque fonction à des composants, des informations et des protocoles.</div></li>
+<li><div class="step-content"><b>Produire les livrables</b> : rapport HTML (plans, cube, cas d'usage, constats), modèle SGAM en XML, plans en SVG, modèle de réseau CIM (CGMES), liste des points de téléconduite.</div></li>
+</ol></div>
+
+<h3>6.11.4 Les contrôles de cohérence</h3>
+<table>
+<tr><th>Gravité</th><th>Contrôle</th><th>Que faire ?</th></tr>
+<tr><td>✖ erreur</td><td>relation dont la nature ne respecte pas la règle (ex. « communique » entre une fonction et un composant ; « réalise » qui ne va pas d'un composant vers une fonction) ; relation vers un élément supprimé</td><td>corriger le sens ou le type de la relation</td></tr>
+<tr><td>⚠ avertissement</td><td>couche vide ; fonction réalisée par aucun composant ; objectif rattaché à aucune fonction ; objet d'information transporté par aucune liaison ; liaison sans protocole ou échange sans objet d'information</td><td>compléter le modèle : c'est une <b>lacune</b> de l'architecture</td></tr>
+<tr><td>⚠ avertissement</td><td>protocole employé hors de ses zones usuelles (ex. IEC 61850 vers le marché, Modbus vers l'exploitation, OpenADR dans un poste)</td><td>justifier le choix ou prévoir une passerelle : c'est un <b>écart d'interopérabilité</b></td></tr>
+<tr><td>⚠ avertissement</td><td>cas d'usage sans scénario ou sans acteur ; pas dont l'émetteur ou le destinataire n'est pas un élément du modèle</td><td>compléter la fiche ou créer l'élément manquant</td></tr>
+<tr><td>ℹ information</td><td>liaison entre le terrain (ou le poste) et l'exploitation sans IEC 62351 ni TLS ; composant ou acteur isolé ; équipement de terrain sans norme ; élément logique non alloué</td><td>point à examiner, à reprendre dans l'analyse de cybersécurité (Outils › Analyse de risque, IEC 62443)</td></tr>
+</table>
+
+<h3>6.11.5 SGAM et CIM : deux modèles complémentaires</h3>
+<p>Le modèle SGAM décrit <b>qui échange quoi, avec quel protocole</b> ; le modèle CIM décrit <b>le réseau électrique lui-même</b> (équipements,
+connexions, paramètres, état). Dans l'atelier, l'objet d'information « Modèle de réseau CIM » échangé entre le SIG et l'ADMS (IEC 61968-100)
+correspond exactement au fichier produit par <b>Fichier › Exporter le réseau au format CIM</b> : archive CGMES avec les profils EQ (équipements),
+TP (topologie), SSH (hypothèse de régime permanent) et SV (résultats du load flow). Réciproquement, un modèle CIM reçu d'un gestionnaire de
+réseau peut être importé, calculé dans NRJXpert, puis servir de base à la génération de l'architecture.</p>
+
+<h3>6.11.6 Travaux pratiques dans NRJXpert</h3>
+<div class="lab"><h4>TP 6.11-A — Générer et lire l'architecture d'un départ auto-cicatrisant (1 h 30)</h4>
+<ol class="steps">
+<li><div class="step-content">Aide › Ouvrir un exemple du tutoriel : <code>flisr_deux_departs.xml</code>. La liste « Calcul » indique « Auto-cicatrisation » (calcul enregistré dans le fichier ; c'est aussi celui que la présélection propose dès qu'il y a un organe de bouclage) ; lancer le calcul.</div></li>
+<li><div class="step-content">Outils › Architecture SGAM › <b>Générer depuis le schéma</b>. Noter le nombre d'éléments de chaque couche (barre d'état et cube).</div></li>
+<li><div class="step-content">Couche <b>Composant</b> : dans quelles cases se trouvent les IED, les IPD, le RTU, le SCADA/ADMS, le concentrateur ? Pourquoi le poste source est-il dans le domaine Transport ?</div></li>
+<li><div class="step-content">Couche <b>Communication</b> : relever pour chaque liaison son protocole. Laquelle franchit le plus de zones ?</div></li>
+<li><div class="step-content">Cas d'usage types › <b>UC-FLISR</b> ; onglet Cas d'usage : lire le scénario et le diagramme de séquence ; onglet <b>Traçabilité</b> : de l'objectif « Améliorer la continuité de service » aux protocoles.</div></li>
+<li><div class="step-content">Onglet <b>Vérification</b>, puis <b>Rapport HTML</b> ; enregistrer le projet (le modèle SGAM est enregistré avec lui).</div></li>
+</ol>
+<details class="sol"><summary>Résultats attendus</summary>
+<p>Génération : <b>29 éléments</b> (métier 5, fonction 3, information 5, communication 3, composant 13) et 36 relations ; aucune incohérence.
+Après UC-FLISR : 40 relations, 1 cas d'usage, 6 pas.</p>
+<p>Cases : IED et IPD en Distribution / Terrain ; RTU et concentrateur en Distribution / Poste ; SCADA/ADMS en Distribution / Exploitation ; SIG en
+Distribution / Entreprise ; compteurs en Installations clients / Terrain ; HES en Installations clients / Exploitation ; MDMS en Installations clients /
+Entreprise. Le poste source HTB/HTA appartient à la frontière transport-distribution : son transformateur et son jeu de barres d'arrivée
+relèvent du domaine Transport.</p>
+<p>Protocoles : IED → RTU <i>IEC 61850 MMS / GOOSE</i> ; IPD → RTU <i>IEC 61850 MMS / IEC 60870-5-104</i> ; RTU → SCADA <i>IEC 60870-5-104 + IEC 62351-3</i> ;
+SIG → SCADA et MDMS → SCADA <i>IEC 61968-100</i> ; compteurs → concentrateur <i>DLMS/COSEM / G3-PLC</i> ; concentrateur → HES <i>DLMS/COSEM / 4G + TLS</i>.
+La liaison compteur → concentrateur → HES → MDMS → ADMS franchit les zones Terrain, Poste, Exploitation et Entreprise.</p>
+<p>Traçabilité de FLISR : objectif « Améliorer la continuité de service » et acteur GRD → fonction FLISR → composants SCADA/ADMS, IED, IPD →
+informations « Mesures et états », « Ordres de manœuvre », « Modèle de réseau CIM » → protocoles IEC 61850, IEC 60870-5-104, IEC 61968-100.</p>
+</details></div>
+
+<div class="lab"><h4>TP 6.11-B — Rédiger et vérifier un cas d'usage IEC 62559-2 (1 h 30)</h4>
+<ol class="steps">
+<li><div class="step-content">Ouvrir <code>vpp_ve_batterie.xml</code>, générer l'architecture, puis ajouter le cas d'usage type <b>UC-VPP</b> (effacement OpenADR).</div></li>
+<li><div class="step-content">Compléter la fiche : indicateurs chiffrés (ex. « 0,5 MW effacés pendant 2 h, confort : SOC des VE ≥ 80 % au départ »), conditions préalables, acteur « Opérateur de recharge ».</div></li>
+<li><div class="step-content">Ajouter deux pas au scénario : <i>« Programme d'effacement »</i> envoyé par la plateforme d'agrégation au superviseur des bornes, avec l'information « Profils de recharge » ; puis <i>« Rapport »</i> du superviseur des bornes vers la plateforme d'agrégation (« Mesures et états »).</div></li>
+<li><div class="step-content">Dans le pas 7, écrire volontairement « CSMS » au lieu du nom exact de l'émetteur : que signale l'onglet Vérification ? Corriger.</div></li>
+<li><div class="step-content">Comparer le scénario avec une simulation : Calcul « Centrale virtuelle », effacement activé dans Simulation › Paramètres des études DER ; relever la puissance effacée et l'énergie reportée.</div></li>
+</ol>
+<details class="sol"><summary>Résultats attendus</summary>
+<p>Génération : 52 éléments (métier 12, fonction 8, information 8, communication 4, composant 20) ; avec UC-VPP, 65 relations et un scénario de
+5 pas, puis 7 après l'ajout. L'émetteur « CSMS » provoque l'avertissement <i>« Effacement par centrale virtuelle (OpenADR), pas 7 : « CSMS » n'est pas un élément du modèle »</i> : le scénario
+doit employer exactement les noms des éléments (ici « Superviseur des bornes (CSMS) »), sinon les échanges ne peuvent pas être reliés aux
+composants ni aux protocoles.</p>
+</details></div>
+
+<div class="lab"><h4>TP 6.11-C — Du logique au technique : comparer deux solutions (1 h)</h4>
+<ol class="steps">
+<li><div class="step-content">Sur le modèle du TP A, créer dans la couche Fonction l'élément <b>logique</b> « Détection du tronçon en défaut » (Distribution / Exploitation).</div></li>
+<li><div class="step-content">Créer deux éléments <b>techniques</b> de la couche Composant : « Algorithme FLISR centralisé de l'ADMS » (Distribution / Exploitation) et « Automatisme décentralisé pair-à-pair entre IED (GOOSE) » (Distribution / Terrain).</div></li>
+<li><div class="step-content">Relations : <i>alloue</i> de la fonction logique vers chacune des deux solutions ; <i>réalise</i> de chaque solution vers la fonction logique. Vérifier : aucun constat ne doit concerner ces éléments.</div></li>
+<li><div class="step-content">Créer volontairement une relation <i>alloue</i> en sens inverse : lire le constat, puis la supprimer.</div></li>
+<li><div class="step-content">Rédiger un tableau de comparaison des deux solutions : délai de réalimentation, dépendance aux télécommunications, coût, maintenance, cybersécurité.</div></li>
+</ol>
+<details class="sol"><summary>Éléments de corrigé</summary>
+<p>Sans la relation <i>réalise</i>, l'atelier signalerait <i>« Fonction « Détection du tronçon en défaut » réalisée par aucun composant »</i>.
+Avec la relation inversée, le constat attendu est <i>« … : « alloue » va d'un élément logique vers un élément technique »</i>. Solution centralisée : réalimentation en 1 à
+3 min, besoin d'un modèle de réseau CIM à jour et d'un SCADA disponible, évolutive ; solution décentralisée : réalimentation en moins de 1 s à
+quelques secondes, indépendante du centre de conduite mais exigeant un réseau de communication rapide entre IED (fibre, radio privée) et une
+reconfiguration à chaque évolution du réseau. Les deux réalisent la même fonction logique : c'est sur cette base que l'on compare les offres.</p>
+</details></div>
+
+<div class="lab"><h4>TP 6.11-D — Analyse d'écart et sécurité des liaisons (1 h)</h4>
+<ol class="steps">
+<li><div class="step-content">Sur le modèle du TP A, ajouter une relation <i>communique</i> des « Indicateurs de passage de défaut (IPD) » vers le « SCADA / ADMS du distributeur » avec le libellé « IEC 60870-5-104 (GPRS) ».</div></li>
+<li><div class="step-content">Ajouter une relation <i>communique</i> du « SCADA / ADMS du distributeur » vers la « Plateforme de marché » (à créer en Transport / Marché si elle n'existe pas) avec le libellé « IEC 61850 MMS ».</div></li>
+<li><div class="step-content">Vérifier : relever et expliquer les constats. Corriger chaque liaison (protocole adapté, sécurité).</div></li>
+<li><div class="step-content">Ouvrir Outils › Analyse de risque de cybersécurité (IEC 62443) et relier les constats aux exigences fondamentales FR1 à FR7.</div></li>
+</ol>
+<details class="sol"><summary>Éléments de corrigé</summary>
+<p>Liaison IPD → SCADA : information <i>« liaison entre le terrain et l'exploitation ; prévoir la sécurité IEC 62351 »</i> — corriger en
+« IEC 60870-5-104 + IEC 62351-3 (TLS) » sur un APN privé (FR1 authentification, FR4 confidentialité, FR3 intégrité). Liaison SCADA → marché en
+IEC 61850 : avertissement <i>« protocole inhabituel entre les zones Exploitation et Marché »</i> — l'IEC 61850 est conçu pour les postes ; les
+échanges avec le marché passent par les messages CIM de l'IEC 62325 (ou ceux de l'IEC 61968-100 vers l'agrégateur), au travers d'une zone
+démilitarisée (FR5 flux de données restreints).</p>
+</details></div>
+
+<div class="lab"><h4>TP 6.11-E — Échanger le modèle de réseau au format CIM (1 h)</h4>
+<ol class="steps">
+<li><div class="step-content">Ouvrir <code>ieee33_distribution.xml</code> ; Calcul « Load flow de distribution » ; lancer le calcul.</div></li>
+<li><div class="step-content"><b>Fichier › Exporter le réseau au format CIM</b>, type « Archive CGMES ». Ouvrir l'archive : combien de fichiers ? Dans le fichier EQ, retrouver un <code>ACLineSegment</code> (r, x), un <code>EnergyConsumer</code> et l'<code>ExternalNetworkInjection</code> ; dans le fichier SSH, la puissance de la charge B18 ; dans le fichier SV, la tension la plus basse.</div></li>
+<li><div class="step-content">Nouveau projet, puis <b>Fichier › Importer un modèle de réseau CIM</b> avec l'archive. Relancer le load flow : comparer les tensions avec le calcul d'origine.</div></li>
+<li><div class="step-content">Dans l'atelier SGAM, situer cet échange : quel objet d'information, entre quels composants, avec quelle norme ?</div></li>
+</ol>
+<details class="sol"><summary>Résultats attendus</summary>
+<p>L'archive contient 4 fichiers (EQ, TP, SSH, SV ; SV n'apparaît que si un load flow a été calculé). EQ : 32 <code>ACLineSegment</code>, 32
+<code>EnergyConsumer</code>, 1 <code>ExternalNetworkInjection</code> ; SSH : <code>EnergyConsumer.p</code> en MW (convention récepteur : une production est
+négative) ; SV : tension minimale ≈ 0,913 pu (≈ 11,56 kV pour 12,66 kV) au nœud 18. Après réimport, 32 impédances, 32 charges et 1 bus balancier
+sont redessinés et le load flow redonne les mêmes tensions. Dans le SGAM : objet « Modèle de réseau CIM » (IEC 61970-301 / 61968-11, CGMES),
+échangé entre le SIG / référentiel du réseau et le SCADA / ADMS par IEC 61968-100.</p>
+</details></div>
+
+<div class="lab"><h4>TP 6.11-F — Architecture d'un micro-réseau et îlotage (1 h)</h4>
+<ol class="steps">
+<li><div class="step-content">Ouvrir <code>banc_essai_microreseau.xml</code> (calcul « Essais micro-réseau ») ; générer l'architecture ; ajouter <b>UC-ILOT</b>.</div></li>
+<li><div class="step-content">Situer le disjoncteur de couplage (PCC), le contrôleur du micro-réseau, le BMS / PCS et le régulateur du groupe ; vérifier leurs normes.</div></li>
+<li><div class="step-content">Ajouter l'exigence réglementaire « IEEE 2030.7 — transitions vers et depuis l'îlotage » et la relier par <i>trace</i> à la fonction « Gestion du micro-réseau et îlotage ».</div></li>
+<li><div class="step-content">Lancer les essais IEEE 2030.8 (Calcul « Essais micro-réseau ») ; reporter dans la fiche du cas d'usage (indicateurs) la durée de transition, l'écart de fréquence et le RoCoF mesurés.</div></li>
+</ol>
+<details class="sol"><summary>Résultats attendus</summary>
+<p>Génération : 53 éléments (composant 22) ; avec UC-ILOT : 24 composants, 78 relations, aucune incohérence. Le PCC est en Distribution / Processus,
+le contrôleur du micro-réseau en DER / Poste (IEEE 2030.7, IEC 61850-7-420), le BMS / PCS et le régulateur du groupe en DER / Terrain. Le scénario
+compte 5 pas : détection d'îlotage, ouverture du PCC, passage de la batterie en mode formant le réseau, équilibre (délestage, groupe), retour du
+réseau avec synchronisation.</p>
+</details></div>
+
+<h3>6.11.7 Exercices</h3>
+<div class="ex"><h4>Exercice 1 — Placer des éléments dans le SGAM</h4>
+<p>Donner la couche, le domaine et la zone de : (a) un onduleur photovoltaïque de 500 kW ; (b) son contrôleur ; (c) un DERMS ; (d) un compteur
+communicant ; (e) le MDMS ; (f) une plateforme d'enchères de flexibilité ; (g) le message OpenADR « EiEvent » ; (h) le réseau CPL G3.</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>(a) Composant, DER, Processus ; (b) Composant, DER, Terrain ; (c) Composant, DER, Exploitation ; (d) Composant, Installations clients, Terrain ;
+(e) Composant, Installations clients (ou Distribution), Entreprise ; (f) Composant, Transport ou Distribution, Marché ; (g) Information (objet
+« Signaux d'effacement »), DER, Entreprise ; (h) Communication, Installations clients, Terrain.</p>
+</details></div>
+<div class="ex"><h4>Exercice 2 — Choisir les protocoles</h4>
+<p>Proposer un protocole pour chaque liaison et justifier par la zone : IED ↔ IED dans un poste ; RTU → SCADA ; onduleur → DERMS ; borne → CSMS ;
+agrégateur → client industriel ; HES → MDMS ; compteur → concentrateur.</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>IEC 61850 GOOSE (Poste, temps réel &lt; 10 ms) ; IEC 60870-5-104 ou DNP3 avec IEC 62351 (Poste → Exploitation) ; IEEE 2030.5 ou
+IEC 61850-7-420, Modbus SunSpec en local (Terrain → Exploitation) ; OCPP 2.0.1 (Terrain → Exploitation) ; OpenADR 2.0b (Entreprise →
+Terrain) ; IEC 61968-9 / 61968-100 (Exploitation → Entreprise) ; DLMS/COSEM sur G3-PLC (Terrain → Poste).</p>
+</details></div>
+<div class="ex"><h4>Exercice 3 — Trouver les incohérences</h4>
+<p>Un modèle contient : (1) « Agrégateur » <i>réalise</i> « Centrale virtuelle » ; (2) « Compteurs » <i>communique</i> « HES » sans libellé ;
+(3) « Améliorer la continuité » sans aucune relation ; (4) « Modbus » entre le SCADA (Exploitation) et le RTU (Poste) ; (5) « Fonction de délestage »
+(logique) <i>alloue</i> « Relais fréquencemétrique » (technique). Quels constats l'atelier produit-il ?</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>(1) erreur : « réalise » part d'un composant, pas d'un acteur — utiliser « participe » ; (2) avertissement : protocole non précisé ;
+(3) avertissement : objectif rattaché à aucune fonction ; (4) avertissement : protocole inhabituel entre Poste et Exploitation (Modbus est un
+protocole de terrain sans horodatage ni sécurité), et information : liaison poste–exploitation sans IEC 62351 ; (5) correct.</p>
+</details></div>
+<div class="ex"><h4>Exercice 4 — Écrire un cas d'usage</h4>
+<p>Rédiger la fiche IEC 62559-2 du cas « Raccordement d'un producteur PV de 1 MW sur un départ HTA » : portée, objectifs, acteurs, scénario en
+5 pas avec l'information échangée, indicateurs.</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>Portée : demande de raccordement, étude, raccordement et exploitation d'une centrale PV de 1 MW. Objectifs : raccorder sans dépasser 1,05 pu ni
+la capacité thermique, au moindre coût de renforcement. Acteurs : producteur, GRD, bureau d'études, DERMS, onduleur. Scénario : (1) le producteur
+dépose la demande (puissance, point de raccordement) au GRD ; (2) le GRD exporte le modèle CIM du départ vers le bureau d'études (modèle de
+réseau CIM) ; (3) le bureau d'études calcule la capacité d'accueil avec et sans Q(U) et transmet son rapport ; (4) le GRD notifie les réglages
+exigés (Q(U), P(f), FRT) au producteur ; (5) en exploitation, le DERMS envoie les consignes à l'onduleur (consignes P/Q, IEEE 2030.5).
+Indicateurs : délai de raccordement, MW raccordables sans renforcement, écrêtement annuel.</p>
+</details></div>
+<div class="ex"><h4>Exercice 5 — Traçabilité d'un objectif chiffré</h4>
+<p>L'objectif est « réduire le SAIDI de 40 % ». Construire la chaîne de traçabilité jusqu'aux protocoles et indiquer les études NRJXpert qui
+permettent de vérifier que l'objectif est atteint.</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>Objectif (métier) → fonction FLISR → composants : ADMS, IED et organes télécommandés, IPD, RTU → informations : mesures et états, ordres de
+manœuvre, modèle de réseau CIM → protocoles : IEC 61850, IEC 60870-5-104 + IEC 62351, IEC 61968-100. Vérification : étude annuelle de fiabilité
+(Calcul « Auto-cicatrisation », option annuelle) pour 2, 4 et 6 organes télécommandés ; on retient le plus petit nombre qui donne −40 % de SAIDI
+avec un bénéfice actualisé (END évitée − coût des organes) positif.</p>
+</details></div>
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
         <div class="section" id="n6-ex">
             <h2><span class="section-icon">🎯</span>Projet de synthèse — mission AMOA sur un départ urbain</h2>
 <div class="ex"><h4>Sujet</h4>
@@ -378,10 +618,13 @@ cybersécurité ; gouvernance, économie et régulation. S'évaluer, puis suivre
 <ol>
 <li><b>Cadrage</b> : dessiner le départ dans NRJXpert (organes de coupure, charges avec nombre de clients, PV, borne VE, gradins) ; load flow de
 distribution et capacité d'accueil.</li>
-<li><b>Besoins</b> : trois fiches IEC 62559 (FLISR, IVVC/r, recharge pilotée) ; cartographie SGAM.</li>
+<li><b>Besoins</b> : trois fiches IEC 62559 (FLISR, IVVC/r, recharge pilotée) rédigées dans l'atelier SGAM (Outils › Architecture SGAM) ;
+architecture générée depuis le schéma puis complétée (éléments logiques alloués aux solutions techniques) ; vérification sans erreur ni
+avertissement ; rapport HTML de l'atelier joint au dossier.</li>
 <li><b>Études</b> : étude annuelle de fiabilité pour 2, 4 puis 6 organes télécommandés ; IVVC (S0 à S3) ; VPP avec programme de
 l'agrégateur ; îlotage d'un site prioritaire.</li>
-<li><b>Spécification</b> : export CIM et liste des points ; exigences de communication et de sécurité.</li>
+<li><b>Spécification</b> : export CIM (archive CGMES avec les résultats du load flow) et liste des points ; exigences de communication et de
+sécurité tirées de la couche communication (protocoles, IEC 62351) et de l'analyse IEC 62443.</li>
 <li><b>Offres et recette</b> : grille d'évaluation et TCO de deux solutions ; plan de FAT/SAT.</li>
 </ol>
 <p>Livrable : rapport de 20 pages et soutenance de 20 min (barème dans le guide de l'enseignant).</p></div>
@@ -427,6 +670,21 @@ l'agrégateur ; îlotage d'un site prioritaire.</li>
 <div class="qcm" data-answer="d"><p class="q">12. La phase AMOA où l'on écrit les fiches de cas d'usage IEC 62559 est :</p>
 <ol><li data-k="a">le cadrage</li><li data-k="b">l'analyse des offres</li><li data-k="c">la recette</li><li data-k="d">l'ingénierie des besoins</li></ol>
 <div class="fb">Phase 2, avec la cartographie SGAM des nœuds d'information et des besoins d'interopérabilité.</div></div>
+<div class="qcm" data-answer="c"><p class="q">13. Dans l'atelier SGAM, un cadre en tirets désigne :</p>
+<ol><li data-k="a">un composant en panne</li><li data-k="b">un composant rappelé en filigrane</li><li data-k="c">un élément logique (ce qu'il faut faire)</li><li data-k="d">un élément importé d'un fichier CIM</li></ol>
+<div class="fb">Cadre plein : élément technique ; tirets : élément logique, à allouer à une ou plusieurs solutions techniques.</div></div>
+<div class="qcm" data-answer="a"><p class="q">14. La relation « réalise » relie :</p>
+<ol><li data-k="a">un composant à une fonction</li><li data-k="b">un acteur à une fonction</li><li data-k="c">un objectif à une fonction</li><li data-k="d">deux composants</li></ol>
+<div class="fb">Acteur → fonction : « participe » ; objectif → fonction : « trace » ; composant → composant : « communique » ou « échange ».</div></div>
+<div class="qcm" data-answer="d"><p class="q">15. Une liaison IEC 61850 MMS entre le SCADA (Exploitation) et une plateforme de marché (Marché) déclenche :</p>
+<ol><li data-k="a">aucun constat</li><li data-k="b">une erreur de relation</li><li data-k="c">une couche vide</li><li data-k="d">un avertissement de protocole inhabituel entre zones</li></ol>
+<div class="fb">L'IEC 61850 est conçu pour les zones Processus à Exploitation ; vers le marché, on emploie les messages CIM de l'IEC 62325.</div></div>
+<div class="qcm" data-answer="b"><p class="q">16. Le profil CGMES qui contient les tensions calculées des nœuds est :</p>
+<ol><li data-k="a">EQ</li><li data-k="b">SV</li><li data-k="c">SSH</li><li data-k="d">TP</li></ol>
+<div class="fb">EQ : équipements ; TP : topologie ; SSH : hypothèse de régime permanent (puissances, états) ; SV : variables d'état (résultats).</div></div>
+<div class="qcm" data-answer="c"><p class="q">17. Dans un scénario IEC 62559-2, l'atelier signale qu'un émetteur « n'est pas un élément du modèle ». Il faut :</p>
+<ol><li data-k="a">supprimer le pas</li><li data-k="b">changer de couche</li><li data-k="c">employer exactement le nom d'un acteur ou d'un composant du modèle, ou le créer</li><li data-k="d">ajouter un protocole</li></ol>
+<div class="fb">Le scénario n'est relié aux composants, aux informations et aux protocoles que par les noms des éléments.</div></div>
             <a href="#top" class="back-to-top">↑ Retour en haut</a>
         </div>
         <div class="page-nav"><a href="niveau5.html">← Niveau 5 — DER et réseaux intelligents</a><a href="niveau7.html">Niveau 7 — Atelier expert →</a></div>
@@ -438,8 +696,7 @@ l'agrégateur ; îlotage d'un site prioritaire.</li>
                 <div class="author-info">
                     <div class="name">Prof. Lamine THIAW</div>
                     <div class="role">Département de Génie Électrique<br>École Supérieure Polytechnique<br>Université Cheikh Anta Diop, Dakar</div>
-                    <a href="mailto:lamine.thiaw@ucad.edu.sn">lamine.thiaw@ucad.edu.sn</a><br>
-                    <a href="mailto:lamine.thiaw@esp.sn">lamine.thiaw@esp.sn</a>
+                    <a href="mailto:nrjxpert@niitan.com">nrjxpert@niitan.com</a>
                 </div>
             </div>
             <p class="small" style="margin-top:14px">Novembre 2026</p>

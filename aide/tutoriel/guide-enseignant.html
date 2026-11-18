@@ -7,6 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="tutoriel.css">
 <script src="tutoriel.js"></script>
+<script src="glossaire.js" defer></script>
 </head>
 <body>
 <div id="top"></div>
@@ -94,7 +95,7 @@ qui les modifie garde sa version.</li>
 <tr><td>Licence génie électrique (L3)</td><td>60 h</td><td>Niveaux 1 et 2 ; niveau 3 complet ; niveau 4</td><td>Examen écrit + TP notés</td></tr>
 <tr><td>Cycle ingénieur / master (M1)</td><td>60 h</td><td>Niveau 2 approfondi (load flow, court-circuit) ; niveaux 3 et 4 ; études de cas 1 à 3</td><td>Projet en binôme + examen</td></tr>
 <tr><td>Master énergies renouvelables / réseaux (M2)</td><td>40 h</td><td>Niveau 5 ; études de cas 2 et 4 ; projets A à C du niveau 5</td><td>Projet + soutenance</td></tr>
-<tr><td>Spécialisation Smart Grids (M2, mastère spécialisé, ingénieurs de gestionnaires de réseau)</td><td>30 h + projet</td><td>Niveau 6 complet : SGAM, FLISR et fiabilité, IVVC/r, VPP, micro-réseaux, VE, CIM et IEC 61850, AMOA ; projet de synthèse</td><td>Rapport de mission AMOA + soutenance</td></tr>
+<tr><td>Spécialisation Smart Grids (M2, mastère spécialisé, ingénieurs de gestionnaires de réseau)</td><td>38 h + projet</td><td>Niveau 6 complet : SGAM et atelier SGAM de NRJXpert, FLISR et fiabilité, IVVC/r, VPP, micro-réseaux, VE, CIM et IEC 61850, AMOA ; projet de synthèse</td><td>Rapport de mission AMOA + soutenance</td></tr>
 <tr><td>Expert Smart Grids (après la spécialisation)</td><td>24 à 30 h + mission</td><td>Niveau 7 : essais IEEE 2030.8, comptage évolué et pertes non techniques, télérelève DLMS/COSEM, effacement OpenADR 2.0b, cybersécurité IEC 62443 ; mission d'expertise § 7.6</td><td>Procès-verbal d'essais + audit des pertes + analyse de risque, soutenance</td></tr>
 <tr><td>Formation continue consultants / chefs de projet Smart Grid</td><td>3 jours</td><td>Niveau 6 § 6.1, 6.2, 6.8, 6.9, 6.10 ; TP 6.3 et 6.9 ; fiches de cas d'usage sur un projet réel</td><td>Fiche de cas d'usage + grille d'analyse d'offres</td></tr>
 <tr><td>Formation continue (bureaux d'études, installateurs)</td><td>3 à 5 jours</td><td>Niveau 3, câblage, niveau 4, étude de cas adaptée au métier</td><td>Étude de cas réelle</td></tr>
@@ -120,15 +121,18 @@ qui les modifie garde sa version.</li>
 <tr><td>13. Économie et viabilité</td><td>4 h</td><td>Exemples 4.1 à 4.4, TP 9, étude de cas 2</td><td>VAN, TRI, LCOE, sensibilité</td></tr>
 </table>
 <p>Pour le niveau 5, prévoir 3 séances de 4 h (TP 10 et projets A à C).</p>
-<p>Pour le niveau 6, prévoir 5 séances de 4 h : (1) SGAM et protocoles (outils 6.1 et 6.8, TP 6.1) ; (2) FLISR et fiabilité (exemple 6.3,
+<p>Pour le niveau 6, prévoir 7 séances de 4 h et une demi-séance : (1) SGAM et protocoles (outils 6.1 et 6.8, TP 6.1) ; (2) FLISR et fiabilité (exemple 6.3,
 TP 6.3, calculatrice de fiabilité) ; (3) IVVC/r et CVR (exemple 6.4) ; (4) VPP, VE et micro-réseaux (exemples 6.5 et 6.6, TP 6.7) ;
-(5) AMOA : fiche IEC 62559, CCTP, TCO, plan de recette (TP 6.9). Les outils interactifs (cartographie SGAM, fiche de cas d'usage,
+(5) AMOA : fiche IEC 62559, CCTP, TCO, plan de recette (TP 6.9) ; (6) atelier SGAM, cours 6.11 et TP 6.11-A et B ;
+(7) TP 6.11-C, D et E (logique / technique, analyse d'écart et sécurité, échange CIM) ; (7 bis, 2 h) TP 6.11-F et exercices 6.11.
+Les résultats attendus des TP 6.11 (nombre d'éléments, cases, protocoles, constats) sont donnés dans les corrigés repliables : ils
+permettent de vérifier rapidement qu'un étudiant a suivi la démarche. Faire rendre le rapport HTML de l'atelier et le modèle SGAM (XML). Les outils interactifs (cartographie SGAM, fiche de cas d'usage,
 auto-évaluation) gardent les saisies dans le navigateur de l'étudiant : faire exporter le travail (Markdown ou texte) pour le rendre.</p>
 <h3>Barème du projet de synthèse du niveau 6 (sur 20)</h3>
 <table>
 <tr><th>Critère</th><th>Points</th></tr>
 <tr><td>Diagnostic et modèle NRJXpert du départ (load flow, capacité d'accueil)</td><td>3</td></tr>
-<tr><td>Fiches de cas d'usage IEC 62559 et cartographie SGAM</td><td>4</td></tr>
+<tr><td>Fiches de cas d'usage IEC 62559 et architecture SGAM (atelier NRJXpert : traçabilité complète, vérification sans erreur ni avertissement)</td><td>4</td></tr>
 <tr><td>Études : fiabilité (2, 4, 6 organes), IVVC, VPP, îlotage — interprétation des résultats</td><td>5</td></tr>
 <tr><td>Spécification : interopérabilité (CIM, IEC 61850, liste des points), cybersécurité</td><td>3</td></tr>
 <tr><td>Analyse des offres (TCO, grille) et plan de recette FAT/SAT</td><td>3</td></tr>
@@ -217,8 +221,7 @@ discussions s'en trouvent nettement améliorées.</li>
                 <div class="author-info">
                     <div class="name">Prof. Lamine THIAW</div>
                     <div class="role">Département de Génie Électrique<br>École Supérieure Polytechnique<br>Université Cheikh Anta Diop, Dakar</div>
-                    <a href="mailto:lamine.thiaw@ucad.edu.sn">lamine.thiaw@ucad.edu.sn</a><br>
-                    <a href="mailto:lamine.thiaw@esp.sn">lamine.thiaw@esp.sn</a>
+                    <a href="mailto:nrjxpert@niitan.com">nrjxpert@niitan.com</a>
                 </div>
             </div>
             <p class="small" style="margin-top:14px">Novembre 2026</p>

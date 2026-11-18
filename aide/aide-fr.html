@@ -6,6 +6,7 @@
 <title>NRJXpert — Guide de l'utilisateur</title>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="aide.css">
+<script src="tutoriel/glossaire.js" defer></script>
 </head>
 <body>
 <div id="top"></div>
@@ -148,10 +149,10 @@ machine ; le serveur ne conserve pas les schémas.</li>
 <h3 id="menus">3.1 Menus et barre d'outils</h3>
 <table>
 <tr><th>Menu</th><th>Commandes</th></tr>
-<tr><td>Fichier</td><td>Nouveau, Ouvrir (<code>.nxp</code>), Enregistrer, Enregistrer sous, Quitter.</td></tr>
+<tr><td>Fichier</td><td>Nouveau, Ouvrir (<code>.nxp</code>), Enregistrer, Enregistrer sous, Importer un modèle de réseau CIM (IEC 61970 / CGMES), Exporter le réseau au format CIM, Quitter.</td></tr>
 <tr><td>Édition</td><td>Annuler, Rétablir, Paramètres du composant, Pivoter à droite / à gauche, Supprimer, Arrêter le placement / désélectionner, Copier, Coller, Grouper, Dissocier.</td></tr>
 <tr><td>Simulation</td><td>Lancer la simulation, Paramètres du calcul et du serveur, Paramètres des études DER…, Courbes des résultats…, Rapport détaillé du dernier calcul (HTML)…, Enregistrer le message OpenADR 2.0b…, Calculer un fichier réseau (XML)…, Effacer les résultats.</td></tr>
-<tr><td>Outils</td><td>Systèmes photovoltaïques, Systèmes éoliens, Données météo du site, Exporter le réseau au format CIM (IEC 61970 / 61968), Liste des points de téléconduite (IEC 61850, 60870-5-104, Modbus), Analyse de risque de cybersécurité (IEC 62443).</td></tr>
+<tr><td>Outils</td><td>Systèmes photovoltaïques, Systèmes éoliens, Données météo du site, Importer / exporter un modèle CIM (IEC 61970 / 61968, CGMES), Architecture SGAM (Smart Grid Architecture Model), Liste des points de téléconduite (IEC 61850, 60870-5-104, Modbus), Analyse de risque de cybersécurité (IEC 62443).</td></tr>
 <tr><td>Options</td><td>Langue (Français, English).</td></tr>
 <tr><td>Aide</td><td>Aide — guide complet (ce document), Tutoriel et formation (cours en 7 niveaux, exercices, QCM, études de cas,
 guide de l'enseignant), Formation Smart Grids (niveau 6 : SGAM, protocoles, cas d'usage IEC 62559, compétences), Atelier expert (niveau 7 :
@@ -261,6 +262,13 @@ Les longueurs des lignes (composants « Ligne » et liaisons avec modèle) sont 
         </div>
         <div class="section" id="calcul">
             <h2><span class="section-icon">⚙️</span>5. Calculs et résultats</h2>
+<p><b>Présélection du type de calcul.</b> Pendant que vous dessinez, NRJXpert analyse le schéma et choisit dans la liste « Calcul » le calcul le
+plus probable ; la barre d'état en donne la raison. Règles, dans l'ordre : point de court-circuit placé → Court-circuit ; aucun bus (R, L, C,
+sources, appareils de mesure) → Réseau linéaire ; anomalies de comptage → Comptage AMI ; organe de bouclage ou au moins trois organes de coupure →
+Auto-cicatrisation ; disjoncteur de couplage avec batterie → Essais micro-réseau (avec groupe) ou Dynamique ; bornes VE → Centrale virtuelle ;
+gradins de condensateurs → Volt/VAR ; ressources décentralisées → Gestion économique (groupe sans réseau), OPF (groupe, batterie et réseau),
+Dynamique (évènements définis), Séries temporelles (profil de charge) ou Load flow de distribution ; sinon Load flow. Le choix n'est modifié que
+lorsque la nature du schéma change : un calcul choisi à la main est conservé, de même que celui enregistré avec un projet.</p>
 <p>Choisissez le type de calcul et la méthode dans la barre d'outils, puis <kbd>F5</kbd>. Le schéma est envoyé au serveur de calcul distant (XML) ; la réponse s'affiche dans le tableau des résultats, le panneau « Sélection » et les info-bulles. Le calcul se fait en arrière-plan (délais d'attente : connexion 5 s, réponse 60 s).</p>
 <h3 id="lineaire">5.1 Réseau linéaire</h3>
 <p>Méthode des potentiels de nœuds (analyse nodale modifiée pour les sources idéales et les branches d'impédance nulle). Fréquence : celle des sources alternatives ; 0 Hz si toutes les sources sont continues ; mélanger sources continues et alternatives est refusé. Courant et tension de chaque dipôle sont donnés dans son propre sens.</p>
@@ -312,9 +320,31 @@ Les longueurs des lignes (composants « Ligne » et liaisons avec modèle) sont 
 « Dynamique », trois évènements de micro-réseau (IEEE 2030.7) : <b>Îlotage</b> (ouverture du point de couplage), <b>Reconnexion synchronisée</b>
 (synchroniseur et synchro-check selon l'IEEE 1547 : Δf, ΔV, Δφ selon la puissance de l'îlot ; délai maximal), <b>Fermeture sans synchro-check</b>.
 Les onduleurs suiveurs ont une fonction Frequency-Watt (statisme, bande morte <code>fwDeadband</code> en Hz).</p>
-<p><b>Outils › Exporter le réseau au format CIM</b> : fichier RDF/XML (IEC 61970-301 / 61968-13, profil équipement) : nœuds, bornes, tronçons, charges,
-sources, machines, onduleurs (PhotoVoltaicUnit, BatteryUnit), gradins, disjoncteurs et interrupteurs (état normal), IPD. <b>Outils › Liste des
-points de téléconduite</b> : CSV des états, mesures, commandes et consignes de chaque élément, avec nœud logique IEC 61850, type ASDU et adresse
+<h3 id="cim">Échange de modèles au format CIM (IEC 61970 / 61968, CGMES)</h3>
+<p><b>Fichier › Exporter le réseau au format CIM</b> : archive <code>.zip</code> CGMES 3.0 (un fichier par profil : <b>EQ</b> équipements, <b>TP</b>
+topologie, <b>SSH</b> hypothèse de régime permanent, <b>SV</b> variables d'état si un load flow a été calculé) ou fichier RDF/XML unique. Les éléments
+cachés d'une ligne (R, L, C en π) ou d'un transformateur (Rcc, Lcc, Rfe, Lm) sont regroupés en un <code>ACLineSegment</code> (r, x, bch, longueur) ou un
+<code>PowerTransformer</code> à deux enroulements (tensions et puissance assignées, couplage, indice horaire). Bus balancier « réseau » →
+<code>ExternalNetworkInjection</code> (courant de court-circuit déduit de Rd, Xd) ; groupe → <code>SynchronousMachine</code> ; PV, batterie, éolien →
+<code>PowerElectronicsConnection</code> et <code>PhotoVoltaicUnit</code> / <code>BatteryUnit</code> / <code>PowerElectronicsWindUnit</code> ; charges →
+<code>EnergyConsumer</code> ; gradins → <code>LinearShuntCompensator</code> ; organes → <code>Breaker</code>, <code>Recloser</code>,
+<code>LoadBreakSwitch</code> ; IPD → <code>FaultIndicator</code>. Unités CGMES : kV, MW, Mvar, MVA, km. Les paramètres propres à NRJXpert (profils,
+commande des onduleurs…) sont ajoutés dans un espace de noms d'extension ignoré par les autres outils, ce qui permet un aller-retour sans perte.
+L'export a été vérifié avec un outil indépendant (import CGMES de pandapower et load flow du réseau IEEE 33 nœuds : mêmes tensions).</p>
+<p><b>Fichier › Importer un modèle de réseau CIM</b> : un ou plusieurs fichiers RDF/XML (EQ, TP, SSH, SV…) ou une archive <code>.zip</code>. Le schéma est
+dessiné automatiquement. Un réseau à plusieurs niveaux de tension est ramené à la tension de la source (impédances × (U<sub>réf</sub>/U)²,
+transformateurs au rapport nominal), ce qui équivaut à un calcul en grandeurs réduites. Les classes non reprises sont indiquées à la fin de l'import.</p>
+<h3 id="sgam">Architecture SGAM</h3>
+<p><b>Outils › Architecture SGAM</b> ouvre l'atelier de modélisation selon le cadre SGAM (5 couches : métier, fonction, information, communication,
+composant ; 5 domaines ; 6 zones). <b>Générer depuis le schéma</b> crée les composants (poste source, organes, IED, onduleurs, compteurs, bornes…), les
+systèmes (SCADA/ADMS, DERMS, HES, MDMS, CSMS, agrégateur), les liaisons de communication et leurs protocoles, les objets d'information, les fonctions
+et les acteurs correspondant au réseau dessiné. <b>Cas d'usage types</b> ajoute un cas d'usage décrit selon l'IEC 62559-2 (FLISR, IVVC, centrale virtuelle,
+AMI, recharge intelligente, îlotage) avec son scénario pas à pas et son diagramme de séquence. Onglets : plan de chaque couche (glisser un élément
+pour changer sa case ; point de vue logique ou technique), cube SGAM, cas d'usage, matrice de traçabilité (objectifs → fonctions → composants →
+informations → protocoles) et <b>Vérification</b> de la cohérence entre couches (fonction non réalisée, liaison sans protocole, protocole inhabituel
+entre deux zones, liaison terrain–exploitation sans IEC 62351…). <b>Rapport HTML</b> : plans et cube en SVG, tableaux, cas d'usage et constats ;
+<b>Fichier</b> : échange du modèle en XML, export du plan affiché en SVG. Le modèle est enregistré avec le projet.</p>
+<p><b>Outils › Liste des points de téléconduite</b> : CSV des états, mesures, commandes et consignes de chaque élément, avec nœud logique IEC 61850, type ASDU et adresse
 IEC 60870-5-104, registres Modbus (modèles SunSpec des onduleurs) et messages OCPP des bornes — correspondances indicatives à valider avec les
 équipements retenus.</p>
 
@@ -430,7 +460,13 @@ complète.</p>
 <p>Pour le système <b>centralisé</b> (un générateur et le réseau local) et les systèmes <b>décentralisés</b> (un système par infrastructure) :</p>
 <ul>
 <li><b>Choix optimisé</b> des équipements (coût global minimal parmi la base) ou équipements imposés ;</li>
+<li><b>Compatibilité des raccordements</b> (choix optimisé ou imposé) : batteries dont la tension divise celle du bus continu (12,8 V LFP pour 12 V…), onduleurs autonomes de même tension continue que le bus, régulateurs du bon type (MPPT/PWM) acceptant la tension de batterie, tension d'entrée maximale ≥ Voc de la chaîne à froid (1,1 × Voc), courant d'entrée ≥ 1,25 × Isc des chaînes raccordées et courant de sortie suffisant (une chaîne n'est pas partagée entre deux régulateurs) ; en PWM, Vmp de la chaîne ≤ 2 × tension du bus. Le module et le régulateur sont choisis ensemble : la combinaison compatible la moins chère est retenue, même si elle coûte plus qu'une combinaison non raccordable. La ligne « Raccordement » des résultats résume le montage ; sans combinaison compatible, un avertissement indique les contraintes non respectées.</li>
+<li><b>Choix automatique de la tension du bus et du type de régulateur</b> (case sous « coût global minimal », cochée pour les nouveaux projets) : les six variantes 12, 24, 48 V × MPPT, PWM sont dimensionnées et la variante de coût du kWh minimal parmi celles dont tous les raccordements sont conformes est retenue ; la ligne « Choix automatique » des résultats compare les variantes. Le câblage compte une liaison champ → régulateur et régulateur → batterie par régulateur, et une liaison batterie → onduleur et onduleur → tableau par onduleur (sections dimensionnées pour le courant de chaque appareil).</li>
 <li><b>tension du bus continu</b> (12, 24, 48 V…), <b>autonomie</b> de la batterie (h), <b>profondeur de décharge</b> (%) ;</li>
+<li><b>charges alimentées par la batterie</b> : <i>toutes les charges</i>, ou <i>charges prioritaires seulement</i> (colonne « Priorité » des récepteurs) :
+la batterie, plus petite, est dimensionnée sur les seuls besoins prioritaires et les autres charges sont délestées pendant l'autonomie ; le champ
+PV couvre toujours toutes les charges. Même choix dans la fenêtre éolienne (stockage) : les charges non prioritaires y sont délestées quand le vent
+manque et que la batterie descend sous la moitié de son énergie utile ;</li>
 <li><b>régulateur MPPT</b> (sinon PWM) — indispensable avec des modules de 60 ou 72 cellules ;</li>
 <li><b>durées de vie</b> retenues quand la base n'en donne pas : batteries (5 ans), onduleurs et régulateurs (10 ans) ; champ vide = valeur par défaut ;</li>
 <li><b>marge de dimensionnement</b> (%) : majore les besoins (Ah/j) avant le calcul du champ et de la batterie, pour couvrir l'incertitude sur le profil de charge, la croissance de la demande et le vieillissement ; 10 % par défaut pour les nouveaux projets, 0 % pour les projets enregistrés avant son introduction ;</li>
@@ -458,7 +494,7 @@ l'investissement, le coût global, le coût actualisé et le LCOE ; l'onglet 4 e
 <li><div class="step-content"><b>Ensoleillement et température</b> : 12 journées types du site (profils téléchargés s'ils existent, sinon demi-sinusoïde et écart jour/nuit saisi), ou fichier de mesures horaires (Excel ou texte : 24 colonnes, une ligne d'ensoleillement en W/m² puis une ligne de température par jour ; 2, 60 ou 730 lignes pour une journée, un mois ou une année type ; le bouton « ? » rappelle le format attendu).</div></li>
 <li><div class="step-content"><b>Équipements</b> : module (Pc, Vmp, Imp, Voc, Isc, coût), onduleur (tension DC, kVA, coût), batterie et régulateur (autonome), autonomie en heures de production journalière moyenne. Équipements choisis dans les bases d'équipements (leurs valeurs ne sont pas modifiables ici).</div></li>
 <li><div class="step-content"><b>Données économiques</b> : exploitation-maintenance, installation, assurance (par kW), subvention, tarif et son évolution, durée de vie, inflation, taux d'actualisation.</div></li>
-<li><div class="step-content"><b>Paramètres du modèle…</b> : cellules, conditions de référence, NOCT, coefficient de température de Pmax, pertes du système, dégradation, écrêtage, rendement et facteur de puissance de l'onduleur, profondeur de décharge, rendement et part stockée des batteries, durées de vie.</div></li>
+<li><div class="step-content"><b>Paramètres du modèle…</b>  (barre d'outils de la fenêtre, à côté de « Bases d'équipements… » ; les <b>pertes du système, la NOCT et le coefficient de température</b> servent aussi au dimensionnement : facteur de pertes = 1 − pertes, température des cellules Ta + (NOCT − 20) à 800 W/m², correction de puissance par le coefficient) : cellules, conditions de référence, NOCT, coefficient de température de Pmax, pertes du système, dégradation, écrêtage, rendement et facteur de puissance de l'onduleur, profondeur de décharge, rendement et part stockée des batteries, durées de vie.</div></li>
 <li><div class="step-content"><b>Calculer</b> ; <b>Analyse de sensibilité</b> (VAN, TRI, tarif minimal en fonction de la puissance et du tarif ; export CSV) ; <b>Subvention minimale</b>, <b>Tarif minimal</b> ; <b>Rapport</b> (texte enregistrable).</div></li>
 </ol>
 <p>Résultats : puissance installée, nombre de modules, onduleurs, batteries, régulateurs, énergie annuelle, productible (kWh/kWc/an) et indice de performance PR, investissement, VAN, TRI, temps de retour simple et actualisé, LCOE, tarif minimal, subvention minimale, graphiques (météo, production horaire et mensuelle, flux de trésorerie, sensibilité).</p>
@@ -639,6 +675,7 @@ supprimées ; une base personnelle plus ancienne est renommée <code>aerogenerat
 <tr><td><code>~/.nrjxpert/pv/</code></td><td>Bases d'équipements PV modifiées (CSV).</td></tr>
 <tr><td><code>~/.nrjxpert/meteo/cache/</code></td><td>Réponses des services météo (90 jours).</td></tr>
 <tr><td><code>~/.nrjxpert/aide/</code></td><td>Copie de ce guide, ouverte dans le navigateur.</td></tr>
+<tr><td>Exports des figures et tableaux</td><td><b>Clic droit</b> sur n'importe quel graphique : image PNG (haute résolution, fond blanc), données CSV, copie de l'image ou des données (collage dans Excel). Clic droit sur n'importe quel tableau : export CSV (colonnes visibles, toutes les lignes) ou copie pour Excel. CSV en UTF-8, séparateur « ; » et virgule décimale en français ; « , » et point décimal en anglais.</td></tr>
 <tr><td>Exports</td><td>Moyennes mensuelles (CSV, séparateur « ; », virgule décimale), sensibilités (CSV), rapports (texte).</td></tr>
 </table>
 
@@ -735,8 +772,7 @@ longueur des profils.</td></tr>
                 <div class="author-info">
                     <div class="name">Prof. Lamine THIAW</div>
                     <div class="role">Département de Génie Électrique<br>École Supérieure Polytechnique<br>Université Cheikh Anta Diop, Dakar</div>
-                    <a href="mailto:lamine.thiaw@ucad.edu.sn">lamine.thiaw@ucad.edu.sn</a><br>
-                    <a href="mailto:lamine.thiaw@esp.sn">lamine.thiaw@esp.sn</a>
+                    <a href="mailto:nrjxpert@niitan.com">nrjxpert@niitan.com</a>
                 </div>
             </div>
             <p class="small" style="margin-top:14px">Novembre 2026</p>

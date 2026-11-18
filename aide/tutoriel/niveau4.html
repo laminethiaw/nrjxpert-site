@@ -7,6 +7,8 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="tutoriel.css">
 <script src="tutoriel.js"></script>
+<script src="economie.js" defer></script>
+<script src="glossaire.js" defer></script>
 </head>
 <body>
 <div id="top"></div>
@@ -19,6 +21,7 @@
     </div>
     <nav>
         <a href="#intro"><span class="nav-icon">📘</span>Introduction</a>
+        <a href="#n4-0"><span class="nav-icon">🧭</span>Les six notions essentielles</a>
         <a href="#n4-1"><span class="nav-icon">🔹</span>Valeur de l&#x27;argent dans le temps</a>
         <a href="#n4-2"><span class="nav-icon">💰</span>Coût global et coût actualisé</a>
         <a href="#n4-3"><span class="nav-icon">💰</span>Coût actualisé du kWh (LCOE)</a>
@@ -59,6 +62,7 @@ besoin, ou si elle est rentable. Ce niveau donne les outils pour le démontrer.<
             <h2>Table des matières</h2>
             <div class="toc-grid">
                 <a href="#intro"><span class="toc-num">00</span>Introduction</a>
+                <a href="#n4-0"><span class="toc-num">4.0</span>Les six notions essentielles</a>
                 <a href="#n4-1"><span class="toc-num">4.1</span>Valeur de l&#x27;argent dans le temps</a>
                 <a href="#n4-2"><span class="toc-num">4.2</span>Coût global et coût actualisé</a>
                 <a href="#n4-3"><span class="toc-num">4.3</span>Coût actualisé du kWh (LCOE)</a>
@@ -75,6 +79,7 @@ besoin, ou si elle est rentable. Ce niveau donne les outils pour le démontrer.<
 <div class="objectifs">
 <h4>Objectifs</h4>
 <ul>
+<li>Comprendre les six notions de l'évaluation de projets (inflation, taux d'actualisation, coût actualisé, VAN, TRI, temps de retour) : la question à laquelle chacune répond et le critère de décision.</li>
 <li>Actualiser des flux, tenir compte de l'inflation, calculer une annuité.</li>
 <li>Calculer le coût actualisé d'un projet (investissement, exploitation, remplacements, valeur résiduelle) et le coût du kWh (LCOE).</li>
 <li>Juger la rentabilité : VAN, TRI, temps de retour simple et actualisé ; déterminer le tarif et la subvention minimaux.</li>
@@ -84,6 +89,158 @@ besoin, ou si elle est rentable. Ce niveau donne les outils pour le démontrer.<
 </div>
 
 <!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="n4-0">
+            <h2><span class="section-icon">🧭</span>4.0 Les six notions essentielles de l'évaluation de projets</h2>
+<p>Avant de calculer, il faut comprendre ce que chaque indicateur <b>mesure</b> et à quelle <b>question</b> il répond. Six notions suffisent
+pour évaluer un projet d'énergie : le <b>taux d'inflation</b>, le <b>taux d'actualisation</b>, le <b>coût actualisé</b>, la <b>VAN</b>, le
+<b>TRI</b> et le <b>temps de retour</b>. Elles s'enchaînent : les deux premières sont des <i>hypothèses</i> que l'on choisit, les quatre
+autres sont des <i>résultats</i> que l'on calcule et que l'on interprète.</p>
+<div class="note"><b>Fil rouge.</b> Mme Diop tient une boutique à Thiès. Elle hésite à investir <b>1 000 kF</b> dans une petite installation
+photovoltaïque qui lui ferait économiser <b>250 kF par an</b> d'électricité et de gasoil pendant <b>10 ans</b>. Sa banque lui prête à
+<b>8 %</b>. Le projet vaut-il la peine ? Chaque notion ci-dessous apporte une partie de la réponse.</div>
+
+<h3>1. Le taux d'inflation : combien la monnaie perd-elle de valeur ?</h3>
+<p><b>Définition.</b> Pourcentage d'augmentation <b>générale et durable</b> des prix des biens et services sur une période, en général un an.
+Il mesure la <b>perte de pouvoir d'achat</b> de la monnaie.</p>
+<p><b>Intuition.</b> Avec une inflation de 3 %, un panier de provisions qui coûtait 100 l'an dernier coûte 103 aujourd'hui : avec les mêmes
+100, on achète moins de choses. L'inflation ne rend personne plus riche ; elle change seulement l'unité de mesure d'une année à l'autre.</p>
+<div class="eq">Prix de l'année n : C<sub>n</sub> = C₀ · (1 + i)<sup>n</sup></div>
+<div class="ex"><h4>Exemple 4.0.1 — Le gasoil dans dix ans</h4>
+<p>Le litre de gasoil coûte 750 F. Si les prix augmentent de 4 % par an, combien coûtera-t-il dans 10 ans ?</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>750 × 1,04¹⁰ = <span class="result">1 110 F/l</span> (+48 %). Un groupe électrogène qui consomme 4 000 l/an verra sa facture passer de
+3 000 kF à plus de 4 400 kF par an : l'inflation pèse lourd sur les solutions à fort coût d'exploitation, peu sur une centrale PV dont
+l'essentiel est payé le premier jour.</p>
+</details></div>
+<p><b>Dans NRJXpert.</b> Champ « Inflation » des onglets de viabilité économique (PV, éolien) : il fait croître chaque année les coûts
+d'exploitation, de carburant et de remplacement.</p>
+
+<h3>2. Le taux d'actualisation : combien vaut aujourd'hui un franc futur ?</h3>
+<p><b>Définition.</b> Taux qui permet de <b>convertir une somme future en sa valeur équivalente aujourd'hui</b>.</p>
+<p><b>Intuition : 1 franc aujourd'hui vaut plus que 1 franc demain</b>, pour trois raisons :</p>
+<ul>
+<li>l'<b>inflation</b> : demain, ce franc achètera moins ;</li>
+<li>le <b>risque</b> : l'avenir peut ne pas se passer comme prévu (panne, baisse de tarif, impayés) ;</li>
+<li>le <b>coût d'opportunité</b> : disponible aujourd'hui, ce franc peut être placé et rapporter des intérêts.</li>
+</ul>
+<p>En pratique, c'est le <b>taux de rentabilité minimal</b> qu'un investisseur exige pour accepter de bloquer son argent dans un projet
+(coût de l'emprunt, rendement d'un placement sans risque majoré d'une prime de risque).</p>
+<div class="eq">Valeur actuelle : VA = F<sub>n</sub> / (1 + a)<sup>n</sup> &nbsp;&nbsp; facteur d'actualisation : FA<sub>n</sub> = 1/(1 + a)<sup>n</sup></div>
+<table>
+<tr><th>Année n</th><th>1</th><th>5</th><th>10</th><th>20</th></tr>
+<tr><td>Valeur actuelle de 1 000 F reçus l'année n, à 8 %</td><td class="num">926 F</td><td class="num">681 F</td><td class="num">463 F</td><td class="num">215 F</td></tr>
+</table>
+<p>Le tableau montre l'effet de l'actualisation : à 8 %, un franc reçu dans 20 ans ne « pèse » que 21 % d'un franc d'aujourd'hui. Plus le
+taux est élevé, plus les gains lointains comptent peu — ce qui pénalise les projets à long terme comme le solaire.</p>
+<div class="ex"><h4>Exemple 4.0.2</h4>
+<p>On vous promet 1 000 000 F dans 5 ans. Quelle somme accepteriez-vous aujourd'hui si votre taux d'actualisation est de 8 % ?</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>1 000 000/1,08⁵ = <span class="result">680 583 F</span>. Au-dessus de ce montant, mieux vaut l'argent tout de suite.</p>
+</details></div>
+<div class="note"><b>Taux nominal ou taux réel ?</b> Si les flux sont exprimés en francs courants (avec inflation), on actualise au taux
+<b>nominal</b> ; s'ils sont exprimés en francs constants (sans inflation), on actualise au taux <b>réel</b> :
+(1 + a<sub>nominal</sub>) = (1 + a<sub>réel</sub>)(1 + i). Mélanger les deux est l'erreur la plus fréquente.</div>
+
+<h3>3. Le coût actualisé : combien ce projet va-t-il vraiment me coûter ?</h3>
+<p><b>Définition.</b> Somme de <b>toutes les dépenses</b> liées à un projet sur sa durée de vie — achat initial, installation, entretien,
+énergie, réparations et remplacements — <b>ramenées à leur valeur d'aujourd'hui</b> grâce au taux d'actualisation.</p>
+<div class="eq">C<sub>act</sub> = I₀ + Σ<sub>n=1..N</sub> C<sub>n</sub> / (1 + a)<sup>n</sup></div>
+<p><b>À quoi ça sert ?</b> À <b>comparer objectivement</b> deux équipements qui rendent le même service : une machine bon marché à l'achat mais
+qui consomme beaucoup pendant 10 ans peut coûter plus cher qu'une machine chère mais économe.</p>
+<div class="ex"><h4>Exemple 4.0.3 — Deux réfrigérateurs pour un poste de santé</h4>
+<p>Réfrigérateur A : 150 kF, 1,6 kWh/jour. Réfrigérateur B : 350 kF, 0,6 kWh/jour. Électricité à 120 F/kWh, 10 ans, actualisation 8 %,
+prix constants. Lequel est le moins cher ?</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>Coût annuel de l'énergie : A = 1,6 × 365 × 0,120 = 70,08 kF ; B = 0,6 × 365 × 0,120 = 26,28 kF.
+Somme des facteurs d'actualisation sur 10 ans à 8 % : Σ 1/1,08<sup>n</sup> = 6,710.</p>
+<p>C<sub>act</sub>(A) = 150 + 70,08 × 6,710 = <span class="result">620 kF</span> ; C<sub>act</sub>(B) = 350 + 26,28 × 6,710 =
+<span class="result">526 kF</span>. Le réfrigérateur B, plus de deux fois plus cher à l'achat, fait économiser 94 kF en valeur
+d'aujourd'hui — et il soulage aussi le système PV qui l'alimente.</p>
+</details></div>
+<p><b>Dans NRJXpert.</b> Le coût actualisé d'un système (investissement, exploitation, remplacements des batteries et des onduleurs, valeur
+résiduelle) est calculé dans l'onglet « Viabilité économique » ; divisé par l'énergie actualisée, il donne le <b>LCOE</b> (section 4.3).</p>
+
+<h3>4. La VAN : combien ce projet me fait-il gagner ?</h3>
+<p><b>Définition.</b> La <b>valeur actuelle nette</b> est la richesse nette créée par un projet, exprimée en valeur d'aujourd'hui : on fait
+la somme de tous les gains futurs actualisés et on soustrait l'investissement de départ.</p>
+<div class="eq">VAN = Σ des gains futurs actualisés − investissement initial = −I₀ + Σ<sub>n=1..N</sub> F<sub>n</sub> / (1 + a)<sup>n</sup></div>
+<table>
+<tr><th>Résultat</th><th>Interprétation</th><th>Décision</th></tr>
+<tr><td>VAN &gt; 0</td><td>le projet rapporte plus que le minimum exigé par le taux d'actualisation</td><td>on investit</td></tr>
+<tr><td>VAN = 0</td><td>il rembourse tout juste l'investissement et le rendement exigé, sans surplus</td><td>indifférent</td></tr>
+<tr><td>VAN &lt; 0</td><td>le projet détruit de la valeur</td><td>on abandonne (ou on cherche une subvention, section 4.5)</td></tr>
+</table>
+<div class="ex"><h4>Exemple 4.0.4 — Le projet de Mme Diop</h4>
+<p>Investissement 1 000 kF, économie 250 kF/an pendant 10 ans, taux 8 %. VAN ?</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>VAN = −1 000 + 250 × 6,710 = <span class="result">+678 kF</span>. Le projet est rentable : en plus de rembourser son emprunt à 8 %,
+Mme Diop s'enrichit de 678 kF en valeur d'aujourd'hui.</p>
+</details></div>
+
+<h3>5. Le TRI : quel est le rendement annuel de ce projet ?</h3>
+<p><b>Définition.</b> Le <b>taux de rentabilité interne</b> est le taux de rendement annuel réel du projet. Mathématiquement, c'est le taux
+d'actualisation précis qui <b>annule la VAN</b>.</p>
+<div class="eq">TRI : Σ<sub>n=0..N</sub> F<sub>n</sub> / (1 + TRI)<sup>n</sup> = 0 &nbsp; (calculé par essais successifs ou par dichotomie)</div>
+<p><b>Comment l'interpréter ?</b> On le compare directement au taux d'actualisation ou au taux d'intérêt d'un emprunt :</p>
+<ul>
+<li>si la banque prête à 4 % et que le TRI est de 9 %, le projet est très intéressant : il dégage 5 points de marge ;</li>
+<li>si le TRI est inférieur au taux d'actualisation, le projet n'est pas assez rentable pour le risque pris.</li>
+</ul>
+<div class="ex"><h4>Exemple 4.0.5</h4>
+<p>Quel est le TRI du projet de Mme Diop ?</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>On cherche r tel que 250 × Σ<sub>n=1..10</sub> 1/(1 + r)<sup>n</sup> = 1 000, c'est-à-dire une somme des facteurs égale à 4.
+À 20 % elle vaut 4,19, à 22 % 3,92 : par dichotomie, <span class="result">TRI ≈ 21,4 %</span>, bien au-dessus des 8 % du crédit.</p>
+</details></div>
+<div class="note"><b>Limites.</b> Quand les flux changent plusieurs fois de signe (remplacement coûteux des batteries en cours de vie), il
+peut exister plusieurs TRI ou aucun : la VAN reste alors le critère de référence. Entre deux projets exclusifs de tailles différentes,
+le plus grand TRI n'est pas forcément la plus grande VAN.</div>
+
+<h3>6. Le temps de retour : en combien d'années je récupère ma mise ?</h3>
+<p><b>Définition.</b> Temps nécessaire (en années ou en mois) pour que les <b>gains cumulés</b> du projet remboursent exactement la mise de départ.
+<i>Attention : en français, le sigle TRI désigne parfois aussi le « temps de retour sur investissement » ; dans NRJXpert, TRI signifie
+toujours taux de rentabilité interne.</i></p>
+<div class="eq">Temps de retour simple = I₀ / gain annuel &nbsp;&nbsp; temps de retour actualisé : première année où Σ F<sub>n</sub>/(1 + a)<sup>n</sup> ≥ I₀</div>
+<div class="ex"><h4>Exemple 4.0.6</h4>
+<p>Temps de retour simple et actualisé du projet de Mme Diop ?</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>Simple : 1 000/250 = <span class="result">4 ans</span>. Actualisé : les économies actualisées cumulées valent 828 kF après 4 ans,
+998 kF après 5 ans et 1 156 kF après 6 ans : <span class="result">≈ 5,0 ans</span>. L'actualisation allonge toujours le temps de retour.</p>
+</details></div>
+<p><b>Limites.</b> C'est un indicateur de <b>risque et de liquidité</b> très simple mais incomplet : il ignore ce qui se passe après le
+remboursement (un projet lent à rembourser peut rapporter énormément pendant 20 ans) et, sous sa forme simple, l'actualisation.</p>
+
+<h3>En résumé : comment articuler les six notions ?</h3>
+<table>
+<tr><th>Indicateur</th><th>Question à laquelle il répond</th><th>Critère de décision</th></tr>
+<tr><td>Inflation</td><td>Combien la monnaie perd-elle de valeur ?</td><td>sert de base de calcul (évolution des coûts futurs)</td></tr>
+<tr><td>Taux d'actualisation</td><td>Combien vaut aujourd'hui un franc futur ?</td><td>sert à calculer la VAN et le coût actualisé</td></tr>
+<tr><td>Coût actualisé</td><td>Combien ce projet va-t-il vraiment me coûter au total ?</td><td>choisir le coût le plus bas (à service égal)</td></tr>
+<tr><td>VAN</td><td>Combien d'argent ce projet me fait-il gagner ?</td><td>doit être positive (&gt; 0)</td></tr>
+<tr><td>TRI</td><td>Quel est le rendement annuel (en %) de ce projet ?</td><td>doit être supérieur au taux d'actualisation</td></tr>
+<tr><td>Temps de retour</td><td>En combien d'années je récupère ma mise ?</td><td>le plus court possible (indicateur de risque)</td></tr>
+</table>
+<div class="lab"><h4>Méthode en quatre étapes</h4>
+<ol class="steps">
+<li><div class="step-content"><b>Fixer les hypothèses</b> : durée d'étude, inflation, taux d'actualisation (nominal ou réel, de façon cohérente avec les flux).</div></li>
+<li><div class="step-content"><b>Si les solutions rendent le même service</b> (alimenter un village : PV, diesel ou réseau), calculer leur <b>coût actualisé</b>
+ou leur <b>LCOE</b> et retenir le plus bas.</div></li>
+<li><div class="step-content"><b>Si le projet génère des recettes ou des économies</b>, calculer la <b>VAN</b> : positive, il est rentable ; puis le <b>TRI</b> pour le
+comparer au coût du crédit.</div></li>
+<li><div class="step-content"><b>Juger le risque</b> avec le <b>temps de retour</b> et une <b>analyse de sensibilité</b> (section 4.6) : que devient la VAN si le
+tarif baisse de 20 % ou si le taux passe à 12 % ?</div></li>
+</ol>
+</div>
+<div class="note"><b>Les pièges à éviter.</b> (1) Actualiser des flux en francs constants avec un taux nominal (ou l'inverse). (2) Oublier les
+remplacements (batteries tous les 5 à 10 ans, onduleurs tous les 10 ans). (3) Comparer par la VAN deux projets de durées différentes :
+comparer plutôt leurs annuités ou leurs LCOE. (4) Croire qu'un temps de retour court suffit à prouver la rentabilité. (5) Confondre le
+TRI (un taux, en %) et le temps de retour (une durée, en années).</div>
+<h3>Calculatrice pas à pas</h3>
+<p>Saisissez votre projet : la calculatrice affiche le tableau des flux année par année (valeur courante, valeur actualisée, cumul) et les
+six indicateurs. Faites varier un paramètre à la fois pour sentir son effet.</p>
+<div class="eco-calc" data-lang="fr"></div>
             <a href="#top" class="back-to-top">↑ Retour en haut</a>
         </div>
         <div class="section" id="n4-1">
@@ -234,6 +391,32 @@ le LCOE dépasse-t-il 100 F/kWh ?</p>
 change). Le temps de retour départage des projets que la VAN ne distingue pas.</p>
 </details></div>
 
+<div class="ex"><h4>Exercice 4 — Inflation et taux réel</h4>
+<p>L'entretien d'une installation coûte aujourd'hui 200 kF/an ; l'inflation est de 4 % et le taux d'actualisation nominal de 10 %.
+(a) Quel est le taux réel ? (b) Quelle est la valeur actuelle de l'entretien des 10 prochaines années ? Calculez-la de deux façons.</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>(a) 1,10/1,04 − 1 = <span class="result">5,77 %</span>. (b) En francs courants au taux nominal : Σ 200 × 1,04<sup>n</sup>/1,10<sup>n</sup> ;
+en francs constants au taux réel : 200 × Σ 1/1,0577<sup>n</sup>. Les deux donnent <span class="result">1 488 kF</span> : la cohérence
+flux/taux est respectée. Erreur classique : 200 × Σ 1/1,10<sup>n</sup> = 1 229 kF (prix constants actualisés au taux nominal), soit 17 % de moins.</p>
+</details></div>
+<div class="ex"><h4>Exercice 5 — TRI et coût du crédit</h4>
+<p>Un projet coûte 2 000 kF et rapporte 400 kF/an pendant 8 ans. (a) VAN à 8 % et à 10 % ? (b) TRI ? (c) Faut-il le financer par un
+crédit à 10 % ? à 13 % ?</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>(a) VAN(8 %) = −2 000 + 400 × 5,747 = <span class="result">+299 kF</span> ; VAN(10 %) = −2 000 + 400 × 5,335 = <span class="result">+134 kF</span>.
+(b) <span class="result">TRI ≈ 11,8 %</span>. (c) À 10 %, oui (TRI &gt; coût du crédit, 1,8 point de marge, faible : sensibilité à vérifier) ;
+à 13 %, non : le projet ne couvrirait pas les intérêts.</p>
+</details></div>
+<div class="ex"><h4>Exercice 6 — Le piège du temps de retour</h4>
+<p>Projet A : 1 000 kF investis, 500 kF/an pendant 3 ans. Projet B : 1 000 kF investis, 250 kF/an pendant 10 ans. Taux 8 %.
+Comparez leurs temps de retour et leurs VAN. Lequel choisir ?</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>Temps de retour : A = <span class="result">2 ans</span>, B = <span class="result">4 ans</span>. VAN : A = −1 000 + 500 × 2,577 =
+<span class="result">+289 kF</span> ; B = <span class="result">+678 kF</span>. B crée plus de deux fois plus de valeur alors qu'il se
+rembourse deux fois moins vite : le temps de retour ignore ce qui se passe après le remboursement. On choisit B, sauf contrainte forte de
+trésorerie ou risque élevé au-delà de 4 ans.</p>
+</details></div>
+
 <!-- ================================================================== -->
             <a href="#top" class="back-to-top">↑ Retour en haut</a>
         </div>
@@ -263,6 +446,21 @@ change). Le temps de retour départage des projets que la VAN ne distingue pas.<
 <div class="qcm" data-answer="d"><p class="q">8. Le temps de retour actualisé est :</p>
 <ol><li data-k="a">toujours plus court que le temps de retour simple</li><li data-k="b">égal au TRI</li><li data-k="c">indépendant du taux</li><li data-k="d">plus long que le temps de retour simple</li></ol>
 <div class="fb">Les flux futurs sont diminués par l'actualisation : il faut plus d'années pour compenser l'investissement.</div></div>
+<div class="qcm" data-answer="c"><p class="q">9. Avec une inflation de 3 %, un panier qui coûtait 100 l'an dernier coûte aujourd'hui :</p>
+<ol><li data-k="a">97</li><li data-k="b">100</li><li data-k="c">103</li><li data-k="d">130</li></ol>
+<div class="fb">100 × 1,03 = 103 : avec les mêmes 100, on achète moins de choses (perte de pouvoir d'achat).</div></div>
+<div class="qcm" data-answer="b"><p class="q">10. Une VAN nulle signifie que le projet :</p>
+<ol><li data-k="a">ne rapporte rien du tout</li><li data-k="b">rembourse tout juste l'investissement et le rendement exigé, sans surplus</li><li data-k="c">détruit de la valeur</li><li data-k="d">a un TRI nul</li></ol>
+<div class="fb">À VAN = 0, le projet rapporte exactement le taux d'actualisation : son TRI est égal à ce taux.</div></div>
+<div class="qcm" data-answer="a"><p class="q">11. La banque prête à 4 % ; le TRI du projet est de 9 %. Alors :</p>
+<ol><li data-k="a">le projet est intéressant : 5 points de marge</li><li data-k="b">il faut un TRI d'au moins 13 %</li><li data-k="c">la VAN au taux de 4 % est négative</li><li data-k="d">on ne peut pas conclure sans le temps de retour</li></ol>
+<div class="fb">TRI &gt; coût du crédit : le projet rembourse les intérêts et dégage une marge ; la VAN à 4 % est positive.</div></div>
+<div class="qcm" data-answer="d"><p class="q">12. Quel indicateur ignore ce qui se passe après le remboursement de la mise de départ ?</p>
+<ol><li data-k="a">la VAN</li><li data-k="b">le TRI</li><li data-k="c">le coût actualisé</li><li data-k="d">le temps de retour</li></ol>
+<div class="fb">Le temps de retour s'arrête au remboursement : un projet lent à rembourser peut rapporter énormément ensuite.</div></div>
+<div class="qcm" data-answer="c"><p class="q">13. Pour choisir entre deux réfrigérateurs qui rendent le même service, on compare :</p>
+<ol><li data-k="a">leurs prix d'achat</li><li data-k="b">leurs TRI</li><li data-k="c">leurs coûts actualisés sur la durée de vie</li><li data-k="d">leurs consommations la première année</li></ol>
+<div class="fb">Le coût actualisé réunit achat, énergie, entretien et remplacements en valeur d'aujourd'hui : on retient le plus bas.</div></div>
             <a href="#top" class="back-to-top">↑ Retour en haut</a>
         </div>
         <div class="page-nav"><a href="niveau3.html">← Niveau 3 — Énergies renouvelables</a><a href="niveau5.html">Niveau 5 — DER et réseaux intelligents →</a></div>
@@ -274,8 +472,7 @@ change). Le temps de retour départage des projets que la VAN ne distingue pas.<
                 <div class="author-info">
                     <div class="name">Prof. Lamine THIAW</div>
                     <div class="role">Département de Génie Électrique<br>École Supérieure Polytechnique<br>Université Cheikh Anta Diop, Dakar</div>
-                    <a href="mailto:lamine.thiaw@ucad.edu.sn">lamine.thiaw@ucad.edu.sn</a><br>
-                    <a href="mailto:lamine.thiaw@esp.sn">lamine.thiaw@esp.sn</a>
+                    <a href="mailto:nrjxpert@niitan.com">nrjxpert@niitan.com</a>
                 </div>
             </div>
             <p class="small" style="margin-top:14px">Novembre 2026</p>
