@@ -80,33 +80,97 @@ Lamine Thiaw — Electrical Engineering Department, École Supérieure Polytechn
 
         <div class="section" id="presentation">
             <h2><span class="section-icon">📋</span>1. Overview</h2>
-<p>NRJXpert brings four tools together in one application:</p>
+<p>NRJXpert brings six tools together in one application:</p>
 <table>
 <tr><th>Tool</th><th>Purpose</th><th>How to open</th></tr>
 <tr><td><b>Network simulation</b></td><td>Draw a diagram (full or one-line), compute currents and voltages of a linear DC or AC network, run a load flow on a power system, short-circuit currents (IEC 60909); distributed-energy-resource and smart-grid studies: distribution load flow, time series, PV hosting capacity, dynamics, OPF and microgrid economic dispatch.</td><td>Main window</td></tr>
 <tr><td><b>Site weather data</b></td><td>Download solar irradiation, temperature and wind for any site (NASA POWER, PVGIS, Open-Meteo) and compute monthly averages.</td><td>Tools › Site weather data (<kbd>Cmd/Ctrl+Shift+M</kbd>)</td></tr>
 <tr><td><b>Photovoltaic systems</b></td><td>Sizing of centralised and decentralised stand-alone systems, costs, simulation versus the number of buildings, economic viability study (stand-alone or grid-connected).</td><td>Tools › Photovoltaic systems (<kbd>Cmd/Ctrl+P</kbd>)</td></tr>
 <tr><td><b>Wind systems</b></td><td>Statistical wind analysis (Weibull distribution), wind turbine output, number of machines for a given demand, economic viability study.</td><td>Tools › Wind systems (<kbd>Cmd/Ctrl+Shift+E</kbd>)</td></tr>
+<tr><td><b>Solar pumping</b></td><td>Sizing and simulation of a photovoltaic pumping system (direct-coupled or with battery): water needs, pump, PV array and tank, economic viability study.</td><td>“Solar pumping…” button of the Photovoltaic systems window, or the Renewables menu</td></tr>
+<tr><td><b>Smart grid</b></td><td>SGAM architecture (layers, domains, zones, IEC 62559 use cases), CIM / CGMES network model import and export, remote-control point list, cybersecurity risk analysis (IEC 62443).</td><td>Tools menu</td></tr>
 </table>
 <figure>
-<svg viewBox="0 0 760 210" role="img" aria-label="NRJXpert architecture">
-  <defs><marker id="fl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="#1d5fa8"/></marker></defs>
-  <rect x="10" y="20" width="420" height="170" rx="10" fill="none" stroke="#1d5fa8" stroke-width="1.5"/>
-  <text x="24" y="44" font-size="15" font-weight="700" fill="currentColor">NRJXpert client (Java / JavaFX)</text>
-  <rect x="26" y="60" width="185" height="50" rx="6" fill="#e8f0fa" stroke="#9db8db"/><text x="118" y="90" font-size="13" text-anchor="middle" fill="#1f2328">Photovoltaic systems</text>
-  <rect x="26" y="124" width="185" height="50" rx="6" fill="#e8f0fa" stroke="#9db8db"/><text x="118" y="154" font-size="13" text-anchor="middle" fill="#1f2328">Wind systems</text>
-  <rect x="236" y="60" width="180" height="50" rx="6" fill="#e8f0fa" stroke="#9db8db"/><text x="326" y="90" font-size="13" text-anchor="middle" fill="#1f2328">Diagram editor</text>
-  <rect x="236" y="124" width="180" height="50" rx="6" fill="#e8f0fa" stroke="#9db8db"/><text x="326" y="154" font-size="13" text-anchor="middle" fill="#1f2328">Site weather data</text>
-  <rect x="540" y="40" width="210" height="70" rx="10" fill="#fff3e8" stroke="#e0a77a"/><text x="645" y="70" font-size="13.5" font-weight="700" text-anchor="middle" fill="#1f2328">SimElecNetwork</text><text x="645" y="90" font-size="12" text-anchor="middle" fill="#1f2328">Python — TCP 8500</text>
-  <rect x="540" y="130" width="210" height="60" rx="10" fill="#eef7f0" stroke="#8cc5a2"/><text x="645" y="156" font-size="13" font-weight="700" text-anchor="middle" fill="#1f2328">NASA POWER · PVGIS</text><text x="645" y="175" font-size="11.5" text-anchor="middle" fill="#1f2328">Open-Meteo</text>
-  <path d="M416,85 L536,78" fill="none" stroke="#1d5fa8" stroke-width="1.6" marker-end="url(#fl)"/>
-  <text x="476" y="68" font-size="11" text-anchor="middle" fill="currentColor">XML diagram / results</text>
-  <path d="M416,149 L536,158" fill="none" stroke="#1d5fa8" stroke-width="1.6" marker-end="url(#fl)"/>
-  <text x="476" y="176" font-size="11" text-anchor="middle" fill="currentColor">HTTPS (JSON)</text>
-  <path d="M236,149 L213,149" fill="none" stroke="#1d5fa8" stroke-width="1.4" marker-end="url(#fl)"/>
-  <path d="M236,132 L213,104" fill="none" stroke="#1d5fa8" stroke-width="1.4" marker-end="url(#fl)"/>
+<svg viewBox="0 0 920 560" role="img" aria-label="NRJXpert architecture">
+  <defs><marker id="fl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1d5fa8"/></marker></defs>
+  <rect x="10" y="10" width="620" height="540" rx="12" fill="none" stroke="#1d5fa8" stroke-width="1.5"/>
+  <text x="28" y="36" font-size="16" font-weight="700" fill="currentColor">NRJXpert client (Java / JavaFX)</text>
+  <rect x="26" y="54" width="588" height="112" rx="9" fill="#f3f7fc" stroke="#c9d9ee"/>
+  <text x="40" y="76" font-size="11.5" font-weight="700" letter-spacing="1" fill="#1d5fa8">NETWORK SIMULATION</text>
+  <rect x="40" y="88" width="164" height="64" rx="7" fill="#e8f0fa" stroke="#9db8db"/>
+  <text x="122" y="113" font-size="13" font-weight="700" text-anchor="middle" fill="#1f2328">Schematic editor</text>
+  <text x="122" y="129" font-size="11.5" text-anchor="middle" fill="#41484f">full or single-line</text>
+  <rect x="226" y="88" width="194" height="64" rx="7" fill="#e8f0fa" stroke="#9db8db"/>
+  <text x="323" y="106" font-size="13" font-weight="700" text-anchor="middle" fill="#1f2328">Calculations and studies</text>
+  <text x="323" y="122" font-size="11.5" text-anchor="middle" fill="#41484f">load flow, short circuit,</text>
+  <text x="323" y="136" font-size="11.5" text-anchor="middle" fill="#41484f">dynamics, OPF, micro-grid</text>
+  <rect x="442" y="88" width="158" height="64" rx="7" fill="#e8f0fa" stroke="#9db8db"/>
+  <text x="521" y="113" font-size="13" font-weight="700" text-anchor="middle" fill="#1f2328">Curves and results</text>
+  <text x="521" y="129" font-size="11.5" text-anchor="middle" fill="#41484f">tables, charts, CSV</text>
+  <path d="M204,120 L225,120" fill="none" stroke="#1d5fa8" stroke-width="1.5" marker-end="url(#fl)"/>
+  <path d="M420,120 L441,120" fill="none" stroke="#1d5fa8" stroke-width="1.5" marker-end="url(#fl)"/>
+  <path d="M122,152 L122,214" fill="none" stroke="#6b4fa3" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#fl)"/>
+  <text x="134" y="181" font-size="11" fill="#41484f">generates the architecture and exports the model</text>
+  <rect x="26" y="190" width="588" height="114" rx="9" fill="#f4f0fa" stroke="#d3c7ea"/>
+  <text x="40" y="212" font-size="11.5" font-weight="700" letter-spacing="1" fill="#6b4fa3">SMART GRID</text>
+  <rect x="40" y="222" width="128" height="68" rx="7" fill="#ece6f7" stroke="#b3a2d8"/>
+  <text x="104" y="242" font-size="13" font-weight="700" text-anchor="middle" fill="#1f2328">SGAM workshop</text>
+  <text x="104" y="258" font-size="11.5" text-anchor="middle" fill="#41484f">layers, domains,</text>
+  <text x="104" y="272" font-size="11.5" text-anchor="middle" fill="#41484f">zones, use cases</text>
+  <rect x="184" y="222" width="128" height="68" rx="7" fill="#ece6f7" stroke="#b3a2d8"/>
+  <text x="248" y="242" font-size="13" font-weight="700" text-anchor="middle" fill="#1f2328">CIM model</text>
+  <text x="248" y="258" font-size="11.5" text-anchor="middle" fill="#41484f">import / export</text>
+  <text x="248" y="272" font-size="11.5" text-anchor="middle" fill="#41484f">CGMES, IEC 61970</text>
+  <rect x="328" y="222" width="128" height="68" rx="7" fill="#ece6f7" stroke="#b3a2d8"/>
+  <text x="392" y="242" font-size="13" font-weight="700" text-anchor="middle" fill="#1f2328">Remote control</text>
+  <text x="392" y="258" font-size="11.5" text-anchor="middle" fill="#41484f">IEC 61850 points,</text>
+  <text x="392" y="272" font-size="11.5" text-anchor="middle" fill="#41484f">104, Modbus</text>
+  <rect x="472" y="222" width="128" height="68" rx="7" fill="#ece6f7" stroke="#b3a2d8"/>
+  <text x="536" y="242" font-size="13" font-weight="700" text-anchor="middle" fill="#1f2328">Cybersecurity</text>
+  <text x="536" y="258" font-size="11.5" text-anchor="middle" fill="#41484f">risk analysis</text>
+  <text x="536" y="272" font-size="11.5" text-anchor="middle" fill="#41484f">IEC 62443</text>
+  <rect x="26" y="318" width="588" height="222" rx="9" fill="#fcf8ea" stroke="#ead9a0"/>
+  <text x="40" y="340" font-size="11.5" font-weight="700" letter-spacing="1" fill="#8a6d00">RENEWABLE ENERGIES</text>
+  <rect x="40" y="350" width="560" height="50" rx="7" fill="#fff6d9" stroke="#e3c76b"/>
+  <text x="320" y="368" font-size="13" font-weight="700" text-anchor="middle" fill="#1f2328">Site weather data</text>
+  <text x="320" y="384" font-size="11.5" text-anchor="middle" fill="#41484f">irradiation, temperature, wind: monthly averages</text>
+  <rect x="40" y="428" width="176" height="56" rx="7" fill="#fff6d9" stroke="#e3c76b"/>
+  <text x="128" y="449" font-size="12.5" font-weight="700" text-anchor="middle" fill="#1f2328">Photovoltaic systems</text>
+  <text x="128" y="465" font-size="11.5" text-anchor="middle" fill="#41484f">stand-alone or grid-connected</text>
+  <path d="M128,400 L128,427" fill="none" stroke="#1d5fa8" stroke-width="1.4" marker-end="url(#fl)"/>
+  <path d="M128,484 L128,498" fill="none" stroke="#c4a64a" stroke-width="1.4"/>
+  <rect x="232" y="428" width="176" height="56" rx="7" fill="#fff6d9" stroke="#e3c76b"/>
+  <text x="320" y="449" font-size="12.5" font-weight="700" text-anchor="middle" fill="#1f2328">Solar pumping</text>
+  <text x="320" y="465" font-size="11.5" text-anchor="middle" fill="#41484f">tank or battery</text>
+  <path d="M320,400 L320,427" fill="none" stroke="#1d5fa8" stroke-width="1.4" marker-end="url(#fl)"/>
+  <path d="M320,484 L320,498" fill="none" stroke="#c4a64a" stroke-width="1.4"/>
+  <rect x="424" y="428" width="176" height="56" rx="7" fill="#fff6d9" stroke="#e3c76b"/>
+  <text x="512" y="449" font-size="12.5" font-weight="700" text-anchor="middle" fill="#1f2328">Wind systems</text>
+  <text x="512" y="465" font-size="11.5" text-anchor="middle" fill="#41484f">Weibull, wind turbines</text>
+  <path d="M512,400 L512,427" fill="none" stroke="#1d5fa8" stroke-width="1.4" marker-end="url(#fl)"/>
+  <path d="M512,484 L512,498" fill="none" stroke="#c4a64a" stroke-width="1.4"/>
+  <rect x="40" y="498" width="560" height="32" rx="7" fill="#fbe9b0" stroke="#e3c76b"/>
+  <text x="320" y="519" font-size="12.5" font-weight="700" text-anchor="middle" fill="#1f2328">Economic methods: discounted cost, NPV, IRR, payback</text>
+  <rect x="720" y="64" width="190" height="100" rx="10" fill="#fff3e8" stroke="#e0a77a"/>
+  <text x="815" y="98" font-size="14" font-weight="700" text-anchor="middle" fill="#1f2328">SimElecNetwork</text>
+  <text x="815" y="120" font-size="12" text-anchor="middle" fill="#41484f">Python, TCP 8500</text>
+  <text x="815" y="138" font-size="12" text-anchor="middle" fill="#41484f">remote server (VPS)</text>
+  <path d="M614,114 L716,114" fill="none" stroke="#1d5fa8" stroke-width="1.6" marker-start="url(#fl)" marker-end="url(#fl)"/>
+  <text x="673" y="105" font-size="11" text-anchor="middle" fill="currentColor">XML schematic</text>
+  <text x="673" y="133" font-size="11" text-anchor="middle" fill="currentColor">results</text>
+  <rect x="720" y="205" width="190" height="90" rx="10" fill="#f1f1f4" stroke="#b5b8c0"/>
+  <text x="815" y="234" font-size="14" font-weight="700" text-anchor="middle" fill="#1f2328">Local files</text>
+  <text x="815" y="256" font-size="12" text-anchor="middle" fill="#41484f">projects, XML schematics,</text>
+  <text x="815" y="273" font-size="12" text-anchor="middle" fill="#41484f">HTML / SVG reports, CIM</text>
+  <path d="M614,250 L716,250" fill="none" stroke="#1d5fa8" stroke-width="1.6" marker-start="url(#fl)" marker-end="url(#fl)"/>
+  <text x="673" y="242" font-size="11" text-anchor="middle" fill="currentColor">files</text>
+  <rect x="720" y="340" width="190" height="92" rx="10" fill="#eef7f0" stroke="#8cc5a2"/>
+  <text x="815" y="372" font-size="13.5" font-weight="700" text-anchor="middle" fill="#1f2328">NASA POWER · PVGIS</text>
+  <text x="815" y="392" font-size="12" text-anchor="middle" fill="#1f2328">Open-Meteo</text>
+  <text x="815" y="412" font-size="11.5" text-anchor="middle" fill="#41484f">online services</text>
+  <path d="M600,375 L716,375" fill="none" stroke="#1d5fa8" stroke-width="1.6" marker-end="url(#fl)"/>
+  <text x="673" y="366" font-size="11" text-anchor="middle" fill="currentColor">HTTPS (JSON)</text>
 </svg>
-<figcaption>Network calculations are done by the SimElecNetwork server; the photovoltaic, wind and weather modules compute inside the client.</figcaption>
 </figure>
 
 <!-- ====================================================================== -->
