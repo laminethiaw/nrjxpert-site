@@ -94,7 +94,7 @@ Lamine Thiaw — Electrical Engineering Department, École Supérieure Polytechn
 <svg viewBox="0 0 920 560" role="img" aria-label="NRJXpert architecture">
   <defs><marker id="fl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1d5fa8"/></marker></defs>
   <rect x="10" y="10" width="620" height="540" rx="12" fill="none" stroke="#1d5fa8" stroke-width="1.5"/>
-  <text x="28" y="36" font-size="16" font-weight="700" fill="currentColor">NRJXpert client (Java / JavaFX)</text>
+  <text x="28" y="36" font-size="16" font-weight="700" fill="currentColor">NRJXpert client</text>
   <rect x="26" y="54" width="588" height="112" rx="9" fill="#f3f7fc" stroke="#c9d9ee"/>
   <text x="40" y="76" font-size="11.5" font-weight="700" letter-spacing="1" fill="#1d5fa8">NETWORK SIMULATION</text>
   <rect x="40" y="88" width="164" height="64" rx="7" fill="#e8f0fa" stroke="#9db8db"/>
@@ -153,8 +153,8 @@ Lamine Thiaw — Electrical Engineering Department, École Supérieure Polytechn
   <text x="320" y="519" font-size="12.5" font-weight="700" text-anchor="middle" fill="#1f2328">Economic methods: discounted cost, NPV, IRR, payback</text>
   <rect x="720" y="64" width="190" height="100" rx="10" fill="#fff3e8" stroke="#e0a77a"/>
   <text x="815" y="98" font-size="14" font-weight="700" text-anchor="middle" fill="#1f2328">SimElecNetwork</text>
-  <text x="815" y="120" font-size="12" text-anchor="middle" fill="#41484f">Python, TCP 8500</text>
-  <text x="815" y="138" font-size="12" text-anchor="middle" fill="#41484f">remote server (VPS)</text>
+  <text x="815" y="120" font-size="12" text-anchor="middle" fill="#41484f">calculation server</text>
+  <text x="815" y="138" font-size="12" text-anchor="middle" fill="#41484f">built in, on your computer</text>
   <path d="M614,114 L716,114" fill="none" stroke="#1d5fa8" stroke-width="1.6" marker-start="url(#fl)" marker-end="url(#fl)"/>
   <text x="673" y="105" font-size="11" text-anchor="middle" fill="currentColor">XML schematic</text>
   <text x="673" y="133" font-size="11" text-anchor="middle" fill="currentColor">results</text>
@@ -179,22 +179,39 @@ Lamine Thiaw — Electrical Engineering Department, École Supérieure Polytechn
         <div class="section" id="installation">
             <h2><span class="section-icon">💻</span>2. Installation and start-up</h2>
 <h3>SimElecNetwork calculation server</h3>
-<p>The calculation server is <b>hosted remotely</b>, on a virtual private server (VPS): the user installs neither Python nor the server code.
-The client sends it the diagram (an XML text of a few kilobytes) and receives the results.</p>
+<p>The calculation server is <b>supplied with the software and runs on your computer</b>: there is nothing else to install. NRJXpert starts it
+automatically in the background at the first calculation and stops it when it closes. It can only be reached from your own computer and only
+accepts requests from the application that started it.</p>
 <ul>
-<li><b>Address</b>: proposed at first start (or given by the administrator of your institution); it is set in
-<b>Simulation › Calculation and server settings</b> (server name and port). It is remembered.</li>
-<li><b>Access key</b> (<code>nrjx_…</code>): personal or specific to your institution, supplied with the licence; it is entered in the same dialog box
-(« Show » box to check it) and accompanies each calculation. <b>Test the connection</b> reports « valid key: holder, expires on … » or the reason for
-a refusal (missing, invalid, revoked, expired key).</li>
-<li><b>Encrypted connection (TLS)</b>: ticked for the remote server; exchanges are encrypted and the server certificate is checked as by a web
-browser. Untick it only for a local server.</li>
-<li><b>Internet connection</b> required for network calculations (linear network, load flow, short circuit, DER studies). The photovoltaic and wind
-modules and the reading of results already computed work offline.</li>
-<li><b>Time-outs</b>: connection 5 s, response 60 s. Usual calculations take less than one second on the server; DER studies (dynamics, OPF,
-economic dispatch, test bench) a few seconds. With a slow connection, allow one or two seconds more.</li>
-<li><b>Confidentiality</b>: only the diagrams sent for calculation go through the server, encrypted; projects stay on your computer; the server does
-not keep the diagrams.</li>
+<li><b>Default mode</b>: the « Use the local server on this computer » option (<b>Simulation › Calculation and server settings</b>) is ticked
+from the installation: there is nothing to set up. While it is ticked, the address, port and access key are not used.</li>
+<li><b>Offline operation</b>: calculations (linear network, load flow, short circuit, DER studies) run without an Internet connection.
+The Internet is only used to activate the licence, for its periodic checks and to fetch online weather data (NASA POWER, PVGIS, Open-Meteo).</li>
+<li><b>Time</b>: usual calculations take less than one second; DER studies (dynamics, OPF, economic dispatch) a few seconds.
+The first calculation of a session takes a few seconds more, while the server starts.</li>
+<li><b>Confidentiality</b>: diagrams and results never leave your computer. Only the licence communicates with the supplier
+(licence identifier and a non-reversible fingerprint of the computer).</li>
+<li><b>Log</b>: in case of trouble, the file <code>~/.nrjxpert/logs/server.log</code> (on Windows:
+<code>%USERPROFILE%\.nrjxpert\logs\server.log</code>) keeps the server trace.</li>
+</ul>
+
+<h3 id="licence">Licence and activation</h3>
+<p>NRJXpert is used with a licence (<code>.lic</code> file) supplied by Niitan, according to the category: student, institution or professional.
+The licence is tied to your computer by an <b>online activation</b>, mandatory for all categories; it is managed by the local server. Without a licence, the software runs in
+<b>demonstration mode</b>: the size of the diagrams is limited.</p>
+<ol class="steps">
+<li><div class="step-content">Open <b>Help › License…</b>, then <b>Import a license file…</b> and choose the <code>.lic</code> file you received.</div></li>
+<li><div class="step-content">Click <b>Activate / renew online</b> (Internet connection required). The status becomes « Active »; the window shows the category,
+the holder, the expiry date and the next online check.</div></li>
+</ol>
+<ul>
+<li><b>Periodic checks</b>: from time to time the software confirms the licence with the activation server, in the background when the Internet is
+available. It warns before the deadline; after a short tolerance period without a check, the licence is suspended
+(« Suspended — online check required ») and resumes as soon as a check succeeds.</li>
+<li><b>Changing computer</b>: on the old computer, click <b>Release this computer</b>, then activate the licence on the new one. The number of
+computers depends on the licence.</li>
+<li><b>Licence notice</b>: the category (for example « Educational licence — non-commercial use ») is shown in the status bar.</li>
+<li><b>Computer ID</b>: shown in the Licence window; give it to the support in case of an activation problem.</li>
 </ul>
 
 <!-- ====================================================================== -->
@@ -341,7 +358,7 @@ network; metering anomalies → AMI; tie switch or at least three switching devi
 (with genset) or Dynamics; EV chargers → Virtual power plant; capacitor banks → Volt/VAR; distributed resources → Economic dispatch (genset without
 grid), OPF (genset, battery and grid), Dynamics (events defined), Time series (load profile) or Distribution load flow; otherwise Load flow. The
 choice changes only when the nature of the diagram changes: a calculation chosen by hand is kept, as is the one saved with a project.</p>
-<p>Choose the calculation type and method in the toolbar, then <kbd>F5</kbd>. The diagram is sent to the remote calculation server (XML); the answer appears in the results table, the Selection panel and the tooltips. The calculation runs in the background (time-outs: connection 5 s, answer 60 s).</p>
+<p>Choose the calculation type and method in the toolbar, then <kbd>F5</kbd>. The diagram is sent to the calculation server (XML); the answer appears in the results table, the Selection panel and the tooltips. The calculation runs in the background (time-outs: connection 5 s, answer 60 s).</p>
 <h3 id="lineaire">5.1 Linear network</h3>
 <p>Node voltage method (modified nodal analysis for ideal sources and zero-impedance branches). Frequency: that of the AC sources; 0 Hz if all sources are DC; mixing DC and AC sources is rejected. Current and voltage of each dipole are given in its own direction.</p>
 <h3 id="loadflow">5.2 Load flow</h3>
@@ -458,7 +475,7 @@ Tutorial: <b>Help › Expert workshop</b> (level 7, in French and English).</li>
 <p>After a study returning series (time series, dynamics, OPF, dispatch), the <b>“Result curves”</b> window opens (also: Simulation › Result curves, <kbd>Cmd/Ctrl+Shift+K</kbd>, or the “Curves…” button). Choose the quantity (voltage, P, Q, current, frequency, SOC, generator commitment, network-wide series) and the elements shown (All / None). Hourly profiles are drawn as steps. “Copy” puts the displayed curves on the clipboard (paste into a spreadsheet); “Export CSV…” saves all series (“;” separator, decimal comma).</p>
 
 <h3 id="parametres-calcul">5.6 Calculation and server settings</h3>
-<p>Simulation › Calculation and server settings: calculation type and method, model of new connections (ideal, R, L, RL, RLC π), network frequency (Hz), base voltage (kV), calculation server address and port (supplied with the software or by your administrator), “Test connection” button. Settings are remembered.</p>
+<p>Simulation › Calculation and server settings: calculation type and method, model of new connections (ideal, R, L, RL, RLC π), network frequency (Hz), base voltage (kV), “Use the local server on this computer” option (see section 2). Settings are remembered.</p>
 <p><b>Opening a network file (XML)</b>: File › Open (type "Network files (XML)") or Help › Open a tutorial example. The diagram is drawn
 in the editing area from the file: buses, generators (PV, wind, diesel, battery), loads, EV chargers, capacitor banks, switching devices,
 R, L, C, Z elements (two terminals between two nodes, one-line when shunt-connected) and their links. The layout starts from the source:
@@ -770,12 +787,13 @@ renamed <code>aerogenerateurs.avant-2026-11.csv</code>.</p>
             <h2><span class="section-icon">🛠️</span>12. Troubleshooting</h2>
 <table>
 <tr><th>Symptom</th><th>Cause and solution</th></tr>
-<tr><td>« Connection impossible » when simulating</td><td>No Internet connection, wrong server address or port, institution firewall blocking the port, or server under
-maintenance: check Simulation › Calculation and server settings › « Test the connection », then contact the administrator.</td></tr>
-<tr><td>« access key missing », « invalid », « revoked » or « expired »</td><td>Enter or correct the key in Simulation › Calculation and server settings
-(« Show » box to read it again); a revoked or expired key is renewed by the software supplier.</td></tr>
-<tr><td>« Encrypted connection failed »</td><td>Local server without TLS: untick « Encrypted connection ». Remote server: check the address (the certificate is
-issued for a name, not for an IP address) and the date of the computer; an institution proxy intercepting encrypted connections can also be the cause.</td></tr>
+<tr><td>The calculation does not start, « local server not found » or « the local server stopped »</td><td>Check that « Use the local server on this computer »
+is ticked (default setting; Simulation › Calculation and server settings) and that the application is complete (the « server » folder must stay next to the application).
+An antivirus or a firewall can block the start: allow NRJXpert and its calculation server. The file <code>~/.nrjxpert/logs/server.log</code> gives the cause.</td></tr>
+<tr><td>Licence « missing », « not activated on this computer », « suspended » or « expired »</td><td>Open Help › License…: import the <code>.lic</code> file, then
+« Activate / renew online » (Internet connection required; the firewall must allow access to activation.nrjxpert.com over HTTPS). An expired licence is renewed with Niitan.</td></tr>
+<tr><td>« Licence already activated on another computer » or change of computer</td><td>On the old computer, use « Release this computer » in Help › License…, then activate on the new one.
+If the old computer is no longer available, contact the support with the computer ID.</td></tr>
 <tr><td>« server busy » or « maximum calculation time exceeded »</td><td>Many simultaneous calculations: try again in a moment. Study too heavy (long dynamics,
 OPF over many steps, test bench with long tests): reduce the simulated duration, the number of steps or the length of the profiles.</td></tr>
 <tr><td>Response time-out</td><td>Slow connection or long DER study (dynamics, OPF): reduce the simulated duration or the number of steps, then run again.</td></tr>
@@ -792,8 +810,7 @@ OPF over many steps, test bench with long tests): reduce the simulated duration,
 <tr><td>Short circuit: zero earth current</td><td>No zero-sequence path (isolated neutrals, delta winding): this is normal; otherwise enter R0, X0 and the neutral of the generators.</td></tr>
 <tr><td>DER study refused: « non-radial network »</td><td>The distribution load flow needs a radial network: open a loop.</td></tr>
 <tr><td>DER study: wrong profile length</td><td>All profiles and hourly prices must have the same number of values (DER study settings › Profiles).</td></tr>
-<tr><td>OPF / economic dispatch / test bench: server error</td><td>The server needs SciPy 1.9 or later (<code>scipy.optimize.milp</code>); the message gives the version found.
-Tip: a dedicated environment, <code>conda create -n nrjxpert python=3.11 numpy scipy</code>, then <code>conda activate nrjxpert</code> before starting the server.</td></tr>
+<tr><td>Study (OPF, economic dispatch, test bench): server error</td><td>Run the calculation again. If the error persists, attach the file <code>~/.nrjxpert/logs/server.log</code> to your support request.</td></tr>
 <tr><td>Test bench: « point of common coupling not found » or « does not separate an island »</td><td>Choose as PCC the switching device or series element located
 between the slack bus (upstream grid, dynamic model « grid ») and the site, in the « Microgrid tests » tab.</td></tr>
 <tr><td>Test bench: all dynamic tests fail (« collapse »)</td><td>No grid-forming source in the island: give a battery the grid-forming model (droop or VSM) or add a genset.</td></tr>
@@ -850,7 +867,7 @@ between the slack bus (upstream grid, dynamic model « grid ») and the site, in
 <li>NASA POWER: power.larc.nasa.gov; PVGIS: re.jrc.ec.europa.eu; Open-Meteo: open-meteo.com.</li>
 <li>L. Thiaw: NRJXpert, EolXpert (C++, 2002) and PV Systems Analyser (MATLAB, 2010-2013) programs.</li>
 <li>L. Thiaw: applied electricity course materials, École Supérieure Polytechnique (ESP), Université Cheikh Anta Diop de Dakar (UCAD).</li>
-<li>L. Thiaw: SimElecNetwork, first development phase (Python and Java), 2018-2020, École Supérieure Polytechnique (ESP), Université Cheikh Anta Diop de Dakar (UCAD).</li>
+<li>L. Thiaw: SimElecNetwork, first development phase, 2018-2020, École Supérieure Polytechnique (ESP), Université Cheikh Anta Diop de Dakar (UCAD).</li>
 </ul>
 <p class="small">NRJXpert — ESP / UCAD, Dakar. This guide is copied to <code>~/.nrjxpert/aide/</code> each time it is opened from the Help menu.</p>
             <a href="#top" class="back-to-top">↑ Back to top</a>

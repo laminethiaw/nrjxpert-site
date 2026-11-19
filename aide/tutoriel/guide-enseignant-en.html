@@ -69,15 +69,15 @@
         <div class="section" id="ge-1">
             <h2><span class="section-icon">📘</span>1. Setting up the room</h2>
 <ul>
-<li><b>Client</b>: Java 17 or later and JavaFX 21 (<code>mvn clean javafx:run</code>, or a packaged version).</li>
-<li><b>Calculation server</b>: hosted remotely (VPS); nothing to install on the computers. Enter on each computer (or give to the students) the
-<b>institution's access key</b>: Simulation › Calculation and server settings, « Encrypted connection » ticked. One key per institution, valid for the
-academic year; report to the supplier any key circulated outside the institution (it will be revoked and replaced). Before the session, check that the
-room has Internet access and that the institution's firewall lets the server port through (<b>Test the connection</b> from one computer: it must show
-« valid key »). A whole class calculating at the same time is not a problem: each calculation weighs a few kilobytes and takes less than one second (a
+<li><b>Software</b>: NRJXpert installer (macOS or Windows); it includes the calculation server, nothing else to install on the computers.
+The local server is the default setting: nothing to configure on the computers.</li>
+<li><b>Licence</b>: import the institution's <code>.lic</code> file (Help › License…) then « Activate / renew online ». Activation needs the
+Internet once per computer; the number of computers depends on the licence. Report to the supplier any licence circulated outside the institution.
+Before the session, check that the institution's firewall allows access to <code>activation.nrjxpert.com</code> (HTTPS) and that the Licence window shows « Active ».
+A whole class calculating at the same time is not a problem: each calculation runs on the computer itself and takes less than one second (a
 few seconds for the DER studies of level 5, up to about fifteen seconds for the test bench of level 7).</li>
-<li><b>Unstable connection</b>: schedule the network sessions (levels 1, 2, 5, 6 and 7) at times when the connection is reliable; the photovoltaic, wind
-and economics sessions (levels 3 and 4) work offline. The reference results of the tutorial allow marking even without the server.</li>
+<li><b>Unstable connection</b>: once the computers are activated, all the sessions work offline; only the periodic licence checks and the retrieval
+of online weather data need the Internet. The reference results of the tutorial allow marking even without a connection.</li>
 <li><b>Examples</b>: when the tutorial is first opened, they are copied to <code>~/.nrjxpert/aide/tutoriel/exemples/</code>; a student who modifies them
 keeps his or her version.</li>
 <li><b>Weather data</b>: downloading them also requires the Internet; prepare the CSV files in advance for an offline session.</li>

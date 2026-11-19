@@ -94,7 +94,7 @@ Lamine Thiaw — Département de Génie électrique, École Supérieure Polytech
 <svg viewBox="0 0 920 560" role="img" aria-label="Architecture de NRJXpert">
   <defs><marker id="fl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1d5fa8"/></marker></defs>
   <rect x="10" y="10" width="620" height="540" rx="12" fill="none" stroke="#1d5fa8" stroke-width="1.5"/>
-  <text x="28" y="36" font-size="16" font-weight="700" fill="currentColor">Client NRJXpert (Java / JavaFX)</text>
+  <text x="28" y="36" font-size="16" font-weight="700" fill="currentColor">Client NRJXpert</text>
   <rect x="26" y="54" width="588" height="112" rx="9" fill="#f3f7fc" stroke="#c9d9ee"/>
   <text x="40" y="76" font-size="11.5" font-weight="700" letter-spacing="1" fill="#1d5fa8">SIMULATION DE RÉSEAUX</text>
   <rect x="40" y="88" width="164" height="64" rx="7" fill="#e8f0fa" stroke="#9db8db"/>
@@ -153,8 +153,8 @@ Lamine Thiaw — Département de Génie électrique, École Supérieure Polytech
   <text x="320" y="519" font-size="12.5" font-weight="700" text-anchor="middle" fill="#1f2328">Méthodes économiques : coût actualisé, VAN, TRI, délai de retour</text>
   <rect x="720" y="64" width="190" height="100" rx="10" fill="#fff3e8" stroke="#e0a77a"/>
   <text x="815" y="98" font-size="14" font-weight="700" text-anchor="middle" fill="#1f2328">SimElecNetwork</text>
-  <text x="815" y="120" font-size="12" text-anchor="middle" fill="#41484f">Python, TCP 8500</text>
-  <text x="815" y="138" font-size="12" text-anchor="middle" fill="#41484f">serveur distant (VPS)</text>
+  <text x="815" y="120" font-size="12" text-anchor="middle" fill="#41484f">serveur de calcul</text>
+  <text x="815" y="138" font-size="12" text-anchor="middle" fill="#41484f">intégré, sur votre poste</text>
   <path d="M614,114 L716,114" fill="none" stroke="#1d5fa8" stroke-width="1.6" marker-start="url(#fl)" marker-end="url(#fl)"/>
   <text x="673" y="105" font-size="11" text-anchor="middle" fill="currentColor">schéma XML</text>
   <text x="673" y="133" font-size="11" text-anchor="middle" fill="currentColor">résultats</text>
@@ -179,22 +179,40 @@ Lamine Thiaw — Département de Génie électrique, École Supérieure Polytech
         <div class="section" id="installation">
             <h2><span class="section-icon">💻</span>2. Installation et lancement</h2>
 <h3>Serveur de calcul SimElecNetwork</h3>
-<p>Le serveur de calcul est <b>hébergé à distance</b>, sur un serveur privé virtuel (VPS) : l'utilisateur n'installe ni Python ni le code
-du serveur. Le client lui envoie le schéma (texte XML de quelques kilo-octets) et reçoit les résultats.</p>
+<p>Le serveur de calcul est <b>fourni avec le logiciel et s'exécute sur votre poste</b> : il n'y a rien d'autre à installer. NRJXpert le lance
+automatiquement en arrière-plan au premier calcul et l'arrête à sa fermeture. Il n'est accessible que depuis votre ordinateur et n'accepte que les
+demandes de l'application qui l'a lancé.</p>
 <ul>
-<li><b>Adresse</b> : proposée au premier lancement (ou donnée par l'administrateur de votre établissement) ; elle se règle dans
-<b>Simulation › Paramètres du calcul et du serveur</b> (nom du serveur et port). Elle est mémorisée.</li>
-<li><b>Clé d'accès</b> (<code>nrjx_…</code>) : personnelle ou propre à votre établissement, fournie avec la licence ; elle se saisit dans
-la même boîte (case « Afficher » pour la vérifier) et accompagne chaque calcul. <b>Tester la connexion</b> indique « clé valide :
-titulaire, expire le … » ou la raison d'un refus (clé absente, invalide, révoquée, expirée).</li>
-<li><b>Connexion chiffrée (TLS)</b> : cochée pour le serveur distant ; les échanges sont chiffrés et le certificat du serveur est
-vérifié comme par un navigateur. À décocher seulement pour un serveur local.</li>
-<li><b>Connexion Internet</b> nécessaire pour les calculs de réseau (réseau linéaire, load flow, court-circuit, études DER).
-Les modules photovoltaïque, éolien et la lecture des résultats déjà calculés fonctionnent hors ligne.</li>
-<li><b>Délais</b> : connexion 5 s, réponse 60 s. Les calculs courants prennent moins d'une seconde côté serveur ; les études DER
-(dynamique, OPF, gestion économique) quelques secondes. Avec une connexion lente, comptez une à deux secondes de plus.</li>
-<li><b>Confidentialité</b> : seuls les schémas envoyés pour le calcul transitent par le serveur, chiffrés ; les projets restent sur votre
-machine ; le serveur ne conserve pas les schémas.</li>
+<li><b>Mode par défaut</b> : l'option « Utiliser le serveur local sur ce poste » (<b>Simulation › Paramètres du calcul et du serveur</b>) est cochée
+dès l'installation : il n'y a rien à régler. Tant qu'elle est cochée, l'adresse, le port et la clé d'accès ne sont pas utilisés.</li>
+<li><b>Fonctionnement hors ligne</b> : les calculs (réseau linéaire, load flow, court-circuit, études DER) se font sans connexion Internet.
+Internet n'est utilisé que pour l'activation de la licence, ses vérifications périodiques et la récupération des données météo en ligne
+(NASA POWER, PVGIS, Open-Meteo).</li>
+<li><b>Délais</b> : les calculs courants prennent moins d'une seconde ; les études DER (dynamique, OPF, gestion économique) quelques secondes.
+Le premier calcul de la séance demande quelques secondes de plus, le temps du démarrage du serveur.</li>
+<li><b>Confidentialité</b> : les schémas et les résultats ne quittent pas votre ordinateur. Seule la licence communique avec le fournisseur
+(identifiant de la licence et empreinte du poste, non réversible).</li>
+<li><b>Journal</b> : en cas de problème, le fichier <code>~/.nrjxpert/logs/server.log</code> (sous Windows :
+<code>%USERPROFILE%\.nrjxpert\logs\server.log</code>) garde la trace du serveur.</li>
+</ul>
+
+<h3 id="licence">Licence et activation</h3>
+<p>NRJXpert s'utilise avec une licence (fichier <code>.lic</code>) fournie par Niitan, selon la catégorie : étudiant, établissement ou professionnelle.
+La licence est liée à votre ordinateur par une <b>activation en ligne</b>, obligatoire pour toutes les catégories ; elle est gérée par le serveur local. Sans licence, le logiciel
+fonctionne en <b>mode démonstration</b> : la taille des schémas est limitée.</p>
+<ol class="steps">
+<li><div class="step-content">Ouvrez <b>Aide › Licence…</b>, puis <b>Importer un fichier de licence…</b> et choisissez le fichier <code>.lic</code> reçu.</div></li>
+<li><div class="step-content">Cliquez sur <b>Activer / renouveler en ligne</b> (connexion Internet nécessaire). L'état devient « Active » ; la fenêtre indique la catégorie,
+le titulaire, la date d'expiration et la prochaine vérification en ligne.</div></li>
+</ol>
+<ul>
+<li><b>Vérifications périodiques</b> : de temps en temps, le logiciel confirme la licence auprès du serveur d'activation, en arrière-plan quand
+Internet est disponible. Il prévient avant l'échéance ; passé un court délai de tolérance sans vérification, la licence est suspendue
+(« Suspendue — vérification en ligne requise ») et reprend dès qu'une vérification réussit.</li>
+<li><b>Changer d'ordinateur</b> : sur l'ancien poste, cliquez sur <b>Libérer ce poste</b>, puis activez la licence sur le nouveau. Le nombre de postes
+dépend de la licence.</li>
+<li><b>Mention de licence</b> : la catégorie (par exemple « Licence éducative — usage non commercial ») s'affiche dans la barre d'état.</li>
+<li><b>Identifiant du poste</b> : indiqué dans la fenêtre Licence ; à communiquer au support en cas de problème d'activation.</li>
 </ul>
 
 <!-- ====================================================================== -->
@@ -333,7 +351,7 @@ Auto-cicatrisation ; disjoncteur de couplage avec batterie → Essais micro-rés
 gradins de condensateurs → Volt/VAR ; ressources décentralisées → Gestion économique (groupe sans réseau), OPF (groupe, batterie et réseau),
 Dynamique (évènements définis), Séries temporelles (profil de charge) ou Load flow de distribution ; sinon Load flow. Le choix n'est modifié que
 lorsque la nature du schéma change : un calcul choisi à la main est conservé, de même que celui enregistré avec un projet.</p>
-<p>Choisissez le type de calcul et la méthode dans la barre d'outils, puis <kbd>F5</kbd>. Le schéma est envoyé au serveur de calcul distant (XML) ; la réponse s'affiche dans le tableau des résultats, le panneau « Sélection » et les info-bulles. Le calcul se fait en arrière-plan (délais d'attente : connexion 5 s, réponse 60 s).</p>
+<p>Choisissez le type de calcul et la méthode dans la barre d'outils, puis <kbd>F5</kbd>. Le schéma est envoyé au serveur de calcul (XML) ; la réponse s'affiche dans le tableau des résultats, le panneau « Sélection » et les info-bulles. Le calcul se fait en arrière-plan (délais d'attente : connexion 5 s, réponse 60 s).</p>
 <h3 id="lineaire">5.1 Réseau linéaire</h3>
 <p>Méthode des potentiels de nœuds (analyse nodale modifiée pour les sources idéales et les branches d'impédance nulle). Fréquence : celle des sources alternatives ; 0 Hz si toutes les sources sont continues ; mélanger sources continues et alternatives est refusé. Courant et tension de chaque dipôle sont donnés dans son propre sens.</p>
 <h3 id="loadflow">5.2 Load flow (répartition des charges)</h3>
@@ -440,8 +458,7 @@ Tutoriel : <b>Aide › Atelier expert</b> (niveau 7, en français et en anglais)
 <p>Après une étude qui renvoie des séries (séries temporelles, dynamique, OPF, gestion économique), la fenêtre <b>« Courbes des résultats »</b> s'ouvre (aussi : Simulation › Courbes des résultats, <kbd>Cmd/Ctrl+Maj+K</kbd>, ou le bouton « Courbes… »). Choisissez la grandeur (tension, P, Q, courant, fréquence, SOC, marche des groupes, séries globales du réseau) et les éléments affichés (Tout / Aucun). Les profils horaires sont tracés en escalier. « Copier » met les courbes affichées dans le presse-papiers (collage dans un tableur) ; « Exporter CSV… » enregistre toutes les séries (séparateur « ; », virgule décimale).</p>
 
 <h3 id="parametres-calcul">5.6 Paramètres du calcul et du serveur</h3>
-<p>Simulation › Paramètres du calcul et du serveur : type de calcul et méthode, modèle des nouvelles liaisons (idéale, R, L, RL, RLC en π), fréquence du réseau (Hz), tension de base (kV), adresse et port du serveur de calcul (fournis avec le logiciel ou par votre
-administrateur), bouton « Tester la connexion ». Ces réglages sont mémorisés.</p>
+<p>Simulation › Paramètres du calcul et du serveur : type de calcul et méthode, modèle des nouvelles liaisons (idéale, R, L, RL, RLC en π), fréquence du réseau (Hz), tension de base (kV), option « Utiliser le serveur local sur ce poste » (voir la section 2). Ces réglages sont mémorisés.</p>
 <p><b>Ouvrir un fichier réseau (XML)</b> : Fichier › Ouvrir (type « Fichiers réseau (XML) ») ou Aide › Ouvrir un exemple du tutoriel.
 Le schéma est dessiné dans la zone d'édition à partir du fichier : bus, générateurs (PV, éolien, groupe, batterie), charges, bornes VE,
 gradins, organes de coupure, éléments R, L, C, Z (deux bornes entre deux nœuds, unifilaires en dérivation) et leurs liaisons. La
@@ -750,13 +767,13 @@ supprimées ; une base personnelle plus ancienne est renommée <code>aerogenerat
             <h2><span class="section-icon">🛠️</span>12. Dépannage</h2>
 <table>
 <tr><th>Symptôme</th><th>Cause et solution</th></tr>
-<tr><td>« Connexion impossible » à la simulation</td><td>Pas de connexion Internet, adresse ou port du serveur incorrects, pare-feu de l'établissement qui bloque le port, ou serveur
-en maintenance : vérifiez Simulation › Paramètres du calcul et du serveur › « Tester la connexion », puis contactez l'administrateur.</td></tr>
-<tr><td>« clé d'accès absente », « invalide », « révoquée » ou « expirée »</td><td>Saisissez ou corrigez la clé dans Simulation ›
-Paramètres du calcul et du serveur (case « Afficher » pour la relire) ; une clé révoquée ou expirée se renouvelle auprès du fournisseur du logiciel.</td></tr>
-<tr><td>« Échec de la connexion chiffrée »</td><td>Serveur local sans TLS : décochez « Connexion chiffrée ». Serveur distant : vérifiez l'adresse
-(le certificat est délivré pour un nom, pas pour une adresse IP) et la date de l'ordinateur ; un proxy d'établissement qui intercepte les
-connexions chiffrées peut aussi en être la cause.</td></tr>
+<tr><td>Le calcul ne démarre pas, « serveur local introuvable » ou « le serveur local s'est arrêté »</td><td>Vérifiez que « Utiliser le serveur local sur ce poste »
+est coché (réglage par défaut ; Simulation › Paramètres du calcul et du serveur) et que l'application est complète (le dossier « server » doit rester à côté de l'application).
+Un antivirus ou un pare-feu peut bloquer le lancement : autorisez NRJXpert et son serveur de calcul. Le fichier <code>~/.nrjxpert/logs/server.log</code> donne la cause.</td></tr>
+<tr><td>Licence « absente », « non activée sur ce poste », « suspendue » ou « expirée »</td><td>Ouvrez Aide › Licence… : importez le fichier <code>.lic</code>, puis
+« Activer / renouveler en ligne » (connexion Internet nécessaire ; le pare-feu doit autoriser l'accès à activation.nrjxpert.com en HTTPS). Une licence expirée se renouvelle auprès de Niitan.</td></tr>
+<tr><td>« Licence déjà activée sur un autre poste » ou changement d'ordinateur</td><td>Sur l'ancien poste, utilisez « Libérer ce poste » dans Aide › Licence…, puis activez sur le nouveau.
+Si l'ancien poste n'est plus disponible, contactez le support en indiquant l'identifiant du poste.</td></tr>
 <tr><td>« serveur occupé » ou « durée maximale de calcul dépassée »</td><td>Beaucoup de calculs simultanés : réessayez dans un
 instant. Étude trop lourde (dynamique longue, OPF sur beaucoup de pas) : réduisez la durée simulée, le nombre de pas ou la
 longueur des profils.</td></tr>
@@ -774,7 +791,7 @@ longueur des profils.</td></tr>
 <tr><td>Court-circuit : courant à la terre nul</td><td>Aucun chemin homopolaire (neutres isolés, couplage triangle) : c'est normal ; sinon renseignez R0, X0 et le neutre des générateurs.</td></tr>
 <tr><td>Étude DER refusée : « réseau non radial »</td><td>Le load flow de distribution demande un réseau radial : ouvrez une boucle.</td></tr>
 <tr><td>Étude DER : longueur de profil incorrecte</td><td>Tous les profils et prix horaires doivent avoir le même nombre de valeurs (Paramètres des études DER › Profils).</td></tr>
-<tr><td>OPF / gestion économique : erreur du serveur</td><td>Le serveur doit disposer de SciPy 1.9 ou plus récent (<code>scipy.optimize.milp</code>) ; le message indique la version trouvée. Conseil : un environnement dédié, <code>conda create -n nrjxpert python=3.11 numpy scipy</code>, puis <code>conda activate nrjxpert</code> avant de lancer le serveur.</td></tr>
+<tr><td>Étude (OPF, gestion économique, banc d'essai) : erreur du serveur</td><td>Relancez le calcul. Si l'erreur persiste, joignez le fichier <code>~/.nrjxpert/logs/server.log</code> à votre demande d'assistance.</td></tr>
 <tr><td>Aide non ouverte</td><td>Ouvrez <code>~/.nrjxpert/aide/aide-fr.html</code> dans un navigateur.</td></tr>
 </table>
 
@@ -823,7 +840,7 @@ longueur des profils.</td></tr>
 <li>NASA POWER : power.larc.nasa.gov ; PVGIS : re.jrc.ec.europa.eu ; Open-Meteo : open-meteo.com.</li>
 <li>L. Thiaw : programmes NRJXpert, EolXpert (C++, 2002) et PV Systems Analyser (MATLAB, 2010-2013).</li>
 <li>L. Thiaw : supports de cours d'électricité appliquée, École Supérieure Polytechnique (ESP), Université Cheikh Anta Diop de Dakar (UCAD).</li>
-<li>L. Thiaw : SimElecNetwork, première phase de développement (Python et Java), 2018-2020, École Supérieure Polytechnique (ESP), Université Cheikh Anta Diop de Dakar (UCAD).</li>
+<li>L. Thiaw : SimElecNetwork, première phase de développement, 2018-2020, École Supérieure Polytechnique (ESP), Université Cheikh Anta Diop de Dakar (UCAD).</li>
 </ul>
 <p class="small">NRJXpert — ESP / UCAD, Dakar. Ce guide est copié dans <code>~/.nrjxpert/aide/</code> à chaque ouverture depuis le menu Aide.</p>
             <a href="#top" class="back-to-top">↑ Retour en haut</a>

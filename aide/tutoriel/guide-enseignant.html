@@ -69,17 +69,15 @@
         <div class="section" id="ge-1">
             <h2><span class="section-icon">📘</span>1. Mise en place de la salle</h2>
 <ul>
-<li><b>Client</b> : Java 17 ou plus récent et JavaFX 21 (<code>mvn clean javafx:run</code>, ou une version empaquetée).</li>
-<li><b>Serveur de calcul</b> : hébergé à distance (VPS) ; rien à installer sur les postes. Saisir sur chaque poste (ou distribuer
-aux étudiants) la <b>clé d'accès de l'établissement</b> : Simulation › Paramètres du calcul et du serveur, « Connexion chiffrée » cochée.
-Une clé par établissement, valable pour l'année universitaire ; signaler au fournisseur toute clé diffusée hors de l'établissement
-(elle sera révoquée et remplacée). Vérifier avant la séance que la salle a
-accès à Internet et que le pare-feu de l'établissement laisse passer le port du serveur (<b>Tester la connexion</b> depuis un poste : il doit afficher « clé valide »).
-Une classe entière qui calcule en même temps ne pose pas de problème : chaque calcul pèse quelques kilo-octets et dure moins d'une
+<li><b>Logiciel</b> : installateur NRJXpert (macOS ou Windows) ; il contient le serveur de calcul, rien d'autre à installer sur les postes.
+Le serveur local est le réglage par défaut : rien à configurer sur les postes.</li>
+<li><b>Licence</b> : importer le fichier <code>.lic</code> de l'établissement (Aide › Licence…) puis « Activer / renouveler en ligne ». L'activation exige
+Internet une fois par poste ; le nombre de postes dépend de la licence. Signaler au fournisseur toute licence diffusée hors de l'établissement.
+Vérifier avant la séance que le pare-feu de l'établissement autorise l'accès à <code>activation.nrjxpert.com</code> (HTTPS) et que la fenêtre Licence affiche « Active ».
+Une classe entière qui calcule en même temps ne pose pas de problème : chaque calcul se fait sur le poste et dure moins d'une
 seconde (quelques secondes pour les études DER du niveau 5).</li>
-<li><b>Connexion instable</b> : placer les séances de réseau (niveaux 1, 2 et 5) aux heures où la connexion est fiable ; les séances
-photovoltaïque, éolien et économie (niveaux 3 et 4) se font hors ligne. Les résultats de référence du tutoriel permettent de
-corriger même sans serveur.</li>
+<li><b>Connexion instable</b> : une fois les postes activés, toutes les séances se font hors ligne ; seules les vérifications périodiques de la licence
+et la récupération de données météo en ligne demandent Internet. Les résultats de référence du tutoriel permettent de corriger même sans connexion.</li>
 <li><b>Exemples</b> : à la première ouverture du tutoriel, ils sont copiés dans <code>~/.nrjxpert/aide/tutoriel/exemples/</code> ; un étudiant
 qui les modifie garde sa version.</li>
 <li><b>Données météo</b> : leur téléchargement demande aussi Internet ; préparer les fichiers CSV à l'avance pour une séance hors ligne.</li>
