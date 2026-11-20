@@ -151,6 +151,14 @@ footer a:hover{ color:var(--gold); }
   section{ padding:44px 0; }
 }
 @media (prefers-reduced-motion: reduce){ *{ transition:none !important; scroll-behavior:auto !important; } }
+
+.offers{ grid-template-columns:repeat(3, 1fr); }
+.offers .card{ cursor:default; }
+.offers .card:hover{ transform:none; box-shadow:none; }
+.offers .note{ margin:22px 0 0; color:var(--muted); font-size:.9rem; }
+.offers-cta{ margin-top:18px; }
+.offers-cta .btn.primary{ color:#1a1f2e; }
+@media (max-width:980px){ .offers{ grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
@@ -167,6 +175,7 @@ footer a:hover{ color:var(--gold); }
       <a data-doc="tuto" href="aide/tutoriel/index.html"><span lang="fr">Tutoriel et formation</span><span lang="en">Tutorial &amp; training</span></a>
       <a data-doc="sg" href="aide/tutoriel/niveau6.html"><span lang="fr">Formation Smart Grids</span><span lang="en">Smart grid training</span></a>
       <a data-doc="xp" href="aide/tutoriel/niveau7.html"><span lang="fr">Atelier expert</span><span lang="en">Expert workshop</span></a>
+      <a href="#licences"><span lang="fr">Licences</span><span lang="en">Licences</span></a>
     </nav>
     <div class="lang" role="group" aria-label="Langue / Language">
       <button type="button" data-set-lang="fr" aria-pressed="true">FR</button>
@@ -320,6 +329,49 @@ footer a:hover{ color:var(--gold); }
     </div>
   </section>
 
+  <section id="licences">
+    <div class="wrap">
+      <div class="head">
+        <div class="kicker dark"><span lang="fr">Licences</span><span lang="en">Licences</span></div>
+        <h2 lang="fr">Choisissez la licence qui vous convient</h2>
+        <h2 lang="en">Choose the licence that suits you</h2>
+        <p lang="fr">Sans licence, NRJXpert fonctionne en mode démonstration, limité aux petits schémas et aux systèmes PV et éoliens de 10 kW. L'achat se fait sur le site de Niitan ; vous recevez votre clé d'activation par e-mail.</p>
+        <p lang="en">Without a licence, NRJXpert runs in demonstration mode, limited to small diagrams and to PV and wind systems of 10 kW. Purchase is made on the Niitan website; you receive your activation key by e-mail.</p>
+      </div>
+      <div class="grid offers">
+        <div class="card c1">
+          <span class="tag" lang="fr">Pédagogique</span><span class="tag" lang="en">Educational</span>
+          <h3 lang="fr">Étudiant</h3><h3 lang="en">Student</h3>
+          <p lang="fr">Pour apprendre et réaliser vos travaux pratiques.</p>
+          <p lang="en">To learn and carry out your lab work.</p>
+          <ul lang="fr"><li>Un poste</li><li>Usage pédagogique non commercial</li><li>Systèmes PV et éoliens jusqu'à 1 MW</li></ul>
+          <ul lang="en"><li>One computer</li><li>Non-commercial educational use</li><li>PV and wind systems up to 1 MW</li></ul>
+        </div>
+        <div class="card c2">
+          <span class="tag" lang="fr">Pédagogique</span><span class="tag" lang="en">Educational</span>
+          <h3 lang="fr">Établissement</h3><h3 lang="en">Institution</h3>
+          <p lang="fr">Pour les écoles, universités et laboratoires.</p>
+          <p lang="en">For schools, universities and laboratories.</p>
+          <ul lang="fr"><li>Plusieurs postes (salles de TP)</li><li>Usage pédagogique</li><li>Systèmes PV et éoliens jusqu'à 1 MW</li></ul>
+          <ul lang="en"><li>Several computers (classrooms)</li><li>Educational use</li><li>PV and wind systems up to 1 MW</li></ul>
+        </div>
+        <div class="card c3">
+          <span class="tag" lang="fr">Professionnel</span><span class="tag" lang="en">Professional</span>
+          <h3 lang="fr">Professionnel / Expert</h3><h3 lang="en">Professional / Expert</h3>
+          <p lang="fr">Pour les bureaux d'études et les entreprises.</p>
+          <p lang="en">For engineering offices and companies.</p>
+          <ul lang="fr"><li>Version complète</li><li>Usage commercial</li><li>Réseaux et systèmes PV / éoliens sans limite de taille</li></ul>
+          <ul lang="en"><li>Full version</li><li>Commercial use</li><li>Networks and PV / wind systems with no size limit</li></ul>
+        </div>
+      </div>
+      <p class="note" lang="fr">Les licences sont activées en ligne, sur un ou plusieurs postes selon l'offre, puis fonctionnent hors connexion ; une vérification périodique est effectuée automatiquement.</p>
+      <p class="note" lang="en">Licences are activated online, on one or several computers depending on the offer, then work offline; a periodic check is done automatically.</p>
+      <div class="offers-cta">
+        <a class="btn primary" href="https://niitan.com/nrjxpert/licences" target="_blank" rel="noopener"><span lang="fr">Acheter ou demander un devis</span><span lang="en">Buy or request a quote</span> <span class="arrow">→</span></a>
+      </div>
+    </div>
+  </section>
+
   <section class="band">
     <div class="wrap feats">
       <div class="feat">
@@ -363,6 +415,7 @@ footer a:hover{ color:var(--gold); }
       <a data-doc="tuto" href="aide/tutoriel/index.html"><span lang="fr">Tutoriel</span><span lang="en">Tutorial</span></a>
       <a data-doc="sg" href="aide/tutoriel/niveau6.html">Smart Grids</a>
       <a data-doc="xp" href="aide/tutoriel/niveau7.html"><span lang="fr">Atelier expert</span><span lang="en">Expert workshop</span></a>
+      <a href="#licences"><span lang="fr">Licences</span><span lang="en">Licences</span></a>
     </nav>
   </div>
 </footer>

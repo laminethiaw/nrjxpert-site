@@ -197,12 +197,13 @@ Le premier calcul de la séance demande quelques secondes de plus, le temps du d
 </ul>
 
 <h3 id="licence">Licence et activation</h3>
-<p>NRJXpert s'utilise avec une licence (fichier <code>.lic</code>) fournie par Niitan, selon la catégorie : étudiant, établissement ou professionnelle.
+<p>NRJXpert s'utilise avec une licence fournie par Niitan, selon la catégorie : étudiant, établissement ou professionnelle. Après l'achat, vous recevez
+par e-mail une <b>clé d'activation</b> de la forme <code>NRJX-XXXXX-XXXXX-XXXXX-XXXXX</code>.
 La licence est liée à votre ordinateur par une <b>activation en ligne</b>, obligatoire pour toutes les catégories ; elle est gérée par le serveur local. Sans licence, le logiciel
 fonctionne en <b>mode démonstration</b> : la taille des schémas est limitée.</p>
 <ol class="steps">
-<li><div class="step-content">Ouvrez <b>Aide › Licence…</b>, puis <b>Importer un fichier de licence…</b> et choisissez le fichier <code>.lic</code> reçu.</div></li>
-<li><div class="step-content">Cliquez sur <b>Activer / renouveler en ligne</b> (connexion Internet nécessaire). L'état devient « Active » ; la fenêtre indique la catégorie,
+<li><div class="step-content">Ouvrez <b>Aide › Licence…</b> et saisissez votre clé d'activation dans le champ prévu (le plus simple : copier-coller depuis l'e-mail ; majuscules, minuscules et tirets sont indifférents).</div></li>
+<li><div class="step-content">Cliquez sur <b>Activer</b> (connexion Internet nécessaire). L'état devient « Active » ; la fenêtre indique la catégorie,
 le titulaire, la date d'expiration et la prochaine vérification en ligne.</div></li>
 </ol>
 <ul>
@@ -211,6 +212,9 @@ Internet est disponible. Il prévient avant l'échéance ; passé un court déla
 (« Suspendue — vérification en ligne requise ») et reprend dès qu'une vérification réussit.</li>
 <li><b>Changer d'ordinateur</b> : sur l'ancien poste, cliquez sur <b>Libérer ce poste</b>, puis activez la licence sur le nouveau. Le nombre de postes
 dépend de la licence.</li>
+<li><b>Puissance des systèmes PV et éoliens</b> : les modules Systèmes photovoltaïques, Pompage photovoltaïque et Systèmes éoliens, ainsi que la simulation des blocs Énergies renouvelables, calculent des installations jusqu'à <b>1 MW</b> avec les licences Étudiant et Établissement et jusqu'à <b>10 kW</b> en mode démonstration (puissance crête PV et puissance éolienne installée). La licence Professionnel / Expert n'a pas cette limite.</li>
+<li><b>Renouvellement</b> : lorsque votre abonnement est renouvelé auprès de Niitan, la nouvelle échéance est prise en compte automatiquement à la prochaine vérification en ligne (ou tout de suite avec <b>Vérifier en ligne</b>) : aucune nouvelle clé n'est nécessaire.</li>
+<li><b>Clé confidentielle</b> : ne la communiquez pas ; elle ne vaut que pour le nombre de postes de votre licence. En cas de perte ou de doute, contactez Niitan : une nouvelle clé vous est envoyée et l'ancienne cesse de fonctionner.</li>
 <li><b>Mention de licence</b> : la catégorie (par exemple « Licence éducative — usage non commercial ») s'affiche dans la barre d'état.</li>
 <li><b>Identifiant du poste</b> : indiqué dans la fenêtre Licence ; à communiquer au support en cas de problème d'activation.</li>
 </ul>
@@ -770,9 +774,9 @@ supprimées ; une base personnelle plus ancienne est renommée <code>aerogenerat
 <tr><td>Le calcul ne démarre pas, « serveur local introuvable » ou « le serveur local s'est arrêté »</td><td>Vérifiez que « Utiliser le serveur local sur ce poste »
 est coché (réglage par défaut ; Simulation › Paramètres du calcul et du serveur) et que l'application est complète (le dossier « server » doit rester à côté de l'application).
 Un antivirus ou un pare-feu peut bloquer le lancement : autorisez NRJXpert et son serveur de calcul. Le fichier <code>~/.nrjxpert/logs/server.log</code> donne la cause.</td></tr>
-<tr><td>Licence « absente », « non activée sur ce poste », « suspendue » ou « expirée »</td><td>Ouvrez Aide › Licence… : importez le fichier <code>.lic</code>, puis
-« Activer / renouveler en ligne » (connexion Internet nécessaire ; le pare-feu doit autoriser l'accès à activation.nrjxpert.com en HTTPS). Une licence expirée se renouvelle auprès de Niitan.</td></tr>
-<tr><td>« Licence déjà activée sur un autre poste » ou changement d'ordinateur</td><td>Sur l'ancien poste, utilisez « Libérer ce poste » dans Aide › Licence…, puis activez sur le nouveau.
+<tr><td>Licence « absente », « non activée sur ce poste », « suspendue » ou « expirée »</td><td>Ouvrez Aide › Licence… : saisissez votre clé d'activation puis cliquez sur « Activer » (ou sur « Vérifier en ligne » si le poste est déjà activé) (connexion Internet nécessaire ; le pare-feu doit autoriser l'accès à activation.nrjxpert.com en HTTPS). Une licence expirée se renouvelle auprès de Niitan.</td></tr>
+<tr><td>« Clé d'activation invalide » ou « inconnue »</td><td>Vérifiez la saisie (copier-coller recommandé ; la clé commence par NRJX et compte quatre groupes de cinq caractères). Si le message persiste, contactez Niitan en indiquant l'adresse e-mail de l'achat.</td></tr>
+<tr><td>« Nombre de postes atteint » ou changement d'ordinateur</td><td>Sur l'ancien poste, utilisez « Libérer ce poste » dans Aide › Licence…, puis activez sur le nouveau.
 Si l'ancien poste n'est plus disponible, contactez le support en indiquant l'identifiant du poste.</td></tr>
 <tr><td>« serveur occupé » ou « durée maximale de calcul dépassée »</td><td>Beaucoup de calculs simultanés : réessayez dans un
 instant. Étude trop lourde (dynamique longue, OPF sur beaucoup de pas) : réduisez la durée simulée, le nombre de pas ou la

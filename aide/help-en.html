@@ -196,12 +196,13 @@ The first calculation of a session takes a few seconds more, while the server st
 </ul>
 
 <h3 id="licence">Licence and activation</h3>
-<p>NRJXpert is used with a licence (<code>.lic</code> file) supplied by Niitan, according to the category: student, institution or professional.
+<p>NRJXpert is used with a licence supplied by Niitan, according to the category: student, institution or professional. After the purchase you receive
+an <b>activation key</b> by e-mail, of the form <code>NRJX-XXXXX-XXXXX-XXXXX-XXXXX</code>.
 The licence is tied to your computer by an <b>online activation</b>, mandatory for all categories; it is managed by the local server. Without a licence, the software runs in
 <b>demonstration mode</b>: the size of the diagrams is limited.</p>
 <ol class="steps">
-<li><div class="step-content">Open <b>Help › License…</b>, then <b>Import a license file…</b> and choose the <code>.lic</code> file you received.</div></li>
-<li><div class="step-content">Click <b>Activate / renew online</b> (Internet connection required). The status becomes « Active »; the window shows the category,
+<li><div class="step-content">Open <b>Help › License…</b> and enter your activation key in the field provided (simplest: copy and paste it from the e-mail; upper or lower case and hyphens do not matter).</div></li>
+<li><div class="step-content">Click <b>Activate</b> (Internet connection required). The status becomes « Active »; the window shows the category,
 the holder, the expiry date and the next online check.</div></li>
 </ol>
 <ul>
@@ -210,6 +211,9 @@ available. It warns before the deadline; after a short tolerance period without 
 (« Suspended — online check required ») and resumes as soon as a check succeeds.</li>
 <li><b>Changing computer</b>: on the old computer, click <b>Release this computer</b>, then activate the licence on the new one. The number of
 computers depends on the licence.</li>
+<li><b>Power of PV and wind systems</b>: the Photovoltaic systems, Photovoltaic pumping and Wind systems modules, as well as the simulation of the Renewable energy blocks, calculate installations up to <b>1 MW</b> with the Student and Institution licences and up to <b>10 kW</b> in demonstration mode (PV peak power and installed wind power). The Professional / Expert licence has no such limit.</li>
+<li><b>Renewal</b>: when your subscription is renewed with Niitan, the new expiry date is picked up automatically at the next online check (or immediately with <b>Check online</b>): no new key is needed.</li>
+<li><b>Keep the key confidential</b>: do not share it; it is valid only for the number of computers of your licence. If it is lost or compromised, contact Niitan: a new key is sent to you and the old one stops working.</li>
 <li><b>Licence notice</b>: the category (for example « Educational licence — non-commercial use ») is shown in the status bar.</li>
 <li><b>Computer ID</b>: shown in the Licence window; give it to the support in case of an activation problem.</li>
 </ul>
@@ -790,9 +794,9 @@ renamed <code>aerogenerateurs.avant-2026-11.csv</code>.</p>
 <tr><td>The calculation does not start, « local server not found » or « the local server stopped »</td><td>Check that « Use the local server on this computer »
 is ticked (default setting; Simulation › Calculation and server settings) and that the application is complete (the « server » folder must stay next to the application).
 An antivirus or a firewall can block the start: allow NRJXpert and its calculation server. The file <code>~/.nrjxpert/logs/server.log</code> gives the cause.</td></tr>
-<tr><td>Licence « missing », « not activated on this computer », « suspended » or « expired »</td><td>Open Help › License…: import the <code>.lic</code> file, then
-« Activate / renew online » (Internet connection required; the firewall must allow access to activation.nrjxpert.com over HTTPS). An expired licence is renewed with Niitan.</td></tr>
-<tr><td>« Licence already activated on another computer » or change of computer</td><td>On the old computer, use « Release this computer » in Help › License…, then activate on the new one.
+<tr><td>Licence « missing », « not activated on this computer », « suspended » or « expired »</td><td>Open Help › License…: enter your activation key and click « Activate » (or « Check online » if the computer is already activated) (Internet connection required; the firewall must allow access to activation.nrjxpert.com over HTTPS). An expired licence is renewed with Niitan.</td></tr>
+<tr><td>« Invalid » or « unknown activation key »</td><td>Check what you typed (copy and paste recommended; the key starts with NRJX and has four groups of five characters). If the message persists, contact Niitan with the e-mail address used for the purchase.</td></tr>
+<tr><td>« Number of computers reached » or change of computer</td><td>On the old computer, use « Release this computer » in Help › License…, then activate on the new one.
 If the old computer is no longer available, contact the support with the computer ID.</td></tr>
 <tr><td>« server busy » or « maximum calculation time exceeded »</td><td>Many simultaneous calculations: try again in a moment. Study too heavy (long dynamics,
 OPF over many steps, test bench with long tests): reduce the simulated duration, the number of steps or the length of the profiles.</td></tr>
