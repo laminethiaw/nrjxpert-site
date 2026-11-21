@@ -31,6 +31,9 @@ exemples/pompage_village.nxpomp
 exemples/timeSeries_ieee33.xml
 exemples/flisr_deux_departs.xml
 exemples/ivvc_ieee33.xml
+exemples/compensation_ieee33.xml
+exemples/statcom_ieee33.xml
+exemples/statcom_dynamique.xml
 exemples/vpp_ve_batterie.xml
 exemples/microreseau_ilotage.xml
 exemples/smartgrid_deux_departs.nxp

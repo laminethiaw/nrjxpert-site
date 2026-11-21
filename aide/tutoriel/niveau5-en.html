@@ -179,6 +179,20 @@ island alone and provide synthetic inertia.</li>
 the lost power). The PLL of the PV inverter sees larger excursions during the fault (49.42 to 50.50 Hz): it is the local measurement disturbed by the
 voltage dip, not the network frequency.</p>
 </details></div>
+<div class="ex"><h4>Example 5.4 — STATCOM or SVC facing a load step and a fault (<code>exemples/statcom_dynamique.xml</code>)</h4>
+<p>20 kV feeder (2 + j6 Ω) supplying 5 MW + 3 Mvar; at the load bus, a ± 4 Mvar STATCOM (Vref = 0.97 pu, slope 3 %). At 1 s, the reactive
+load increases by 2 Mvar; at 2.5 s, a 150 ms three-phase fault at the same bus. Dynamic model: reactive current oriented by a PLL, PI voltage
+regulator with slope, current limit (STATCOM) or susceptance limit (SVC). Repeat the simulation with the type « SVC ».</p>
+<details class="sol" open><summary>Server results (RMS simulation, 4 s)</summary>
+<table>
+<tr><th></th><th>STATCOM</th><th>SVC</th></tr>
+<tr><td>Before the step</td><td class="num" colspan="2">0.955 pu, 1.98 Mvar (same as the load flow)</td></tr>
+<tr><td>After the step (steady state)</td><td class="num" colspan="2">0.946 pu, 3.14 Mvar (= 0.97 − 0.03 × 3.14/4: on the characteristic)</td></tr>
+<tr><td>During the fault</td><td class="num">0.316 pu, <span class="result">1.25 Mvar</span> (= 4 × 0.316)</td><td class="num">0.313 pu, 0.39 Mvar (= 4 × 0.313²)</td></tr>
+</table>
+<p>While regulating, both compensators behave alike. At their limit, the STATCOM keeps its maximum current: it supplies three times as much
+reactive power as the SVC during the voltage dip.</p>
+</details></div>
 
 <!-- ================================================================== -->
             <a href="#top" class="back-to-top">↑ Back to top</a>

@@ -286,6 +286,48 @@ tension : doubler la tension divise les pertes par 4.</p>
 <p><i>R</i> = 3 Ω, <i>X</i> = 3,5 Ω, <i>Q</i> = 2 × tan(25,84°) = 0,969 Mvar. ΔU/U = (3 × 2 + 3,5 × 0,969)/20² = <span class="result">2,35 %</span> (470 V) ;
 pertes = 3 × (2² + 0,969²)/20² = 0,037 MW = <span class="result">37 kW (1,9 %)</span>.</p>
 </details></div>
+<h3>Compensation de la puissance réactive</h3>
+<p>Un compensateur shunt placé près des charges leur fournit sur place le réactif qu'elles consomment : la puissance réactive qui
+transite dans les lignes diminue, et avec elle la chute de tension (terme <i>X·Q</i>) et les pertes (terme <i>R·Q²</i>). Une batterie de
+condensateurs à <i>n</i> gradins enclenchés fournit <i>Q</i> = <i>n</i>·<i>Q</i><sub>gradin</sub>·<i>V</i>² (impédance constante :
+elle fournit moins quand la tension baisse). Des inductances shunt absorbent du réactif : elles abaissent la tension des réseaux peu
+chargés ou très capacitifs (longs câbles). En régulation automatique, un gradin est enclenché quand la tension sort de la bande morte
+par le bas et déclenché quand elle en sort par le haut ; la bande doit être plus large que la variation de tension due à un gradin,
+sinon les gradins « pompent » (palette : <b>Réseau (load flow) › Compensateur shunt à gradins</b>).</p>
+<div class="ex"><h4>Exemple 2.9 — Réseau IEEE 33 nœuds compensé (<code>exemples/compensation_ieee33.xml</code>)</h4>
+<p>Deux compensateurs à gradins sont placés aux nœuds 30 (6 × 0,2 Mvar) et 14 (4 × 0,15 Mvar), en régulation automatique (consigne
+0,95 pu, bande morte 2 %). Ouvrir l'exemple par <b>Aide › Ouvrir un exemple du tutoriel</b>, lancer le load flow (Newton-Raphson,
+<kbd>F5</kbd>), lire les gradins enclenchés dans l'info-bulle des compensateurs, puis refaire le calcul sans compensation
+(régulation « Aucune », 0 gradin enclenché).</p>
+<details class="sol"><summary>Voir les résultats</summary>
+<table>
+<tr><th></th><th>Sans compensation</th><th>Avec compensation</th></tr>
+<tr><td>Gradins enclenchés</td><td class="num">—</td><td class="num">4/6 (nœud 30), 3/4 (nœud 14)</td></tr>
+<tr><td>Réactif fourni</td><td class="num">—</td><td class="num">0,71 + 0,40 Mvar</td></tr>
+<tr><td>Tension minimale (nœud 18)</td><td class="num">0,913 pu</td><td class="num">0,936 pu</td></tr>
+<tr><td>Pertes</td><td class="num">202,7 kW</td><td class="num"><span class="result">140,7 kW (−31 %)</span></td></tr>
+<tr><td>Réactif appelé au poste source</td><td class="num">2,44 Mvar</td><td class="num">1,28 Mvar</td></tr>
+</table>
+<p>Les tensions des nœuds 30 et 14 (0,944 et 0,941 pu) sont dans la bande [0,94 ; 0,96] pu : un gradin de plus les en ferait sortir
+par le haut, un de moins par le bas.</p>
+</details></div>
+<p>Un <b>STATCOM</b> (ou un SVC) règle la tension en continu, sans gradins, selon sa caractéristique <i>V</i> = <i>V</i><sub>ref</sub> −
+pente·<i>Q</i>/<i>Q</i><sub>max</sub>. En butée, le STATCOM garde son courant maximal (<i>Q</i> = <i>Q</i><sub>max</sub>·<i>V</i>) alors
+que le SVC n'est plus qu'une susceptance (<i>Q</i> = <i>Q</i><sub>max</sub>·<i>V</i>²) : il fournit moins de réactif quand la tension
+s'effondre, ce qui fait l'avantage du STATCOM. En court-circuit, le STATCOM débite son courant limité (comme un onduleur) ; le SVC est
+négligé (palette : <b>Réseau (load flow) › Compensateur statique</b> ; non disponible en mode démonstration).</p>
+<div class="ex"><h4>Exemple 2.10 — STATCOM au nœud 30 (<code>exemples/statcom_ieee33.xml</code>)</h4>
+<p>Le compensateur à gradins du nœud 30 est remplacé par un STATCOM de +1,5 / −1 Mvar (Vref = 0,97 pu, pente 3 %). Lancer le load flow
+(Newton-Raphson), puis ramener <i>Q</i><sub>max</sub> à 0,6 Mvar.</p>
+<details class="sol"><summary>Voir les résultats</summary>
+<table>
+<tr><th></th><th>Qmax = 1,5 Mvar</th><th>Qmax = 0,6 Mvar</th></tr>
+<tr><td>État du STATCOM</td><td class="num">régulation</td><td class="num">butée capacitive</td></tr>
+<tr><td>Réactif fourni</td><td class="num">0,99 Mvar</td><td class="num">0,57 Mvar (= 0,6 × 0,941)</td></tr>
+<tr><td>Tension du nœud 30</td><td class="num">0,950 pu (= 0,97 − 0,03 × 0,99/1,5)</td><td class="num">0,941 pu</td></tr>
+<tr><td>Pertes</td><td class="num">136,1 kW</td><td class="num">144,6 kW</td></tr>
+</table>
+</details></div>
 
 <!-- ================================================================== -->
             <a href="#top" class="back-to-top">↑ Retour en haut</a>
@@ -647,6 +689,31 @@ est bien la situation attendue ; les deux autres sont à λ.</p>
 <p>Le groupe 1, dont le coefficient de pertes est le plus élevé, est <b>pénalisé</b> : son coût marginal n'est que de 7,56 $/MWh,
 mais son facteur de pénalité 1/(1 − 0,0153) = 1,0155 le ramène à λ. Autrement dit, le réseau fait payer l'éloignement
 du producteur — c'est la justification économique de la production décentralisée (niveau 5).</p>
+</details></div>
+<div class="ex"><h4>Exercice 8 — Compenser un départ HTA</h4>
+<p>Une source 20 kV alimente, par un départ d'impédance 2 + j6 Ω, une charge de 5 MW et 3 Mvar. Dessiner le réseau (bus balancier
+20 kV, impédance, bus de charge) et répondre :</p>
+<ol>
+<li>Chute de tension et pertes par les formules approchées, puis par le load flow (Newton-Raphson).</li>
+<li>Puissance réactive à fournir au nœud de charge pour limiter la chute de tension à 3 % (formule approchée).</li>
+<li>Placer un compensateur shunt à gradins de 4 × 1 Mvar (palette <b>Réseau (load flow)</b>) : combien de gradins enclencher ?
+Vérifier au load flow ; pourquoi le réactif fourni est-il inférieur à <i>n</i> × 1 Mvar ?</li>
+<li>Passer le compensateur en régulation automatique (consigne 0,98 pu, bande morte 2 %) : que choisit le calcul ?</li>
+<li>Remplacer le compensateur par un STATCOM de ± 4 Mvar qui tient la tension à 1,00 pu (pente nulle). Que se passe-t-il ? Quel calibre
+faut-il, et est-ce souhaitable du point de vue des pertes ?</li>
+</ol>
+<details class="sol"><summary>Voir la solution</summary>
+<p>1. ΔU/U ≈ (R·P + X·Q)/U² = (2 × 5 + 6 × 3)/20² = 7 %, pertes ≈ R·(P² + Q²)/U² = 2 × 34/400 = 0,17 MW. Load flow :
+<span class="result">0,922 pu</span> (chute de 7,8 %) et <span class="result">0,200 MW</span> : les formules approchées supposent
+la tension nominale au nœud de charge, alors que le courant y est plus fort parce que la tension est plus basse.</p>
+<p>2. (10 + 6·(3 − <i>Q</i><sub>c</sub>))/400 ≤ 0,03 ⇒ <i>Q</i><sub>c</sub> ≥ <span class="result">2,67 Mvar</span>.</p>
+<p>3. Trois gradins : <span class="result">0,968 pu</span>, pertes 0,134 MW (−33 %), réactif fourni 2,81 Mvar seulement, car un
+condensateur fournit <i>Q</i> = <i>n</i>·<i>Q</i><sub>gradin</sub>·<i>V</i>² (3 × 0,968² = 2,81). Deux gradins ne suffisent pas (0,952 pu).</p>
+<p>4. La bande est [0,97 ; 0,99] pu : le calcul enclenche <span class="result">4 gradins</span> (0,985 pu), trois donnant 0,968 pu,
+sous la bande.</p>
+<p>5. Le STATCOM atteint sa <b>butée capacitive</b> : 3,94 Mvar (= 4 × 0,986), tension 0,986 pu, avertissement du calcul. Pour tenir
+1,00 pu, il lui faut <span class="result">4,9 Mvar</span>, et les pertes remontent (0,143 MW contre 0,133 MW) : au-delà du réactif
+consommé par la charge, le départ transporte du réactif vers le poste. Une pente de quelques % évite cette surcompensation.</p>
 </details></div>
 
 <!-- ================================================================== -->
