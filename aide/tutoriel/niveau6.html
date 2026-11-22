@@ -226,6 +226,10 @@ abaisser la tension dans la plage contractuelle réduit la consommation des char
 batteries ; calcul <b>Contrôle Volt/VAR (IVVC)</b>, qui compare sur le profil de charge : S0 sans réglage, S1 réglage local (Q(V) des
 onduleurs, relais de tension des gradins), S2 IVVC centralisé (prise + gradins), S3 IVVC/r (+ réactif des onduleurs). Réglages : onglet
 « Volt/VAR » (objectif pertes / CVR, plage du régleur, modèle ZIP).</p>
+<p>Si le transformateur du poste est un transformateur triphasé à prises (section « Prises de réglage (OLTC) » de sa boîte de paramètres), l'IVVC
+utilise ses <b>vrais</b> paramètres : pas, cran initial, crans minimal et maximal, et rapport de transformation dans le modèle en π ; il propose ensuite le cran à
+chaque heure et rend les positions de la prise (cran positif = plus de spires au primaire = tension plus basse). Sans transformateur à prises, le régleur reste
+l'organe abstrait du bus balancier réglé par la plage de l'onglet « Volt/VAR ».</p>
 <div class="ex"><h4>Exemple 6.4 — IEEE 33 nœuds avec 2 × 0,8 MWc et deux batteries à gradins (<code>exemples/ivvc_ieee33.xml</code>)</h4>
 <details class="sol" open><summary>Résultats sur 24 h (objectif : pertes)</summary>
 <table class="sgam-fig">

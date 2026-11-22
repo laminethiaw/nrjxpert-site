@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Niveau 2 — Réseaux électriques — Tutoriel NRJXpert</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tutoriel.css">
+<script src="tutoriel.js"></script>
+<script src="glossaire.js" defer></script>
+</head>
+<body>
+<div id="top"></div>
+
+<!-- ════════════════ MENU LATÉRAL ════════════════ -->
+<aside id="sidebar">
+    <div id="sidebar-header">
+        <div class="app-name">NRJXpert</div>
+        <div class="app-version">Version 2.0.0 · Tutoriel › Niveau 2</div>
+    </div>
+    <nav>
+        <a href="#intro"><span class="nav-icon">📘</span>Introduction</a>
+        <a href="#n2-1"><span class="nav-icon">🧵</span>Lignes et câbles</a>
+        <a href="#n2-2"><span class="nav-icon">🔸</span>Transformateurs</a>
+        <a href="#n2-3"><span class="nav-icon">📗</span>Système per-unit</a>
+        <a href="#n2-4"><span class="nav-icon">📉</span>Chute de tension et pertes</a>
+        <a href="#n2-5"><span class="nav-icon">🔀</span>Load flow : formulation</a>
+        <a href="#n2-6"><span class="nav-icon">📘</span>Méthodes de résolution</a>
+        <a href="#n2-7"><span class="nav-icon">⚡</span>Court-circuit selon la CEI 60909-0</a>
+        <a href="#n2-8"><span class="nav-icon">⚡</span>Protections : ce que l&#x27;on fait des courants de court-circuit</a>
+        <a href="#n2-9"><span class="nav-icon">💰</span>Répartition économique de la production</a>
+        <a href="#n2-ex"><span class="nav-icon">🎯</span>Exercices</a>
+        <a href="#n2-qcm"><span class="nav-icon">✅</span>QCM du niveau 2</a>
+        <a href="#auteur"><span class="nav-icon">👤</span>Auteur</a>
+    </nav>
+    <div class="side-links"><a href="index.html">🏠 Accueil du tutoriel</a><a href="niveau1.html">← Niveau 1</a><a href="niveau3.html">Niveau 3 →</a><a href="../aide-fr.html">📖 Guide de l'utilisateur</a></div>
+</aside>
+
+<!-- ════════════════ ZONE PRINCIPALE ════════════════ -->
+<div id="main">
+    <div id="hero">
+        <h1><span class="badge b2">Niveau 2</span> Réseaux électriques</h1>
+        <div class="tagline">Modéliser les éléments d'un réseau, calculer la répartition des puissances (load flow) et les courants de court-circuit.</div>
+        <div class="badges">
+            <span class="hero-badge">Tutoriel</span>
+            <span class="hero-badge">Version 2.0.0</span>
+            <span class="hero-badge">Novembre 2026</span>
+            <a class="hero-badge language-link" href="niveau2-en.html" lang="en" aria-label="Cliquer pour afficher la version anglaise">
+                FR / EN
+                <small>Cliquer pour la version anglaise</small>
+            </a>
+        </div>
+    </div>
+
+    <div id="topbar">
+        <div class="title">Niveau 2 — Réseaux électriques</div>
+        <span class="meta">NRJXpert 2.0.0 · Novembre 2026</span>
+    </div>
+
+    <main id="content">
+        <div id="toc-section">
+            <h2>Table des matières</h2>
+            <div class="toc-grid">
+                <a href="#intro"><span class="toc-num">00</span>Introduction</a>
+                <a href="#n2-1"><span class="toc-num">2.1</span>Lignes et câbles</a>
+                <a href="#n2-2"><span class="toc-num">2.2</span>Transformateurs</a>
+                <a href="#n2-3"><span class="toc-num">2.3</span>Système per-unit</a>
+                <a href="#n2-4"><span class="toc-num">2.4</span>Chute de tension et pertes</a>
+                <a href="#n2-5"><span class="toc-num">2.5</span>Load flow : formulation</a>
+                <a href="#n2-6"><span class="toc-num">2.6</span>Méthodes de résolution</a>
+                <a href="#n2-7"><span class="toc-num">2.7</span>Court-circuit selon la CEI 60909-0</a>
+                <a href="#n2-8"><span class="toc-num">2.8</span>Protections : ce que l&#x27;on fait des courants de court-circuit</a>
+                <a href="#n2-9"><span class="toc-num">2.9</span>Répartition économique de la production</a>
+                <a href="#n2-ex"><span class="toc-num">10</span>Exercices</a>
+                <a href="#n2-qcm"><span class="toc-num">11</span>QCM du niveau 2</a>
+            </div>
+        </div>
+
+        <div class="section" id="intro">
+            <h2><span class="section-icon">📘</span>Introduction</h2>
+<div class="objectifs">
+<h4>Objectifs</h4>
+<ul>
+<li>Établir le schéma équivalent d'une ligne, d'un câble et d'un transformateur à partir des données constructeur, et choisir le modèle (courte, moyenne, longue) adapté à sa longueur.</li>
+<li>Calculer la puissance naturelle d'une ligne, son effet Ferranti et la compensation nécessaire.</li>
+<li>Passer des grandeurs physiques aux grandeurs réduites (per-unit) et inversement.</li>
+<li>Calculer une chute de tension et des pertes ; vérifier un plan de tension.</li>
+<li>Poser les équations du load flow, effectuer à la main une itération de Gauss-Seidel et interpréter la convergence des trois méthodes.</li>
+<li>Calculer les courants de court-circuit triphasé, biphasé et monophasé selon la CEI 60909 et en déduire le pouvoir de coupure.</li>
+<li>Répartir la production entre plusieurs centrales au moindre coût (coûts marginaux égaux, limites, pertes).</li>
+<li>Représenter une machine synchrone (Xd, X′d, X″d, courbe de capacité) et une machine asynchrone (glissement, couple, démarrage) et en déduire leur effet sur la tension et le court-circuit.</li>
+<li>Régler et vérifier une protection (courbe inverse, sélectivité chronométrique, distance, différentielle), un TC et un parafoudre.</li>
+<li>Comparer les régimes de neutre (isolé, résistant, compensé, direct) : courant de défaut, surtensions, bobine de Petersen.</li>
+</ul>
+<p class="prereq">Prérequis : niveau 1, calcul matriciel élémentaire. Durée : 24 à 30 h.</p>
+</div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="n2-1">
+            <h2><span class="section-icon">🧵</span>2.1 Lignes et câbles</h2>
+<p>Une ligne ou un câble est caractérisé par quatre grandeurs <b>linéiques</b> (par km) : résistance <i>r</i>, inductance <i>l</i>
+(réactance <i>x</i> = <i>l</i>ω), capacité <i>c</i> et conductance <i>g</i> (négligée). Ordres de grandeur :</p>
+<table>
+<tr><th>Ouvrage</th><th>r (Ω/km)</th><th>x (Ω/km)</th><th>c (nF/km)</th><th>Remarque</th></tr>
+<tr><td>Ligne aérienne HTA, almélec 148 mm²</td><td class="num">0,22 à 0,27</td><td class="num">0,35 à 0,40</td><td class="num">9 à 10</td><td>R/X ≈ 0,7</td></tr>
+<tr><td>Ligne aérienne HTA, almélec 54,6 mm²</td><td class="num">0,60</td><td class="num">0,40</td><td class="num">9</td><td>R/X ≈ 1,5</td></tr>
+<tr><td>Câble souterrain HTA, alu 150 mm²</td><td class="num">0,21</td><td class="num">0,11</td><td class="num">250 à 400</td><td>capacité importante</td></tr>
+<tr><td>Câble BT cuivre 4 × 95 mm²</td><td class="num">0,24</td><td class="num">0,08</td><td class="num">—</td><td>R/X ≈ 3</td></tr>
+</table>
+<p>Modèles selon la longueur électrique : <b>ligne courte</b> (&lt; 80 km en aérien) : <i>R</i> + j<i>X</i> en série ; <b>ligne moyenne</b>
+(modèle en <b>π</b>) : <i>R</i> + j<i>X</i> en série et <i>C</i>/2 vers la terre à chaque extrémité ; ligne longue : modèle à constantes
+réparties. NRJXpert propose les modèles R, L, RL et RLC en π (palette <b>Réseau</b>) avec <i>R</i> = <i>r·ℓ</i>, <i>L</i> = <i>l·ℓ</i>,
+<i>C</i> = <i>c·ℓ</i>.</p>
+<p><b>Grandeurs homopolaires.</b> Pour les défauts à la terre, il faut aussi <i>r</i>₀, <i>x</i>₀ (retour par la terre, environ 3 fois <i>x</i>
+en aérien) et <i>c</i>₀ : rubrique « Homopolaire » des lignes.</p>
+
+<h3>Représentation en quadripôle</h3>
+<p>Vue de ses deux extrémités, une ligne est un <b>quadripôle</b> : la tension et le courant d'entrée (indice S, <i>sending</i>) se
+déduisent de ceux de sortie (indice R, <i>receiving</i>) par quatre constantes :</p>
+<div class="eq">[ <u>V</u><sub>S</sub> ; <u>I</u><sub>S</sub> ] = [ A &nbsp; B ; C &nbsp; D ] · [ <u>V</u><sub>R</sub> ; <u>I</u><sub>R</sub> ] &nbsp;&nbsp;&nbsp; (AD − BC = 1)</div>
+<table>
+<tr><th>Modèle</th><th>A = D</th><th>B</th><th>C</th></tr>
+<tr><td>Ligne courte (&lt; 80 km)</td><td class="num">1</td><td class="num"><b>Z</b></td><td class="num">0</td></tr>
+<tr><td>Ligne moyenne, π (80 à 250 km)</td><td class="num">1 + <b>ZY</b>/2</td><td class="num"><b>Z</b></td><td class="num"><b>Y</b>(1 + <b>ZY</b>/4)</td></tr>
+<tr><td>Ligne longue (&gt; 250 km)</td><td class="num">cosh(γℓ)</td><td class="num"><b>Z</b><sub>c</sub>·sinh(γℓ)</td><td class="num">sinh(γℓ)/<b>Z</b><sub>c</sub></td></tr>
+</table>
+<p>avec <b>Z</b> = <i>z·ℓ</i> et <b>Y</b> = <i>y·ℓ</i> (impédance série et admittance shunt totales). Le quadripôle permet de chaîner
+les ouvrages (ligne + transformateur + ligne) par simple produit de matrices.</p>
+
+<div class="fig" id="fig-ligne"><svg viewBox="0 0 560 185" width="560" role="img" aria-label="Modèles de ligne" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" font-family="inherit"><text x="110" y="32" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">ligne courte</text><path d="M30 62 L58 62"/><rect x="63" y="55.5" width="34" height="13" rx="2"/><text x="80" y="49.5" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">R</text><path d="M97 62 L115 62"/><path d="M121 62 a 4.25 4.25 0 0 1 8.5 0 a 4.25 4.25 0 0 1 8.5 0 a 4.25 4.25 0 0 1 8.5 0 a 4.25 4.25 0 0 1 8.5 0"/><text x="138" y="50" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">X = Lω</text><path d="M155 62 L190 62"/><path d="M30 132 L190 132"/><circle cx="30" cy="62" r="3" fill="currentColor" stroke="none"/><circle cx="30" cy="132" r="3" fill="currentColor" stroke="none"/><circle cx="190" cy="62" r="3" fill="currentColor" stroke="none"/><circle cx="190" cy="132" r="3" fill="currentColor" stroke="none"/><text x="395" y="32" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">ligne moyenne : modèle en π</text><path d="M265 62 L295 62"/><path d="M295 62 L318 62"/><rect x="323" y="55.5" width="34" height="13" rx="2"/><text x="340" y="49.5" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">R</text><path d="M357 62 L372 62"/><path d="M378 62 a 4.25 4.25 0 0 1 8.5 0 a 4.25 4.25 0 0 1 8.5 0 a 4.25 4.25 0 0 1 8.5 0 a 4.25 4.25 0 0 1 8.5 0"/><text x="395" y="50" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">X</text><path d="M412 62 L480 62"/><path d="M480 62 L520 62"/><path d="M265 132 L520 132"/><circle cx="265" cy="62" r="3" fill="currentColor" stroke="none"/><circle cx="265" cy="132" r="3" fill="currentColor" stroke="none"/><circle cx="520" cy="62" r="3" fill="currentColor" stroke="none"/><circle cx="520" cy="132" r="3" fill="currentColor" stroke="none"/><path d="M295 62 L295 88"/><path d="M287.5 93 L302.5 93"/><path d="M287.5 103 L302.5 103"/><text x="308.5" y="102" text-anchor="start" font-size="12.5" fill="currentColor" stroke="none">C/2</text><path d="M295 108 L295 132"/><circle cx="295" cy="62" r="3" fill="currentColor" stroke="none"/><circle cx="295" cy="132" r="3" fill="currentColor" stroke="none"/><path d="M480 62 L480 88"/><path d="M472.5 93 L487.5 93"/><path d="M472.5 103 L487.5 103"/><text x="493.5" y="102" text-anchor="start" font-size="12.5" fill="currentColor" stroke="none">C/2</text><path d="M480 108 L480 132"/><circle cx="480" cy="62" r="3" fill="currentColor" stroke="none"/><circle cx="480" cy="132" r="3" fill="currentColor" stroke="none"/><path d="M37 52 L55 52"/><polygon points="55,52 50.5,49.525 50.5,54.475" fill="currentColor" stroke="none"/><text x="46" y="44" text-anchor="middle" font-size="12" fill="currentColor" stroke="none" font-style="italic">I<tspan baseline-shift='sub' font-size='9'>S</tspan></text><path d="M167 52 L185 52"/><polygon points="185,52 180.5,49.525 180.5,54.475" fill="currentColor" stroke="none"/><text x="176" y="44" text-anchor="middle" font-size="12" fill="currentColor" stroke="none" font-style="italic">I<tspan baseline-shift='sub' font-size='9'>R</tspan></text><path d="M269 52 L287 52"/><polygon points="287,52 282.5,49.525 282.5,54.475" fill="currentColor" stroke="none"/><text x="278" y="44" text-anchor="middle" font-size="12" fill="currentColor" stroke="none" font-style="italic">I<tspan baseline-shift='sub' font-size='9'>S</tspan></text><path d="M497 52 L515 52"/><polygon points="515,52 510.5,49.525 510.5,54.475" fill="currentColor" stroke="none"/><text x="506" y="44" text-anchor="middle" font-size="12" fill="currentColor" stroke="none" font-style="italic">I<tspan baseline-shift='sub' font-size='9'>R</tspan></text><text x="110" y="165" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">A = D = 1, B = Z, C = 0</text><text x="395" y="165" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">A = D = 1 + ZY/2, B = Z, C = Y(1 + ZY/4)</text></svg><div class="cap">Modèles d'une ligne et constantes du quadripôle associé. Au-delà de 250 km, on passe au modèle à constantes réparties (γ, <b>Z</b><sub>c</sub>), dont le π équivalent utilise <b>Z</b>′ = <b>Z</b><sub>c</sub>·sinh(γℓ) et <b>Y</b>′/2 = tanh(γℓ/2)/<b>Z</b><sub>c</sub>.</div></div>
+<h3>Ligne longue : constantes réparties</h3>
+<p>Sur une tranche d<i>x</i>, d<u>V</u>/d<i>x</i> = <i>z</i>·<u>I</u> et d<u>I</u>/d<i>x</i> = <i>y</i>·<u>V</u>, d'où
+d²<u>V</u>/d<i>x</i>² = <i>zy</i>·<u>V</u> et la solution en ondes progressives :</p>
+<div class="eq">γ = √(<i>zy</i>) = √((r + jLω)(g + jCω)) = α + jβ &nbsp;&nbsp;&nbsp; <b>Z</b><sub>c</sub> = √(<i>z</i>/<i>y</i>)<br>
+<u>V</u>(x) = cosh(γx)·<u>V</u><sub>R</sub> + <b>Z</b><sub>c</sub>·sinh(γx)·<u>I</u><sub>R</sub> &nbsp;&nbsp;
+<u>I</u>(x) = sinh(γx)/<b>Z</b><sub>c</sub>·<u>V</u><sub>R</sub> + cosh(γx)·<u>I</u><sub>R</sub></div>
+<p>γ est la <b>constante de propagation</b> (α : atténuation, β : déphasage), <b>Z</b><sub>c</sub> l'<b>impédance caractéristique</b> (ou
+impédance d'onde). On peut toujours ramener une ligne longue à un π <b>exact</b> :
+<b>Z</b>′ = <b>Z</b><sub>c</sub>·sinh(γℓ) et <b>Y</b>′/2 = tanh(γℓ/2)/<b>Z</b><sub>c</sub>.</p>
+
+<h3>Ligne sans pertes et puissance naturelle (SIL)</h3>
+<p>Pour <i>r</i> = <i>g</i> = 0 : α = 0, β = ω√(<i>LC</i>) et <b>Z</b><sub>c</sub> = √(<i>L</i>/<i>C</i>) est <b>réelle</b> (≈ 400 Ω pour une ligne
+aérienne, 30 à 50 Ω pour un câble). Si la ligne débite exactement sur <b>Z</b><sub>c</sub>, le courant vaut <i>V<sub>R</sub></i>/<b>Z</b><sub>c</sub> :</p>
+<div class="eq">SIL = 3·V<sub>R</sub>²/Z<sub>c</sub> = U<sub>n</sub>²/Z<sub>c</sub> &nbsp;&nbsp;&nbsp; (puissance naturelle, <i>surge impedance loading</i>)</div>
+<p>Dans ce régime, |<u>V</u>(<i>x</i>)| et |<u>I</u>(<i>x</i>)| sont <b>constants</b> le long de la ligne et <i>Q<sub>S</sub></i> = <i>Q<sub>R</sub></i> = 0 :
+le réactif consommé par l'inductance série est exactement fourni par la capacité shunt. C'est le point d'équilibre de référence :</p>
+<table>
+<tr><th>Charge</th><th>Comportement</th><th>Remède</th></tr>
+<tr><td>= SIL</td><td>profil de tension plat, échange de réactif nul</td><td>—</td></tr>
+<tr><td>&lt; SIL (ou ligne à vide)</td><td>la ligne produit du réactif : <b>élévation</b> de la tension en bout</td><td>réactances shunt (inductances)</td></tr>
+<tr><td>&gt; SIL</td><td>la ligne consomme du réactif : <b>creux</b> de tension important</td><td>condensateurs shunt, compensateurs statiques, condensateurs série</td></tr>
+</table>
+<div class="fig" id="fig-sil"><svg viewBox="0 0 520 212" width="520" role="img" aria-label="Profil de tension d'une ligne" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" font-family="inherit"><path d="M70 175 L480 175"/><polygon points="480,175 475,172.25 475,177.75" fill="currentColor" stroke="none"/><path d="M70 175 L70 45"/><polygon points="70,45 67.25,50 72.75,50" fill="currentColor" stroke="none"/><text x="474" y="199" text-anchor="end" font-size="12" fill="currentColor" stroke="none">distance le long de la ligne</text><text x="60" y="51" text-anchor="end" font-size="13" fill="currentColor" stroke="none" font-style="italic">U</text><path d="M70 108 L458 108" stroke-dasharray="5 4"/><text x="464" y="112" text-anchor="start" font-size="11.5" fill="currentColor" stroke="none">U<tspan baseline-shift='sub' font-size='9'>n</tspan></text><polyline points="70,108 210,106 458,105" stroke-width="2.4"/><text x="245" y="98" text-anchor="start" font-size="11.5" fill="currentColor" stroke="none">charge = SIL</text><polyline points="70,108 210,86 458,62" stroke-dasharray="6 4"/><text x="285" y="56" text-anchor="start" font-size="11.5" fill="currentColor" stroke="none">à vide (effet Ferranti)</text><polyline points="70,108 210,134 458,156" stroke-dasharray="2 3"/><text x="285" y="170" text-anchor="start" font-size="11.5" fill="currentColor" stroke="none">charge ≫ SIL</text></svg><div class="cap">Profil de tension le long d'une ligne selon la charge. À la puissance naturelle le profil est plat ; au-dessous, la tension monte (d'où les réactances shunt) ; au-dessus, elle chute (condensateurs shunt ou série, compensateurs statiques).</div></div>
+<p><b>Effet Ferranti</b> : cas extrême de la ligne longue <b>à vide</b> (<i>I<sub>R</sub></i> = 0). Alors <u>V</u><sub>R</sub> = <u>V</u><sub>S</sub>/cosh(γℓ) :
+la tension en bout de ligne est <b>supérieure</b> à celle de l'origine (le courant capacitif, en avance, « remonte » la tension à
+travers l'inductance série). D'où le réflexe d'exploitation : on ne laisse pas une longue ligne HTB sous tension à vide sans
+réactance de compensation.</p>
+
+<h3>Performances d'une ligne</h3>
+<div class="eq">Régulation : vR % = 100·(|U<sub>R, à vide</sub>| − |U<sub>R, en charge</sub>|)/|U<sub>R, en charge</sub>| &nbsp;&nbsp;&nbsp; avec U<sub>R, à vide</sub> = U<sub>S</sub>/|A|<br>
+Pertes : <u>S</u><sub>L</sub> = <u>S</u><sub>S</sub> − <u>S</u><sub>R</sub> &nbsp;&nbsp;&nbsp; Rendement : η = P<sub>R</sub>/P<sub>S</sub></div>
+<table>
+<tr><th>Tension</th><th>Ligne aérienne</th><th>Câble</th></tr>
+<tr><td>63 et 90 kV</td><td class="num">r = 0,06 à 0,15 Ω/km ; <i>l</i>ω = 0,37 à 0,40 Ω/km ; c ≈ 10 nF/km</td><td class="num">c ≈ 50 nF/km</td></tr>
+<tr><td>225 kV</td><td class="num">r = 0,03 à 0,09 ; <i>l</i>ω = 0,28 à 0,42 ; c ≈ 10 nF/km</td><td class="num">c ≈ 180 nF/km</td></tr>
+<tr><td>400 kV</td><td class="num">r = 0,01 à 0,03 ; <i>l</i>ω = 0,30 à 0,40 ; c ≈ 10 nF/km</td><td class="num">c ≈ 200 nF/km</td></tr>
+</table>
+<p>La capacité d'un câble est 5 à 20 fois celle d'une ligne aérienne : son courant capacitif limite sa longueur utile et impose
+des compensations — c'est le point dur des liaisons souterraines et sous-marines.</p>
+
+<div class="ex"><h4>Exemple 2.5 — Ligne courte 220 kV</h4>
+<p>Ligne triphasée 220 kV de 40 km : <i>r</i> = 0,15 Ω/km, <i>l</i> = 1,3263 mH/km, capacité négligeable, 60 Hz. Elle alimente une
+charge de 381 MVA sous 220 kV. Déterminer la tension et la puissance en tête de ligne, la régulation et le rendement
+(a) à cos φ = 0,8 arrière, (b) à cos φ = 0,8 avant.</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p><b>Z</b> = 40 × (0,15 + j0,5) = 6 + j20 = 20,88∠73,3° Ω ; <i>I</i> = 381·10⁶/(√3 × 220·10³) = 1 000 A ;
+<u>V</u><sub>R</sub> = 127,0 kV (simple).</p>
+<p>(a) <u>I</u><sub>R</sub> = 1 000∠−36,87° A : <u>V</u><sub>S</sub> = <u>V</u><sub>R</sub> + <b>Z</b>·<u>I</u><sub>R</sub> = 144,4 kV∠4,93°, soit
+<span class="result">250,0 kV</span> entre phases. <i>S<sub>S</sub></i> = <span class="result">322,8 MW + j288,6 Mvar</span> ;
+pertes 18 MW (3<i>RI</i>²) ; régulation <span class="result">13,6 %</span> ; rendement <span class="result">94,4 %</span>.</p>
+<p>(b) <u>I</u><sub>R</sub> = 1 000∠+36,87° A : <u>V</u><sub>S</sub> = 121,4 kV, soit <span class="result">210,3 kV</span> entre phases —
+<b>inférieure</b> à la tension de la charge : régulation <span class="result">−4,4 %</span>. Une charge capacitive <b>élève</b> la
+tension en bout de ligne ; les pertes et le rendement, eux, ne changent pas (même courant). C'est tout le principe de la
+compensation d'énergie réactive appliqué au réseau.</p>
+</details></div>
+
+<div class="ex"><h4>Exemple 2.6 — Ligne moyenne 345 kV (modèle en π)</h4>
+<p>Ligne de 130 km, <i>r</i> = 0,036 Ω/km, <i>l</i> = 0,8 mH/km, <i>c</i> = 0,0112 µF/km, 60 Hz, débitant 270 MVA à cos φ = 0,8 AR sous
+325 kV. Calculer la tension et la puissance en tête de ligne et la régulation.</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p><b>Z</b> = 4,68 + j39,2 Ω ; <b>Y</b> = j5,489·10⁻⁴ S ; <i>A</i> = 1 + <b>ZY</b>/2 = 0,98924 + j0,00128.</p>
+<p><u>I</u><sub>R</sub> = 479,7∠−36,87° A ; <u>V</u><sub>S</sub> = <i>A</i>·<u>V</u><sub>R</sub> + <b>Z</b>·<u>I</u><sub>R</sub> →
+<span class="result">345,0 kV</span> entre phases (∠4,01°) ; <u>I</u><sub>S</sub> = 421,1∠−25,6° A ;
+<i>S<sub>S</sub></i> = <span class="result">218,9 MW + j124,2 Mvar</span>. Pertes actives : 2,85 MW pour 216 MW transportés (1,3 %).</p>
+<p>Régulation : <i>U</i><sub>R,à vide</sub> = 345,0/0,9892 = 348,8 kV → <span class="result">vR = 7,3 %</span>. Le réactif absorbé par la
+ligne (124,2 − 162 = −37,8 Mvar) est en partie compensé par ses capacités : la ligne fonctionne au-dessous de sa puissance
+naturelle. Le calcul exact par la ligne longue donne 344,9 kV : <b>l'écart du modèle en π est de 0,03 %</b> à cette longueur.</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="n2-2">
+            <h2><span class="section-icon">🔸</span>2.2 Transformateurs</h2>
+<p>Le schéma de Kapp ramène le transformateur à une impédance série <i>Z</i><sub>cc</sub> = <i>R</i><sub>cc</sub> + j<i>X</i><sub>cc</sub> et à une
+branche magnétisante (<i>R</i><sub>fe</sub> ∥ j<i>X</i><sub>m</sub>), à partir des essais en court-circuit (<i>u</i><sub>cc</sub>, <i>P</i><sub>cc</sub>) et à
+vide (<i>i</i>₀, <i>P</i>₀) :</p>
+<div class="eq">Z<sub>cc</sub> = u<sub>cc</sub>·U²/S<sub>n</sub> &nbsp;&nbsp; R<sub>cc</sub> = P<sub>cc</sub>·U²/S<sub>n</sub>² &nbsp;&nbsp; X<sub>cc</sub> = √(Z<sub>cc</sub>² − R<sub>cc</sub>²)
+&nbsp;&nbsp; (U = tension du côté où l'on ramène l'impédance)</div>
+<p>Le <b>couplage</b> (Dyn, YNd, Yyn…) n'intervient pas en direct mais détermine le chemin homopolaire : un enroulement en triangle
+bloque le courant homopolaire, un neutre étoile relié à la terre le laisse passer. Le Dyn11, très répandu en distribution, isole
+le réseau HTA des défauts terre BT et fournit au réseau BT un neutre à la terre.</p>
+<div class="ex"><h4>Exemple 2.1 — Transformateur de distribution</h4>
+<p>250 kVA, 30 kV / 400 V, <i>u</i><sub>cc</sub> = 4 %, <i>P</i><sub>cc</sub> = 3,25 kW. Calculer <i>Z</i><sub>cc</sub>, <i>R</i><sub>cc</sub>, <i>X</i><sub>cc</sub>
+ramenés au secondaire, le courant nominal et la chute de tension à pleine charge sous cos φ = 0,8.</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p><i>Z</i><sub>cc</sub> = 0,04 × 400²/250 000 = <span class="result">25,6 mΩ</span> ; <i>R</i><sub>cc</sub> = 3 250 × 400²/250 000² = <span class="result">8,32 mΩ</span> ;
+<i>X</i><sub>cc</sub> = <span class="result">24,21 mΩ</span>. <i>I</i><sub>n</sub> = 250 000/(√3 × 400) = 360,8 A.</p>
+<p>ΔU ≈ √3·<i>I</i>·(<i>R</i> cos φ + <i>X</i> sin φ) = √3 × 360,8 × (0,00832 × 0,8 + 0,02421 × 0,6) = <span class="result">13,2 V, soit 3,3 %</span>.</p>
+<p>Ce sont exactement les valeurs que calcule la boîte de paramètres du transformateur triphasé de NRJXpert (palette Réseau).</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="n2-3">
+            <h2><span class="section-icon">📗</span>2.3 Système per-unit</h2>
+<p>On choisit une puissance de base <i>S</i><sub>b</sub> (commune à tout le réseau, ex. 100 MVA ou 10 MVA) et une tension de base
+<i>U</i><sub>b</sub> par niveau de tension (rapport des transformateurs). Toute grandeur est divisée par sa base :</p>
+<div class="eq">Z<sub>b</sub> = U<sub>b</sub>²/S<sub>b</sub> &nbsp;&nbsp; I<sub>b</sub> = S<sub>b</sub>/(√3·U<sub>b</sub>) &nbsp;&nbsp; z<sub>pu</sub> = Z/Z<sub>b</sub> &nbsp;&nbsp;
+changement de base : z₂ = z₁·(S<sub>b2</sub>/S<sub>b1</sub>)·(U<sub>b1</sub>/U<sub>b2</sub>)²</div>
+<p>Intérêts : les transformateurs disparaissent (rapport 1 en pu), les tensions sont proches de 1 pu, les ordres de grandeur se
+comparent d'un réseau à l'autre (<i>u</i><sub>cc</sub> d'un transformateur = son impédance en pu sur sa propre base). Le serveur de
+NRJXpert travaille en pu pour le load flow (<i>S</i><sub>b</sub> = 100 MVA, <i>U</i><sub>b</sub> = tension du réseau saisie dans les
+paramètres du calcul).</p>
+<div class="calc" data-calc="pu"></div>
+
+<h3>Pourquoi deux grandeurs de base suffisent</h3>
+<p>Quatre grandeurs complexes décrivent un circuit triphasé : la tension composée <i>U</i>, le courant de ligne <i>I</i>, la puissance
+apparente <i>S</i> et l'impédance <i>Z</i>. Elles sont liées par <i>U</i> = √3<i>V</i>, <i>S</i> = 3<i>V·I</i>* et <i>V</i> = <b>Z</b>·<i>I</i> :
+seules <b>deux</b> sont indépendantes. On choisit donc <i>S<sub>b</sub></i> et <i>U<sub>b</sub></i>, et l'on en déduit le reste :</p>
+<div class="eq">I<sub>b</sub> = S<sub>b</sub>/(√3·U<sub>b</sub>) &nbsp;&nbsp; V<sub>b</sub> = U<sub>b</sub>/√3 = Z<sub>b</sub>·I<sub>b</sub> &nbsp;&nbsp; Z<sub>b</sub> = U<sub>b</sub>²/S<sub>b</sub></div>
+<p>En per-unit, les facteurs 3 et √3 disparaissent : <i>s</i> = <i>v·i</i>*, <i>v</i> = <i>z·i</i>. Les lois des circuits restent valables.</p>
+
+<h3>Le transformateur disparaît</h3>
+<p>Si l'on choisit les tensions de base dans le <b>rapport de transformation</b> (<i>U</i><sub>b2</sub> = <i>U</i><sub>b1</sub>/<i>m</i>) et la même
+puissance de base de part et d'autre, alors <i>v</i>′₂<sub>pu</sub> = <i>v</i>₂<sub>pu</sub> et <i>i</i>′₂<sub>pu</sub> = <i>i</i>₂<sub>pu</sub> :
+le transformateur se réduit à sa seule impédance de court-circuit, et le réseau entier devient un circuit <b>à un seul niveau de
+tension</b>. C'est la raison d'être du système per-unit. (NRJXpert ne représentant pas encore le rapport de transformation dans
+le calcul, les impédances doivent y être ramenées à la tension du point étudié : voir le § 2.2 et les limites du
+transformateur triphasé.)</p>
+
+<h3>Ohms, pourcentage, per-unit</h3>
+<div class="eq">%z = 100·Z·S/U² &nbsp;&nbsp;&nbsp; Z = %z·U²/(100·S) = z<sub>pu</sub>·U²/S &nbsp;&nbsp;&nbsp;
+z<sub>pu</sub> = %z/100 &nbsp;&nbsp;&nbsp; Z<sub>U2</sub> = Z<sub>U1</sub>·(U₂/U₁)²</div>
+<p>Les constructeurs donnent les impédances des machines et des transformateurs en % (ou en pu) <b>sur leur propre base</b> :
+<i>u</i><sub>cc</sub> = 6 % signifie <i>z</i> = 0,06 pu à la puissance nominale. L'étude du réseau impose de tout ramener à une base
+commune : <i>z</i><sub>nouvelle</sub> = <i>z</i><sub>ancienne</sub>·(<i>S</i><sub>b,nouv</sub>/<i>S</i><sub>b,anc</sub>)·(<i>U</i><sub>b,anc</sub>/<i>U</i><sub>b,nouv</sub>)².</p>
+
+<div class="ex"><h4>Exemple 2.7 — Trois conversions</h4>
+<p>(a) Impédance en ohms d'un transformateur 20 MVA, 33 kV, de tension de court-circuit 10 % ?
+(b) Impédance en ohms d'un alternateur 20 MVA, 11 kV, d'impédance 0,125 pu ?
+(c) Pourcentage d'impédance d'une ligne 132 kV de 12 Ω sur une base de 100 MVA ?
+(d) Reporter l'impédance d'une ligne 33 kV sur une base de tension de 6,6 kV.</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>(a) <i>Z</i> = 0,10 × 33²/20 = <span class="result">5,445 Ω</span> (côté 33 kV).</p>
+<p>(b) <i>Z</i> = 0,125 × 11²/20 = <span class="result">0,756 Ω</span>.</p>
+<p>(c) %<i>z</i> = 100 × 12 × 100/132² = <span class="result">6,89 %</span>, soit 0,0689 pu.</p>
+<p>(d) <i>Z</i><sub>6,6</sub> = <i>Z</i><sub>33</sub> × (6,6/33)² = <i>Z</i><sub>33</sub>/25 : l'impédance se divise par le carré du rapport
+de transformation, ce qui est exactement la règle du transformateur parfait.</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="n2-4">
+            <h2><span class="section-icon">📉</span>2.4 Chute de tension et pertes</h2>
+<p>Pour une ligne d'impédance <i>R</i> + j<i>X</i> transportant <i>P</i> + j<i>Q</i> sous la tension composée <i>U</i> :</p>
+<div class="eq">ΔU/U ≈ (R·P + X·Q)/U² &nbsp;&nbsp; pertes : ΔP = R·(P² + Q²)/U² = 3·R·I²</div>
+<p>Conséquences pratiques : la chute de tension dépend surtout de <i>P</i> sur les réseaux résistifs (BT, HTA à faible section) et de
+<i>Q</i> sur les réseaux inductifs (HTB) ; d'où le réglage de la tension par la puissance réactive en transport, et le rôle des
+onduleurs pilotés en distribution (niveau 5). Les pertes varient comme le carré de la puissance et l'inverse du carré de la
+tension : doubler la tension divise les pertes par 4.</p>
+<div class="ex"><h4>Exemple 2.2 — Départ HTA</h4>
+<p>Une ligne 20 kV de 10 km (<i>r</i> = 0,3 Ω/km, <i>x</i> = 0,35 Ω/km) alimente 2 MW sous cos φ = 0,9 en bout. Chute de tension et pertes ?</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p><i>R</i> = 3 Ω, <i>X</i> = 3,5 Ω, <i>Q</i> = 2 × tan(25,84°) = 0,969 Mvar. ΔU/U = (3 × 2 + 3,5 × 0,969)/20² = <span class="result">2,35 %</span> (470 V) ;
+pertes = 3 × (2² + 0,969²)/20² = 0,037 MW = <span class="result">37 kW (1,9 %)</span>.</p>
+</details></div>
+<h3>Compensation de la puissance réactive</h3>
+<p>Un compensateur shunt placé près des charges leur fournit sur place le réactif qu'elles consomment : la puissance réactive qui
+transite dans les lignes diminue, et avec elle la chute de tension (terme <i>X·Q</i>) et les pertes (terme <i>R·Q²</i>). Une batterie de
+condensateurs à <i>n</i> gradins enclenchés fournit <i>Q</i> = <i>n</i>·<i>Q</i><sub>gradin</sub>·<i>V</i>² (impédance constante :
+elle fournit moins quand la tension baisse). Des inductances shunt absorbent du réactif : elles abaissent la tension des réseaux peu
+chargés ou très capacitifs (longs câbles). En régulation automatique, un gradin est enclenché quand la tension sort de la bande morte
+par le bas et déclenché quand elle en sort par le haut ; la bande doit être plus large que la variation de tension due à un gradin,
+sinon les gradins « pompent » (palette : <b>Réseau (load flow) › Compensateur shunt à gradins</b>).</p>
+<div class="ex"><h4>Exemple 2.9 — Réseau IEEE 33 nœuds compensé (<code>exemples/compensation_ieee33.xml</code>)</h4>
+<p>Deux compensateurs à gradins sont placés aux nœuds 30 (6 × 0,2 Mvar) et 14 (4 × 0,15 Mvar), en régulation automatique (consigne
+0,95 pu, bande morte 2 %). Ouvrir l'exemple par <b>Aide › Ouvrir un exemple du tutoriel</b>, lancer le load flow (Newton-Raphson,
+<kbd>F5</kbd>), lire les gradins enclenchés dans l'info-bulle des compensateurs, puis refaire le calcul sans compensation
+(régulation « Aucune », 0 gradin enclenché).</p>
+<details class="sol"><summary>Voir les résultats</summary>
+<table>
+<tr><th></th><th>Sans compensation</th><th>Avec compensation</th></tr>
+<tr><td>Gradins enclenchés</td><td class="num">—</td><td class="num">4/6 (nœud 30), 3/4 (nœud 14)</td></tr>
+<tr><td>Réactif fourni</td><td class="num">—</td><td class="num">0,71 + 0,40 Mvar</td></tr>
+<tr><td>Tension minimale (nœud 18)</td><td class="num">0,913 pu</td><td class="num">0,936 pu</td></tr>
+<tr><td>Pertes</td><td class="num">202,7 kW</td><td class="num"><span class="result">140,7 kW (−31 %)</span></td></tr>
+<tr><td>Réactif appelé au poste source</td><td class="num">2,44 Mvar</td><td class="num">1,28 Mvar</td></tr>
+</table>
+<p>Les tensions des nœuds 30 et 14 (0,944 et 0,941 pu) sont dans la bande [0,94 ; 0,96] pu : un gradin de plus les en ferait sortir
+par le haut, un de moins par le bas.</p>
+</details></div>
+<p>Un <b>STATCOM</b> (ou un SVC) règle la tension en continu, sans gradins, selon sa caractéristique <i>V</i> = <i>V</i><sub>ref</sub> −
+pente·<i>Q</i>/<i>Q</i><sub>max</sub>. En butée, le STATCOM garde son courant maximal (<i>Q</i> = <i>Q</i><sub>max</sub>·<i>V</i>) alors
+que le SVC n'est plus qu'une susceptance (<i>Q</i> = <i>Q</i><sub>max</sub>·<i>V</i>²) : il fournit moins de réactif quand la tension
+s'effondre, ce qui fait l'avantage du STATCOM. En court-circuit, le STATCOM débite son courant limité (comme un onduleur) ; le SVC est
+négligé (palette : <b>Réseau (load flow) › Compensateur statique</b> ; non disponible en mode démonstration).</p>
+<div class="ex"><h4>Exemple 2.10 — STATCOM au nœud 30 (<code>exemples/statcom_ieee33.xml</code>)</h4>
+<p>Le compensateur à gradins du nœud 30 est remplacé par un STATCOM de +1,5 / −1 Mvar (Vref = 0,97 pu, pente 3 %). Lancer le load flow
+(Newton-Raphson), puis ramener <i>Q</i><sub>max</sub> à 0,6 Mvar.</p>
+<details class="sol"><summary>Voir les résultats</summary>
+<table>
+<tr><th></th><th>Qmax = 1,5 Mvar</th><th>Qmax = 0,6 Mvar</th></tr>
+<tr><td>État du STATCOM</td><td class="num">régulation</td><td class="num">butée capacitive</td></tr>
+<tr><td>Réactif fourni</td><td class="num">0,99 Mvar</td><td class="num">0,57 Mvar (= 0,6 × 0,941)</td></tr>
+<tr><td>Tension du nœud 30</td><td class="num">0,950 pu (= 0,97 − 0,03 × 0,99/1,5)</td><td class="num">0,941 pu</td></tr>
+<tr><td>Pertes</td><td class="num">136,1 kW</td><td class="num">144,6 kW</td></tr>
+</table>
+</details></div>
+<h3>Réglage de la tension par les prises du transformateur</h3>
+<p>Le transformateur du poste source est le moyen le plus courant de tenir la tension d'un départ. Son enroulement primaire porte des
+<b>prises</b> qui changent le nombre de spires : le rapport de transformation devient <i>a</i> = 1 + <i>n</i>·<i>p</i> (<i>n</i> = cran, <i>p</i> = pas, souvent
+1,25 %). Un cran positif met plus de spires au primaire et <b>abaisse</b> la tension secondaire ; un cran négatif la relève. Un régleur en charge change de cran
+sous tension, un cran à la fois, quand la tension régulée sort de la bande morte autour de la consigne. Dans NRJXpert, le rapport entre dans le modèle
+en π du transformateur (load flow, court-circuit, dynamique) ; la boîte de paramètres du transformateur triphasé (section « Prises de réglage (OLTC) ») propose
+« Rapport nominal », « Prise fixe » ou « Réglage automatique (tension) ». En automatique, le calcul avance d'un cran à la fois jusqu'à ce que la tension
+du côté choisi soit dans la bande ; il signale les butées et le pompage (bande morte plus étroite que l'effet d'un cran). Le déphasage de l'indice horaire s'y
+ajoute lorsqu'on le demande (ignoré par le balayage triphasé de distribution). Un régleur seul ne corrige que la tension de tête : il relève ou abaisse
+tout le départ du même pourcentage, sans réduire la chute de tension le long du départ (ce que font les compensateurs).</p>
+<div class="ex"><h4>Exemple 2.11 — Prise réglable en tête du départ IEEE 33 nœuds (<code>exemples/prises_ieee33.xml</code>)</h4>
+<p>Le réseau IEEE 33 nœuds (sans compensateur) est alimenté par un transformateur à prises (pas 1,25 %, ± 8 crans) qui règle automatiquement
+la tension du nœud 2 : consigne 1,03 pu, bande morte 2 %. Ouvrir l'exemple par <b>Aide › Ouvrir un exemple du tutoriel</b>, lancer le load flow
+(Newton-Raphson, <kbd>F5</kbd>) et lire le cran dans les résultats du transformateur. Pour comparer, modifier dans le fichier XML les balises
+<code>tapMode</code> et <code>tapPos</code> de la première impédance (« fixed » et −4 pour une prise fixe, ou retirer les balises de prise).</p>
+<details class="sol"><summary>Voir les résultats</summary>
+<table>
+<tr><th></th><th>Sans prise</th><th>Automatique</th><th>Prise fixe −4</th></tr>
+<tr><td>Cran</td><td class="num">—</td><td class="num">−2</td><td class="num">−4</td></tr>
+<tr><td>Tension du nœud 2</td><td class="num">0,997 pu</td><td class="num">1,023 pu</td><td class="num">1,050 pu</td></tr>
+<tr><td>Tension minimale (nœud 18)</td><td class="num">0,913 pu</td><td class="num">0,941 pu</td><td class="num">0,971 pu</td></tr>
+<tr><td>Pertes</td><td class="num">202,7 kW</td><td class="num">191,2 kW</td><td class="num">180,2 kW</td></tr>
+</table>
+<p>Le régleur relève toute la tension du départ d'environ 2,5 % par deux crans ; les pertes diminuent parce que, à puissance constante, le courant baisse
+quand la tension monte. En automatique, la prise s'arrête au cran −2 : le nœud 2 est alors à 1,023 pu, dans la bande [1,02 ; 1,04] pu, et le nœud 18 reste
+juste au-dessus de 0,94 pu. Avec la prise fixe −4, le nœud 2 est à 1,050 pu : le départ n'est plus sous-tendu à son extrémité, mais la tête de départ dépasse
+la limite habituelle de 1,05 pu dès que la charge baisse. D'où l'intérêt d'un réglage automatique, éventuellement complété par une compensation (exemples 2.9
+et 6.4).</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="n2-5">
+            <h2><span class="section-icon">🔀</span>2.5 Load flow : formulation</h2>
+<p>Le load flow (répartition des charges) calcule l'état permanent d'un réseau connaissant les <b>puissances</b> produites et
+consommées. Comme on impose des puissances et non des impédances, les équations sont <b>non linéaires</b>.</p>
+<h3>Types de nœuds (bus)</h3>
+<table>
+<tr><th>Type</th><th>Données</th><th>Inconnues</th><th>Dans NRJXpert</th></tr>
+<tr><td>Bilan (slack, balancier)</td><td>|V|, θ = 0</td><td>P, Q</td><td>Générateur « balancier » : le poste source, qui compense les pertes</td></tr>
+<tr><td>Production (PV)</td><td>P, |V|</td><td>Q, θ</td><td>Générateur à tension régulée</td></tr>
+<tr><td>Consommation (PQ)</td><td>P, Q</td><td>|V|, θ</td><td>Bus de charge</td></tr>
+</table>
+<h3>Matrice des admittances et équations</h3>
+<p><b>Y</b><sub>bus</sub> se construit élément par élément : pour une branche d'admittance <i>y<sub>ik</sub></i> entre <i>i</i> et <i>k</i>,
+on ajoute <i>y<sub>ik</sub></i> à <i>Y<sub>ii</sub></i> et <i>Y<sub>kk</sub></i> et on retranche <i>y<sub>ik</sub></i> à <i>Y<sub>ik</sub></i> et <i>Y<sub>ki</sub></i> ; les
+admittances vers la terre (<i>C</i>/2 des lignes) s'ajoutent à la diagonale. Au nœud <i>i</i> :</p>
+<div class="eq">S<sub>i</sub>* = P<sub>i</sub> − jQ<sub>i</sub> = V<sub>i</sub>*·Σ<sub>k</sub> Y<sub>ik</sub>V<sub>k</sub><br>
+P<sub>i</sub> = Σ<sub>k</sub> |V<sub>i</sub>||V<sub>k</sub>||Y<sub>ik</sub>| cos(θ<sub>ik</sub> − δ<sub>i</sub> + δ<sub>k</sub>) &nbsp;&nbsp;
+Q<sub>i</sub> = −Σ<sub>k</sub> |V<sub>i</sub>||V<sub>k</sub>||Y<sub>ik</sub>| sin(θ<sub>ik</sub> − δ<sub>i</sub> + δ<sub>k</sub>)</div>
+
+<h3>La méthode nodale appliquée aux réseaux d'énergie</h3>
+<p>La matrice <b>Y</b><sub>bus</sub> n'est rien d'autre que la matrice des conductances du § <a href="niveau1.html#n1-m">1.2</a>,
+écrite en complexes et avec la <b>terre comme nœud de référence</b> :</p>
+<div class="eq"><b>I</b><sub>bus</sub> = <b>Y</b><sub>bus</sub>·<b>V</b><sub>bus</sub> &nbsp;&nbsp;⇔&nbsp;&nbsp; <b>V</b><sub>bus</sub> = <b>Z</b><sub>bus</sub>·<b>I</b><sub>bus</sub>
+&nbsp;&nbsp;&nbsp; Y<sub>ii</sub> = Σ<sub>j≠i</sub> y<sub>ij</sub> + y<sub>i0</sub> &nbsp;&nbsp; Y<sub>ij</sub> = Y<sub>ji</sub> = −y<sub>ij</sub></div>
+<p>Elle est <b>creuse</b> (un nœud n'est relié qu'à quelques voisins) et symétrique : c'est ce qui rend calculables des réseaux de
+plusieurs milliers de nœuds. <b>Z</b><sub>bus</sub> = <b>Y</b><sub>bus</sub><sup>−1</sup>, elle, est pleine ; sa diagonale donne directement les
+impédances de Thévenin vues de chaque nœud — celles qui servent au calcul de court-circuit (§ 2.7).</p>
+<p>Si les puissances étaient remplacées par des impédances, le problème redeviendrait <b>linéaire</b> et se résoudrait d'un coup
+(c'est le calcul « réseau linéaire » de NRJXpert). C'est l'imposition des puissances qui oblige à itérer.</p>
+
+<h3>Transits et pertes des lignes</h3>
+<p>Une fois les tensions connues, on remonte aux courants et aux puissances de chaque extrémité de ligne :</p>
+<div class="eq"><u>I</u><sub>ij</sub> = y<sub>ij</sub>(<u>V</u><sub>i</sub> − <u>V</u><sub>j</sub>) + y<sub>i0</sub><u>V</u><sub>i</sub> &nbsp;&nbsp;&nbsp;
+<u>S</u><sub>ij</sub> = <u>V</u><sub>i</sub>·<u>I</u><sub>ij</sub>* &nbsp;&nbsp;&nbsp; <u>S</u><sub>ji</sub> = <u>V</u><sub>j</sub>·<u>I</u><sub>ji</sub>* &nbsp;&nbsp;&nbsp;
+<u>S</u><sub>L,ij</sub> = <u>S</u><sub>ij</sub> + <u>S</u><sub>ji</sub></div>
+<p>La somme <u>S</u><sub>ij</sub> + <u>S</u><sub>ji</sub> n'est pas nulle : c'est la perte de la branche (positive en actif, et de signe
+quelconque en réactif selon que la ligne consomme ou produit du réactif). Le bilan global
+Σ<i>P</i><sub>gén</sub> = Σ<i>P</i><sub>charges</sub> + Σ<i>P</i><sub>pertes</sub> est le premier contrôle d'un load flow — c'est la version
+« réseau » du bilan de puissances du § 1.1.</p>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="n2-6">
+            <h2><span class="section-icon">📘</span>2.6 Méthodes de résolution</h2>
+<h3>Gauss-Seidel</h3>
+<div class="eq">V<sub>i</sub><sup>(n+1)</sup> = [ (P<sub>i</sub> − jQ<sub>i</sub>)/V<sub>i</sub><sup>(n)*</sup> − Σ<sub>k≠i</sub> Y<sub>ik</sub>V<sub>k</sub> ] / Y<sub>ii</sub></div>
+<p>On utilise pour chaque nœud les tensions les plus récentes. Nœud PV : on calcule d'abord <i>Q<sub>i</sub></i> avec les tensions
+courantes, puis on remet |<i>V<sub>i</sub></i>| à sa consigne après la mise à jour. Simple, mais convergence lente (dizaines
+d'itérations) ; un facteur d'accélération (1,4 à 1,6) aide.</p>
+<div class="ex"><h4>Exemple 2.3 — Une itération à la main</h4>
+<p>Réseau à 2 nœuds en pu : nœud 1 balancier <i>V</i>₁ = 1∠0° ; ligne <i>z</i> = 0,02 + j0,06 ; nœud 2 charge 0,8 + j0,4 pu. Partir de
+<i>V</i>₂ = 1∠0° et faire les itérations jusqu'à 10⁻⁴.</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p><i>y</i> = 1/<i>z</i> = 5 − j15 ; <i>Y</i>₂₂ = 5 − j15, <i>Y</i>₂₁ = −5 + j15. <i>S</i>₂ = −0,8 − j0,4 (charge = injection négative).</p>
+<p><i>V</i>₂<sup>(1)</sup> = [(−0,8 + j0,4)/1 + (5 − j15)·1]/(5 − j15) = 1 + (−0,8 + j0,4)/(5 − j15) = 1 − 0,04 − j0,04 = 0,96 − j0,04 →
+<span class="result">0,9608∠−2,39°</span>.</p>
+<p>Suite : 0,9575∠−2,39° ; 0,95736∠−2,395° ; 0,95735∠−2,395° (écart &lt; 10⁻⁴ à la 4ᵉ itération). La tension finale est
+<span class="result">0,9573 pu ∠−2,39°</span>.</p>
+</details></div>
+<h3>Newton-Raphson</h3>
+<p>On linéarise les équations de puissance autour de l'état courant et l'on résout pour les corrections :</p>
+<div class="eq">[ ΔP ; ΔQ ] = [ ∂P/∂δ &nbsp; ∂P/∂|V| ; ∂Q/∂δ &nbsp; ∂Q/∂|V| ] · [ Δδ ; Δ|V| ] &nbsp;&nbsp; (jacobien J, recalculé à chaque itération)</div>
+<p>Convergence <b>quadratique</b> : 3 à 6 itérations quel que soit la taille du réseau, mais chaque itération coûte une factorisation
+du jacobien. C'est la méthode de référence.</p>
+<h3>Découplé rapide (Stott)</h3>
+<p>Hypothèses : R ≪ X, angles faibles, |V| ≈ 1. Alors ∂P/∂|V| ≈ 0 et ∂Q/∂δ ≈ 0, et les sous-matrices deviennent constantes (B' et B'') :
+on les factorise une seule fois. Très rapide sur les réseaux de transport, mais lent ou divergent quand R/X est grand
+(réseaux de distribution) : voir le TP ci-dessous et le load flow de distribution du niveau 5.</p>
+
+<div class="lab"><h4>Travail pratique 3 — Load flow d'un réseau 30 kV à trois nœuds</h4>
+<p>Données (<i>U</i><sub>n</sub> = 30 kV, lignes en almélec, <i>r</i> = 0,27 Ω/km, <i>x</i> = 0,38 Ω/km) :</p>
+<table>
+<tr><th>Élément</th><th>Données</th></tr>
+<tr><td>P1 — poste source (balancier)</td><td>V = 31,5 kV, phase 0</td></tr>
+<tr><td>G2 — centrale (bus PV)</td><td>Pgen = 3 MW, V = 31,4 kV</td></tr>
+<tr><td>Ch3 — charge (bus PQ)</td><td>Pload = 5 MW, Qload = 2,5 Mvar</td></tr>
+<tr><td>Lignes</td><td>L12 = 15 km (4,05 + j5,70 Ω), L13 = 20 km (5,40 + j7,60 Ω), L23 = 10 km (2,70 + j3,80 Ω)</td></tr>
+</table>
+<ol class="steps">
+<li><div class="step-content"><b>Paramètres du calcul</b> : tension du réseau 30 kV, fréquence 50 Hz.</div></li>
+<li><div class="step-content">Palette <b>Réseau (load flow)</b>, variante unifilaire : placer deux générateurs et un bus de charge ; régler P1 en balancier, G2 en
+bus PV, Ch3 en charge PQ avec les valeurs ci-dessus (tensions en kV, puissances en MW et Mvar).</div></li>
+<li><div class="step-content">Relier les trois nœuds par trois <b>impédances</b> (rubrique Éléments passifs) de valeurs R + jX ci-dessus, ou par trois lignes RL de la
+palette (longueur et caractéristiques linéiques ; <i>l</i> = 0,38/314,16 = 1,21 mH/km).</div></li>
+<li><div class="step-content">Calcul <b>Load flow</b>, méthode <b>Newton-Raphson</b>, <kbd>F5</kbd>.</div></li>
+<li><div class="step-content">Comparer aux résultats ci-dessous (on peut aussi ouvrir <code>exemples/loadflow_30kV_3noeuds.xml</code> par <b>Aide › Ouvrir un
+exemple du tutoriel</b> : la fenêtre « Calculer un fichier réseau (XML) » envoie ce réseau au serveur) :</div></li>
+</ol>
+<table>
+<tr><th>Nœud</th><th>V (kV)</th><th>Angle</th><th>Pgen (MW)</th><th>Qgen (Mvar)</th></tr>
+<tr><td>P1</td><td class="num">31,500</td><td class="num">0°</td><td class="num">2,060</td><td class="num">1,429</td></tr>
+<tr><td>G2</td><td class="num">31,400</td><td class="num">+0,006°</td><td class="num">3,000</td><td class="num">1,156</td></tr>
+<tr><td>Ch3</td><td class="num">30,937</td><td class="num">−0,476°</td><td class="num">—</td><td class="num">—</td></tr>
+</table>
+<p>Courants : L12 = 8,3 A, L13 = 38,4 A, L23 = 66,0 A ; courant de la charge 104,3 A. Pertes = 2,060 + 3,000 − 5,000 =
+<b>60 kW</b> (vérifier : Σ 3·<i>R·I</i>² = 0,8 + 23,9 + 35,3 kW).</p>
+<p><b>À faire</b> : relancer avec Gauss-Seidel (20 itérations) puis Découplé rapide (35 itérations) contre 3 pour Newton-Raphson. Pourquoi
+le découplé rapide est-il le plus lent ici ? (R/X = 0,71 : l'hypothèse R ≪ X n'est pas vérifiée.) Porter la consigne de G2 à
+30,5 kV : G2 absorbe alors 6 Mvar. Conclusion : en réseau maillé, de faibles écarts de consigne de tension provoquent de forts
+transits de réactif.</p>
+</div>
+
+<h3>Les termes du jacobien</h3>
+<p>En écrivant <u>I</u><sub>i</sub> = Σ<sub>j</sub>|<i>Y<sub>ij</sub></i>||<u>V</u><sub>j</sub>|∠(θ<sub>ij</sub> + δ<sub>j</sub>), on obtient les quatre
+sous-matrices du jacobien (termes hors diagonale, <i>i</i> ≠ <i>j</i>, et termes diagonaux) :</p>
+<div class="eq">∂P<sub>i</sub>/∂δ<sub>j</sub> = −|V<sub>i</sub>||V<sub>j</sub>||Y<sub>ij</sub>|·sin(θ<sub>ij</sub> − δ<sub>i</sub> + δ<sub>j</sub>) &nbsp;&nbsp;&nbsp;
+∂P<sub>i</sub>/∂|V<sub>j</sub>| = |V<sub>i</sub>||Y<sub>ij</sub>|·cos(θ<sub>ij</sub> − δ<sub>i</sub> + δ<sub>j</sub>)<br>
+∂Q<sub>i</sub>/∂δ<sub>j</sub> = −|V<sub>i</sub>||V<sub>j</sub>||Y<sub>ij</sub>|·cos(θ<sub>ij</sub> − δ<sub>i</sub> + δ<sub>j</sub>) &nbsp;&nbsp;&nbsp;
+∂Q<sub>i</sub>/∂|V<sub>j</sub>| = −|V<sub>i</sub>||Y<sub>ij</sub>|·sin(θ<sub>ij</sub> − δ<sub>i</sub> + δ<sub>j</sub>)<br>
+∂P<sub>i</sub>/∂|V<sub>i</sub>| = 2|V<sub>i</sub>||Y<sub>ii</sub>|cos θ<sub>ii</sub> + Σ<sub>j≠i</sub>|V<sub>j</sub>||Y<sub>ij</sub>|cos(θ<sub>ij</sub> − δ<sub>i</sub> + δ<sub>j</sub>) &nbsp;&nbsp;&nbsp;
+∂Q<sub>i</sub>/∂|V<sub>i</sub>| = −2|V<sub>i</sub>||Y<sub>ii</sub>|sin θ<sub>ii</sub> − Σ<sub>j≠i</sub>|V<sub>j</sub>||Y<sub>ij</sub>|sin(θ<sub>ij</sub> − δ<sub>i</sub> + δ<sub>j</sub>)</div>
+<p class="small">C'est dans ces deux dernières expressions (les diagonales) que se cachait l'erreur corrigée dans le serveur de
+NRJXpert en octobre 2026 : un indice <code>V[bs]</code> au lieu de <code>V[bus]</code> faisait passer la convergence de 5 à
+8 itérations.</p>
+<h3>Algorithme de Newton-Raphson</h3>
+<ol class="steps">
+<li><div class="step-content">Initialiser (démarrage « à plat » : |<i>V</i>| = 1 pu, δ = 0, sauf consignes).</div></li>
+<li><div class="step-content">Nœuds de charge : calculer <i>P<sub>i</sub></i>, <i>Q<sub>i</sub></i> et les résidus Δ<i>P<sub>i</sub></i> = <i>P<sub>i</sub></i><sup>consigne</sup> − <i>P<sub>i</sub></i>, Δ<i>Q<sub>i</sub></i>.</div></li>
+<li><div class="step-content">Nœuds à tension régulée (PV) : calculer <i>P<sub>i</sub></i> et Δ<i>P<sub>i</sub></i> seulement (|<i>V</i>| est imposé).</div></li>
+<li><div class="step-content">Former le jacobien et résoudre [Δ<i>P</i> ; Δ<i>Q</i>] = <b>J</b>·[Δδ ; Δ|<i>V</i>|].</div></li>
+<li><div class="step-content">Mettre à jour : δ<sub>i</sub> ← δ<sub>i</sub> + Δδ<sub>i</sub>, |<i>V<sub>i</sub></i>| ← |<i>V<sub>i</sub></i>| + Δ|<i>V<sub>i</sub></i>|.</div></li>
+<li><div class="step-content">Recommencer jusqu'à max(|Δ<i>P</i>|, |Δ<i>Q</i>|) &lt; ε (typiquement 10⁻⁶ pu).</div></li>
+</ol>
+<p>Gauss-Seidel, lui, se contente d'un facteur d'accélération appliqué aux nœuds PQ :
+<u>V</u><sub>i</sub><sup>(k+1)</sup> = <u>V</u><sub>i</sub><sup>(k)</sup> + α(<u>V</u><sub>i,calc</sub> − <u>V</u><sub>i</sub><sup>(k)</sup>) avec α = 1,3 à 1,7 :
+simple à programmer, mais son nombre d'itérations croît avec la taille du réseau, alors que celui de Newton-Raphson n'en
+dépend pratiquement pas.</p>
+<h3>La machine synchrone dans le réseau : E, Xd, X′d et X″d</h3>
+<p>Le rotor d'un alternateur, alimenté en courant continu (l'<b>excitation</b>), crée un champ tournant à la vitesse de synchronisme ; le stator voit une f.é.m. <i>E</i> proportionnelle à l'excitation. En régime établi, la machine se représente par cette source <i>E</i> placée derrière la réactance synchrone <i>X</i><sub>d</sub> :</p>
+<div class="eq"><i>E</i> = <i>V</i> + j<i>X</i><sub>d</sub>·<i>I</i> &nbsp;&nbsp; ⇒ &nbsp;&nbsp; <i>P</i> = (<i>E</i>·<i>V</i>/<i>X</i><sub>d</sub>)·sin δ , &nbsp;&nbsp; <i>Q</i> = (<i>E</i>·<i>V</i>·cos δ − <i>V</i>²)/<i>X</i><sub>d</sub></div>
+<p>La puissance active se règle par le couple de la turbine (angle interne δ), la puissance réactive par l'excitation : une machine <b>surexcitée</b> (<i>E</i> cos δ &gt; <i>V</i>) fournit du réactif et relève la tension, une machine <b>sous-excitée</b> en absorbe. C'est pourquoi un alternateur est un nœud PV du load flow : son régulateur de tension (AVR) ajuste <i>E</i> pour tenir <i>V</i>, et <i>Q</i> est un résultat du calcul.</p>
+<p>Lors d'un court-circuit, le flux du rotor ne peut pas varier instantanément : la réactance apparente de la machine passe de <b>X″<sub>d</sub></b> (subtransitoire, les 10 à 50 premières ms), à <b>X′<sub>d</sub></b> (transitoire, jusqu'à quelques secondes) puis à <b>X<sub>d</sub></b> (régime établi). Plus la réactance est faible, plus le courant est fort : de 5 à 8 fois le courant nominal au début à 1 à 2 fois en régime établi. Chaque étude utilise donc la réactance qui convient à sa durée :</p>
+<table><tr><th>Étude</th><th>Réactance</th><th>Valeurs usuelles (pu)</th></tr>
+<tr><td>Load flow (régime établi)</td><td>X<sub>d</sub> (pour la limite d'excitation)</td><td>1,2 à 2,2</td></tr>
+<tr><td>Dynamique (stabilité, PSS)</td><td>X′<sub>d</sub> et T′<sub>d0</sub> (constante de temps du flux)</td><td>0,2 à 0,4 ; 4 à 8 s</td></tr>
+<tr><td>Court-circuit CEI 60909 (I″<sub>k</sub>)</td><td>X″<sub>d</sub> (corrigée par le facteur K<sub>G</sub>)</td><td>0,12 à 0,25</td></tr></table>
+<p>Un <b>moteur synchrone</b> est la même machine avec une puissance active négative : il consomme <i>P</i>, mais peut encore fournir ou absorber du réactif selon son excitation. Sa contribution au court-circuit est celle d'un générateur.</p>
+<h3>Limites de réactif des générateurs</h3>
+<p>Un nœud PV n'est tenu que si le générateur peut fournir le réactif nécessaire. Le diagramme P-Q (courbe de capacité) d'un alternateur
+est borné par le courant statorique (<i>p</i>² + <i>q</i>² ≤ <i>v</i>²), le courant d'excitation (<i>p</i>² + (<i>q</i> + <i>v</i>²/<i>X</i><sub>d</sub>)² ≤
+(<i>v</i>·<i>E</i><sub>fd max</sub>/<i>X</i><sub>d</sub>)², échauffement du rotor), la limite de sous-excitation (stabilité, réactif absorbé)
+et la puissance de la turbine. Quand le réactif demandé dépasse une limite, le load flow fixe <i>Q</i> à cette limite : le nœud devient
+PQ et sa tension n'est plus tenue ; il redevient PV si la tension repasse du bon côté de la consigne (bouton <b>Capacité, AVR, PSS…</b>
+de la boîte du générateur).</p>
+<div class="fig" id="fig-capacite"><svg viewBox="0 0 560 262" width="560" role="img" aria-label="Courbe de capacité P-Q d'un alternateur" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" font-family="inherit"><path d="M375 210L374.988 207.75L374.951 205.5L374.891 203.25L374.806 201L374.696 198.75L374.562 196.5L374.404 194.25L374.221 192L374.014 189.75L373.781 187.5L373.525 185.25L373.243 183L372.936 180.75L372.605 178.5L372.248 176.25L371.866 174L371.459 171.75L371.025 169.5L370.567 167.25L370.082 165L369.571 162.75L369.034 160.5L368.47 158.25L367.88 156L367.263 153.75L366.618 151.5L365.946 149.25L365.246 147L364.518 144.75L363.762 142.5L362.977 140.25L362.163 138L361.319 135.75L360.446 133.5L359.543 131.25L358.609 129L357.644 126.75L356.647 124.5L355.618 122.25L354.557 120L353.463 117.75L352.334 115.5L351.172 113.25L349.975 111L348.741 108.75L347.472 106.5L346.165 104.25L344.82 102L343.437 99.75L342.014 97.5L340.549 95.25L339.044 93L337.495 90.75L335.902 88.5L334.264 86.25L331.388 84L327.794 81.75L323.958 79.5L319.839 77.25L315.383 75L184.617 75L183.43 77.25L183.16 79.5L182.89 81.75L182.62 84L182.35 86.25L182.08 88.5L181.81 90.75L181.54 93L181.27 95.25L181 97.5L180.73 99.75L180.46 102L180.19 104.25L179.92 106.5L179.65 108.75L179.38 111L179.11 113.25L178.84 115.5L178.57 117.75L178.3 120L178.03 122.25L177.76 124.5L177.49 126.75L177.22 129L176.95 131.25L176.68 133.5L176.41 135.75L176.14 138L175.87 140.25L175.6 142.5L175.33 144.75L175.06 147L174.79 149.25L174.52 151.5L174.25 153.75L173.98 156L173.71 158.25L173.44 160.5L173.17 162.75L172.9 165L172.63 167.25L172.36 169.5L172.09 171.75L171.82 174L171.55 176.25L171.28 178.5L171.01 180.75L170.74 183L170.47 185.25L170.2 187.5L169.93 189.75L169.66 192L169.39 194.25L169.12 196.5L168.85 198.75L168.58 201L168.31 203.25L168.04 205.5L167.77 207.75L167.5 210Z" fill="currentColor" fill-opacity=".08" stroke-width="2.4"/><path d="M100 210H415 M250 216V40"/><text x="419" y="214" text-anchor="start" font-size="12" fill="currentColor" stroke="none">Q</text><text x="258" y="38" text-anchor="start" font-size="12" fill="currentColor" stroke="none">P</text><text x="400" y="228" text-anchor="middle" font-size="10.5" fill="currentColor" stroke="none">1</text><text x="100" y="228" text-anchor="middle" font-size="10.5" fill="currentColor" stroke="none">−1</text><text x="250" y="228" text-anchor="middle" font-size="10.5" fill="currentColor" stroke="none">0</text><path d="M175 75H317.5" stroke-dasharray="4 3"/><text x="172" y="79" text-anchor="end" font-size="11" fill="currentColor" stroke="none">Pmax (turbine)</text><circle cx="336.969" cy="90" r="4" fill="currentColor"/><text x="350.969" y="92" text-anchor="start" font-size="11" fill="currentColor" stroke="none">point d'exemple 2.14 : l'excitation limite</text><text x="379" y="177" text-anchor="start" font-size="11" fill="currentColor" stroke="none">limite d'excitation (rotor)</text><text x="290" y="52.5" text-anchor="start" font-size="11" fill="currentColor" stroke="none">limite statorique (échauffement du stator) : p² + q² ≤ v²</text><text x="163.5" y="165" text-anchor="end" font-size="11" fill="currentColor" stroke="none">sous-excitation (stabilité)</text><text x="332.5" y="248" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">surexcité : fournit du réactif</text><text x="167.5" y="248" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">sous-excité : absorbe du réactif</text></svg><div class="cap">Domaine de fonctionnement d'un alternateur (v = 1 pu ; Xd = 1,8 ; Efd max = 2,5). En régime surexcité, c'est d'abord la limite d'excitation (rotor) qui borne le réactif aux faibles puissances, puis la limite statorique ; en sous-excité, la limite de stabilité. Un générateur qui atteint la limite devient un bus PQ : il ne tient plus sa tension et le load flow le signale.</div></div>
+<div class="ex"><h4>Exemple 2.14 — Générateur d'usine en butée de réactif (<code>exemples/capacite_generateur.xml</code>)</h4>
+<p>Un réseau 20 kV alimente, par une ligne de 0,5 + j4 Ω, une usine de 10 MW + 8 Mvar qui possède un alternateur de 10 MVA
+(<i>X</i><sub>d</sub> = 1,8 pu, <i>E</i><sub>fd max</sub> = 2,5 pu, sous-excitation 0,4 pu) produisant 8 MW sous une consigne de 20,4 kV
+(1,02 pu). Calculer le load flow avec la courbe de capacité, puis sans limite, puis avec une usine de 10 MW + 4 Mvar.</p>
+<details class="sol"><summary>Voir la solution</summary>
+<table>
+<tr><th></th><th>Sans limite</th><th>Courbe, usine 8 Mvar</th><th>Courbe, usine 4 Mvar</th></tr>
+<tr><td>Réactif du générateur</td><td class="num">10,32 Mvar</td><td class="num">5,52 Mvar</td><td class="num">5,89 Mvar</td></tr>
+<tr><td>Tension du nœud</td><td class="num">1,020 pu</td><td class="num">0,972 pu</td><td class="num">1,016 pu</td></tr>
+<tr><td>Limite atteinte</td><td class="num">— (S = 13 MVA &gt; Sn)</td><td class="num">courant statorique</td><td class="num">excitation (E = 2,50 pu)</td></tr>
+</table>
+<p>Sans limite, le calcul fait fournir 10,3 Mvar au générateur : 13 MVA pour une machine de 10 MVA. Sous 0,972 pu et 8 MW, le courant
+nominal autorise √(0,972² − 0,8²) × 10 = 5,52 Mvar. Avec moins de réactif à fournir, la tension remonte, la limite statorique
+s'élargit et c'est l'excitation maximale qui borne le réactif.</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="n2-7">
+            <h2><span class="section-icon">⚡</span>2.7 Court-circuit selon la CEI 60909-0</h2>
+<h3>Principe : source de tension équivalente</h3>
+<p>On remplace toutes les sources par une source unique <i>c·U</i><sub>n</sub>/√3 placée au point de défaut ; les charges sont négligées
+(sauf les moteurs) et le réseau est réduit à l'impédance vue du défaut. Le facteur de tension <i>c</i> couvre les variations de
+tension et les approximations :</p>
+<table>
+<tr><th>Tension nominale</th><th>c<sub>max</sub> (pouvoir de coupure, tenue)</th><th>c<sub>min</sub> (réglage des protections)</th></tr>
+<tr><td>U<sub>n</sub> ≤ 1 kV, tolérance +6 %</td><td class="num">1,05</td><td class="num">0,95</td></tr>
+<tr><td>U<sub>n</sub> ≤ 1 kV, tolérance +10 %</td><td class="num">1,10</td><td class="num">0,95</td></tr>
+<tr><td>U<sub>n</sub> &gt; 1 kV</td><td class="num">1,10</td><td class="num">1,00</td></tr>
+</table>
+<h3>Composantes symétriques</h3>
+<p>Un système triphasé déséquilibré se décompose (Fortescue) en trois systèmes équilibrés : direct (1), inverse (2) et homopolaire (0),
+avec <i>a</i> = e<sup>j2π/3</sup> :</p>
+<div class="eq">[V<sub>a</sub> ; V<sub>b</sub> ; V<sub>c</sub>] = [1 1 1 ; 1 a² a ; 1 a a²]·[V₀ ; V₁ ; V₂]</div>
+<p>Chaque élément a trois impédances <i>Z</i>₁, <i>Z</i>₂, <i>Z</i>₀ (éléments statiques : <i>Z</i>₂ = <i>Z</i>₁) ; on calcule l'impédance vue du
+défaut dans chacun des trois réseaux, puis on les associe selon le type de défaut :</p>
+<table>
+<tr><th>Défaut</th><th>Courant initial symétrique I"k</th><th>Association des réseaux</th></tr>
+<tr><td>Triphasé</td><td>c·U<sub>n</sub> / (√3·|Z₁|)</td><td>direct seul</td></tr>
+<tr><td>Biphasé isolé</td><td>c·U<sub>n</sub> / |Z₁ + Z₂|</td><td>direct et inverse en opposition</td></tr>
+<tr><td>Biphasé-terre</td><td>courant de terre I"<sub>kE2E</sub> = √3·c·U<sub>n</sub>·|Z₂| / |Z₁Z₂ + Z₁Z₀ + Z₂Z₀|</td><td>inverse ∥ homopolaire</td></tr>
+<tr><td>Monophasé-terre</td><td>√3·c·U<sub>n</sub> / |Z₁ + Z₂ + Z₀|</td><td>les trois en série</td></tr>
+</table>
+<p>Courant de crête : <i>i</i><sub>p</sub> = κ·√2·I"<sub>k</sub> avec κ = 1,02 + 0,98·e<sup>−3R/X</sup>. Défaut éloigné des alternateurs :
+courant coupé <i>I</i><sub>b</sub> et courant permanent <i>I</i><sub>k</sub> égaux à I"<sub>k</sub>. Puissance de court-circuit :
+S"<sub>k</sub> = √3·U<sub>n</sub>·I"<sub>k</sub>.</p>
+<div class="calc" data-calc="icc3"></div>
+
+<div class="ex"><h4>Exemple 2.4 — Défauts en bout d'un départ 20 kV</h4>
+<p>Le réseau amont est représenté au poste par <i>Z</i>₁ = <i>Z</i>₂ = 0,1 + j2 Ω et <i>Z</i>₀ = 0,05 + j1 Ω (neutre à la terre). Une ligne de
+10 km a <i>r</i> = 0,3, <i>x</i> = 0,35, <i>r</i>₀ = 0,45, <i>x</i>₀ = 1,2 Ω/km. Calculer I"k en bout de ligne pour les quatre types de défaut
+(Icc max).</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p><i>Z</i>₁ = <i>Z</i>₂ = 0,1 + 3 + j(2 + 3,5) = 3,1 + j5,5 Ω (|<i>Z</i>₁| = 6,314 Ω) ; <i>Z</i>₀ = 0,05 + 4,5 + j(1 + 12) = 4,55 + j13 Ω ; <i>c</i> = 1,1.</p>
+<table>
+<tr><th>Défaut</th><th>Calcul</th><th>I"k</th></tr>
+<tr><td>Triphasé</td><td>1,1 × 20 000/(√3 × 6,314)</td><td class="num result">2 012 A</td></tr>
+<tr><td>Biphasé isolé</td><td>22 000/|6,2 + j11|</td><td class="num result">1 742 A</td></tr>
+<tr><td>Biphasé-terre</td><td>plus grand courant de phase</td><td class="num result">1 907 A</td></tr>
+<tr><td>Monophasé</td><td>√3 × 22 000/|10,75 + j24|</td><td class="num result">1 449 A</td></tr>
+</table>
+<p>κ = 1,02 + 0,98·e<sup>−3 × 0,5636</sup> = 1,201 ; <i>i</i><sub>p</sub> = 1,201 × √2 × 2 012 = <span class="result">3,42 kA</span> ;
+S"<sub>k</sub> = 69,7 MVA. Remarque : le défaut monophasé est ici le plus faible car <i>Z</i>₀ &gt; <i>Z</i>₁ ; près d'un transformateur
+Dyn à neutre à la terre, c'est souvent l'inverse.</p>
+</details></div>
+
+<div class="lab"><h4>Travail pratique 4 — Court-circuit dans NRJXpert</h4>
+<ol class="steps">
+<li><div class="step-content"><b>Paramètres du calcul</b> : tension du réseau 20 kV.</div></li>
+<li><div class="step-content">Placer un <b>générateur</b> (variante unifilaire) ; colonne Court-circuit : Rd = 0,1, Xd = 2 Ω, Ri = Xi = 0 (Z₂ = Z₁), neutre à la terre,
+R0 = 0,05, X0 = 1 Ω.</div></li>
+<li><div class="step-content">Placer une <b>ligne RL</b> (palette Réseau) : 10 km, r = 300 mΩ/km, l = 1,114 mH/km (0,35 Ω/km à 50 Hz) ; rubrique Homopolaire :
+r0 = 0,45, x0 = 1,2 Ω/km. Placer un bus de charge en bout (il est négligé dans le calcul) et relier.</div></li>
+<li><div class="step-content">Double-clic sur la borne en bout de ligne : <b>Défaut</b> triphasé, courant maximal, Un = 20 kV. Choisir le calcul
+<b>Court-circuit</b> et lancer.</div></li>
+<li><div class="step-content">Lire le résumé (I"k, ip, κ, S"k, Z1, Z2, Z0, I"k des quatre types) et comparer à l'exemple 2.4. Refaire avec un défaut monophasé :
+courant de terre 1 449 A (fichier <code>exemples/courtcircuit_20kV_monophase.xml</code>).</div></li>
+<li><div class="step-content">Clic droit sur la ligne › <b>Court-circuit à cet endroit…</b> : tracer I"k en fonction de la distance (0, 2, 4, …, 10 km). Pourquoi la
+courbe n'est-elle pas en 1/<i>d</i> ?</div></li>
+</ol>
+</div>
+<h3>Lignes parallèles : couplage mutuel homopolaire</h3>
+<p>Deux ternes portés par le même pylône (ou deux câbles dans la même tranchée) sont couplés magnétiquement. En direct et en inverse, les
+trois phases se compensent et le couplage est négligeable ; en homopolaire, les trois courants sont en phase et retournent par la terre :
+l'impédance mutuelle <i>Z</i><sub>0m</sub> atteint 40 à 70 % de <i>Z</i>₀. Pour deux lignes parallèles entre les mêmes nœuds, d'impédances
+homopolaires <i>Z</i><sub>A</sub> et <i>Z</i><sub>B</sub> :</p>
+<div class="eq">Z<sub>0,éq</sub> = (Z<sub>A</sub>·Z<sub>B</sub> − Z<sub>0m</sub>²) / (Z<sub>A</sub> + Z<sub>B</sub> − 2·Z<sub>0m</sub>) &nbsp;&nbsp; = (Z<sub>0</sub> + Z<sub>0m</sub>)/2 pour deux lignes identiques</div>
+<p>Le couplage augmente donc <i>Z</i>₀ vu d'un défaut à la terre et diminue son courant ; il induit aussi un courant homopolaire dans la
+ligne saine, ce qui fausse la mesure des protections de distance (facteur de compensation de terre). Dans NRJXpert : rubrique
+« Couplage homopolaire avec une ligne parallèle » de la ligne (ligne couplée, <i>r</i><sub>0m</sub>, <i>x</i><sub>0m</sub> en Ω/km, sens),
+prise en compte dans le réseau homopolaire du calcul de court-circuit.</p>
+<div class="fig" id="fig-mutuelle"><svg viewBox="0 0 560 190" width="560" role="img" aria-label="Deux lignes parallèles couplées en homopolaire" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" font-family="inherit"><path d="M40 30V150M520 30V150" stroke-width="3"/><path d="M40 55 H215M305 55 H520"/><rect x="215" y="43" width="90" height="24" rx="5"/><text x="260" y="59.2" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">Z0</text><text x="500" y="47" text-anchor="end" font-size="11.5" fill="currentColor" stroke="none">Ligne A</text><path d="M90 47L150 47"/><path d="M143.553 49.7259L150 47L143.553 44.2741" fill="currentColor"/><text x="120" y="41" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">I0</text><path d="M40 125 H215M305 125 H520"/><rect x="215" y="113" width="90" height="24" rx="5"/><text x="260" y="129.2" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">Z0</text><text x="500" y="117" text-anchor="end" font-size="11.5" fill="currentColor" stroke="none">Ligne B</text><path d="M90 117L150 117"/><path d="M143.553 119.726L150 117L143.553 114.274" fill="currentColor"/><text x="120" y="111" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">I0</text><path d="M240 67V113" stroke-dasharray="3 3"/><path d="M280 67V113" stroke-dasharray="3 3"/><path d="M260 80L260 100" stroke-dasharray="5 4"/><path d="M257.274 93.5526L260 100L262.726 93.5526" fill="currentColor"/><path d="M260 100L260 80" stroke-dasharray="5 4"/><path d="M262.726 86.4474L260 80L257.274 86.4474" fill="currentColor"/><text x="298" y="94" text-anchor="start" font-size="12" fill="currentColor" stroke="none">Z0m</text><text x="280" y="170" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">Z0,éq = (Z0 + Z0m)/2 pour deux lignes identiques</text><text x="280" y="20" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">Courants homopolaires de même sens : le flux de chaque ligne s'ajoute à celui de l'autre</text></svg><div class="cap">Réseau homopolaire de deux lignes parallèles. Les trois courants homopolaires sont en phase et reviennent par la terre : les flux des deux lignes s'ajoutent. Chaque ligne voit donc Z0 + Z0m (et non Z0) : l'impédance vue du défaut augmente, le courant de défaut à la terre diminue. En direct et en inverse, les trois phases se compensent : pas de couplage.</div></div>
+<div class="ex"><h4>Exemple 2.12 — Double ligne 20 kV (<code>exemples/courtcircuit_lignes_paralleles.xml</code>)</h4>
+<p>Le réseau amont de l'exemple 2.4 alimente deux lignes identiques de 10 km en parallèle (<i>Z</i>₁ = 3 + j3,5 Ω, <i>Z</i>₀ = 4,5 + j12 Ω
+chacune), couplées par <i>z</i><sub>0m</sub> = 0,15 + j0,7 Ω/km. Calculer I"k au nœud d'arrivée pour un défaut monophasé, avec et sans
+couplage (pour le calcul sans couplage, retirer la balise <code>mutual0</code> de la ligne L1 dans le fichier, ou choisir « Aucune »
+comme ligne parallèle dans un projet).</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p><i>Z</i>₁ = 0,1 + j2 + (3 + j3,5)/2 = 1,6 + j3,75 Ω. Sans couplage : <i>Z</i>₀ = 0,05 + j1 + (4,5 + j12)/2 = 2,30 + j7,00 Ω,
+I"k1 = √3 × 22 000/|5,50 + j14,50| = <span class="result">2 457 A</span>. Avec couplage (<i>Z</i><sub>0m</sub> = 1,5 + j7 Ω) :
+<i>Z</i>₀ = 0,05 + j1 + (6 + j19)/2 = 3,05 + j10,50 Ω, I"k1 = √3 × 22 000/|6,25 + j18,00| = <span class="result">2 000 A (−19 %)</span>.
+Le défaut triphasé (3 115 A) n'est pas modifié : le couplage n'agit qu'en homopolaire.</p>
+</details></div>
+<h3>Machine asynchrone : schéma équivalent, glissement et couple</h3>
+<p>Le rotor d'une machine asynchrone n'est pas alimenté : le champ tournant du stator (vitesse <i>n</i><sub>s</sub> = 60·<i>f</i>/<i>p</i>) y induit des courants dès que le rotor tourne à une vitesse <i>n</i> différente. On définit le <b>glissement</b> <i>s</i> = (<i>n</i><sub>s</sub> − <i>n</i>)/<i>n</i><sub>s</sub> : 1 à l'arrêt, 2 à 4 % en charge nominale, négatif en génératrice (éolienne à cage). Par phase, la machine se représente par <i>R</i><sub>s</sub> + j<i>X</i><sub>s</sub> en série avec la mise en parallèle de j<i>X</i><sub>m</sub> (magnétisation) et de <i>R</i><sub>r</sub>/<i>s</i> + j<i>X</i><sub>r</sub> (rotor). La résistance <i>R</i><sub>r</sub>/<i>s</i> = <i>R</i><sub>r</sub> + <i>R</i><sub>r</sub>(1 − <i>s</i>)/<i>s</i> contient la puissance mécanique : <i>P</i><sub>méc</sub> = 3·<i>I</i>r²·<i>R</i><sub>r</sub>·(1 − <i>s</i>)/<i>s</i>.</p>
+<p>Deux conséquences fondamentales pour l'ingénieur de réseau :</p>
+<ul>
+<li><b>Au démarrage (<i>s</i> = 1)</b>, <i>R</i><sub>r</sub>/<i>s</i> est petite : la machine se comporte comme une faible impédance et absorbe <b>5 à 7 fois son courant nominal</b> sous un facteur de puissance de 0,2 à 0,3. Ce courant provoque le creux de tension de démarrage.</li>
+<li><b>Le couple varie comme le carré de la tension</b> : en négligeant la branche de magnétisation, <i>C</i> ≈ (3/ω<sub>s</sub>)·<i>V</i>²·(<i>R</i><sub>r</sub>/<i>s</i>)/[(<i>R</i><sub>s</sub> + <i>R</i><sub>r</sub>/<i>s</i>)² + (<i>X</i><sub>s</sub> + <i>X</i><sub>r</sub>)²]. À 80 % de la tension, le couple tombe à 64 %. Le glissement du couple maximal ne dépend pas de la tension ; si le couple résistant dépasse le couple maximal disponible, le moteur <b>décroche</b> : il ralentit, son courant reste élevé, ce qui creuse encore la tension.</li>
+</ul>
+<p>Enfin, une machine asynchrone consomme toujours du réactif (aimantation et fuites : 0,3 à 0,5 fois sa puissance active nominale) : au load flow, c'est une charge PQ dont NRJXpert calcule le glissement (donc <i>P</i> et <i>Q</i>) pour la tension du nœud.</p>
+<div class="fig" id="fig-asynchrone"><svg viewBox="0 0 600 230" width="600" role="img" aria-label="Schéma équivalent et caractéristique couple-vitesse d'une machine asynchrone" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" font-family="inherit"><path d="M15 70H40"/><circle cx="15" cy="70" r="3"/><text x="15" y="56" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">V</text><rect x="40" y="58" width="34" height="24" rx="5"/><text x="57" y="73.85" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">Rs</text><path d="M74 70H88"/><rect x="88" y="58" width="34" height="24" rx="5"/><text x="105" y="73.85" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">Xs</text><path d="M122 70H150"/><circle cx="150" cy="70" r="2.5" fill="currentColor"/><path d="M150 70V95"/><rect x="134" y="95" width="32" height="40" rx="5"/><text x="150" y="118.85" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">Xm</text><path d="M150 135V170"/><path d="M150 70H175"/><rect x="175" y="58" width="34" height="24" rx="5"/><text x="192" y="73.85" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">Xr</text><path d="M209 70H223"/><rect x="223" y="58" width="46" height="24" rx="5"/><text x="246" y="73.85" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">Rr/s</text><path d="M269 70H282V170H15"/><text x="150" y="195" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">s = (ns − n)/ns</text><text x="150" y="212" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">s = 1 à l'arrêt, ≈ 0,03 en charge</text><path d="M340 170H595 M340 170V30"/><text x="467.5" y="188" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">vitesse n/ns</text><text x="334" y="28" text-anchor="end" font-size="11.5" fill="currentColor" stroke="none">couple</text><text x="340" y="184" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">0</text><text x="585" y="184" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">1</text><path d="M340 122 C420 123.2 500 82 548.25 82 C566.25 82.8 577 130 585 170" stroke-width="2.2"/><path d="M340 139.28 C420 140.048 500 113.68 548.25 113.68 C566.25 114.192 577 144.4 585 170" stroke-dasharray="2 4"/><path d="M340 150H585" stroke-dasharray="6 3"/><text x="346" y="164" text-anchor="start" font-size="11" fill="currentColor" stroke="none">couple résistant</text><text x="458" y="74" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">couple maximal</text><text x="344" y="114" text-anchor="start" font-size="11" fill="currentColor" stroke="none">démarrage</text><text x="352" y="30" text-anchor="start" font-size="11" fill="currentColor" stroke="none">Tension nominale (—)</text><text x="352" y="44" text-anchor="start" font-size="11" fill="currentColor" stroke="none">0,8 × tension : couple × 0,64 (···)</text></svg><div class="cap">À gauche, schéma équivalent par phase : Rs, Xs (stator), Xm (magnétisation), Xr et Rr/s (rotor ramené au stator). À l'arrêt (s = 1), Rr/s est petite : forte intensité (5 à 7 In). À droite, caractéristique couple-vitesse : le couple varie comme V² (la courbe pointillée est celle d'une tension réduite de 20 %). Si le couple résistant dépasse le couple disponible, le moteur ne démarre pas ou décroche.</div></div>
+<h3>Apport des moteurs asynchrones au court-circuit</h3>
+<p>Pendant les premières périodes d'un défaut, le flux rotorique d'un moteur asynchrone entretient une f.é.m. : le moteur débite vers le
+défaut un courant voisin de son courant de démarrage, qui s'éteint en quelques périodes. La CEI 60909 le représente par l'impédance
+<i>Z</i><sub>M</sub> = <i>U</i><sub>n</sub>²/(<i>I</i><sub>LR</sub>/<i>I</i><sub>rM</sub> · <i>S</i><sub>rM</sub>) (direct et inverse ; pas de
+chemin homopolaire), de rapport <i>R</i>/<i>X</i> = 0,10 (moteurs HTA d'au moins 1 MW), 0,15 (HTA de moins de 1 MW) ou 0,42 (BT, câbles
+compris) ; elle augmente I"k et ip, mais est négligée pour le courant minimal. Dans NRJXpert, <i>I</i><sub>LR</sub>/<i>I</i><sub>rM</sub> est
+tiré du schéma équivalent de la machine (<i>s</i> = 1).</p>
+<div class="ex"><h4>Exemple 2.13 — Défaut triphasé au bus d'un moteur de 2 MVA</h4>
+<p>Avec le réseau de l'exemple 5.5 (fichier <code>exemples/demarrage_moteur.xml</code>, calcul « Court-circuit »), défaut triphasé au bus
+du moteur, Icc max. <i>I</i><sub>LR</sub>/<i>I</i><sub>rM</sub> = 6,14 ; <i>U</i><sub>n</sub> = 6 kV.</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>Réseau : |<i>Z</i>| = |0,07 + j0,96| = 0,9625 Ω, I"k = 1,1 × 6 000/(√3 × 0,9625) = <span class="result">3 959 A</span>.
+Moteur : |<i>Z</i><sub>M</sub>| = 6²/(6,14 × 2) = 2,93 Ω (<i>R</i>/<i>X</i> = 0,10), I"kM = 1,1 × 6 000/(√3 × 2,93) =
+<span class="result">1 300 A</span>. Total (somme presque en phase) : <span class="result">5 259 A</span>, soit +33 % ; κ passe de 1,81 à 1,79
+et ip de 10,1 à 13,3 kA. Le pouvoir de coupure et la tenue des jeux de barres doivent en tenir compte.</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="n2-8">
+            <h2><span class="section-icon">⚡</span>2.8 Protections : ce que l'on fait des courants de court-circuit</h2>
+<ul>
+<li><b>Pouvoir de coupure</b> de l'appareil ≥ I"k max (et ip ≤ pouvoir de fermeture) au point d'installation.</li>
+<li><b>Sensibilité</b> : le courant de court-circuit <b>minimal</b> (c<sub>min</sub>, défaut le plus éloigné, souvent monophasé ou biphasé)
+doit faire déclencher la protection dans le temps imposé : c'est le calcul « Icc min » de NRJXpert.</li>
+<li><b>Tenue thermique des câbles</b> : I²·t ≤ k²·S² (k ≈ 143 pour le cuivre isolé PR).</li>
+<li><b>Sélectivité</b> : seule la protection immédiatement en amont du défaut doit déclencher (sélectivité ampèremétrique, chronométrique,
+logique).</li>
+<li><b>Onduleurs</b> : leur contribution est limitée à 1,1 à 1,5 fois leur courant nominal ; un réseau alimenté surtout par des
+onduleurs a des courants de défaut faibles, ce qui complique la détection (niveau 5).</li>
+</ul>
+<h3>La chaîne de protection : mesurer, décider, couper</h3>
+<p>Une protection est toujours une chaîne de trois fonctions. Les <b>capteurs</b> (transformateurs de courant TC et de tension TT) réduisent les grandeurs du réseau à des valeurs que l'on peut mesurer sans danger (1 ou 5 A, 100 V). Le <b>relais</b> compare ces mesures à ses réglages et décide. L'<b>organe de coupure</b> exécute l'ordre.</p>
+<div class="fig" id="fig-chaine-prot"><svg viewBox="0 0 560 150" width="560" role="img" aria-label="Chaîne de protection : TC et TT, relais, disjoncteur" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" font-family="inherit"><path d="M20 100 L540 100"/><circle cx="110" cy="100" r="9"/><circle cx="122" cy="100" r="9"/><text x="116" y="124" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">TC</text><path d="M200 100 L200 118"/><rect x="186" y="118" width="28" height="14" rx="2"/><text x="200" y="146" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">TT</text><rect x="400" y="88" width="30" height="24" rx="2"/><text x="415" y="130" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">Disjoncteur</text><rect x="240" y="20" width="130" height="40" rx="6"/><text x="305" y="45" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Relais 50/51, 21, 87</text><path d="M116 91 L116 40 L240 40"/><path d="M200 118 L200 110"/><path d="M200 100 L200 70 L240 52"/><path d="M370 40 L415 40 L415 88"/><text x="150" y="34" font-size="11.5" fill="currentColor" stroke="none">I</text><text x="206" y="82" font-size="11.5" fill="currentColor" stroke="none">U</text><text x="420" y="66" font-size="11.5" fill="currentColor" stroke="none">ordre de déclenchement</text><text x="40" y="92" font-size="11.5" fill="currentColor" stroke="none">source</text><text x="480" y="92" font-size="11.5" fill="currentColor" stroke="none">ligne</text></svg><div class="cap">Chaîne de protection : les transformateurs de mesure (TC, TT) réduisent courant et tension à des valeurs que le relais sait lire ; le relais décide ; le disjoncteur coupe. Un fusible réunit les trois fonctions en un seul organe.</div></div>
+<ul>
+<li>Le <b>disjoncteur</b> coupe tout courant jusqu'à son pouvoir de coupure et peut être refermé ; c'est le relais qui lui donne l'ordre.</li>
+<li>Le <b>fusible</b> réunit capteur, relais et coupure : l'élément fond quand l'énergie <i>I</i>²·<i>t</i> dépasse sa valeur de préarc. Aux courants de court-circuit il coupe en moins d'une demi-période, avant le pic (il « limite » le courant), mais il est à remplacer après chaque fonctionnement. Règle pratique : deux fusibles gG en série sont sélectifs si le calibre amont vaut au moins 1,6 fois le calibre aval.</li>
+<li>Le <b>réenclencheur</b> est un disjoncteur muni d'un relais qui se referme automatiquement : sur une ligne aérienne, 70 à 80 % des défauts sont fugitifs (arc dans l'air, branche) et disparaissent après quelques centaines de ms hors tension.</li>
+</ul>
+<h4>Pourquoi des courbes à temps inverse ?</h4>
+<p>L'échauffement d'un câble ou d'un transformateur est proportionnel à <i>I</i>²·<i>t</i> : doubler le courant divise par quatre le temps admissible. Une protection à temps inverse suit cette loi : elle tolère une surcharge modérée pendant longtemps (démarrage de moteur, enclenchement), mais déclenche vite sur un court-circuit. Les trois familles de la CEI 60255-151 (SI, VI, EI) diffèrent par leur raideur. Le seuil <i>I</i><sub>s</sub> fixe l'abscisse de l'asymptote, le coefficient TMS décale la courbe verticalement. Le courant d'un défaut traverse tous les organes placés en série entre la source et le défaut ; pour que seul l'organe le plus proche du défaut déclenche, sa courbe doit passer <b>sous</b> celle de l'organe amont, avec au moins 0,3 s d'écart. Deux courbes qui se croisent ne sont pas sélectives.</p>
+<h4>Protection de distance (21)</h4>
+<p>Le relais divise la tension par le courant : <i>Z</i> = <i>V</i>/<i>I</i>. Comme l'impédance d'une ligne est proportionnelle à sa longueur, <i>Z</i> mesure la <b>distance du défaut</b> sans dépendre de l'intensité du courant, ce qui convient aux réseaux dont la puissance de court-circuit varie. Trois zones (caractéristiques circulaires « mho » passant par l'origine) sont réglées sur l'impédance de la ligne : zone 1 à 80 % (instantanée : on ne prend pas 100 % à cause des erreurs de mesure et de données, sous peine de déclencher pour un défaut sur la ligne suivante), zone 2 à 120 % avec 0,3 s (couvre la fin de la ligne et sert de secours), zone 3 à 200 % avec 1 s. Pour un défaut à la terre, l'impédance de boucle fait intervenir <i>Z</i><sub>0</sub> ; le relais la corrige par le facteur <i>k</i><sub>0</sub> = (<i>Z</i><sub>0</sub> − <i>Z</i><sub>1</sub>)/(3<i>Z</i><sub>1</sub>), que le couplage mutuel d'une ligne parallèle fausse (le relais sous-estime alors la distance : « sous-portée »).</p>
+<h4>Protection différentielle (87)</h4>
+<p>Elle applique la loi des nœuds de Kirchhoff à l'élément protégé (ligne, transformateur, jeu de barres) : sans défaut interne, la somme des courants entrants est nulle ; si elle ne l'est plus (en tenant compte d'une retenue proportionnelle au courant traversant, pour les erreurs de TC), le défaut est <b>à l'intérieur</b> de la zone et le déclenchement est immédiat. La sélectivité est absolue, sans temporisation : en contrepartie, une ligne demande une liaison de télécommunication entre ses deux extrémités, et un transformateur une retenue à l'enclenchement (non modélisée dans NRJXpert).</p>
+<h4>Erreurs fréquentes</h4>
+<ul>
+<li>Régler le seuil <i>I</i><sub>s</sub> sous le courant de charge maximal : déclenchements intempestifs. Il doit se situer au-dessus (marge de 1,2 à 1,5) et rester bien sous le courant de court-circuit <b>minimal</b> (défaut le plus éloigné, biphasé ou monophasé) : sinon la protection ne voit pas le défaut.</li>
+<li>Vérifier la sélectivité avec le seul <i>I</i>″<sub>k</sub> maximal : le temps de déclenchement change avec le courant, il faut tracer les courbes aux deux extrêmes.</li>
+<li>Oublier la saturation du TC : au-delà de son facteur limite de précision, il déforme le courant et le relais déclenche trop tard (voir plus bas).</li>
+<li>Compter sur une protection de terre ordinaire en réseau à neutre isolé ou compensé : le courant résiduel n'est que de quelques ampères, il faut une protection wattmétrique ou directionnelle de terre.</li>
+<li>Confondre pouvoir de coupure (courant maximal que l'appareil peut interrompre) et seuil de déclenchement (courant à partir duquel le relais ordonne la coupure).</li>
+</ul>
+<h3>Plan de protection et sélectivité dans NRJXpert</h3>
+<p>Un organe de coupure de type disjoncteur ou réenclencheur reçoit une protection (rubrique <b>Protection</b> de sa boîte) ; un fusible a
+son calibre. Les protections disponibles : <b>maximum de courant</b> 50/51 (courbes inverses de la CEI 60255-151 :
+<i>t</i> = TMS·<i>k</i>/((<i>I</i>/<i>I</i><sub>s</sub>)<sup>α</sup> − 1), SI : <i>k</i> = 0,14, α = 0,02 ; VI : 13,5 et 1 ; EI : 80 et 2 ; courbes
+IEEE et temps constant), avec seuil haut I&gt;&gt; et protection de terre 50N/51N sur 3·<i>I</i><sub>0</sub> ; <b>déclencheur électronique</b>
+de disjoncteur BT (long retard <i>I</i><sup>2</sup><i>t</i>, court retard, instantané) ; <b>distance</b> 21 (impédance apparente <i>V</i>/<i>I</i>,
+trois zones mho, typiquement 80 % instantané, 120 % à 0,3 s, 200 % à 1 s) ; <b>différentielle de ligne</b> 87L. Au calcul de court-circuit, le
+serveur donne le temps de déclenchement de chaque organe et l'organe qui élimine le défaut ; deux organes sont jugés sélectifs si leurs
+temps diffèrent d'au moins 0,3 s (temps d'ouverture du disjoncteur, dépassement du relais et marge de sécurité). Le bouton
+<b>Sélectivité…</b> trace les courbes temps-courant.</p>
+<div class="fig" id="fig-selectivite"><svg viewBox="0 0 560 245" width="560" role="img" aria-label="Courbes temps-courant de deux protections en série" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" font-family="inherit"><path d="M70 30V200 H520"/><path d="M70 200v5"/><text x="70" y="218" text-anchor="middle" font-size="10.5" fill="currentColor" stroke="none">200</text><path d="M191.231 200v5"/><text x="191.231" y="218" text-anchor="middle" font-size="10.5" fill="currentColor" stroke="none">500</text><path d="M282.939 200v5"/><text x="282.939" y="218" text-anchor="middle" font-size="10.5" fill="currentColor" stroke="none">1000</text><path d="M374.647 200v5"/><text x="374.647" y="218" text-anchor="middle" font-size="10.5" fill="currentColor" stroke="none">2000</text><path d="M495.878 200v5"/><text x="495.878" y="218" text-anchor="middle" font-size="10.5" fill="currentColor" stroke="none">5000</text><path d="M70 200h-5"/><text x="62" y="204" text-anchor="end" font-size="10.5" fill="currentColor" stroke="none">0,1</text><path d="M70 200H520" stroke-opacity=".15"/><path d="M70 143.333h-5"/><text x="62" y="147.333" text-anchor="end" font-size="10.5" fill="currentColor" stroke="none">1</text><path d="M70 143.333H520" stroke-opacity=".15"/><path d="M70 86.6667h-5"/><text x="62" y="90.6667" text-anchor="end" font-size="10.5" fill="currentColor" stroke="none">10</text><path d="M70 86.6667H520" stroke-opacity=".15"/><path d="M70 30h-5"/><text x="62" y="34" text-anchor="end" font-size="10.5" fill="currentColor" stroke="none">100</text><path d="M70 30H520" stroke-opacity=".15"/><text x="295" y="238" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">courant (A, échelle logarithmique)</text><text x="74" y="22" text-anchor="start" font-size="11.5" fill="currentColor" stroke="none">temps (s)</text><path d="M168.2 50.7L175.9 70.0L183.6 80.7L191.3 88.1L199.0 93.8L206.7 98.4L214.4 102.3L222.1 105.6L229.8 108.6L237.5 111.2L245.3 113.5L253.0 115.7L260.7 117.7L268.4 119.5L276.1 121.2L283.8 122.8L291.5 124.3L299.2 125.7L306.9 127.0L314.6 128.2L322.3 129.4L330.1 130.6L337.8 131.7L345.5 132.7L353.2 133.7L360.9 134.6L368.6 135.5L376.3 136.4L384.0 137.3L391.7 138.1L399.4 138.9L407.2 139.7L414.9 140.4L422.6 141.1L430.3 141.8L438.0 142.5L445.7 143.1L453.4 143.8L461.1 144.4L468.8 145.0L476.5 145.6L484.2 146.2L492.0 146.7L499.7 147.3L507.4 147.8L515.1 148.4" stroke-width="2.2"/><path d="M76.5 77.7L84.2 97.0L91.9 107.6L99.6 114.9L107.3 120.5L115.0 125.1L122.7 128.9L130.4 132.1L138.1 135.0L145.8 137.6L153.5 139.9L161.3 141.9L169.0 143.9L176.7 145.6L184.4 147.3L192.1 148.8L199.8 150.2L207.5 151.5L215.2 152.8L222.9 154.0L230.6 155.1L238.4 156.2L246.1 157.2L253.8 158.2L261.5 159.1L269.2 160.0L276.9 160.9L284.6 161.7L292.3 162.5L300.0 163.2L307.7 164.0L315.4 164.7L323.2 165.3L330.9 166.0L338.6 166.6L346.3 167.3L354.0 167.9L361.7 168.4L369.4 169.0L377.1 169.6L384.8 170.1L392.5 170.6L400.2 171.1L408.0 171.6L415.7 172.1L423.4 172.5L431.1 173.0L438.8 173.4L446.5 173.9L454.2 174.3L461.9 174.7L469.6 175.1L477.3 175.5L485.1 175.9L492.8 176.3L500.5 176.7L508.2 177.0L515.9 177.4" stroke-width="2.2" stroke-dasharray="7 3"/><path d="M327.456 200V38" stroke-dasharray="2 3"/><text x="332.456" y="46" text-anchor="start" font-size="11" fill="currentColor" stroke="none">I″k = 1 400 A</text><circle cx="327.456" cy="130.202" r="3.5" fill="currentColor"/><circle cx="327.456" cy="165.699" r="3.5" fill="currentColor"/><path d="M341.456 165.699L341.456 132.202"/><path d="M344.182 138.65L341.456 132.202L338.73 138.65" fill="currentColor"/><path d="M341.456 130.202L341.456 163.699"/><path d="M338.73 157.252L341.456 163.699L344.182 157.252" fill="currentColor"/><text x="349.456" y="151.951" text-anchor="start" font-size="11" fill="currentColor" stroke="none">marge ≥ 0,3 s</text><text x="520" y="119.818" text-anchor="end" font-size="11.5" fill="currentColor" stroke="none">S1 amont (Is = 400 A, TMS = 0,3)</text><text x="520" y="194.963" text-anchor="end" font-size="11.5" fill="currentColor" stroke="none">S2 aval (Is = 200 A, TMS = 0,1)</text></svg><div class="cap">Sélectivité chronométrique de l'exemple 2.15 (courbes SI, 50 ms d'ouverture du disjoncteur). À tout courant de défaut possible, la courbe de la protection amont S1 doit rester au-dessus de celle de S2 d'au moins 0,3 s : si les courbes se croisent, au-delà du croisement S1 déclenche avant S2 et coupe inutilement tout le départ. On vérifie aux deux extrêmes : Icc min et Icc max.</div></div>
+<div class="ex"><h4>Exemple 2.15 — Sélectivité chronométrique de deux départs (<code>exemples/selectivite_depart.xml</code>)</h4>
+<p>Le réseau de l'exemple 2.4 alimente une ligne LA (3 + j3,5 Ω) protégée par le disjoncteur S1, puis une ligne LB (2 + j2 Ω) protégée par
+S2. Relais SI : S1 <i>I</i><sub>s</sub> = 400 A, TMS = 0,3 ; S2 <i>I</i><sub>s</sub> = 200 A, TMS = 0,1 ; ouverture des disjoncteurs 50 ms.
+Défaut triphasé en bout de LB. Calculer les temps, puis chercher le TMS de S1 qui garde 0,3 s de marge le plus vite possible.</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>I"k = 1 400 A, vu par S1 et S2. S2 : <i>I</i>/<i>I</i><sub>s</sub> = 7,0, <i>t</i> = 0,1 × 0,14/(7,0<sup>0,02</sup> − 1) + 0,05 =
+<span class="result">0,403 s</span> : S2 élimine le défaut. S1 : <i>I</i>/<i>I</i><sub>s</sub> = 3,5, <i>t</i> = 0,3 × 0,14/(3,5<sup>0,02</sup> − 1)
++ 0,05 = 1,705 s : sélectif, mais lent pour un défaut sur LA (1,33 s pour un défaut en bout de LA, I"k = 2 012 A). Avec TMS = 0,12 :
+<span class="result">0,712 s</span>, soit 0,31 s après S2 ; en dessous, le calcul signale une sélectivité insuffisante. Le défaut monophasé
+(949 A) donne 0,49 s et 2,46 s : la protection de terre (seuil plus bas sur 3·<i>I</i><sub>0</sub>) accélère l'élimination des défauts à la terre.</p>
+</details></div>
+<h3>Transformateurs de mesure et parafoudres</h3>
+<p>Un relais ne voit le réseau qu'à travers ses <b>transformateurs de courant</b> (TC) et <b>de tension</b> (TT). Un TC de protection de classe
+5P20 garde une erreur composée inférieure à 5 % jusqu'à 20 fois son courant nominal, sous sa charge de précision ; avec une charge réelle
+<i>S</i><sub>b</sub> différente, le facteur limite réel vaut ALF′ = ALF·(<i>R</i><sub>ct</sub>·<i>I</i><sub>sn</sub>² + <i>S</i><sub>n</sub>)/(<i>R</i><sub>ct</sub>·<i>I</i><sub>sn</sub>² +
+<i>S</i><sub>b</sub>). Au-delà, le TC sature : le relais voit moins de courant et déclenche plus tard. Un <b>parafoudre</b> à oxyde métallique
+limite les surtensions de foudre et de manœuvre : la tension au matériel vaut <i>U</i><sub>eq</sub> = <i>U</i><sub>pl</sub> + 2·<i>S</i>·<i>L</i>/<i>v</i>
+(raideur <i>S</i>, distance <i>L</i>, <i>v</i> = 300 m/µs) et doit rester au moins 20 % sous la tenue au choc de foudre (BIL) du matériel
+(CEI 60071-2). Il doit aussi supporter les <b>surtensions temporaires</b> des défauts à la terre : en neutre isolé ou compensé, les phases
+saines montent à √3 fois la tension simple, d'où une tension assignée <i>U</i><sub>r</sub> plus élevée qu'en neutre à la terre.</p>
+<div class="ex"><h4>Exemple 2.16 — Parafoudre en réseau à neutre isolé (<code>exemples/parafoudre_neutre_isole.xml</code>)</h4>
+<p>Réseau 20 kV (<i>U</i><sub>m</sub> = 24 kV) à neutre isolé, capacité homopolaire de 1 µF ; parafoudre PF1 (<i>U</i><sub>c</sub> = 15,3 kV,
+<i>U</i><sub>r</sub> = 21 kV, <i>U</i><sub>pl</sub> = 70 kV, T = 1,0) à 5 m d'un transformateur de BIL 125 kV, onde de 1 000 kV/µs.
+Défaut monophasé chez le client. Vérifier la coordination, puis refaire avec le neutre à la terre.</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>Foudre : <i>U</i><sub>eq</sub> = 70 + 2 × 1 000 × 5/300 = 103,3 kV, marge 125/103,3 = <span class="result">1,21</span> ≥ 1,2 : satisfaite
+(à 6 m, elle tombe sous 1,2). Neutre isolé : courant de défaut capacitif de 12 A seulement, mais <span class="result">k = 1,74</span> au parafoudre :
+surtension temporaire 1,74 × 24/√3 = 24,1 kV &gt; T·<i>U</i><sub>r</sub> = 21 kV, le calcul demande <i>U</i><sub>r</sub> ≥ 24,1 kV (un parafoudre
+de 24 kV avec T = 1,05 convient). Neutre à la terre : courant de défaut 1 169 A, k = 1,18, surtension 16,4 kV : le parafoudre de 21 kV convient.</p>
+</details></div>
+<h3>Régime de neutre : neutre isolé, résistant, compensé ou direct</h3>
+<p>Le courant d'un défaut à la terre dépend surtout de la mise à la terre du neutre du réseau. En <b>neutre isolé</b>, il ne se referme que
+par les capacités homopolaires des lignes et câbles : <i>I</i><sub>c</sub> = 3·ω·<i>C</i><sub>0</sub>·<i>U</i><sub>n</sub>/√3 (quelques ampères à quelques
+centaines d'ampères) ; l'exploitation peut continuer, mais les phases saines montent à √3·<i>V</i>. Une <b>résistance de neutre</b> limite le
+courant (typiquement 300 à 1 000 A en HTA) tout en permettant une protection de terre simple. La <b>bobine de Petersen</b> compense le courant
+capacitif : accordée (ω·<i>L</i> = 1/(3·ω·<i>C</i><sub>0</sub>)), elle ne laisse qu'un faible courant résiduel ≈ <i>I</i><sub>c</sub>·√(<i>v</i>² + <i>r</i>²)
+(désaccord <i>v</i>, courant actif <i>r</i> de la résistance parallèle), ce qui éteint la plupart des défauts fugitifs ; la détection demande alors
+des protections wattmétriques. En <b>neutre direct</b>, le courant est élevé et les surtensions faibles (<i>k</i> ≤ 1,4).</p>
+<div class="fig" id="fig-neutre"><svg viewBox="0 0 560 250" width="560" role="img" aria-label="Courant de défaut à la terre et bobine de Petersen" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" font-family="inherit"><path d="M20 190H540"/><path d="M110 40H480"/><text x="492" y="44" text-anchor="start" font-size="12" fill="currentColor" stroke="none">a</text><path d="M110 80H480"/><text x="492" y="84" text-anchor="start" font-size="12" fill="currentColor" stroke="none">b</text><path d="M110 120H480"/><text x="492" y="124" text-anchor="start" font-size="12" fill="currentColor" stroke="none">c</text><path d="M60 80L110 40M60 80H110M60 80L110 120"/><circle cx="60" cy="80" r="3" fill="currentColor"/><path d="M60 80V104"/><rect x="48" y="104" width="24" height="34" rx="5"/><text x="60" y="124.5" text-anchor="middle" font-size="10" fill="currentColor" stroke="none"></text><path d="M60 138V190"/><text x="40" y="126" text-anchor="end" font-size="12" fill="currentColor" stroke="none">Zn</text><path d="M300 40V140 M291 140H309 M291 146H309 M300 146V190"/><path d="M300 80V140 M291 140H309 M291 146H309 M300 146V190"/><path d="M300 120V140 M291 140H309 M291 146H309 M300 146V190"/><text x="340" y="142" text-anchor="start" font-size="11" fill="currentColor" stroke="none">C0 : capacité de chaque phase</text><path d="M440 40L432 62L448 76L440 100"/><path d="M440 100L440 118"/><path d="M437.274 111.553L440 118L442.726 111.553" fill="currentColor"/><path d="M440 118V190"/><text x="428" y="104" text-anchor="end" font-size="11.5" fill="currentColor" stroke="none">défaut</text><path d="M190 30L235 30"/><path d="M228.553 32.7259L235 30L228.553 27.2741" fill="currentColor"/><text x="212" y="22" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">If</text><path d="M318 160L318 178" stroke-dasharray="5 4"/><path d="M315.274 171.553L318 178L320.726 171.553" fill="currentColor"/><text x="352" y="172" text-anchor="start" font-size="11" fill="currentColor" stroke="none">Ic = 3·ω·C0·V</text><path d="M86 160L86 142" stroke-dasharray="5 4"/><path d="M88.7259 148.447L86 142L83.2741 148.447" fill="currentColor"/><text x="118" y="160" text-anchor="start" font-size="11" fill="currentColor" stroke="none">IL = V/(ω·L')</text><text x="280" y="218" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">Zn = ∞ : neutre isolé ; Zn = R : résistance</text><text x="280" y="234" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">Zn = jω·L : bobine de Petersen (accordée : 3·ω²·L·C0 = 1) ; Zn = 0 : neutre direct</text></svg><div class="cap">Le défaut monophasé d'une phase ne peut se refermer que par les capacités C0 des deux autres phases (courant Ic, quelques ampères à quelques centaines d'ampères) et par l'impédance de neutre Zn. En neutre isolé, il n'y a que Ic ; avec une bobine de Petersen, IL est en opposition à Ic : les deux courants se retranchent et il ne reste qu'un courant résiduel de quelques ampères, qui éteint la plupart des défauts fugitifs. Dans tous les régimes sauf le neutre direct, les phases saines montent à √3 fois la tension simple.</div></div>
+<div class="ex"><h4>Exemple 2.17 — Les quatre régimes de neutre d'un réseau 20 kV (<code>exemples/reseau_compense.xml</code>)</h4>
+<p>Poste 20 kV à neutre isolé (alternateur), lignes 1 + j1,5 Ω et 0,5 + j0,5 Ω, câbles de capacité homopolaire totale 10 µF, parafoudre de
+24 kV ; mise à la terre « Bobine » au poste : Petersen à accord automatique, désaccord +5 %, courant actif 3 %. Défaut monophasé chez le
+client. Comparer avec le neutre isolé, une résistance limitant à 300 A et le neutre direct.</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p><i>I</i><sub>c</sub> = 3 × 314 × 10 µF × 20 000/√3 = <span class="result">108,8 A</span> ; bobine accordée : <i>L</i> = 1/(3 × 314² × 10 µF × 1,05) = 0,322 H.</p>
+<table>
+<tr><th>Régime</th><th>Courant de défaut</th><th>Courant dans le neutre</th><th>k au parafoudre</th></tr>
+<tr><td>Neutre isolé</td><td class="num">124 A (capacitif)</td><td class="num">—</td><td class="num">1,78</td></tr>
+<tr><td>Bobine de Petersen</td><td class="num"><span class="result">5,8 A</span></td><td class="num">123 A (bobine)</td><td class="num">1,73</td></tr>
+<tr><td>Résistance 300 A</td><td class="num">337 A</td><td class="num">320 A</td><td class="num">1,78</td></tr>
+<tr><td>Neutre direct</td><td class="num">2 335 A</td><td class="num">2 372 A</td><td class="num">1,08</td></tr>
+</table>
+<p>Les courants sont calculés avec c = 1,1 (Icc max). La bobine réduit le courant de défaut d'un facteur 20 : √(0,05² + 0,03²) = 5,8 %
+de <i>I</i><sub>c</sub>, à la réactance des lignes près. En neutre isolé, compensé ou résistant, les phases saines montent à √3 fois la tension simple :
+le parafoudre de 24 kV est un peu juste (le calcul demande <i>U</i><sub>r</sub> ≥ 24,7 kV en neutre isolé ou résistant) ; en neutre direct, un
+parafoudre de 18 kV suffirait.</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <h3>Limites des modèles de NRJXpert</h3>
+<p>Un modèle simplifie : il faut savoir ce qu'il ne représente pas pour ne pas lui faire dire ce qu'il ne sait pas dire.</p>
+<ul>
+<li><b>Couplage mutuel</b> : homopolaire seulement ; pris en compte au court-circuit, pas dans le balayage de distribution.</li>
+<li><b>Machine asynchrone</b> : une seule cage rotorique ; la machine à double alimentation (DFIG) n'est pas modélisée à part (un éolien à convertisseur se représente par un générateur à onduleur).</li>
+<li><b>Alternateur</b> : la courbe de capacité agit dans le load flow classique ; le réglage du PSS se vérifie pour chaque configuration.</li>
+<li><b>Protections</b> : elles ne déclenchent pas dans les simulations dynamiques ; pas de différentielle de transformateur ni de protection wattmétrique ou directionnelle de terre (67N) ; sélectivité chronométrique seulement ; saturation du TC par simple écrêtage.</li>
+<li><b>Parafoudres</b> : coordination par formule statique (<i>U</i><sub>pl</sub> + 2·<i>S</i>·<i>L</i>/<i>v</i>) ; les surtensions de foudre et de manœuvre ne sont pas simulées.</li>
+<li><b>Mise à la terre</b> : régime établi (pas de phase transitoire d'arc) ; la capacité homopolaire <i>C</i><sub>0</sub> est celle de tout le réseau, ce qui est faux si des transformateurs séparent plusieurs zones.</li>
+</ul>
+<a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="n2-9">
+            <h2><span class="section-icon">💰</span>2.9 Répartition économique de la production</h2>
+<p>Le load flow répond à la question « que devient le réseau si les groupes produisent cela ? ». La question suivante est
+« <b>combien chaque groupe doit-il produire ?</b> » : les coûts de combustible diffèrent d'une centrale à l'autre, et la capacité
+installée dépasse la demande augmentée des pertes. Il existe donc une infinité de répartitions possibles, dont une seule est la
+moins chère.</p>
+
+<h3>Cas le plus simple : sans pertes ni limites</h3>
+<p>Le coût horaire d'un groupe thermique s'ajuste bien par une parabole : <i>C<sub>i</sub></i> = α<sub>i</sub> + β<sub>i</sub><i>P<sub>i</sub></i> + γ<sub>i</sub><i>P<sub>i</sub></i>²
+(F/h ou $/h). On minimise <i>C<sub>t</sub></i> = Σ<i>C<sub>i</sub></i> sous la contrainte Σ<i>P<sub>i</sub></i> = <i>P<sub>D</sub></i>. Le lagrangien
+<i>L</i> = <i>C<sub>t</sub></i> + λ(<i>P<sub>D</sub></i> − Σ<i>P<sub>i</sub></i>) et les conditions ∂<i>L</i>/∂<i>P<sub>i</sub></i> = 0 donnent :</p>
+<div class="eq">d C<sub>i</sub>/d P<sub>i</sub> = β<sub>i</sub> + 2γ<sub>i</sub>P<sub>i</sub> = λ &nbsp;&nbsp;(pour tous les groupes) &nbsp;&nbsp;⇒&nbsp;&nbsp;
+P<sub>i</sub> = (λ − β<sub>i</sub>)/(2γ<sub>i</sub>) &nbsp;&nbsp;&nbsp; λ = [P<sub>D</sub> + Σ β<sub>i</sub>/(2γ<sub>i</sub>)] / Σ 1/(2γ<sub>i</sub>)</div>
+<p><b>Règle des coûts marginaux égaux</b> : à l'optimum, le coût du dernier MWh produit est le même partout. λ est ce coût
+marginal commun, exprimé en F/MWh : c'est le <b>prix du système</b>, celui qui sert de référence aux marchés de l'électricité.</p>
+
+<div class="fig" id="fig-lambda"><svg viewBox="0 0 500 240" width="500" role="img" aria-label="Coûts marginaux et λ" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" font-family="inherit"><path d="M70 205 L470 205"/><polygon points="470,205 465,202.25 465,207.75" fill="currentColor" stroke="none"/><path d="M70 205 L70 45"/><polygon points="70,45 67.25,50 72.75,50" fill="currentColor" stroke="none"/><text x="466" y="229" text-anchor="end" font-size="12" fill="currentColor" stroke="none">P<tspan baseline-shift='sub' font-size='9'>i</tspan> (MW)</text><text x="60" y="53" text-anchor="end" font-size="12.5" fill="currentColor" stroke="none">dC/dP</text><path d="M70 112 L446 112" stroke-dasharray="5 4"/><text x="452" y="117" text-anchor="start" font-size="14" fill="currentColor" stroke="none" font-style="italic">λ</text><path d="M82 177 L205 58"/><text x="212" y="62" text-anchor="start" font-size="11.5" fill="currentColor" stroke="none">groupe 1</text><circle cx="149.185" cy="112" r="3" fill="currentColor" stroke="none"/><path d="M149.185 112 L149.185 205" stroke-dasharray="3 3"/><text x="149.185" y="225" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">P₁</text><path d="M82 177 L455 92"/><text x="462" y="96" text-anchor="start" font-size="11.5" fill="currentColor" stroke="none">groupe 2</text><circle cx="367.235" cy="112" r="3" fill="currentColor" stroke="none"/><path d="M367.235 112 L367.235 205" stroke-dasharray="3 3"/><text x="367.235" y="225" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">P₂</text><path d="M82 177 L380 68"/><text x="387" y="72" text-anchor="start" font-size="11.5" fill="currentColor" stroke="none">groupe 3</text><circle cx="259.706" cy="112" r="3" fill="currentColor" stroke="none"/><path d="M259.706 112 L259.706 205" stroke-dasharray="3 3"/><text x="259.706" y="225" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">P₃</text></svg><div class="cap">Répartition économique : on fait monter λ jusqu'à ce que la somme des puissances lues sur les droites de coût marginal égale la demande. Le groupe dont la droite est la plus plate (γ faible) produit le plus.</div></div>
+<h3>Avec les limites des groupes</h3>
+<p>En ajoutant <i>P<sub>i,min</sub></i> ≤ <i>P<sub>i</sub></i> ≤ <i>P<sub>i,max</sub></i>, les conditions de Kuhn-Tucker donnent la même règle,
+<b>sauf</b> pour les groupes bloqués sur une borne :</p>
+<div class="eq">d C<sub>i</sub>/d P<sub>i</sub> = λ si P<sub>i,min</sub> &lt; P<sub>i</sub> &lt; P<sub>i,max</sub> &nbsp;&nbsp;
+≤ λ si P<sub>i</sub> = P<sub>i,max</sub> &nbsp;&nbsp; ≥ λ si P<sub>i</sub> = P<sub>i,min</sub></div>
+<p>On résout par itération sur λ (méthode de Newton) : à chaque pas, on calcule les <i>P<sub>i</sub></i>, on les écrête aux bornes, et
+l'on corrige λ de Δλ = Δ<i>P</i>/Σ(1/2γ<sub>i</sub>) sur les seuls groupes <b>libres</b>, jusqu'à ce que Σ<i>P<sub>i</sub></i> = <i>P<sub>D</sub></i>.</p>
+
+<h3>En tenant compte des pertes du réseau</h3>
+<p>Les pertes dépendent de la répartition : produire loin des charges coûte des pertes. On les exprime par les
+<b>coefficients de pertes</b> de Kron (<i>B<sub>ij</sub></i>, calculés à partir d'un load flow de référence) :</p>
+<div class="eq">P<sub>L</sub> = Σ<sub>i</sub>Σ<sub>j</sub> P<sub>i</sub>B<sub>ij</sub>P<sub>j</sub> + Σ<sub>i</sub> B<sub>0i</sub>P<sub>i</sub> + B<sub>00</sub> &nbsp;&nbsp;&nbsp;
+contrainte : Σ P<sub>i</sub> = P<sub>D</sub> + P<sub>L</sub></div>
+<p>La condition d'optimalité devient d<i>C<sub>i</sub></i>/d<i>P<sub>i</sub></i> + λ·∂<i>P<sub>L</sub></i>/∂<i>P<sub>i</sub></i> = λ, c'est-à-dire</p>
+<div class="eq">(d C<sub>i</sub>/d P<sub>i</sub>)·L<sub>i</sub> = λ &nbsp;&nbsp; avec le <b>facteur de pénalité</b> L<sub>i</sub> = 1/(1 − ∂P<sub>L</sub>/∂P<sub>i</sub>)
+&nbsp;&nbsp;&nbsp;⇒&nbsp;&nbsp;&nbsp; P<sub>i</sub> = [λ(1 − B<sub>0i</sub>) − β<sub>i</sub> − 2λΣ<sub>j≠i</sub>B<sub>ij</sub>P<sub>j</sub>] / [2(γ<sub>i</sub> + λB<sub>ii</sub>)]</div>
+<ol class="steps">
+<li><div class="step-content">Initialiser λ.</div></li>
+<li><div class="step-content">Calculer les <i>P<sub>i</sub></i> (formule ci-dessus, écrêtés aux limites) et les pertes <i>P<sub>L</sub></i>.</div></li>
+<li><div class="step-content">Calculer Δ<i>P</i> = <i>P<sub>D</sub></i> + <i>P<sub>L</sub></i> − Σ<i>P<sub>i</sub></i>, puis Δλ = Δ<i>P</i>/Σ(∂<i>P<sub>i</sub></i>/∂λ).</div></li>
+<li><div class="step-content">λ ← λ + Δλ ; revenir à l'étape 2 jusqu'à |Δ<i>P</i>| &lt; ε.</div></li>
+</ol>
+<p>Cas simplifié fréquent (<i>B<sub>ij</sub></i> = 0, <i>B</i>₀₀ = 0) : <i>P<sub>L</sub></i> = Σ<i>B<sub>ii</sub>P<sub>i</sub></i>² et
+<i>P<sub>i</sub></i> = (λ − β<sub>i</sub>)/[2(γ<sub>i</sub> + λ<i>B<sub>ii</sub></i>)].</p>
+
+<div class="calc" data-calc="dispatch"></div>
+
+<div class="ex"><h4>Exemple 2.8 — Trois groupes, 952 MW, sans pertes</h4>
+<p><i>C</i>₁ = <i>P</i>₁ + 0,0625<i>P</i>₁², <i>C</i>₂ = <i>P</i>₂ + 0,0125<i>P</i>₂², <i>C</i>₃ = <i>P</i>₃ + 0,025<i>P</i>₃² ($/h).
+Répartir une demande de 952 MW.</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>Σ1/(2γ<sub>i</sub>) = 8 + 40 + 20 = 68 ; Σβ<sub>i</sub>/(2γ<sub>i</sub>) = 68. λ = (952 + 68)/68 = <span class="result">15 $/MWh</span>.</p>
+<p><i>P</i>₁ = (15 − 1)/0,125 = <span class="result">112 MW</span> ; <i>P</i>₂ = <span class="result">560 MW</span> ;
+<i>P</i>₃ = <span class="result">280 MW</span> ; <i>C<sub>t</sub></i> = <span class="result">7 616 $/h</span>.</p>
+<p>Le groupe 2, dont le coût croît le plus lentement (γ₂ le plus faible), fournit l'essentiel de la demande. Une répartition
+« au prorata des puissances installées » coûterait davantage : c'est tout l'enjeu.</p>
+</details></div>
+
+<p>Cette formulation « un seul nœud » ignore le réseau (contraintes de tension, limites thermiques des lignes), les durées
+minimales de marche et d'arrêt des groupes, le stockage et les renouvelables. Le niveau 5 en donne la version moderne :
+<b>OPF</b> multi-périodes et <b>engagement des unités</b> formulés en programmation linéaire mixte (MILP), avec contrôle par load
+flow — c'est ce que calcule le paquet <code>der/</code> du serveur (<code>economics/dispatch.py</code>, <code>economics/opf.py</code>).
+La règle des coûts marginaux égaux en reste le cœur.</p>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="n2-ex">
+            <h2><span class="section-icon">🎯</span>Exercices</h2>
+<div class="ex"><h4>Exercice 1 — Court-circuit au secondaire d'un transformateur</h4>
+<p>Le transformateur de l'exemple 2.1 est alimenté par un réseau de puissance de court-circuit infinie. Calculer I"k triphasé au
+secondaire (c = 1,05), κ et ip.</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>I"k = 1,05 × 400/(√3 × 0,0256) = <span class="result">9,47 kA</span> ; R/X = 0,344 ; κ = 1,02 + 0,98·e<sup>−1,031</sup> = 1,370 ;
+ip = 1,370 × √2 × 9,47 = <span class="result">18,3 kA</span>. Le disjoncteur général BT doit avoir un pouvoir de coupure d'au moins
+10 kA (on choisit 15 ou 25 kA pour tenir compte de la puissance de court-circuit réelle du réseau amont).</p>
+</details></div>
+<div class="ex"><h4>Exercice 2 — Changement de base</h4>
+<p>Un transformateur 2 MVA, 30/0,4 kV a <i>u</i><sub>cc</sub> = 6 %. Exprimer son impédance en pu sur la base 100 MVA, puis en ohms côté 30 kV.</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p><i>z</i> = 0,06 × 100/2 = <span class="result">3 pu</span> ; <i>Z</i><sub>b</sub> = 30²/100 = 9 Ω ; <i>Z</i> = <span class="result">27 Ω</span>
+(= 0,06 × 30²/2).</p>
+</details></div>
+<div class="ex"><h4>Exercice 3 — Plan de tension</h4>
+<p>Dans le TP 3, la charge passe à 8 MW, 4 Mvar. Sans calcul détaillé, que va-t-il se passer pour V3, pour Qgen de G2 et pour les pertes ?
+Vérifier avec NRJXpert.</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>Prévision : V3 baisse (≈ (R·P + X·Q)/U² augmente) ; G2, qui tient sa tension, fournit plus de réactif ; les pertes croissent à peu
+près comme le carré des transits. Calcul (Newton-Raphson, 3 itérations) : V3 = <span class="result">30,629 kV</span> (−1,23°) au lieu
+de 30,937 kV ; Qgen de G2 = <span class="result">3,71 Mvar</span> au lieu de 1,16 ; le poste fournit 5,17 MW et 0,53 Mvar ; pertes
+= 5,172 + 3 − 8 = <span class="result">172 kW</span>, soit 2,9 fois plus pour une charge 1,6 fois plus forte.</p>
+</details></div>
+<div class="ex"><h4>Exercice 4 — Méthodes itératives</h4>
+<p>Expliquer pourquoi Newton-Raphson converge en 3 itérations quelle que soit la méthode d'initialisation raisonnable (tensions « plates »
+1∠0°), alors que Gauss-Seidel en demande 20. Que se passe-t-il si la charge devient trop forte (au-delà de la puissance maximale
+transmissible) ?</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>NR utilise les dérivées (tangente) : l'erreur est élevée au carré à chaque itération près de la solution. GS corrige chaque nœud
+séparément, avec une convergence linéaire. Au-delà du point d'effondrement de tension (nez de la courbe P-V), il n'existe plus de
+solution : aucune méthode ne converge et le serveur renvoie un message de non-convergence.</p>
+</details></div>
+
+<div class="ex"><h4>Exercice 5 — Ligne 400 kV : puissance naturelle et effet Ferranti</h4>
+<p>Ligne aérienne 400 kV de 300 km : <i>r</i> = 0,02 Ω/km, <i>x</i> = 0,314 Ω/km (50 Hz), <i>c</i> = 11,5 nF/km. Calculer
+l'impédance caractéristique, la puissance naturelle, la puissance réactive produite à vide, et l'élévation de tension en bout de
+ligne ouverte. Quelle réactance shunt faudrait-il pour la compenser à 100 % ?</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p><i>z</i> = 0,02 + j0,314 Ω/km ; <i>y</i> = j3,613·10⁻⁶ S/km. <b>Z</b><sub>c</sub> = √(<i>z</i>/<i>y</i>) =
+<span class="result">295 Ω</span> (∠−1,8° : presque résistive) ; γ = (3,39 + j106,6)·10⁻⁶ /km, soit γℓ = 0,0102 + j0,3197.</p>
+<p>SIL = <i>U</i>²/<i>Z<sub>c</sub></i> = 400²/295 = <span class="result">542 MW</span>. Au-dessous de cette charge, la ligne est
+génératrice de réactif ; au-dessus, consommatrice.</p>
+<p>À vide : <i>Q<sub>C</sub></i> = <i>U</i>²·<i>C</i>ω·ℓ = 400²·10⁶ × 1,084·10⁻³ = <span class="result">173 Mvar</span> injectés dans le
+réseau. |<i>A</i>| = |cosh γℓ| = 0,9494 → <i>U<sub>R</sub></i> = <i>U<sub>S</sub></i>/0,9494 : la tension monte de
+<span class="result">+5,3 %</span> (effet Ferranti) — 421 kV pour 400 kV à l'origine.</p>
+<p>Compensation totale : une réactance shunt absorbant 173 Mvar sous 400 kV, soit <i>X</i> = <i>U</i>²/<i>Q</i> = 923 Ω par phase
+(étoile), c'est-à-dire <i>L</i> = 2,94 H. En pratique on compense 50 à 70 % et l'on répartit les réactances aux deux extrémités.</p>
+</details></div>
+
+<div class="ex"><h4>Exercice 6 — Répartition économique avec limites</h4>
+<p>Trois centrales thermiques : <i>C</i>₁ = 500 + 5,3<i>P</i>₁ + 0,004<i>P</i>₁², <i>C</i>₂ = 400 + 5,5<i>P</i>₂ + 0,006<i>P</i>₂²,
+<i>C</i>₃ = 200 + 5,8<i>P</i>₃ + 0,009<i>P</i>₃² ($/h), avec 200 ≤ <i>P</i>₁ ≤ 450, 150 ≤ <i>P</i>₂ ≤ 350, 100 ≤ <i>P</i>₃ ≤ 225 MW.
+Répartir une demande de 975 MW et donner le coût horaire.</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>Sans contrainte : Σ1/(2γ<sub>i</sub>) = 125 + 83,33 + 55,56 = 263,89 ; Σβ<sub>i</sub>/(2γ<sub>i</sub>) = 1 443,1 ;
+λ = (975 + 1 443,1)/263,89 = 9,163 $/MWh → <i>P</i>₁ = 482,9 MW : <b>au-delà de sa limite</b>.</p>
+<p>On bloque <i>P</i>₁ = 450 MW et l'on recommence sur les 525 MW restants : λ = (525 + 780,6)/138,89 =
+<span class="result">9,4 $/MWh</span> → <i>P</i>₂ = <span class="result">325 MW</span>, <i>P</i>₃ = <span class="result">200 MW</span>
+(tous deux dans leurs limites). Coût total : <span class="result">8 236 $/h</span>.</p>
+<p>Vérification des conditions de Kuhn-Tucker : d<i>C</i>₁/d<i>P</i>₁ = 8,9 &lt; λ = 9,4 — le groupe le moins cher est saturé, ce qui
+est bien la situation attendue ; les deux autres sont à λ.</p>
+</details></div>
+
+<div class="ex"><h4>Exercice 7 — Répartition économique avec pertes</h4>
+<p>Trois centrales : <i>C</i>₁ = 200 + 7,0<i>P</i>₁ + 0,008<i>P</i>₁², <i>C</i>₂ = 180 + 6,3<i>P</i>₂ + 0,009<i>P</i>₂²,
+<i>C</i>₃ = 140 + 6,8<i>P</i>₃ + 0,007<i>P</i>₃² ($/h), 10 ≤ <i>P<sub>i</sub></i> ≤ 85/80/70 MW. Les pertes, en pu sur 100 MVA, valent
+<i>P<sub>L</sub></i> = 0,0218<i>P</i>₁² + 0,0228<i>P</i>₂² + 0,0179<i>P</i>₃². Répartir une demande de 150 MW.</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>En MW : <i>B<sub>ii</sub></i> = 0,0218/100 = 2,18·10⁻⁴ MW⁻¹ (etc.). On itère sur λ avec
+<i>P<sub>i</sub></i> = (λ − β<sub>i</sub>)/[2(γ<sub>i</sub> + λ<i>B<sub>ii</sub></i>)] jusqu'à Σ<i>P<sub>i</sub></i> = <i>P<sub>D</sub></i> + <i>P<sub>L</sub></i>.</p>
+<p>Résultat : λ = <span class="result">7,679 $/MWh</span> ; <i>P</i>₁ = <span class="result">35,09 MW</span>,
+<i>P</i>₂ = <span class="result">64,13 MW</span>, <i>P</i>₃ = <span class="result">52,48 MW</span> ;
+<i>P<sub>L</sub></i> = <span class="result">1,70 MW</span> (Σ<i>P<sub>i</sub></i> = 151,70 MW) ; coût <span class="result">1 593 $/h</span>.</p>
+<p>Le groupe 1, dont le coefficient de pertes est le plus élevé, est <b>pénalisé</b> : son coût marginal n'est que de 7,56 $/MWh,
+mais son facteur de pénalité 1/(1 − 0,0153) = 1,0155 le ramène à λ. Autrement dit, le réseau fait payer l'éloignement
+du producteur — c'est la justification économique de la production décentralisée (niveau 5).</p>
+</details></div>
+<div class="ex"><h4>Exercice 8 — Compenser un départ HTA</h4>
+<p>Une source 20 kV alimente, par un départ d'impédance 2 + j6 Ω, une charge de 5 MW et 3 Mvar. Dessiner le réseau (bus balancier
+20 kV, impédance, bus de charge) et répondre :</p>
+<ol>
+<li>Chute de tension et pertes par les formules approchées, puis par le load flow (Newton-Raphson).</li>
+<li>Puissance réactive à fournir au nœud de charge pour limiter la chute de tension à 3 % (formule approchée).</li>
+<li>Placer un compensateur shunt à gradins de 4 × 1 Mvar (palette <b>Réseau (load flow)</b>) : combien de gradins enclencher ?
+Vérifier au load flow ; pourquoi le réactif fourni est-il inférieur à <i>n</i> × 1 Mvar ?</li>
+<li>Passer le compensateur en régulation automatique (consigne 0,98 pu, bande morte 2 %) : que choisit le calcul ?</li>
+<li>Remplacer le compensateur par un STATCOM de ± 4 Mvar qui tient la tension à 1,00 pu (pente nulle). Que se passe-t-il ? Quel calibre
+faut-il, et est-ce souhaitable du point de vue des pertes ?</li>
+</ol>
+<details class="sol"><summary>Voir la solution</summary>
+<p>1. ΔU/U ≈ (R·P + X·Q)/U² = (2 × 5 + 6 × 3)/20² = 7 %, pertes ≈ R·(P² + Q²)/U² = 2 × 34/400 = 0,17 MW. Load flow :
+<span class="result">0,922 pu</span> (chute de 7,8 %) et <span class="result">0,200 MW</span> : les formules approchées supposent
+la tension nominale au nœud de charge, alors que le courant y est plus fort parce que la tension est plus basse.</p>
+<p>2. (10 + 6·(3 − <i>Q</i><sub>c</sub>))/400 ≤ 0,03 ⇒ <i>Q</i><sub>c</sub> ≥ <span class="result">2,67 Mvar</span>.</p>
+<p>3. Trois gradins : <span class="result">0,968 pu</span>, pertes 0,134 MW (−33 %), réactif fourni 2,81 Mvar seulement, car un
+condensateur fournit <i>Q</i> = <i>n</i>·<i>Q</i><sub>gradin</sub>·<i>V</i>² (3 × 0,968² = 2,81). Deux gradins ne suffisent pas (0,952 pu).</p>
+<p>4. La bande est [0,97 ; 0,99] pu : le calcul enclenche <span class="result">4 gradins</span> (0,985 pu), trois donnant 0,968 pu,
+sous la bande.</p>
+<p>5. Le STATCOM atteint sa <b>butée capacitive</b> : 3,94 Mvar (= 4 × 0,986), tension 0,986 pu, avertissement du calcul. Pour tenir
+1,00 pu, il lui faut <span class="result">4,9 Mvar</span>, et les pertes remontent (0,143 MW contre 0,133 MW) : au-delà du réactif
+consommé par la charge, le départ transporte du réactif vers le poste. Une pente de quelques % évite cette surcompensation.</p>
+</details></div>
+<div class="ex"><h4>Exercice 9 — Prise de réglage en tête du départ</h4>
+<p>Reprendre le départ de l'exercice 8 (source 20 kV, impédance 2 + j6 Ω, charge 5 MW et 3 Mvar, tension 0,922 pu au nœud de charge). Un transformateur
+20 kV / 20 kV à prises (pas 1,25 %, ± 8 crans ; impédance de court-circuit négligée) est placé entre la source et le départ.</p>
+<ol>
+<li>Estimer le cran nécessaire pour ramener la tension de charge à 0,98 pu au moins. Vérifier au load flow en prise fixe, pour les crans −2, −3, −4 et −5.</li>
+<li>Passer en réglage automatique (tension régulée : côté secondaire du transformateur, consigne 1,00 pu, bande morte 2 %). Que choisit le calcul ?</li>
+<li>Réduire la bande morte à 0,5 %. Que signale le calcul, et pourquoi ?</li>
+</ol>
+<details class="sol"><summary>Voir la solution</summary>
+<p>1. Chaque cran relève la tension d'environ 1,25 % (un peu plus au nœud de charge, car le courant baisse) : de 0,922 à 0,98 pu il faut un peu plus de
+4 crans. Load flow : <span class="result">0,950 ; 0,965 ; 0,979 ; 0,995 pu</span> pour −2 ; −3 ; −4 ; −5. Le cran −4 est tout juste sous 0,98 pu :
+il faut <span class="result">−5 crans</span>.</p>
+<p>2. La bande est [0,99 ; 1,01] pu : le calcul s'arrête à <span class="result">−5 crans</span> (0,995 pu) ; −4 donne 0,979 pu, sous la bande.</p>
+<p>3. Avertissement de <b>pompage</b> : un cran change la tension de 1,5 %, davantage que la largeur de la bande (0,5 %) ; aucune position ne tombe dans la bande et le calcul
+oscille entre deux crans. La bande morte doit être plus large que l'effet d'un cran.</p>
+</details></div>
+<div class="ex"><h4>Exercice 10 — Courbes inverses</h4>
+<p>Un relais à maximum de courant a pour seuil <i>I</i><sub>s</sub> = 200 A et TMS = 0,2. Calculer son temps de déclenchement (hors temps d'ouverture du disjoncteur) pour un courant de 1 000 A, puis de 2 000 A, avec les courbes SI (<i>k</i> = 0,14, α = 0,02), VI (13,5 et 1) et EI (80 et 2). Quelle courbe choisir pour une ligne où les courants de défaut varient beaucoup selon l'endroit du défaut ?</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p><i>t</i> = TMS·<i>k</i>/((<i>I</i>/<i>I</i><sub>s</sub>)<sup>α</sup> − 1). À 1 000 A (<i>I</i>/<i>I</i><sub>s</sub> = 5) : SI <span class="result">0,856 s</span>, VI <span class="result">0,675 s</span>, EI <span class="result">0,667 s</span>. À 2 000 A (rapport 10) : SI 0,594 s, VI 0,300 s, EI 0,162 s. La courbe SI est presque plate (0,86 s → 0,59 s) ; la courbe EI s'effondre quand le courant double (0,67 s → 0,16 s). Elle convient donc lorsque le courant de défaut varie beaucoup selon la position (la protection est rapide pour un défaut proche, lente pour un défaut lointain, ce qui facilite la sélectivité) et lorsque la protection doit tolérer l'enclenchement des charges (fusibles en aval) ; la SI convient quand le courant de défaut varie peu (réseau puissant).</p>
+</details></div>
+<div class="ex"><h4>Exercice 11 — Réseau compensé</h4>
+<p>Un réseau 20 kV, 50 Hz, a une capacité homopolaire totale <i>C</i><sub>0</sub> = 8 µF. Calculer le courant capacitif <i>I</i><sub>c</sub> d'un défaut monophasé en neutre isolé et la tension des phases saines. Calculer l'inductance de la bobine de Petersen accordée, puis avec un désaccord <i>v</i> = +5 % et un courant actif de 3 % de <i>I</i><sub>c</sub>, et le courant résiduel de défaut.</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p><i>I</i><sub>c</sub> = 3·ω·<i>C</i><sub>0</sub>·<i>U</i><sub>n</sub>/√3 = 3 × 314,16 × 8·10⁻⁶ × 20 000/√3 = <span class="result">87,1 A</span> ; les phases saines montent à √3 × 11,55 kV = 20 kV (tension composée). Bobine accordée : <i>L</i> = 1/(3·ω²·<i>C</i><sub>0</sub>) = <span class="result">0,422 H</span>. Avec <i>v</i> = +5 % (surcompensation) : <i>L</i> = 1/(3·ω²·<i>C</i><sub>0</sub>·1,05) = <span class="result">0,402 H</span> ; courant résiduel ≈ <i>I</i><sub>c</sub>·√(<i>v</i>² + <i>r</i>²) = 87,1 × √(0,05² + 0,03²) = <span class="result">5,1 A</span>, soit 17 fois moins qu'en neutre isolé : l'arc d'un défaut fugitif s'éteint seul. Le désaccord évite la résonance exacte (qui ferait monter fortement la tension du neutre) ; la mise au point exacte se fait en variant <i>L</i> jusqu'au maximum de la tension du neutre.</p>
+</details></div>
+<div class="ex"><h4>Exercice 12 — Saturation d'un transformateur de courant</h4>
+<p>Un TC 200/5 A, classe 5P20, 15 VA, a une résistance de secondaire <i>R</i><sub>ct</sub> = 0,3 Ω. Il alimente un relais et ses câbles de charge totale 30 VA (à 5 A). Calculer son facteur limite de précision réel ALF′. Le TC reste-t-il fidèle pour un défaut de 3 kA ? Que faut-il faire ?</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>ALF′ = ALF·(<i>R</i><sub>ct</sub>·<i>I</i><sub>sn</sub>² + <i>S</i><sub>n</sub>)/(<i>R</i><sub>ct</sub>·<i>I</i><sub>sn</sub>² + <i>S</i><sub>b</sub>) = 20 × (0,3 × 25 + 15)/(0,3 × 25 + 30) = 20 × 22,5/37,5 = <span class="result">12</span>. Le TC garde son erreur composée jusqu'à 12 × 200 = 2 400 A. Un défaut de 3 000 A, soit 15 fois le courant nominal, dépasse cette limite : le TC sature, le relais voit un courant plus faible et déclenche plus tard. Solutions : réduire la charge (câble de plus forte section, relais à faible consommation) pour retrouver ALF′ ≥ 15, ou choisir un TC de puissance supérieure (30 VA) ou de rapport plus élevé.</p>
+</details></div>
+<div class="ex"><h4>Exercice 13 — Démarrage d'un moteur et creux de tension</h4>
+<p>Un moteur de 2 MVA démarre en direct, avec un courant de démarrage de 6 fois son courant nominal, sur un réseau de puissance de court-circuit 40 MVA. Son couple de démarrage est de 1,2 pu (sous tension nominale) et la pompe qu'il entraîne oppose un couple résistant de 0,5 pu à l'arrêt. Estimer le creux de tension, puis le couple accélérateur au démarrage. Le moteur démarre-t-il ? Que se passe-t-il si le réseau ne fait plus que 25 MVA ?</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>Puissance appelée au démarrage : <i>S</i><sub>d</sub> = 6 × 2 = 12 MVA ; creux ≈ <i>S</i><sub>d</sub>/<i>S</i><sub>cc</sub> = 12/40 = <span class="result">30 %</span> (premier ordre : on l'affine par un load flow, voir l'exemple 5.5). La tension tombe à 0,70 pu ; le couple vaut 1,2 × 0,70² = <span class="result">0,59 pu</span>, soit un couple accélérateur de 0,59 − 0,50 = 0,09 pu : le moteur démarre, mais très lentement (le courant reste élevé longtemps et échauffe le moteur). Avec 25 MVA : creux ≈ 48 %, tension 0,52 pu, couple 1,2 × 0,52² = 0,32 pu &lt; 0,50 : le moteur <b>ne démarre pas</b>. Remèdes : démarreur étoile-triangle, démarreur progressif, variateur, renforcement du réseau ou compensation de réactif.</p>
+</details></div>
+<div class="ex"><h4>Exercice 14 — Courbe de capacité d'un alternateur</h4>
+<p>Un alternateur de 10 MVA (<i>X</i><sub>d</sub> = 1,8 pu, excitation maximale <i>E</i><sub>fd max</sub> = 2,5 pu) produit 8 MW. Pour une tension de 1,00 pu puis de 0,95 pu, calculer le réactif maximal qu'il peut fournir, avec la limite statorique <i>p</i>² + <i>q</i>² ≤ <i>v</i>² et la limite d'excitation <i>p</i>² + (<i>q</i> + <i>v</i>²/<i>X</i><sub>d</sub>)² ≤ (<i>v</i>·<i>E</i><sub>fd max</sub>/<i>X</i><sub>d</sub>)². Quelle limite est atteinte la première ?</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p><i>p</i> = 0,8 pu. À <i>v</i> = 1,00 : stator <i>q</i> ≤ √(1 − 0,64) = 0,600 pu (6,0 Mvar) ; excitation <i>q</i> ≤ −1/1,8 + √((2,5/1,8)² − 0,64) = −0,556 + 1,136 = 0,580 pu (<span class="result">5,80 Mvar</span>) : c'est l'<b>excitation</b> qui limite. À <i>v</i> = 0,95 : stator <i>q</i> ≤ √(0,9025 − 0,64) = 0,512 pu (<span class="result">5,12 Mvar</span>) ; excitation <i>q</i> ≤ −0,9025/1,8 + √((0,95 × 2,5/1,8)² − 0,64) = 0,548 pu : c'est maintenant le <b>courant statorique</b> qui limite. Une tension basse réduit donc la capacité de réactif au moment où le réseau en a le plus besoin ; au load flow, le nœud PV devient PQ dès que le réactif demandé dépasse cette limite et la tension n'est plus tenue (exemple 2.14).</p>
+</details></div>
+<div class="ex"><h4>Exercice 15 — Protection de distance d'une ligne</h4>
+<p>Une ligne de 10 km a pour impédance 0,3 + j0,4 Ω/km. Un relais de distance est réglé avec les zones standard (80 % instantanée, 120 % à 0,3 s, 200 % à 1 s). Calculer les portées en ohms. Quelle zone voit un défaut franc à 6 km, à 9 km, à 11 km (sur la ligne suivante) ? Quel est l'effet, sur un défaut à la terre, d'une ligne parallèle couplée en homopolaire ?</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p><i>Z</i><sub>ligne</sub> = 10 × (0,3 + j0,4) = 3 + j4 Ω, |<i>Z</i>| = 5 Ω. Portées : zone 1 = <span class="result">4 Ω</span>, zone 2 = <span class="result">6 Ω</span>, zone 3 = <span class="result">10 Ω</span>. Défaut à 6 km : <i>Z</i> = 3 Ω &lt; 4 Ω, zone 1, déclenchement instantané. À 9 km : 4,5 Ω, entre 4 et 6 Ω, zone 2, déclenchement à 0,3 s (la fin de ligne n'est pas protégée instantanément ; une téléprotection ou une protection différentielle comblerait ce manque). À 11 km (au-delà de la ligne) : 5,5 Ω, vu en zone 2 : le relais est alors en secours de la ligne suivante, temporisé à 0,3 s : sa protection propre doit agir avant. Une ligne parallèle couplée en homopolaire fait circuler dans la ligne protégée un courant résiduel supplémentaire qui fausse la mesure d'impédance de terre : le relais sous-estime ou surestime la distance selon le sens du courant, ce qui oblige à réduire la zone 1 (70 % au lieu de 80 %) ou à compenser avec le courant de la ligne parallèle.</p>
+</details></div>
+<div class="ex"><h4>Exercice 16 — Couplage mutuel de deux lignes parallèles</h4>
+<p>Deux lignes identiques relient en parallèle un poste source à un poste de livraison 20 kV (<i>U</i><sub>n</sub> = 20 kV, <i>c</i> = 1,1). Chacune a une impédance homopolaire <i>Z</i><sub>0</sub> = 6 + j18 Ω et une mutuelle homopolaire <i>Z</i><sub>0m</sub> = 2 + j8 Ω (courants de même sens). Vue du poste de livraison, l'impédance directe (réseau amont et lignes en parallèle) vaut <i>Z</i><sub>1</sub> = <i>Z</i><sub>2</sub> = 2 + j6 Ω. Calculer le courant de défaut monophasé-terre <i>I</i>″<sub>k1</sub> au poste de livraison, sans puis avec le couplage. Le défaut triphasé en est-il modifié ?</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>Sans couplage, les deux lignes en parallèle donnent <i>Z</i><sub>0</sub>/2 = 3 + j9 Ω ; <i>Z</i><sub>1</sub> + <i>Z</i><sub>2</sub> + <i>Z</i><sub>0</sub> = 7 + j21 Ω, de module 22,1 Ω : <i>I</i>″<sub>k1</sub> = √3 × 1,1 × 20 000/22,1 = <span class="result">1 721 A</span>. Avec couplage : <i>Z</i><sub>0,éq</sub> = (<i>Z</i><sub>0</sub> + <i>Z</i><sub>0m</sub>)/2 = 4 + j13 Ω ; somme 8 + j25 Ω, de module 26,2 Ω : <i>I</i>″<sub>k1</sub> = <span class="result">1 452 A</span>, soit −16 %. Le défaut triphasé, <i>I</i>″<sub>k3</sub> = 1,1 × 20 000/(√3 × 6,32) = 2 008 A, ne change pas : en direct, les trois courants se compensent et la mutuelle n'agit pas. Conséquence pratique : un relais de distance qui néglige la mutuelle estime mal la distance d'un défaut à la terre, d'où le facteur de compensation de terre.</p>
+</details></div>
+<div class="ex"><h4>Exercice 17 — Choix et emplacement d'un parafoudre</h4>
+<p>Un réseau 20 kV (<i>U</i><sub>m</sub> = 24 kV) alimente un transformateur de tenue au choc de foudre BIL = 125 kV. Le parafoudre choisi a une tension résiduelle <i>U</i><sub>pl</sub> = 65 kV ; l'onde de foudre a une raideur <i>S</i> = 1 000 kV/µs et on exige une marge de 1,2 sur le BIL. (1) Quelle est la distance maximale entre parafoudre et transformateur ? (2) Quelle tension assignée <i>U</i><sub>r</sub> choisir (parmi 18, 21, 24, 27 kV, avec un facteur de tenue aux surtensions temporaires <i>T</i> = 1,05) en neutre isolé (<i>k</i> = √3), puis en neutre direct (<i>k</i> = 1,4) ?</p>
+<details class="sol"><summary>Voir la solution</summary>
+<p>(1) La tension au transformateur vaut <i>U</i><sub>eq</sub> = <i>U</i><sub>pl</sub> + 2·<i>S</i>·<i>L</i>/<i>v</i> (<i>v</i> = 300 m/µs) et doit rester ≤ 125/1,2 = 104,2 kV. Donc 2 × 1 000 × <i>L</i>/300 ≤ 39,2, soit <i>L</i> ≤ <span class="result">5,9 m</span> : le parafoudre doit être au plus près du transformateur. (2) Surtension temporaire <i>k</i>·<i>U</i><sub>m</sub>/√3. Neutre isolé : √3 × 24/√3 = 24 kV, d'où <i>U</i><sub>r</sub> ≥ 24/1,05 = 22,9 kV : <span class="result">24 kV</span>. Neutre direct : 1,4 × 24/√3 = 19,4 kV, d'où <i>U</i><sub>r</sub> ≥ 18,5 kV : <span class="result">21 kV</span> (18 kV est insuffisant). Un parafoudre de tension assignée plus élevée a une tension résiduelle plus grande : il faut revérifier la marge de la question (1) avec la valeur de <i>U</i><sub>pl</sub> du modèle retenu.</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="n2-qcm">
+            <h2><span class="section-icon">✅</span>QCM du niveau 2</h2>
+<div class="qcm" data-answer="b"><p class="q">1. Dans le modèle en π d'une ligne, la capacité totale C est répartie :</p>
+<ol><li data-k="a">entièrement au départ</li><li data-k="b">C/2 à chaque extrémité</li><li data-k="c">en série avec R</li><li data-k="d">C à chaque extrémité</li></ol>
+<div class="fb">C/2 de chaque côté : c'est ce que fait NRJXpert (corrigé en octobre 2026 : chaque côté valait C·l).</div></div>
+<div class="qcm" data-answer="c"><p class="q">2. Un transformateur a u<sub>cc</sub> = 4 %. Son impédance sur sa propre base vaut :</p>
+<ol><li data-k="a">4 Ω</li><li data-k="b">0,4 pu</li><li data-k="c">0,04 pu</li><li data-k="d">25 pu</li></ol>
+<div class="fb">u<sub>cc</sub> est l'impédance en pu sur la base (S<sub>n</sub>, U<sub>n</sub>).</div></div>
+<div class="qcm" data-answer="a"><p class="q">3. Sur un réseau basse tension très résistif, la chute de tension dépend surtout de :</p>
+<ol><li data-k="a">la puissance active</li><li data-k="b">la puissance réactive</li><li data-k="c">la fréquence</li><li data-k="d">la capacité des câbles</li></ol>
+<div class="fb">ΔU/U ≈ (RP + XQ)/U² avec R ≫ X.</div></div>
+<div class="qcm" data-answer="d"><p class="q">4. Dans un load flow, un nœud PV a pour inconnues :</p>
+<ol><li data-k="a">P et Q</li><li data-k="b">|V| et θ</li><li data-k="c">P et θ</li><li data-k="d">Q et θ</li></ol>
+<div class="fb">P et |V| sont imposés ; Q et l'angle sont calculés.</div></div>
+<div class="qcm" data-answer="b"><p class="q">5. Le nœud balancier sert à :</p>
+<ol><li data-k="a">fixer la fréquence</li><li data-k="b">fournir la référence d'angle et compenser les pertes inconnues</li><li data-k="c">représenter les charges</li><li data-k="d">régler la puissance réactive des PV</li></ol>
+<div class="fb">Les pertes n'étant connues qu'après le calcul, un nœud doit équilibrer le bilan.</div></div>
+<div class="qcm" data-answer="c"><p class="q">6. La méthode découplée rapide est mal adaptée :</p>
+<ol><li data-k="a">aux grands réseaux de transport</li><li data-k="b">aux réseaux maillés</li><li data-k="c">aux réseaux de distribution à R/X élevé</li><li data-k="d">aux réseaux sans nœud PV</li></ol>
+<div class="fb">Elle suppose R ≪ X ; en distribution on préfère le balayage aval-amont (niveau 5).</div></div>
+<div class="qcm" data-answer="a"><p class="q">7. Pour dimensionner le pouvoir de coupure d'un disjoncteur, on utilise :</p>
+<ol><li data-k="a">I"k maximal (c<sub>max</sub>)</li><li data-k="b">I"k minimal (c<sub>min</sub>)</li><li data-k="c">le courant nominal</li><li data-k="d">le courant de surcharge</li></ol>
+<div class="fb">Le courant minimal sert au réglage (sensibilité) des protections.</div></div>
+<div class="qcm" data-answer="d"><p class="q">8. Le défaut monophasé-terre met les réseaux de séquence :</p>
+<ol><li data-k="a">direct seul</li><li data-k="b">direct et inverse en opposition</li><li data-k="c">inverse et homopolaire en parallèle</li><li data-k="d">direct, inverse et homopolaire en série</li></ol>
+<div class="fb">I"k1 = √3·c·Un/|Z1 + Z2 + Z0|.</div></div>
+<div class="qcm" data-answer="b"><p class="q">9. Un enroulement en triangle :</p>
+<ol><li data-k="a">laisse passer le courant homopolaire vers le réseau amont</li><li data-k="b">bloque le courant homopolaire</li><li data-k="c">double l'impédance directe</li><li data-k="d">supprime le courant de défaut triphasé</li></ol>
+<div class="fb">Le courant homopolaire circule dans le triangle sans sortir sur les lignes.</div></div>
+<div class="qcm" data-answer="c"><p class="q">10. Pour R/X = 0,1, le facteur κ vaut environ :</p>
+<ol><li data-k="a">1,02</li><li data-k="b">1,30</li><li data-k="c">1,75</li><li data-k="d">2,00</li></ol>
+<div class="fb">κ = 1,02 + 0,98·e<sup>−0,3</sup> = 1,746 : réseau très inductif, forte composante continue.</div></div>
+<div class="qcm" data-answer="c"><p class="q">11. Pour une ligne chargée exactement à sa puissance naturelle (SIL) :</p>
+<ol><li data-k="a">les pertes sont nulles</li><li data-k="b">le courant est nul</li><li data-k="c">le profil de tension est plat et l'échange de réactif nul</li><li data-k="d">la ligne est en court-circuit</li></ol>
+<div class="fb">La ligne débite sur son impédance caractéristique : ce que l'inductance consomme, la capacité le fournit.</div></div>
+<div class="qcm" data-answer="a"><p class="q">12. L'effet Ferranti se manifeste :</p>
+<ol><li data-k="a">sur une ligne longue à vide ou très peu chargée</li><li data-k="b">en cas de court-circuit</li><li data-k="c">sur les câbles seulement</li><li data-k="d">lors d'une surcharge</li></ol>
+<div class="fb"><u>V</u><sub>R</sub> = <u>V</u><sub>S</sub>/cosh(γℓ) : la tension en bout de ligne dépasse celle de l'origine. Remède : réactances shunt.</div></div>
+<div class="qcm" data-answer="b"><p class="q">13. Une impédance de 12 Ω sur une ligne 132 kV vaut, sur une base de 100 MVA :</p>
+<ol><li data-k="a">0,0122 pu</li><li data-k="b">0,0689 pu</li><li data-k="c">0,689 pu</li><li data-k="d">1,45 pu</li></ol>
+<div class="fb"><i>Z<sub>b</sub></i> = 132²/100 = 174,2 Ω ; 12/174,2 = 0,0689 pu, soit 6,89 %.</div></div>
+<div class="qcm" data-answer="d"><p class="q">14. À l'optimum d'une répartition économique sans pertes ni limites :</p>
+<ol><li data-k="a">tous les groupes produisent la même puissance</li><li data-k="b">le groupe le moins cher produit tout</li><li data-k="c">les coûts moyens sont égaux</li><li data-k="d">les coûts marginaux d<i>C</i>/d<i>P</i> sont égaux</li></ol>
+<div class="fb">C'est la condition ∂<i>L</i>/∂<i>P<sub>i</sub></i> = 0 : β<sub>i</sub> + 2γ<sub>i</sub><i>P<sub>i</sub></i> = λ pour tous les groupes libres.</div></div>
+<div class="qcm" data-answer="a"><p class="q">15. Le facteur de pénalité <i>L<sub>i</sub></i> = 1/(1 − ∂<i>P<sub>L</sub></i>/∂<i>P<sub>i</sub></i>) traduit :</p>
+<ol><li data-k="a">le surcoût de pertes qu'entraîne la production du groupe <i>i</i></li><li data-k="b">le rendement de la chaudière</li><li data-k="c">une pénalité contractuelle</li><li data-k="d">la limite maximale du groupe</li></ol>
+<div class="fb">Un groupe éloigné des charges, qui fait croître les pertes, voit son coût marginal pénalisé à due concurrence.</div></div>
+<div class="qcm" data-answer="a"><p class="q">16. Pourquoi les courbes des protections à maximum de courant sont-elles à temps inverse ?</p>
+<ol><li data-k="a">pour que le temps de déclenchement diminue quand le courant augmente, comme l'échauffement <i>I</i>²·<i>t</i> qu'il faut limiter</li><li data-k="b">pour déclencher d'autant plus vite que le courant est faible</li><li data-k="c">pour que le temps soit le même quel que soit le courant</li><li data-k="d">pour éviter d'avoir besoin d'un disjoncteur</li></ol>
+<div class="fb">L'échauffement est proportionnel à I²·t : une surcharge modérée est tolérée longtemps, un court-circuit est coupé vite.</div></div>
+<div class="qcm" data-answer="c"><p class="q">17. Deux protections à maximum de courant en série sont sélectives (chronométrique) si :</p>
+<ol><li data-k="a">leurs courbes se croisent</li><li data-k="b">elles ont le même TMS</li><li data-k="c">leurs temps de déclenchement diffèrent d'au moins la marge (≈ 0,3 s) pour tous les courants de défaut possibles</li><li data-k="d">la protection amont est instantanée</li></ol>
+<div class="fb">Des courbes qui se croisent signifient qu'au-delà d'un certain courant, l'organe amont déclenche avant l'organe aval : plus de sélectivité.</div></div>
+<div class="qcm" data-answer="d"><p class="q">18. Le seuil <i>I</i><sub>s</sub> d'une protection à maximum de courant doit être :</p>
+<ol><li data-k="a">sous le courant de charge, pour ne rien rater</li><li data-k="b">égal au courant de court-circuit maximal</li><li data-k="c">indépendant du courant de charge</li><li data-k="d">au-dessus du courant de charge maximal et nettement sous le courant de court-circuit minimal</li></ol>
+<div class="fb">Trop bas : déclenchements intempestifs ; trop haut : le défaut le plus éloigné (Icc min) n'est pas vu.</div></div>
+<div class="qcm" data-answer="b"><p class="q">19. Un relais de distance mesure :</p>
+<ol><li data-k="a">le courant seul</li><li data-k="b">l'impédance V/I, proportionnelle à la distance du défaut</li><li data-k="c">la tension seule</li><li data-k="d">la fréquence du réseau</li></ol>
+<div class="fb">L'impédance d'une ligne est proportionnelle à sa longueur : V/I donne la distance, quelle que soit l'intensité du courant.</div></div>
+<div class="qcm" data-answer="c"><p class="q">20. Par rapport à un disjoncteur à relais, un fusible :</p>
+<ol><li data-k="a">peut être refermé automatiquement</li><li data-k="b">ne protège que contre les surcharges</li><li data-k="c">coupe avant le pic de court-circuit mais doit être remplacé après fonctionnement</li><li data-k="d">a besoin d'un TC pour fonctionner</li></ol>
+<div class="fb">Le fusible réunit capteur, relais et coupure ; il limite le courant de crête mais est à usage unique.</div></div>
+<div class="qcm" data-answer="a"><p class="q">21. Un TC de protection 5P20 est chargé plus fortement que sa charge de précision. Son facteur limite réel :</p>
+<ol><li data-k="a">diminue : il sature pour un courant plus faible et le relais déclenche plus tard</li><li data-k="b">reste égal à 20</li><li data-k="c">augmente, car la tension secondaire monte</li><li data-k="d">n'a plus d'importance</li></ol>
+<div class="fb">ALF′ = ALF·(R<sub>ct</sub>·I<sub>sn</sub>² + S<sub>n</sub>)/(R<sub>ct</sub>·I<sub>sn</sub>² + S<sub>b</sub>) : plus S<sub>b</sub> est grand, plus ALF′ est petit.</div></div>
+<div class="qcm" data-answer="d"><p class="q">22. En neutre isolé, un défaut monophasé :</p>
+<ol><li data-k="a">donne un courant de plusieurs kA, comme en neutre direct</li><li data-k="b">laisse inchangée la tension des phases saines</li><li data-k="c">impose un déclenchement instantané</li><li data-k="d">ne se referme que par les capacités homopolaires ; les phases saines montent à √3 fois la tension simple</li></ol>
+<div class="fb">I<sub>c</sub> = 3·ω·C<sub>0</sub>·U<sub>n</sub>/√3 : quelques ampères à quelques centaines d'ampères ; l'exploitation peut continuer.</div></div>
+<div class="qcm" data-answer="b"><p class="q">23. Une bobine de Petersen accordée :</p>
+<ol><li data-k="a">augmente le courant de défaut</li><li data-k="b">compense le courant capacitif du défaut (L = 1/(3·ω²·C<sub>0</sub>)) : il ne reste qu'un faible courant résiduel</li><li data-k="c">met le neutre directement à la terre</li><li data-k="d">remplace le transformateur de poste</li></ol>
+<div class="fb">Le courant résiduel ≈ I<sub>c</sub>·√(v² + r²) est de quelques pourcents de I<sub>c</sub> : l'arc fugitif s'éteint seul.</div></div>
+<div class="qcm" data-answer="a"><p class="q">24. Un parafoudre est bien coordonné avec un transformateur si :</p>
+<ol><li data-k="a">sa tension équivalente Ueq reste au moins 20 % sous la tenue au choc de foudre (BIL) et son Ur couvre la surtension temporaire</li><li data-k="b">sa tension résiduelle est égale au BIL</li><li data-k="c">son Ur est le plus faible possible</li><li data-k="d">la distance au transformateur est sans effet</li></ol>
+<div class="fb">Ueq = Upl + 2·S·L/v augmente avec la distance L : un parafoudre trop éloigné ne protège plus.</div></div>
+<div class="qcm" data-answer="c"><p class="q">25. Au démarrage direct, un moteur asynchrone :</p>
+<ol><li data-k="a">absorbe son courant nominal avec un bon cos φ</li><li data-k="b">développe un couple indépendant de la tension</li><li data-k="c">absorbe 5 à 7 fois son courant nominal sous un faible facteur de puissance, et son couple varie comme V²</li><li data-k="d">fournit du réactif au réseau</li></ol>
+<div class="fb">Le creux de tension réduit le couple (80 % de V → 64 % du couple) : si le couple résistant est plus grand, le moteur ne démarre pas ou décroche.</div></div>
+<div class="qcm" data-answer="d"><p class="q">26. Le couplage mutuel de deux lignes parallèles intervient :</p>
+<ol><li data-k="a">dans les trois réseaux de séquence</li><li data-k="b">seulement dans le réseau inverse</li><li data-k="c">seulement pour les défauts triphasés</li><li data-k="d">seulement dans le réseau homopolaire (courants en phase, retour par la terre)</li></ol>
+<div class="fb">En direct et en inverse, les trois phases se compensent ; en homopolaire, Z<sub>0m</sub> atteint 40 à 70 % de Z<sub>0</sub>.</div></div>
+<div class="qcm" data-answer="b"><p class="q">27. Au load flow, un alternateur dont le réactif demandé dépasse sa limite d'excitation :</p>
+<ol><li data-k="a">reste un nœud PV et fournit plus de réactif</li><li data-k="b">devient un nœud PQ avec Q égal à la limite, et sa tension n'est plus tenue</li><li data-k="c">fait diverger le calcul dans tous les cas</li><li data-k="d">passe en nœud balancier</li></ol>
+<div class="fb">La courbe de capacité borne Q ; le nœud redevient PV si la tension repasse du bon côté de la consigne.</div></div>
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="page-nav"><a href="niveau1.html">← Niveau 1 — Fondamentaux</a><a href="niveau3.html">Niveau 3 — Énergies renouvelables →</a></div>
+
+        <div class="section" id="auteur">
+            <h2><span class="section-icon">👤</span>Auteur</h2>
+            <div class="author-card">
+                <div class="author-avatar">LT</div>
+                <div class="author-info">
+                    <div class="name">Prof. Lamine THIAW</div>
+                    <div class="role">Département de Génie Électrique<br>École Supérieure Polytechnique<br>Université Cheikh Anta Diop, Dakar</div>
+                    <a href="mailto:nrjxpert@niitan.com">nrjxpert@niitan.com</a>
+                </div>
+            </div>
+            <p class="small" style="margin-top:14px">Novembre 2026</p>
+        </div>
+    </main>
+</div>
+
+<script>
+    // défilement doux vers les ancres de la page
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){
+        a.addEventListener('click', function(e){
+            var t = document.querySelector(this.getAttribute('href'));
+            if(t){ e.preventDefault(); t.scrollIntoView({behavior: 'smooth', block: 'start'}); }
+        });
+    });
+    // rubrique active dans le menu latéral
+    var navLinks = document.querySelectorAll('#sidebar nav a');
+    if('IntersectionObserver' in window){
+        var obs = new IntersectionObserver(function(entries){
+            entries.forEach(function(en){
+                if(en.isIntersecting) navLinks.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#' + en.target.id); });
+            });
+        }, {rootMargin: '-20% 0px -70% 0px'});
+        document.querySelectorAll('.section[id]').forEach(function(s){ obs.observe(s); });
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NRJXpert — User guide</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="aide.css">
+<script src="tutoriel/glossaire.js" defer></script>
+</head>
+<body>
+<div id="top"></div>
+
+<!-- ════════════════ MENU LATÉRAL ════════════════ -->
+<aside id="sidebar">
+    <div id="sidebar-header">
+        <div class="app-name">NRJXpert</div>
+        <div class="app-version">Version 2.0.0 · User guide</div>
+    </div>
+    <nav>
+        <a href="#presentation"><span class="nav-icon">📋</span>Overview</a>
+        <a href="#installation"><span class="nav-icon">💻</span>Installation and start-up</a>
+        <a href="#interface"><span class="nav-icon">🖥️</span>Main window</a>
+        <a href="#network"><span class="nav-icon">🔌</span>Drawing a network</a>
+        <a href="#calcul"><span class="nav-icon">⚙️</span>Calculations and results</a>
+        <a href="#weather"><span class="nav-icon">🌤️</span>Site weather data</a>
+        <a href="#pv"><span class="nav-icon">☀️</span>Photovoltaic systems</a>
+        <a href="#wind"><span class="nav-icon">🌬️</span>Wind systems</a>
+        <a href="#economie"><span class="nav-icon">💰</span>Economic methods</a>
+        <a href="#defauts"><span class="nav-icon">📏</span>Default values and typical ranges</a>
+        <a href="#fichiers"><span class="nav-icon">📁</span>Files and folders</a>
+        <a href="#depannage"><span class="nav-icon">🛠️</span>Troubleshooting</a>
+        <a href="#glossaire"><span class="nav-icon">📚</span>Glossary and references</a>
+        <a href="#auteur"><span class="nav-icon">👤</span>Author</a>
+    </nav>
+    <div class="side-links"><a href="tutoriel/index-en.html">🎓 Tutorial and training</a></div>
+</aside>
+
+<!-- ════════════════ ZONE PRINCIPALE ════════════════ -->
+<div id="main">
+    <div id="hero">
+        <h1>NRJXpert — User guide</h1>
+        <div class="tagline">Electrical network simulation, sizing and economic viability of photovoltaic and wind energy systems.
+Lamine Thiaw — Electrical Engineering Department, École Supérieure Polytechnique (ESP), Université Cheikh Anta Diop, Dakar.</div>
+        <div class="badges">
+            <span class="hero-badge">User guide</span>
+            <span class="hero-badge">Version 2.0.0</span>
+            <span class="hero-badge">November 2026</span>
+            <a class="hero-badge language-link" href="aide-fr.html" lang="fr" aria-label="Click to show the French version">
+                EN / FR
+                <small>Click for the French version</small>
+            </a>
+        </div>
+    </div>
+
+    <div id="topbar">
+        <div class="title">User guide</div>
+        <span class="meta">NRJXpert 2.0.0 · November 2026</span>
+    </div>
+
+    <main id="content">
+        <div id="toc-section">
+            <h2>Contents</h2>
+            <div class="toc-grid">
+                <a href="#presentation"><span class="toc-num">1</span>Overview</a>
+                <a href="#installation"><span class="toc-num">2</span>Installation and start-up</a>
+                <a href="#interface"><span class="toc-num">3</span>Main window</a>
+                <a href="#network"><span class="toc-num">4</span>Drawing a network</a>
+                <a href="#calcul"><span class="toc-num">5</span>Calculations and results</a>
+                <a href="#weather"><span class="toc-num">6</span>Site weather data</a>
+                <a href="#pv"><span class="toc-num">7</span>Photovoltaic systems</a>
+                <a href="#wind"><span class="toc-num">8</span>Wind systems</a>
+                <a href="#economie"><span class="toc-num">9</span>Economic methods</a>
+                <a href="#defauts"><span class="toc-num">10</span>Default values and typical ranges</a>
+                <a href="#fichiers"><span class="toc-num">11</span>Files and folders</a>
+                <a href="#depannage"><span class="toc-num">12</span>Troubleshooting</a>
+                <a href="#glossaire"><span class="toc-num">13</span>Glossary and references</a>
+            </div>
+        </div>
+
+        <div class="section" id="presentation">
+            <h2><span class="section-icon">📋</span>1. Overview</h2>
+<p>NRJXpert brings six tools together in one application:</p>
+<table>
+<tr><th>Tool</th><th>Purpose</th><th>How to open</th></tr>
+<tr><td><b>Network simulation</b></td><td>Draw a diagram (full or one-line), compute currents and voltages of a linear DC or AC network, run a load flow on a power system, short-circuit currents (IEC 60909); distributed-energy-resource and smart-grid studies: distribution load flow, time series, PV hosting capacity, dynamics, OPF and microgrid economic dispatch.</td><td>Main window</td></tr>
+<tr><td><b>Site weather data</b></td><td>Download solar irradiation, temperature and wind for any site (NASA POWER, PVGIS, Open-Meteo) and compute monthly averages.</td><td>Tools › Site weather data (<kbd>Cmd/Ctrl+Shift+M</kbd>)</td></tr>
+<tr><td><b>Photovoltaic systems</b></td><td>Sizing of centralised and decentralised stand-alone systems, costs, simulation versus the number of buildings, economic viability study (stand-alone or grid-connected).</td><td>Tools › Photovoltaic systems (<kbd>Cmd/Ctrl+P</kbd>)</td></tr>
+<tr><td><b>Wind systems</b></td><td>Statistical wind analysis (Weibull distribution), wind turbine output, number of machines for a given demand, economic viability study.</td><td>Tools › Wind systems (<kbd>Cmd/Ctrl+Shift+E</kbd>)</td></tr>
+<tr><td><b>Solar pumping</b></td><td>Sizing and simulation of a photovoltaic pumping system (direct-coupled or with battery): water needs, pump, PV array and tank, economic viability study.</td><td>“Solar pumping…” button of the Photovoltaic systems window, or the Renewables menu</td></tr>
+<tr><td><b>Smart grid</b></td><td>SGAM architecture (layers, domains, zones, IEC 62559 use cases), CIM / CGMES network model import and export, remote-control point list, cybersecurity risk analysis (IEC 62443).</td><td>Tools menu</td></tr>
+</table>
+<figure>
+<svg viewBox="0 0 920 560" role="img" aria-label="NRJXpert architecture">
+  <defs><marker id="fl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#1d5fa8"/></marker></defs>
+  <rect x="10" y="10" width="620" height="540" rx="12" fill="none" stroke="#1d5fa8" stroke-width="1.5"/>
+  <text x="28" y="36" font-size="16" font-weight="700" fill="currentColor">NRJXpert client</text>
+  <rect x="26" y="54" width="588" height="112" rx="9" fill="#f3f7fc" stroke="#c9d9ee"/>
+  <text x="40" y="76" font-size="11.5" font-weight="700" letter-spacing="1" fill="#1d5fa8">NETWORK SIMULATION</text>
+  <rect x="40" y="88" width="164" height="64" rx="7" fill="#e8f0fa" stroke="#9db8db"/>
+  <text x="122" y="113" font-size="13" font-weight="700" text-anchor="middle" fill="#1f2328">Schematic editor</text>
+  <text x="122" y="129" font-size="11.5" text-anchor="middle" fill="#41484f">full or single-line</text>
+  <rect x="226" y="88" width="194" height="64" rx="7" fill="#e8f0fa" stroke="#9db8db"/>
+  <text x="323" y="106" font-size="13" font-weight="700" text-anchor="middle" fill="#1f2328">Calculations and studies</text>
+  <text x="323" y="122" font-size="11.5" text-anchor="middle" fill="#41484f">load flow, short circuit,</text>
+  <text x="323" y="136" font-size="11.5" text-anchor="middle" fill="#41484f">dynamics, OPF, micro-grid</text>
+  <rect x="442" y="88" width="158" height="64" rx="7" fill="#e8f0fa" stroke="#9db8db"/>
+  <text x="521" y="113" font-size="13" font-weight="700" text-anchor="middle" fill="#1f2328">Curves and results</text>
+  <text x="521" y="129" font-size="11.5" text-anchor="middle" fill="#41484f">tables, charts, CSV</text>
+  <path d="M204,120 L225,120" fill="none" stroke="#1d5fa8" stroke-width="1.5" marker-end="url(#fl)"/>
+  <path d="M420,120 L441,120" fill="none" stroke="#1d5fa8" stroke-width="1.5" marker-end="url(#fl)"/>
+  <path d="M122,152 L122,214" fill="none" stroke="#6b4fa3" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#fl)"/>
+  <text x="134" y="181" font-size="11" fill="#41484f">generates the architecture and exports the model</text>
+  <rect x="26" y="190" width="588" height="114" rx="9" fill="#f4f0fa" stroke="#d3c7ea"/>
+  <text x="40" y="212" font-size="11.5" font-weight="700" letter-spacing="1" fill="#6b4fa3">SMART GRID</text>
+  <rect x="40" y="222" width="128" height="68" rx="7" fill="#ece6f7" stroke="#b3a2d8"/>
+  <text x="104" y="242" font-size="13" font-weight="700" text-anchor="middle" fill="#1f2328">SGAM workshop</text>
+  <text x="104" y="258" font-size="11.5" text-anchor="middle" fill="#41484f">layers, domains,</text>
+  <text x="104" y="272" font-size="11.5" text-anchor="middle" fill="#41484f">zones, use cases</text>
+  <rect x="184" y="222" width="128" height="68" rx="7" fill="#ece6f7" stroke="#b3a2d8"/>
+  <text x="248" y="242" font-size="13" font-weight="700" text-anchor="middle" fill="#1f2328">CIM model</text>
+  <text x="248" y="258" font-size="11.5" text-anchor="middle" fill="#41484f">import / export</text>
+  <text x="248" y="272" font-size="11.5" text-anchor="middle" fill="#41484f">CGMES, IEC 61970</text>
+  <rect x="328" y="222" width="128" height="68" rx="7" fill="#ece6f7" stroke="#b3a2d8"/>
+  <text x="392" y="242" font-size="13" font-weight="700" text-anchor="middle" fill="#1f2328">Remote control</text>
+  <text x="392" y="258" font-size="11.5" text-anchor="middle" fill="#41484f">IEC 61850 points,</text>
+  <text x="392" y="272" font-size="11.5" text-anchor="middle" fill="#41484f">104, Modbus</text>
+  <rect x="472" y="222" width="128" height="68" rx="7" fill="#ece6f7" stroke="#b3a2d8"/>
+  <text x="536" y="242" font-size="13" font-weight="700" text-anchor="middle" fill="#1f2328">Cybersecurity</text>
+  <text x="536" y="258" font-size="11.5" text-anchor="middle" fill="#41484f">risk analysis</text>
+  <text x="536" y="272" font-size="11.5" text-anchor="middle" fill="#41484f">IEC 62443</text>
+  <rect x="26" y="318" width="588" height="222" rx="9" fill="#fcf8ea" stroke="#ead9a0"/>
+  <text x="40" y="340" font-size="11.5" font-weight="700" letter-spacing="1" fill="#8a6d00">RENEWABLE ENERGIES</text>
+  <rect x="40" y="350" width="560" height="50" rx="7" fill="#fff6d9" stroke="#e3c76b"/>
+  <text x="320" y="368" font-size="13" font-weight="700" text-anchor="middle" fill="#1f2328">Site weather data</text>
+  <text x="320" y="384" font-size="11.5" text-anchor="middle" fill="#41484f">irradiation, temperature, wind: monthly averages</text>
+  <rect x="40" y="428" width="176" height="56" rx="7" fill="#fff6d9" stroke="#e3c76b"/>
+  <text x="128" y="449" font-size="12.5" font-weight="700" text-anchor="middle" fill="#1f2328">Photovoltaic systems</text>
+  <text x="128" y="465" font-size="11.5" text-anchor="middle" fill="#41484f">stand-alone or grid-connected</text>
+  <path d="M128,400 L128,427" fill="none" stroke="#1d5fa8" stroke-width="1.4" marker-end="url(#fl)"/>
+  <path d="M128,484 L128,498" fill="none" stroke="#c4a64a" stroke-width="1.4"/>
+  <rect x="232" y="428" width="176" height="56" rx="7" fill="#fff6d9" stroke="#e3c76b"/>
+  <text x="320" y="449" font-size="12.5" font-weight="700" text-anchor="middle" fill="#1f2328">Solar pumping</text>
+  <text x="320" y="465" font-size="11.5" text-anchor="middle" fill="#41484f">tank or battery</text>
+  <path d="M320,400 L320,427" fill="none" stroke="#1d5fa8" stroke-width="1.4" marker-end="url(#fl)"/>
+  <path d="M320,484 L320,498" fill="none" stroke="#c4a64a" stroke-width="1.4"/>
+  <rect x="424" y="428" width="176" height="56" rx="7" fill="#fff6d9" stroke="#e3c76b"/>
+  <text x="512" y="449" font-size="12.5" font-weight="700" text-anchor="middle" fill="#1f2328">Wind systems</text>
+  <text x="512" y="465" font-size="11.5" text-anchor="middle" fill="#41484f">Weibull, wind turbines</text>
+  <path d="M512,400 L512,427" fill="none" stroke="#1d5fa8" stroke-width="1.4" marker-end="url(#fl)"/>
+  <path d="M512,484 L512,498" fill="none" stroke="#c4a64a" stroke-width="1.4"/>
+  <rect x="40" y="498" width="560" height="32" rx="7" fill="#fbe9b0" stroke="#e3c76b"/>
+  <text x="320" y="519" font-size="12.5" font-weight="700" text-anchor="middle" fill="#1f2328">Economic methods: discounted cost, NPV, IRR, payback</text>
+  <rect x="720" y="64" width="190" height="100" rx="10" fill="#fff3e8" stroke="#e0a77a"/>
+  <text x="815" y="98" font-size="14" font-weight="700" text-anchor="middle" fill="#1f2328">SimElecNetwork</text>
+  <text x="815" y="120" font-size="12" text-anchor="middle" fill="#41484f">calculation server</text>
+  <text x="815" y="138" font-size="12" text-anchor="middle" fill="#41484f">built in, on your computer</text>
+  <path d="M614,114 L716,114" fill="none" stroke="#1d5fa8" stroke-width="1.6" marker-start="url(#fl)" marker-end="url(#fl)"/>
+  <text x="673" y="105" font-size="11" text-anchor="middle" fill="currentColor">XML schematic</text>
+  <text x="673" y="133" font-size="11" text-anchor="middle" fill="currentColor">results</text>
+  <rect x="720" y="205" width="190" height="90" rx="10" fill="#f1f1f4" stroke="#b5b8c0"/>
+  <text x="815" y="234" font-size="14" font-weight="700" text-anchor="middle" fill="#1f2328">Local files</text>
+  <text x="815" y="256" font-size="12" text-anchor="middle" fill="#41484f">projects, XML schematics,</text>
+  <text x="815" y="273" font-size="12" text-anchor="middle" fill="#41484f">HTML / SVG reports, CIM</text>
+  <path d="M614,250 L716,250" fill="none" stroke="#1d5fa8" stroke-width="1.6" marker-start="url(#fl)" marker-end="url(#fl)"/>
+  <text x="673" y="242" font-size="11" text-anchor="middle" fill="currentColor">files</text>
+  <rect x="720" y="340" width="190" height="92" rx="10" fill="#eef7f0" stroke="#8cc5a2"/>
+  <text x="815" y="372" font-size="13.5" font-weight="700" text-anchor="middle" fill="#1f2328">NASA POWER · PVGIS</text>
+  <text x="815" y="392" font-size="12" text-anchor="middle" fill="#1f2328">Open-Meteo</text>
+  <text x="815" y="412" font-size="11.5" text-anchor="middle" fill="#41484f">online services</text>
+  <path d="M600,375 L716,375" fill="none" stroke="#1d5fa8" stroke-width="1.6" marker-end="url(#fl)"/>
+  <text x="673" y="366" font-size="11" text-anchor="middle" fill="currentColor">HTTPS (JSON)</text>
+</svg>
+</figure>
+
+<!-- ====================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="installation">
+            <h2><span class="section-icon">💻</span>2. Installation and start-up</h2>
+<h3>SimElecNetwork calculation server</h3>
+<p>The calculation server is <b>supplied with the software and runs on your computer</b>: there is nothing else to install. NRJXpert starts it
+automatically in the background at the first calculation and stops it when it closes. It can only be reached from your own computer and only
+accepts requests from the application that started it.</p>
+<ul>
+<li><b>Default mode</b>: the « Use the local server on this computer » option (<b>Simulation › Calculation and server settings</b>) is ticked
+from the installation: there is nothing to set up. While it is ticked, the address, port and access key are not used.</li>
+<li><b>Offline operation</b>: calculations (linear network, load flow, short circuit, DER studies) run without an Internet connection.
+The Internet is only used to activate the licence, for its periodic checks and to fetch online weather data (NASA POWER, PVGIS, Open-Meteo).</li>
+<li><b>Time</b>: usual calculations take less than one second; DER studies (dynamics, OPF, economic dispatch) a few seconds.
+The first calculation of a session takes a few seconds more, while the server starts.</li>
+<li><b>Confidentiality</b>: diagrams and results never leave your computer. Only the licence communicates with the supplier
+(licence identifier and a non-reversible fingerprint of the computer).</li>
+<li><b>Log</b>: in case of trouble, the file <code>~/.nrjxpert/logs/server.log</code> (on Windows:
+<code>%USERPROFILE%\.nrjxpert\logs\server.log</code>) keeps the server trace.</li>
+</ul>
+
+<h3 id="licence">Licence and activation</h3>
+<p>NRJXpert is used with a licence supplied by Niitan, according to the category: student, institution or professional. After the purchase you receive
+an <b>activation key</b> by e-mail, of the form <code>NRJX-XXXXX-XXXXX-XXXXX-XXXXX</code>.
+The licence is tied to your computer by an <b>online activation</b>, mandatory for all categories; it is managed by the local server. Without a licence, the software runs in
+<b>demonstration mode</b>: the size of the diagrams is limited.</p>
+<ol class="steps">
+<li><div class="step-content">Open <b>Help › License…</b> and enter your activation key in the field provided (simplest: copy and paste it from the e-mail; upper or lower case and hyphens do not matter).</div></li>
+<li><div class="step-content">Click <b>Activate</b> (Internet connection required). The status becomes « Active »; the window shows the category,
+the holder, the expiry date and the next online check.</div></li>
+</ol>
+<ul>
+<li><b>Periodic checks</b>: from time to time the software confirms the licence with the activation server, in the background when the Internet is
+available. It warns before the deadline; after a short tolerance period without a check, the licence is suspended
+(« Suspended — online check required ») and resumes as soon as a check succeeds.</li>
+<li><b>Changing computer</b>: on the old computer, click <b>Release this computer</b>, then activate the licence on the new one. The number of
+computers depends on the licence.</li>
+<li><b>Power of PV and wind systems</b>: the Photovoltaic systems, Photovoltaic pumping and Wind systems modules, as well as the simulation of the Renewable energy blocks, calculate installations up to <b>1 MW</b> with the Student licence, <b>10 MW</b> with the Institution licence and up to <b>10 kW</b> in demonstration mode (PV peak power and installed wind power). The Professional / Expert licence has no such limit.</li>
+<li><b>Transformer taps</b>: the tap changer (fixed or automatic) is available with every licence, demonstration mode included.</li>
+<li><b>Reactive power compensation</b>: the switched shunt compensator is available with every licence, demonstration mode included; static var compensators (STATCOM, SVC) require an activated licence.</li>
+<li><b>Renewal</b>: when your subscription is renewed with Niitan, the new expiry date is picked up automatically at the next online check (or immediately with <b>Check online</b>): no new key is needed.</li>
+<li><b>Keep the key confidential</b>: do not share it; it is valid only for the number of computers of your licence. If it is lost or compromised, contact Niitan: a new key is sent to you and the old one stops working.</li>
+<li><b>Licence notice</b>: the category (for example « Educational licence — non-commercial use ») is shown in the status bar.</li>
+<li><b>Computer ID</b>: shown in the Licence window; give it to the support in case of an activation problem.</li>
+</ul>
+
+<!-- ====================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="interface">
+            <h2><span class="section-icon">🖥️</span>3. Main window</h2>
+<ul>
+<li><b>Palette</b> (left): components by category, in this order: Passive elements, Sources, Power system (load flow), Distributed energy resources (load flow), Renewable energy, Measurement (voltmeter, ammeter, wattmeters, at the bottom of the palette), then the Colors settings; passive elements, sources and meters exist in “full diagram” and “one-line diagram” versions;</li>
+<li><b>drawing area</b> (centre): grid, enlarged automatically, with scroll bars;</li>
+<li><b>Selection panel</b> (right): name, type, parameters and results of the selected component, or the components of a multiple selection or group, Group and Ungroup buttons;</li>
+<li><b>results table</b>: current and voltage of each dipole (magnitude and angle), and bus voltage, angle and powers for a load flow; above it, the short-circuit or DER study summary and the “Curves…” button;</li>
+<li><b>status bar</b>: message, calculation type, server, mouse position.</li>
+</ul>
+<h3 id="menus">3.1 Menus and toolbar</h3>
+<table>
+<tr><th>Menu</th><th>Commands</th></tr>
+<tr><td>File</td><td>New, Open (<code>.nxp</code>), Save, Save as, Import a CIM network model (IEC 61970 / CGMES), Export the network in CIM format, Quit.</td></tr>
+<tr><td>Edit</td><td>Undo, Redo, Component parameters, Rotate right / left, Delete, Stop placing / deselect, Copy, Paste, Group, Ungroup.</td></tr>
+<tr><td>Simulation</td><td>Run the simulation, Calculation and server settings, DER study settings…, Result curves…, Expert report of the last calculation (HTML)…,
+Save the OpenADR 2.0b message…, Calculate a network file (XML)…, Clear the results.</td></tr>
+<tr><td>Tools</td><td>Photovoltaic systems, Wind systems, Site weather data, Import / export a CIM model (IEC 61970 / 61968, CGMES), SGAM architecture (Smart Grid Architecture Model), Telecontrol points
+list (IEC 61850, 60870-5-104, Modbus), Cybersecurity risk assessment (IEC 62443).</td></tr>
+<tr><td>Options</td><td>Language (Français, English).</td></tr>
+<tr><td>Help</td><td>Help — complete guide (this document), Tutorial and training (course in 7 levels, exercises, quizzes, case studies, teacher's guide),
+Smart grid training (level 6: SGAM, protocols, IEC 62559 use cases, skills), Expert workshop (level 7: IEEE 2030.8 tests, AMI, OpenADR,
+IEC 62443), Open a tutorial example, Quick guide, About.</td></tr>
+</table>
+<p>The toolbar gives the calculation type and the method, the « Run the simulation » button, the « Renewables » menu (PV, wind, weather), the
+language and the server settings. On macOS, the menus are in the system menu bar. In English, the tutorial opens in English.</p>
+<h3 id="raccourcis">3.2 Keyboard shortcuts</h3>
+<table>
+<tr><th>Key</th><th>Action</th><th>Key</th><th>Action</th></tr>
+<tr><td><kbd>F5</kbd> / <kbd>Cmd/Ctrl+Enter</kbd></td><td>Run the simulation</td><td><kbd>F1</kbd></td><td>Open this guide</td></tr>
+<tr><td><kbd>Esc</kbd></td><td>Stop placing, deselect</td><td><kbd>Del</kbd></td><td>Delete the selection (ungroup a group)</td></tr>
+<tr><td><kbd>Cmd/Ctrl+E</kbd></td><td>Component parameters</td><td><kbd>Cmd/Ctrl+R</kbd> / <kbd>+Shift</kbd></td><td>Rotate right / left</td></tr>
+<tr><td><kbd>Cmd/Ctrl+Z</kbd></td><td>Undo</td><td><kbd>Cmd/Ctrl+Y</kbd> (or <kbd>+Shift+Z</kbd>)</td><td>Redo</td></tr>
+<tr><td><kbd>Cmd/Ctrl+C</kbd> / <kbd>V</kbd></td><td>Copy / paste</td><td><kbd>Cmd/Ctrl+G</kbd> / <kbd>+Shift</kbd></td><td>Group / ungroup</td></tr>
+<tr><td><kbd>Cmd/Ctrl+N</kbd>, <kbd>O</kbd>, <kbd>S</kbd></td><td>New, open, save</td><td><kbd>Cmd/Ctrl+Q</kbd></td><td>Quit</td></tr>
+<tr><td><kbd>Cmd/Ctrl+P</kbd></td><td>Photovoltaic systems</td><td><kbd>Cmd/Ctrl+Shift+E</kbd></td><td>Wind systems</td></tr>
+<tr><td><kbd>Cmd/Ctrl+Shift+M</kbd></td><td>Site weather data</td><td><kbd>F5</kbd> (PV / wind windows)</td><td>Size / compute</td></tr>
+<tr><td><kbd>Cmd/Ctrl+Shift+D</kbd></td><td>DER study parameters</td><td><kbd>Cmd/Ctrl+Shift+K</kbd></td><td>Result curves</td></tr>
+<tr><td><kbd>Cmd/Ctrl+,</kbd></td><td>Calculation and server settings</td><td></td><td></td></tr>
+</table>
+<h3 id="langues">3.3 Languages</h3>
+<p>Options › Language or the globe button of the toolbar: French or English (Pulaar will be added later). The main window switches language immediately; the choice is remembered. This guide opens in English when English is selected, otherwise in French. The PV and wind windows are in French.</p>
+
+<!-- ====================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="network">
+            <h2><span class="section-icon">🔌</span>4. Drawing a network</h2>
+<h3 id="edition">4.1 Place, connect, edit</h3>
+<ol class="steps">
+<li><div class="step-content"><b>Place</b>: choose a component in the palette, then click in the drawing area; the component image follows the pointer. Click as often as needed; <kbd>Esc</kbd> stops placing.</div></li>
+<li><div class="step-content"><b>Connect</b>: drag from a terminal (small circle) to another terminal. The connection is ideal, or carries a line model (R, L, RL, RLC π) if that model is selected in the calculation settings when drawing.</div></li>
+<li><div class="step-content"><b>Select, move</b>: click a component and drag it (one gesture). A multiple selection is made by dragging a rectangle from an empty area.</div></li>
+<li><div class="step-content"><b>Parameters</b>: double-click, right-click › Parameters or <kbd>Cmd/Ctrl+E</kbd>. Dialogs check the input (faulty field framed in red) and show live computed values (impedance, apparent power, cos φ…). Decimal commas are accepted.</div></li>
+<li><div class="step-content"><b>Rotate, delete</b>: right-click or shortcuts. Deleting a modelled line also removes its hidden elements.</div></li>
+<li><div class="step-content"><b>Short-circuit point</b>: double-click a terminal, or right-click a line › “Short circuit on the line…” for a fault at a given distance from its ends (see <a href="#courtcircuit">Short circuit</a>).</div></li>
+</ol>
+<div class="note"><b>Full or one-line diagram.</b> In one-line mode each component has one visible terminal; the other is connected to the common neutral. Three-phase components are represented by their single-phase equivalent (phase a).</div>
+<p><b>Undo / Redo</b> (Edit menu, <kbd>Cmd/Ctrl+Z</kbd>, <kbd>Cmd/Ctrl+Y</kbd> or <kbd>Cmd/Ctrl+Shift+Z</kbd>): every change to the diagram (placing, moving, rotating, linking, deleting, parameters, pasting, grouping) is recorded; up to 100 steps back. The history restarts when a project is opened or with New; an undo clears the displayed calculation results (run the calculation again). In a text field these keys undo typing.</p>
+<h3 id="groupes">4.2 Copy, paste, group</h3>
+<ul>
+<li><b>Copy</b> copies the selected group, multiple selection or component, with the connections between copied elements and their parameters. <b>Paste</b> places the copies at the last click in the drawing area (successive pastes shifted by 30 px), with new names.</li>
+<li><b>Group</b> replaces the selected components by a rectangle (Grp1…) whose terminals are those connected to the outside; the calculation is unchanged. Double-click: sub-network window. <b>Ungroup</b> (<kbd>Del</kbd>) restores the diagram. Groups are saved with the project.</li>
+<li>A group may contain <b>busbars</b>. Only their terminals connected to the outside appear on the rectangle (one free terminal if they have none). Their number of outputs cannot be changed in the sub-network window: ungroup first. Busbars are copied and pasted like other components.</li>
+</ul>
+<h3 id="composants">4.3 Component library</h3>
+<table>
+<tr><th>Component</th><th>Parameters</th><th>Notes / model</th></tr>
+<tr><td>Resistor, inductor, capacitor</td><td>R (Ω), L (H, mH, µH), C (F, µF, nF)</td><td>In DC, L is a short circuit and C an open circuit.</td></tr>
+<tr><td>Impedance</td><td>R, X (Ω)</td><td>|Z| and angle displayed.</td></tr>
+<tr><td>DC voltage and current sources</td><td>E (V) or I (A)</td><td>A network whose sources are all DC is solved as DC (no angles).</td></tr>
+<tr><td>AC voltage and current sources</td><td>RMS value, phase (° or rad), frequency</td><td>Phasor E·e<sup>jφ</sup>.</td></tr>
+<tr><td>Three-phase voltage source</td><td>Line voltage U or phase voltage V, φa, f, phase sequence</td><td>Star with neutral; three hidden single-phase sources (G1 - a, b, c).</td></tr>
+<tr><td>Three-phase RLC load</td><td>R, L, C per phase; star (neutral connected or isolated) or delta</td><td>Series R-L-C branches; one-line: delta → equivalent star.</td></tr>
+<tr><td>Three-phase series RLC impedance</td><td>R, L, C per phase</td><td>6 terminals (a, b, c → a', b', c').</td></tr>
+<tr><td>Electric lines R, L, RL, RLC π</td><td>Length (km, m), per-length r, l, c</td><td>π: C/2 to neutral at each end; characteristic impedance √(L/C) displayed; results: current, voltage drop, R·I² losses. « Zero sequence » (r0, x0, c0) and « Zero-sequence coupling with a parallel line » (coupled line, r0m, x0m in Ω/km, direction) sections for earth faults.</td></tr>
+<tr><td>Three-phase transformer</td><td>Sn, U1n, U2n, ucc, Pcc, i0, P0</td><td>Kapp model referred to the secondary: Zcc = ucc·U2n²/Sn, Rcc = Pcc·U2n²/Sn², Rfe = U2n²/P0. Tap changer (OLTC): nominal ratio, fixed tap or automatic voltage control (setpoint in pu, dead band, step per position, lowest and highest positions, voltage regulated on the secondary or primary side); optional clock-number phase shift. The tap ratio (1 + position × step) enters the transformer's π model (load flow, short circuit, dynamics); without a tap, quantities referred to the secondary. Results: position and ratio.</td></tr>
+<tr><td>Busbar</td><td>Number of outputs (2 to 20)</td><td>Connection node (JB1…).</td></tr>
+<tr><td>Generator bus</td><td>Slack (V, θ imposed) or PV (P, V imposed), voltage, powers; short-circuit data (Rd, Xd, Ri, Xi, R0, X0, neutral); “Distributed energy resource (DER studies)” section</td><td>Load flow: exactly one slack bus. Short circuit: voltage source behind Rd + jXd. « Capability, AVR, PSS… » button (synchronous machine): fixed reactive power limits or P-Q capability curve (stator current, maximum excitation Efd max, under-excitation, Pmax) — a generator at its limit becomes a PQ bus at the limiting reactive power and no longer holds its voltage (warning, tooltip: Qmin … Qmax, emf E); IEC 60909 correction factor KG; voltage regulator (Ka, Ta, Efd min/max) and PSS stabiliser (Kpss, Tw, T1, T2) for dynamics. Synchronous motor: negative active power.</td></tr>
+<tr><td>Load bus (PQ)</td><td>P, Q</td><td>Apparent power and cos φ displayed.</td></tr>
+<tr><td>Switched shunt compensator</td><td>See <a href="#smartgrid">4.5</a></td><td>Capacitors or reactors, fixed steps or voltage control.</td></tr>
+<tr><td>Static var compensator (STATCOM / SVC)</td><td>Type (STATCOM or SVC), maximum capacitive and inductive reactive power (Mvar at 1 pu), reference voltage Vref (pu), slope (%), Imax (pu, short circuit)</td><td>Load flow: regulates the bus voltage along V = Vref − slope·Q/Qmax; at its limit, the STATCOM supplies Q = Qmax·V (maximum current), the SVC Q = Qmax·V² (maximum susceptance); the tooltip gives the reactive power supplied and the state (regulating or at its limit). Short circuit: STATCOM = limited current source Imax·In; SVC neglected. Distribution calculations and Volt/VAR control: Q(V) law. Dynamic simulation: reactive current oriented by a PLL, PI voltage regulator with slope (adjustable gains Kp, Ki), current limit (STATCOM) or susceptance limit (SVC). OPF and economic dispatch: not modelled. Not available in demonstration mode.</td></tr>
+<tr><td>Induction machine</td><td>Motor or generator (fixed speed), Sn (MVA), load torque T0 (pu) and load characteristic (constant torque, ∝ speed, pump / fan), equivalent circuit Rs, Xs, Xm, Rr, Xr (pu of the machine), inertia H, initial state (running, or direct-on-line start at a given time)</td><td>Load bus (derType motor). Load flow: P and Q depend on the voltage (slip of the operating point; warning if the motor stalls). Short circuit: IEC 60909 impedance Z_M (positive, negative sequence; neglected for minimum Icc). Dynamics: third-order model, start, voltage dips, stalling; speed and torque curves. Other calculations: P, Q at 1 pu. The dialog shows Id/In, Td/Tn, maximum torque, operating point and short-circuit contribution.</td></tr>
+<tr><td>Neutral earthing</td><td>Solidly earthed, resistance (Rn or limited current), reactance, Petersen coil (fixed inductance, or automatic tuning with detuning v and active current of the parallel resistor), isolated neutral</td><td>Load bus without power (derType earthing), placed at the node whose neutral it earths; give the corresponding generator or transformer an isolated neutral. Short circuit: 3·Zn in the zero-sequence network only; results: capacitive current of the network Ic, neutral current, neutral displacement V0, inductance and detuning of the coil.</td></tr>
+<tr><td>Surge arrester</td><td>Uc, Ur (kV rms), Upl, Ups (kV peak), In (kA), temporary overvoltage capability T; protected equipment: Um, BIL (LIWV), SIWV, distance, wave steepness</td><td>Load bus without power (derType arrester), no effect on steady-state calculations. The dialog computes Ueq = Upl + 2·S·L/v and the margins (lightning ≥ 1.2, switching ≥ 1.15). Earth-fault short circuit: earth fault factor k at the arrester and check T·Ur ≥ k·Um/√3 (tooltip, summary).</td></tr>
+<tr><td>PV, wind, diesel and battery generators</td><td>See <a href="#ressources">4.4</a></td><td>Generator buses with their own parameters (“Distributed energy resources” section).</td></tr>
+<tr><td>Voltmeter, ammeter</td><td>Name, display</td><td>“Measurement” section, at the bottom of the palette. The measurement appears in the tooltip and the Selection panel.</td></tr>
+<tr><td>Single-phase and three-phase wattmeters</td><td>Name, display</td><td>“Measurement” section. <b>Single-phase</b> (4 terminals): current circuit in series (input on the left, output on the right), voltage circuit between U+ and U− (bottom terminals), in parallel across the measured voltage. <b>Three-phase</b> (5 terminals, balanced circuit): current circuit in series on one phase, voltage terminals V1, V2, V3 connected to the three phases (V1 on the phase of the current circuit); phase voltage through the artificial neutral V1N = (U12 + U13)/3. P, Q, S and cos φ are computed on the computer from the phasors (S = U·I*, ×3 in three-phase) after a linear-circuit calculation; P &gt; 0 when power flows from input to output. For the server, the two current terminals are one node (zero-impedance ammeter). The voltage terminals must be connected.</td></tr>
+</table>
+<h3 id="ressources">4.4 Distributed energy resources</h3>
+<p>The <b>“Distributed energy resources”</b> section of the palette offers four generators, drawn like the classic “G” generator with a pictogram: photovoltaic generator (PV1, PV2…), wind turbine (Eol1…), diesel generating set (GE1…) and storage battery (Bat1…). They are generator buses (PV or slack) whose nature is set by the symbol; each one has its own parameter dialog (double-click).</p>
+<table>
+<tr><th>Generator</th><th>Parameters</th><th>Short circuit</th></tr>
+<tr><td>Photovoltaic, wind</td><td>Available (PV) or rated (wind) power, inverter rating Sn (empty: 1.1·P), Q, voltage V; production profile (pu, one value per time step); inverter control: fixed P and Q, fixed power factor (absorbed or supplied), Q(V), P(V), Q(V) + P(V), P or Q priority; grid-following inverter dynamics: P-f droop, current limit Imax, LVRT k.</td><td rowspan="2">Limited current source I_skPF = Imax·In (In = Sn/(√3·V)) or the “Manufacturer Isk” when entered; positive-sequence contribution only (see <a href="#courtcircuit">5.3</a>). The current is shown live.</td></tr>
+<tr><td>Battery</td><td>Energy Emax, converter rating Sn, initial SOC, duration at full power (displayed); P (&gt; 0 when discharging), Q, V; PV bus or <b>slack</b> role (reference of an islanded microgrid); inverter control; grid-forming inverter dynamics: droop or VSM, mp, mq, H, Imax.</td></tr>
+<tr><td>Generating set</td><td>Sn, P, Q, V, minimum load, PV or slack role; fuel price, start-up cost, live fuel consumption and kWh cost; synchronous machine dynamics (H, droop, Tg, X'd, Xd, T'd0, Ka).</td><td>Voltage source behind Rd + jXd (Ri, Xi, R0, X0, neutral); “Xd from X'd and Sn” button. Defaults X'd = 0.25 pu, Rd = 0.1·Xd, isolated neutral.</td></tr>
+</table>
+<p>The classic “G” generator can also receive these data through the “Distributed energy resource (DER studies)” section of its dialog. Parameters are saved with the project and copied by Copy / Paste.</p>
+
+<!-- ====================================================================== -->
+<h3 id="renouvelables">4.4 bis Renewable energy: PV system simulation</h3>
+<p>The <b>“Renewable energy”</b> palette section is used to draw and simulate a photovoltaic system supplying a load with a given power profile. Blocks are connected like components (drag from one terminal to another), in the order <b>Weather → PV generator → charge controller → DC bus (battery, DC loads) → inverter → AC loads</b>:</p>
+<table>
+<tr><th>Block</th><th>Double-click</th><th>Terminals</th></tr>
+<tr><td>Weather</td><td>“Site weather data” window: choose the site, download the data, then <b>Use for PV sizing</b> (module plane or horizontal).</td><td>One terminal: PV generator input.</td></tr>
+<tr><td>PV generator</td><td>Module from the equipment database, modules in series, parallel strings, losses, temperature coefficient, NOCT.</td><td>Input: Weather; output: controller.</td></tr>
+<tr><td>Charge controller</td><td>Controller from the database (MPPT or PWM), number in parallel, efficiency.</td><td>Input: generator; output: battery.</td></tr>
+<tr><td>DC bus</td><td>Rename.</td><td>Bar whose two terminals are one point; several links per terminal: controller, batteries, inverter, DC loads.</td></tr>
+<tr><td>Battery</td><td>Battery from the database, units in series and parallel strings, depth of discharge, efficiency, initial state of charge.</td><td>One terminal: DC bus.</td></tr>
+<tr><td>Inverter</td><td>Inverter from the database, number in parallel, efficiency; <b>Inverter-charger</b> box (bidirectional: surplus from a wind turbine or grid-tie inverter, the diesel generator or the grid can charge the battery).</td><td>Input: DC bus, or the PV generator directly (grid-tie inverter, built-in MPPT); output: AC loads, grid, diesel generator.</td></tr>
+<tr><td>Wind turbine</td><td>Turbine from the wind module database (power curve, otherwise mean efficiency), number of turbines, hub height, losses.</td><td>Input: Weather (site chosen with a source that provides wind: NASA POWER, Open-Meteo, PVGIS typical year); output: DC bus (built-in rectifier and controller) or AC side.</td></tr>
+<tr><td>Diesel generator</td><td>Power and number of generators, minimum load, consumption F = F0·Pn + F1·P, diesel price, “battery charging” option.</td><td>One terminal: AC side (inverter output, loads).</td></tr>
+<tr><td>Grid</td><td>Maximum import, export (allowed, limit), load-shedding hours (“19-23”, “12-14, 19-22”), purchase and sale price per kWh.</td><td>One terminal: AC side.</td></tr>
+<tr><td>Load</td><td>Interface of tab “2. Demand” of the “Photovoltaic systems” module: infrastructures and appliances.</td><td>One terminal: inverter output or DC bus. AC appliances supplied by the inverter, DC appliances by the DC bus (converter efficiency 0.9 if their voltage differs from the bus voltage).</td></tr>
+</table>
+<p><b>Simulation</b> (<kbd>F5</kbd> or Simulation › Simulate the PV system menu): hourly calculation over a typical year (8,760 h), on the computer, without the calculation server. Each day of a month uses the site's hourly typical day; the load follows the appliances' average profile (power at operating hours × days of use / 7). Array production: P = Ns·Np·Pc·G/1000·[1 + γ(Tc − 25)]·(1 − losses), Tc = Ta + (NOCT − 20)·G/800; MPPT controller at maximum power, PWM controller at battery voltage; production supplies the loads first, directly through the DC bus and the inverter, without going through the battery; the battery stores the surplus and supplies what is missing, between (1 − DoD)·E<sub>nom</sub> and E<sub>nom</sub>; inverter limited to its rated power. Blocks are never sent to the server: a diagram can contain both an electrical network and a PV system.</p>
+<p><b>Configurations</b>: stand-alone system (above); wind or PV + wind system (turbine on the DC bus); <b>grid-connected PV system</b>: Weather → PV generator → grid-tie inverter → loads and Grid block (no battery), or with storage: charge controller, DC bus, battery and inverter-charger connected to the loads and the grid; <b>hybrid PV, diesel, battery system</b>: diesel generator on the AC side. Energy priority each hour: renewable production used on site; surplus → battery → grid export → lost surplus; shortfall → battery → grid → diesel generator (backup during load shedding) → deficit. Wind: hourly speeds rebuilt from the site's monthly Weibull law and average daily profile (exact distribution, calm and windy days), extrapolated to hub height (power law), corrected for air density. Diesel generator: load following (at least its minimum load; surplus lost without an inverter-charger) or battery charging (it then runs as high as the inverter-charger and battery can absorb). Load shedding: grid-tie inverters stop when the grid is absent (interface protection), unless a battery inverter or a diesel generator forms the local grid.</p>
+<p><b>Results</b>: production (PV, wind, diesel, grid import) and consumption on one chart, grid export with surplus and deficit; balance: diesel (l/yr, cost), generator running hours and starts, import and export (purchases, sales), load-shedding hours, renewable share of consumption, self-consumption rate. PV production and consumption on one chart, energy in the battery (with its limits), production surplus and deficit; whole year (daily values) or a chosen month (hourly values); annual balance (coverage, surplus, energy supplied directly by the array or by the battery, deficit hours and days, battery cycles) and configuration warnings. <b>Export</b>: each figure separately or the three in a single image (PNG), hourly data (CSV); right-click a figure to export it alone or copy it.</p>
+
+<h3 id="smartgrid">4.5 Smart grid: switching devices, EV chargers, switched compensators</h3>
+<p>The <b>« Smart grid »</b> section of the palette offers three symbols (smart grid guide, chapters 2 and 3):</p>
+<table>
+<tr><th>Symbol</th><th>Parameters</th><th>In the calculations</th></tr>
+<tr><td>Switching device (S1, S2…)</td><td>Type: feeder breaker, recloser, switch (load-break switch), tie switch; normal state closed or open (NO);
+remote-controlled; fault passage indicator (FPI). The drawing shows the state, the cross of the breaker, the remote-control square and the FPI arrow.</td>
+<td>Closed: contact resistance of 0.1 mΩ; open: open circuit (all calculations). Self-healing operates the devices; their final state is shown in the tooltip. « Fuse (gG) » type: rating In, typical melting curve. <b>Protection</b> section of a breaker or recloser: overcurrent 50/51 and earth 50N/51N (IEC SI, VI, EI, LTI, IEEE MI, IVI, IEI, definite-time curves; high-set I&gt;&gt;), LV electronic trip unit (long time, short time, instantaneous), distance 21 (mho, 3 zones, protected line) or line differential 87L; breaker opening time; current transformer (ratio, class 5P20…, burdens, Rct: actual accuracy limit factor ALF' and saturation) and voltage transformer (impedance seen at the secondary). The short circuit gives the operating time of each device, the device that clears the fault and the selectivity check; « Selectivity… » button: time-current curves.</td></tr>
+<tr><td>Charging station / fleet of electric vehicles (VE1…)</td><td>Number of vehicles, battery, power of one charger, arrival and departure times,
+states of charge on arrival and targeted at departure, charging mode (uncontrolled, V1G, V2G), coincidence factor.</td>
+<td>Load flow and short circuit: load of power n·P·k; time series: uncontrolled charging profile; economic dispatch and virtual power plant:
+optimised charging (V1G) and feed-in (V2G).</td></tr>
+<tr><td>Switched shunt compensator (CB1…), also in the « Power system (load flow) » section</td><td>Type: capacitors (supply reactive power) or shunt reactors
+(absorb it); number of steps, power of one step (Mvar at rated voltage), steps switched on in the initial state; control: none (fixed steps) or
+automatic on the bus voltage (setpoint in pu, dead band width in %).</td>
+<td>Load flow: constant impedance (Q = n·Qstep·V²); with automatic control, the calculation switches one step at a time until the voltage lies within
+the band (warning if the steps reach their limit or hunt); the tooltip gives the steps switched on and the reactive power supplied. Volt/VAR control
+(IVVC): optimised steps (S2, S3); in strategy S1 (local control), each compensator has a voltage relay whose band is that of the compensator
+if it has automatic control, 0.98 – 1.02 pu otherwise. Other distribution calculations: initial state.</td></tr>
+</table>
+<p>The dialog box of a load bus has a <b>Number of customers</b> field, used by the reliability indices and the smart metering calculation (empty:
+1 customer per 2 kW). The lengths of the lines (« Line » components and links with a model) are sent to the server for the failure rates.</p>
+
+<!-- ====================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="calcul">
+            <h2><span class="section-icon">⚙️</span>5. Calculations and results</h2>
+<p><b>Calculation type preselection.</b> While you draw, NRJXpert analyses the diagram and picks the most likely calculation in the "Calculation"
+list; the status bar gives the reason. Rules, in order: short-circuit point placed → Short circuit; no bus (R, L, C, sources, meters) → Linear
+network; metering anomalies → AMI; tie switch or at least three switching devices → Self-healing; coupling breaker with battery → Microgrid tests
+(with genset) or Dynamics; EV chargers → Virtual power plant; capacitor banks → Volt/VAR; distributed resources → Economic dispatch (genset without
+grid), OPF (genset, battery and grid), Dynamics (events defined), Time series (load profile) or Distribution load flow; otherwise Load flow. The
+choice changes only when the nature of the diagram changes: a calculation chosen by hand is kept, as is the one saved with a project.</p>
+<p>Choose the calculation type and method in the toolbar, then <kbd>F5</kbd>. The diagram is sent to the calculation server (XML); the answer appears in the results table, the Selection panel and the tooltips. The calculation runs in the background (time-outs: connection 5 s, answer 60 s).</p>
+<h3 id="lineaire">5.1 Linear network</h3>
+<p>Node voltage method (modified nodal analysis for ideal sources and zero-impedance branches). Frequency: that of the AC sources; 0 Hz if all sources are DC; mixing DC and AC sources is rejected. Current and voltage of each dipole are given in its own direction.</p>
+<h3 id="loadflow">5.2 Load flow</h3>
+<p>Methods: Newton-Raphson, Gauss-Seidel, fast decoupled. The network must contain exactly one slack bus. Calculations are made per unit, with the network base voltage (calculation settings). Results: voltage (kV) and angle of each bus, Pgen, Qgen (slack power, PV-bus reactive power, local load included), line currents. Switched compensators and static var compensators (STATCOM, SVC): see <a href="#composants">4.3</a> and <a href="#smartgrid">4.5</a>; for a distribution feeder (high R/X ratio), prefer Newton-Raphson, as the fast decoupled method may not converge. Tapped transformer in automatic control: the calculation changes position one step at a time until the regulated voltage is inside the band (warning at a limit or when hunting); other calculations use the initial position (with a warning), except IVVC and dynamics.</p>
+<h3 id="courtcircuit">5.3 Short circuit (IEC 60909)</h3>
+<ol class="steps">
+<li><div class="step-content"><b>Place the fault</b>: double-click a terminal, or right-click a line › “Short circuit on the line…” (distance in km or m; the line is split into two π sections at the fault). One fault at a time.</div></li>
+<li>directional earth fault 67N / wattmetric 32N (isolated or compensated networks): residual voltage V0 (threshold in % of the phase voltage), zero-sequence power S0 = 3·V0·I0* from the line side to the busbar, wattmetric (0°, compensated network) or varmetric (−90°, isolated network) characteristic, power threshold, 3·I0 threshold and time delay; the summary gives V0, P0, Q0 of each device;</li>
+<li>transformer differential 87T: protected transformer (name of the three-phase transformer of the diagram), threshold Id>, slopes k1 and k2, break point Ib, instantaneous threshold Iu, ratio the relay is set for, simulated internal fault on the input or output side; the differential current comes from the tap mismatch and the CT saturation;</li>
+<li><div class="step-content"><b>Set the fault</b> (“Fault” section of the same dialog): type (three-phase, two-phase isolated, two-phase to earth, single-phase to earth), maximum current (breaking capacity) or minimum (protection settings), voltage tolerance in low voltage, location (general case or far from generators), nominal voltage Un at the fault point.</div></li>
+<li><div class="step-content"><b>Compute</b>: choose “Short circuit” in the Calculation list, then <kbd>F5</kbd>. The calculation uses the one-line diagram (three-phase components in full-diagram form are rejected).</div></li>
+</ol>
+<p><b>Method</b>: equivalent voltage source c·Un/√3 at the fault (c = 1.10 for maximum currents above 1 kV; 1.05 or 1.10 in low voltage depending on the tolerance; 1.00 or 0.95 for minimum currents), positive-, negative- and zero-sequence networks built by the server from the diagram. Loads and capacitances are neglected in the positive and negative sequences; line capacitances are kept in the zero sequence. Optional zero-sequence data: line R0, X0, C0, transformer vector group (YN, D…), <b>zero-sequence mutual coupling</b> between parallel lines (mutual impedance Z0m = z0m × length, taken into account in the zero-sequence network only: it increases Z0 seen from the fault and makes an induced zero-sequence current flow in the sound line; a line cut by the fault is coupled section by section). Peak current ip = κ·√2·I"k with κ = 1.02 + 0.98·e<sup>−3R/X</sup>.</p>
+<p><b>Generators</b>:</p>
+<ul>
+<li>classic generator and generating set: voltage source behind Rd + jXd (positive), Ri + jXi (negative), R0 + jX0 (zero sequence, unless the neutral is isolated); optional correction factor KG = cmax/(1 + x''d·sin φrG) (directly connected generator, x''d = Xd·Sn/Un²);</li>
+<li>inverter-based generators (PV, wind, battery) and STATCOMs (In = Qmax/(√3·Un)): <b>limited current source</b> I_skPF in the positive-sequence network, with no negative- or zero-sequence contribution (IEC 60909-0:2016, “full converter”). The equivalent source becomes E' = c·Un/√3 + Σ Z1(f,j)·I_skPF,j, Z1(f,j) being the transfer impedance between inverter j and the fault; for example, three-phase: I"k = [c·Un/√3 + Σ |Z1(f,j)|·I_skPF,j] / |Z1|. Inverters add no DC component: ip = κ·√2·I"k(machines) + √2·I"k(inverters);</li>
+<li>induction machines: impedance Z_M = Un²/(ILR/IrM · Sn) in the positive and negative sequences, IEC 60909 R/X (0.10, 0.15 or 0.42), no zero-sequence path; neglected for the minimum current;</li>
+<li>network fed only by inverters (islanded microgrid, battery as slack): three-phase I"k = Σ I_skPF; unbalanced faults estimated (warning), zero to earth without a zero-sequence path.</li>
+</ul>
+<p><b>Neutral earthing system</b>: a neutral earthing device (solid, resistance, reactance, Petersen coil, isolated neutral) sets the earth-fault current: capacitive with isolated neutral (Ic = 3·ω·C0·Un/√3, zero-sequence capacitances of lines and cables), limited by the resistance, residual in a compensated network (≈ Ic·√(v² + r²)). The summary gives Ic, the neutral current and the neutral displacement.</p>
+<p><b>Surge arresters</b>: in an earth-fault short circuit, voltage of the sound phases at the node of each arrester, earth fault factor k (≈ 1.73 with isolated neutral; effectively earthed network if k ≤ 1.4), temporary overvoltage k·Um/√3 compared with T·Ur, and insulation coordination margins; warning if a condition is not met.</p>
+<p><b>Protection and selectivity</b>: for each switching device fitted with a protection (or fuse), the server computes the current seen, the operating time (relay + breaker opening; distance: apparent impedance and zone; differential: differential current), designates the device that clears the fault (the fastest) and reports devices that trip less than 0.3 s after it (margin set by the sel-margin header tag) or the absence of tripping. Summary under the results and « Selectivity… » button (log-log time-current curves).</p>
+<p><b>Model limits</b> (to know when interpreting the results):</p>
+<ul>
+<li><b>Mutual coupling</b>: zero sequence only; used in the short circuit, not in the distribution sweep nor in the CIM exchange.</li>
+<li><b>Induction machine</b>: a single rotor cage; the doubly-fed machine (DFIG) is not modelled separately (a converter-connected wind turbine is represented by an inverter-based generator); no CIM export.</li>
+<li><b>Generator</b>: the capability curve acts only in the classic load flow; the PSS tuning must be checked for each configuration.</li>
+<li><b>Protection</b>: it does not trip in dynamic simulations; transformer differential without magnetising inrush nor 2nd-harmonic restraint; time grading only; CT saturation by simple clipping.</li>
+<li><b>Surge arresters</b>: coordination by a static formula; lightning and switching overvoltages are not simulated.</li>
+<li><b>Neutral earthing</b>: steady state, without arc transient; the zero-sequence capacitance C0 is that of the whole network (wrong if transformers separate several zones: tune the coil zone by zone).</li>
+</ul>
+<p><b>Results</b>: above the table, I"k, ip, κ, S"k, Ib = Ik when the fault is far from generators, inverter share (“of which inverters (current sources)” and each I_skPF), the three phase currents and IE, impedances Z1, Z2, Z0 seen from the fault, I"k of the four fault types at the same point. In the table: current and voltage of each element for phase a (phase b for a two-phase fault); tooltip and Selection panel: the three phases and the symmetrical components.</p>
+
+<h3 id="der">5.4 DER and smart-grid studies</h3>
+<p>The Calculation list offers six distributed-energy-resource (DER) studies, run on the one-line diagram. The generators of the “Distributed energy resources” section (or a generator bus with its “Distributed energy resource” section) provide their data; a slack bus (upstream grid, generating set or battery) is required.</p>
+<table>
+<tr><th>Calculation</th><th>Method</th><th>Results</th></tr>
+<tr><td>Distribution load flow</td><td>Backward/forward sweep (radial network, high R/X), ZIP loads, inverter controls (power factor, Q(V), P(V)).</td><td>Voltages, losses, source power, Vmin/Vmax and bus, most loaded branch.</td></tr>
+<tr><td>Time series</td><td>Load flow repeated at each step of the profiles (load, production).</td><td>V, P, Q, I curves of the buses; energy produced and curtailed; hours outside the voltage band.</td></tr>
+<tr><td>PV hosting capacity</td><td>Maximum PV power added at the chosen bus without exceeding Vmax or the maximum branch loading.</td><td>Hosting capacity (MW) at the studied bus and test conditions (Vmax, load).</td></tr>
+<tr><td>Dynamics (RMS)</td><td>Time-domain simulation (Runge-Kutta 4): synchronous machines, grid-forming (droop, VSM) and grid-following (PLL, LVRT) inverters, batteries (SOC, limits); scheduled events.</td><td>V, P, Q, f, SOC curves; nadir, RoCoF and final frequency of each machine; event log.</td></tr>
+<tr><td>Economic OPF</td><td>Optimisation over the profile horizon: generation and purchase cost, losses (linearised LinDistFlow), voltage limits.</td><td>Cost, indicators, power and SOC curves.</td></tr>
+<tr><td>Microgrid dispatch</td><td>Mixed-integer linear programming (MILP): generator on/off and start-ups, battery charge/discharge, grid purchases and sales, load shedding.</td><td>Cost, indicators, generator commitment, curves.</td></tr>
+</table>
+<p><b>Simulation › DER study parameters…</b> (<kbd>Cmd/Ctrl+Shift+D</kbd>), four tabs:</p>
+<ul>
+<li><b>Profiles</b>: load profile (pu, applied to all loads), time step; profile editor: typing or pasting from a spreadsheet, presets (residential, PV, constant), preview;</li>
+<li><b>Economy</b>: purchase and sale prices (constant or hourly), maximum purchase and sale, voltage band, load shedding, reserves;</li>
+<li><b>Hosting capacity</b>: studied bus, Vmax, load during the test, maximum branch loading, inverter control;</li>
+<li><b>Dynamics</b>: duration, step, base power, list of events (three-phase fault at a bus with its impedance, load step, opening of a series element, available power, set-point change).</li>
+</ul>
+<p>A summary appears above the table; the tooltip and Selection panel of each bus give the min/max of its series, SOC start → end and energies. Study parameters are saved with the project.</p>
+
+<h3 id="sgcalc">5.4 bis Smart grid: self-healing, Volt/VAR, virtual power plant, islanding</h3>
+<table>
+<tr><th>Calculation</th><th>Method</th><th>Results</th></tr>
+<tr><td>Self-healing (FLISR), reliability</td><td>Permanent or transient fault on the chosen element: tripping of the upstream protection, location by the FPIs,
+isolation by the remote-controlled switches, restoration upstream and transfer of the downstream part by the NO switches (each operation validated by a
+load flow: minimum voltage, current ratings; partial transfer if necessary), then crew intervention and repair; comparison with operation without
+automation. Annual study: each element is put in fault in turn (rate × length).</td>
+<td>Time-stamped sequences, final state of the switches, customers interrupted (sustained and momentary interruptions), customer-minutes, ENS;
+annual SAIDI, SAIFI, MAIFI, ASAI, ENS with and without automation, investment, gain and payback; interruption time of each bus.</td></tr>
+<tr><td>Volt/VAR control (IVVC)</td><td>Over the profile: S0 no control, S1 local control (Q(V), capacitor relays), S2 centralised IVVC (substation on-load tap
+changer = slack-bus voltage, or the taps of the substation transformer if it has any, capacitor steps), S3 IVVC/r (+ reactive power of the inverters); objective losses or consumption reduction (CVR, ZIP loads).</td>
+<td>Losses, energy drawn, Vmin/Vmax, hours out of range, operations, reactive power of the inverters, reductions with respect to S0; curves of each
+strategy, taps and steps.</td></tr>
+<tr><td>Virtual power plant (VPP)</td><td>Economic dispatch (MILP) of the DER, EVs and demand response with an exchange programme at the substation (deviation
+penalty) and sale of fast reserve; network check by a load flow at each step (DERMS); OpenADR 2.0b demand response event (§ 5.4 ter).</td>
+<td>Cost, programme compliance, reserve sold, charging cost, upward and downward flexibility, hours with constraints, curves.</td></tr>
+</table>
+<p>Settings: <b>Simulation › DER study settings</b>, tabs « Self-healing », « Volt/VAR » and « Virtual power plant ». In the « Dynamics » tab, three
+microgrid events (IEEE 2030.7): <b>Islanding</b> (opening of the coupling point), <b>Synchronised reconnection</b> (synchroniser and synchro-check according
+to IEEE 1547: Δf, ΔV, Δφ depending on the island rating; maximum delay), <b>Closing without synchro-check</b>. Grid-following inverters have a
+Frequency-Watt function (droop, dead band <code>fwDeadband</code> in Hz).</p>
+<h3 id="cim">Model exchange in CIM format (IEC 61970 / 61968, CGMES)</h3>
+<p><b>File › Export the network in CIM format</b>: CGMES 3.0 <code>.zip</code> archive (one file per profile: <b>EQ</b> equipment, <b>TP</b> topology,
+<b>SSH</b> steady-state hypothesis, <b>SV</b> state variables if a load flow has been run) or a single RDF/XML file. The hidden elements of a line
+(π-model R, L, C) or of a transformer (Rcc, Lcc, Rfe, Lm) are grouped into one <code>ACLineSegment</code> (r, x, bch, length) or a two-winding
+<code>PowerTransformer</code> (rated voltages and power, vector group, clock number). "Grid" slack bus → <code>ExternalNetworkInjection</code>
+(short-circuit current derived from Rd, Xd); genset → <code>SynchronousMachine</code>; PV, battery, wind → <code>PowerElectronicsConnection</code> with
+<code>PhotoVoltaicUnit</code> / <code>BatteryUnit</code> / <code>PowerElectronicsWindUnit</code>; loads → <code>EnergyConsumer</code>; capacitor banks →
+<code>LinearShuntCompensator</code>; transformer taps → <code>RatioTapChanger</code> (export); switching devices → <code>Breaker</code>, <code>Recloser</code>, <code>LoadBreakSwitch</code>; FPIs →
+<code>FaultIndicator</code>. CGMES units: kV, MW, Mvar, MVA, km. NRJXpert-specific parameters (profiles, inverter control…) go into an extension namespace
+ignored by other tools, which makes a lossless round trip possible. The export was checked with an independent tool (pandapower CGMES import and load
+flow of the IEEE 33-bus network: same voltages).</p>
+<p><b>File › Import a CIM network model</b>: one or more RDF/XML files (EQ, TP, SSH, SV…) or a <code>.zip</code> archive. The diagram is drawn
+automatically. A network with several voltage levels is referred to the source voltage (impedances × (V<sub>ref</sub>/V)², transformers at nominal
+ratio), which is equivalent to a per-unit calculation. Classes not imported are listed at the end.</p>
+<h3 id="sgam">SGAM architecture</h3>
+<p><b>Tools › SGAM architecture</b> opens the modelling workshop based on the SGAM framework (5 layers: business, function, information, communication,
+component; 5 domains; 6 zones). <b>Generate from the diagram</b> creates the components (primary substation, switchgear, IEDs, inverters, meters,
+chargers…), the systems (SCADA/ADMS, DERMS, HES, MDMS, CSMS, aggregator), the communication links and their protocols, the information objects, the
+functions and the actors matching the drawn network. <b>Template use cases</b> adds a use case described according to IEC 62559-2 (FLISR, IVVC, virtual
+power plant, AMI, smart charging, islanding) with its step-by-step scenario and sequence diagram. Tabs: plane of each layer (drag an element to change
+its cell; logical or technical viewpoint), SGAM cube, use cases, traceability matrix (goals → functions → components → information → protocols) and
+<b>Check</b> of cross-layer consistency (function not realised, link without protocol, unusual protocol between two zones, field–operation link without
+IEC 62351…). <b>HTML report</b>: planes and cube as SVG, tables, use cases and findings; <b>File</b>: model exchange as XML, export of the displayed plane
+as SVG. The model is saved with the project.</p>
+<p><b>Tools › Telecontrol points list</b>: CSV of the states, measurements, commands and set-points of each element, with the IEC 61850 logical node, the IEC 60870-5-104 ASDU type and
+address, Modbus registers (SunSpec models of the inverters) and OCPP messages of the chargers — indicative mappings to be validated with the selected
+equipment.</p>
+
+<h3 id="expert">5.4 ter Expert training: IEEE 2030.8 test bench, smart metering (AMI), OpenADR demand response, cybersecurity</h3>
+<ul>
+<li><b>Microgrid controller test bench (IEEE 2030.8)</b> (Calculation list): six simulated tests of the microgrid controller — T1 unplanned
+islanding, T2 planned islanding (the exchange at the point of common coupling is cancelled before opening), T3 resynchronisation (IEEE 1547
+synchro-check), T4 load step and T5 loss of the largest generation in island mode, T6 24 h dispatch function, connected / islanded.
+<b>Microgrid tests</b> tab of the DER settings: point of common coupling (switching device or series element between the upstream grid and the
+site), tests to run, acceptance criteria (frequency range, RoCoF, settling, voltage, resynchronisation time, energy not supplied). The dynamic
+parameters of the generators are those of the dynamic simulation; T6 uses the profile and the prices. Result: verdict per test and per
+criterion, compliance rate, frequency and voltage curves, <b>test report</b> (Report… button).</li>
+<li><b>Smart metering (AMI)</b>: each load is an MV/LV substation with its « customers » (number entered in the load dialog box). The server
+simulates one week of 15-min load profiles (frauds, meters, honest consumption drops), runs a load flow at each step and draws up the balance:
+technical losses, non-technical losses, balance gap per substation, fraud detection (precision and recall of three methods), DLMS/COSEM data
+collection over G3-PLC or cellular (completeness, hops, volume, collection time). <b>Smart metering</b> tab. Load tooltip: balance gap,
+suspect customers, completeness.</li>
+<li><b>OpenADR 2.0b demand response</b>: <b>Virtual power plant</b> tab, « Demand response event » section: LOAD_DISPATCH (MW), SIMPLE
+(level 1 to 3) or ELECTRICITY_PRICE (adder) signal, time window, payment, penalty, notification. The VPP is optimised without then with the
+event; results: requested and delivered reduction, delivery rate, net gain; the <code>oadrDistributeEvent</code> message is in the report and
+is saved with Simulation › Save the OpenADR 2.0b message.</li>
+<li><b>Cybersecurity risk assessment (IEC 62443)</b> (Tools menu): inventory of the communicating assets of the diagram, zones and conduits,
+target level SL-T per zone, measures in place for requirements FR1 to FR7, protection and exposure of the conduits; consequence × likelihood
+matrix and action plan (Results tab, HTML report). The settings are saved with the project.</li>
+<li>Reports: <b>Simulation › Expert report of the last calculation (HTML)</b>; files in <code>~/.nrjxpert/rapports/</code>.
+Tutorial: <b>Help › Expert workshop</b> (level 7, in French and English).</li>
+</ul>
+<h3 id="courbes">5.5 Result curves</h3>
+<p>After a study returning series (time series, dynamics, OPF, dispatch), the <b>“Result curves”</b> window opens (also: Simulation › Result curves, <kbd>Cmd/Ctrl+Shift+K</kbd>, or the “Curves…” button). Choose the quantity (voltage, P, Q, current, frequency, SOC, generator commitment, network-wide series) and the elements shown (All / None). Hourly profiles are drawn as steps. “Copy” puts the displayed curves on the clipboard (paste into a spreadsheet); “Export CSV…” saves all series (“;” separator, decimal comma).</p>
+
+<h3 id="parametres-calcul">5.6 Calculation and server settings</h3>
+<p>Simulation › Calculation and server settings: calculation type and method, model of new connections (ideal, R, L, RL, RLC π), network frequency (Hz), base voltage (kV), “Use the local server on this computer” option (see section 2). Settings are remembered.</p>
+<p><b>Opening a network file (XML)</b>: File › Open (type "Network files (XML)") or Help › Open a tutorial example. The diagram is drawn
+in the editing area from the file: buses, generators (PV, wind, diesel, battery), loads, EV chargers, capacitor banks, switching devices,
+R, L, C, Z elements (two terminals between two nodes, one-line when shunt-connected) and their links. The layout starts from the source:
+main feeder on one row, each branch on a free row below, loop-closing elements on the right. The calculation type, the method and the
+study settings (profiles, prices, events, tests, AMI, FLISR…) are restored; <kbd>F5</kbd> runs the calculation, <b>Save as…</b> turns
+it into an <code>.nxp</code> project.</p>
+<p><b>Simulation › Calculate a network file (XML)…</b>: sends a network described in XML (the format sent by the client; tutorial examples) to the
+server, editable before sending; the window shows a summary (global sections, bus voltages and powers) and the full answer.</p>
+<h3 id="resultats">5.7 Reading the results</h3>
+<ul>
+<li>Table: I, ∠I, U, ∠U (angles in degrees; hidden in DC); for a load flow, bus V, Pgen, Qgen.</li>
+<li>Automatic prefixes (mA, kV, MW…); hidden model components shown as “RLC1 - Ra”, “G1 - a”…</li>
+<li>Two successive simulations give the same results; “Clear results” empties the display.</li>
+</ul>
+
+<!-- ====================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="weather">
+            <h2><span class="section-icon">🌤️</span>6. Site weather data</h2>
+<p>Tools › Site weather data, or the “Données météo en ligne…” button of the PV and wind windows.</p>
+<ol class="steps">
+<li><div class="step-content"><b>Site</b>: pick a town in the list, search a place by name (“Search”), or type latitude (N &gt; 0), longitude (E &gt; 0, W &lt; 0) and elevation (“Find” button: Copernicus 90 m digital elevation model).</div></li>
+<li><div class="step-content"><b>Source</b> and <b>period</b> (see table). The period is limited to 20 years for hourly series.</div></li>
+<li><div class="step-content"><b>Calculation</b>: module tilt (fixed, optimal over the year, optimal for the worst month), albedo, hub height, wind extrapolation method (automatic, measured shear, logarithmic law, power law α = 1/7), terrain (roughness z₀), calm threshold.</div></li>
+<li><div class="step-content"><b>Download and compute</b>: the task runs in the background (Cancel button). Answers are cached for 90 days in <code>~/.nrjxpert/meteo/cache</code>: a second calculation on the same site is immediate.</div></li>
+<li><div class="step-content">Browse the Solar, Wind, Temperature &amp; air, Source &amp; notes tabs; “Export CSV”; “Use for PV sizing” / “Use for wind sizing”.</div></li>
+</ol>
+<table>
+<tr><th>Dataset</th><th>Content</th><th>Notes</th></tr>
+<tr><td>NASA POWER — climatology</td><td>Long-term monthly means: H, T, Tmax, Tmin, RH, P, wind at 10 and 50 m</td><td>One request, fast; no wind distribution (Rayleigh, k = 2, assumed).</td></tr>
+<tr><td>NASA POWER — daily</td><td>Daily series since 1984</td><td>Weibull fitted on daily means: k over-estimated.</td></tr>
+<tr><td>NASA POWER — hourly (recommended)</td><td>Hourly series since 2001 (local solar time)</td><td>One request per year; hourly Weibull, typical days, 10 m / 50 m shear.</td></tr>
+<tr><td>PVGIS — monthly irradiation</td><td>Satellite irradiation (SARAH-3, ≈ 5 km), horizontal and optimal plane</td><td>Horizon shading included; no wind.</td></tr>
+<tr><td>PVGIS — typical year (TMY)</td><td>8760 hours: G, Gd, T, RH, P, wind at 10 m</td><td>Measured diffuse.</td></tr>
+<tr><td>Open-Meteo — ERA5 hourly</td><td>Since 1940, wind at 10 and 100 m</td><td>Free for non-commercial use.</td></tr>
+</table>
+<h3>Computed quantities (12 months + year)</h3>
+<ul>
+<li><b>Solar</b> (kWh/m²/day): horizontal irradiation H, extraterrestrial H0, clearness index Kt = H/H0, diffuse Hd (measured, otherwise Erbs correlation), plane-of-array irradiation Hβ (Liu-Jordan/Klein model), day length, optimal tilts.</li>
+<li><b>Air</b>: mean temperature, mean daily maximum and minimum, daytime temperature, humidity, pressure, air density ρ (moist air).</li>
+<li><b>Wind</b>: mean speeds at 10 m and 50/100 m, shear exponent α, maximum speed, Weibull c, k and calm fraction at 10 m, speed, c and k at hub height, power density (W/m²), wind energy (kWh/m²).</li>
+<li><b>Hourly typical days</b> (hourly sources): mean irradiance, temperature and wind for each hour and month.</li>
+</ul>
+<p>Sent to the PV module: irradiation (plane of array or horizontal, as chosen), temperature, coordinates, elevation and typical days. Sent to the wind module: hourly speeds at 10 m (as measurements), monthly Weibull parameters, air density; measurement height 10 m.</p>
+<div class="note">Quote the data source in your reports: NASA POWER (NASA Langley Research Center), PVGIS © European Union, Open-Meteo (CC BY 4.0, Copernicus ERA5 reanalysis).</div>
+
+<!-- ====================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="pv">
+            <h2><span class="section-icon">☀️</span>7. Photovoltaic systems</h2>
+<p>Six-tab window; toolbar: New, Open, Save (<code>.nxpv</code>), Equipment databases, Help, Size (<kbd>F5</kbd>). Units: powers entered in W, energies in kWh, costs in kF (thousands of currency units; the unit — CFA franc by default, euro, dollar, dirham… — is chosen in the Options and costs tab), cost per kWh in unit/kWh.</p>
+
+<h3 id="pv-site">7.1 Tab 1 — Site</h3>
+<ul>
+<li><b>Site name</b>, <b>locality</b> from the database (monthly irradiation and temperature, coordinates) or <b>Données météo en ligne…</b> button.</li>
+<li><b>Irradiation measured on a horizontal plane</b>: ticked for database localities and weather stations; irradiation is then converted to the module plane (facing the equator) at the entered <b>tilt</b>, or at the optimal tilt for the worst month if the field is empty. The “Plan des modules” column shows the converted values.</li>
+<li><b>Value used for sizing</b>: the least sunny month (recommended for stand-alone systems) or the annual mean.</li>
+<li><b>Local distribution grid</b> (centralised system): length per subscriber (km), investment (kF/km), maintenance (kF/km/yr).</li>
+<li>Editable monthly table (double-click): irradiation (kWh/m²/day), temperature (°C); chart.</li>
+</ul>
+
+<h3 id="pv-besoins">7.2 Tab 2 — Demand</h3>
+<p>Demand is described by <b>buildings</b> (house, school, health post…, N copies) containing <b>loads</b>.</p>
+<table>
+<tr><th>Load parameter</th><th>Meaning</th></tr>
+<tr><td>Number, power</td><td>Power of one appliance.</td></tr>
+<tr><td>Efficiency</td><td>Absorbed power = power / efficiency.</td></tr>
+<tr><td>Power factor</td><td>AC loads: apparent power = P / cos φ (inverter sizing).</td></tr>
+<tr><td>Utilisation and simultaneity factors</td><td>Multiply the power (partial operation, non-simultaneous appliances).</td></tr>
+<tr><td>Voltage, DC / AC</td><td>A DC load at bus voltage (or with no voltage entered) is supplied directly; otherwise a 90 % efficient converter is counted.</td></tr>
+<tr><td>Days per week, schedule (24 boxes)</td><td>Daily profile; weekly energy = hours × days × power.</td></tr>
+<tr><td>Priority</td><td>Loads to be supplied first (priority demand).</td></tr>
+</table>
+<p>The hourly profile, daily demand (kWh/day) and battery load (Ah/day) are displayed. Ah/day include cable (0.98), converter (0.9) and battery (0.9) losses.</p>
+
+<h3 id="pv-options">7.3 Tab 3 — Options and costs</h3>
+<p>For the <b>centralised</b> system (one generator and the local grid) and the <b>decentralised</b> systems (one system per infrastructure):</p>
+<ul>
+<li><b>Optimised choice</b> of the equipment (minimum life-cycle cost among the database) or imposed equipment;</li>
+<li><b>Connection compatibility</b> (optimised or imposed choice): batteries whose voltage divides the DC bus voltage (12.8 V LFP for 12 V…), off-grid inverters with the same DC voltage as the bus, charge controllers of the right type (MPPT/PWM) accepting the battery voltage, maximum input voltage ≥ cold string Voc (1.1 × Voc), input current ≥ 1.25 × Isc of the connected strings and sufficient output current (a string is never shared between two controllers); with PWM, string Vmp ≤ 2 × bus voltage. Module and controller are chosen together: the cheapest compatible combination is kept, even if it costs more than a combination that cannot be connected. The “Connection” line of the results summarises the wiring; without a compatible combination, a warning lists the unmet constraints.</li>
+<li><b>Automatic choice of bus voltage and controller type</b> (box under “lowest life-cycle cost”, ticked for new projects): the six variants 12, 24, 48 V × MPPT, PWM are sized and the one with the lowest cost per kWh among those whose connections all comply is kept; the “Automatic choice” line of the results compares the variants. Wiring counts one array → controller and controller → battery link per controller, and one battery → inverter and inverter → board link per inverter (cross-sections sized for each unit’s current).</li>
+<li><b>DC bus voltage</b> (12, 24, 48 V…), battery <b>autonomy</b> (h), <b>depth of discharge</b> (%);</li>
+<li><b>loads supplied by the battery</b>: <i>all loads</i>, or <i>priority loads only</i> ("Priority" column of the appliances): the smaller battery is
+sized on priority needs only and the other loads are shed during the autonomy period; the PV array always covers all loads. Same choice in the wind
+window (storage): non-priority loads are shed there when wind is lacking and the battery falls below half of its usable energy;</li>
+<li><b>MPPT charge controller</b> (otherwise PWM) — essential with 60- or 72-cell modules;</li>
+<li><b>lifetimes</b> used when the database gives none: batteries (5 years), inverters and charge controllers (10 years); empty field = default value;</li>
+<li><b>design margin</b> (%): increases the needs (Ah/d) before the array and battery are sized, to cover the uncertainty on the load profile, demand growth and ageing; 10 % by default for new projects, 0 % for projects saved before it was introduced;</li>
+<li><b>wiring</b>: one-way lengths of the links array → controller, controller → battery, battery → inverter, inverter → distribution board, ambient
+temperature, copper or aluminium; <b>Wiring assumptions and prices…</b> button (maximum voltage drops 3 / 1 / 3 %, grouping factor, cos φ, prices of
+conductors, installation and protection, lifetime, maintenance).</li>
+</ul>
+<p>Wiring: for each link, design current <i>I</i><sub>b</sub> = 1.25 × rated current, standard protection <i>I</i><sub>n</sub> ≥ <i>I</i><sub>b</sub>,
+cross-section the largest of the one imposed by heating (<i>I</i><sub>z0</sub>·<i>k</i><sub>θ</sub>·<i>k</i><sub>g</sub> ≥ <i>I</i><sub>n</sub>, IEC 60364-5-52)
+and the one imposed by the voltage drop at rated current (NF C 15-100, UTE C15-712-1). The cost (cables, installation, protection) is included in the
+investment, the life-cycle cost, the discounted cost and the LCOE; tab 4 gives the details link by link. The wind module (tab 5) does the same for the
+links machine → electronics and electronics → connection or battery.</p>
+<p>Economic parameters: operating period, depreciation period, inflation, interest rate (also used as discount rate of the LCOE).</p>
+
+<h3 id="pv-resultats">7.4 Tab 4 — Results</h3>
+<p>For each solution: peak power, design irradiation, demand, battery load, required capacity, array current (PWM) or required peak power (MPPT), annual production on the DC bus, <b>monthly</b> surplus and deficit, number of deficit months, demand <b>coverage</b>, useful energy, local grid, investment, operating cost, life-cycle cost, cost per kWh, <b>present cost</b> and <b>levelized cost of energy (LCOE)</b>, equipment table (type, series × parallel, quantity, costs) and production / demand chart on the DC bus. Warnings (deficit, default lifetimes, module voltage…) are shown in red.</p>
+
+<h3 id="pv-simulation">7.5 Tab 5 — Simulation</h3>
+<p>Life-cycle cost and cost per kWh (simple and levelized) of the centralised and decentralised solutions versus the number of typical buildings (start, end, step). The crossing of the curves shows from how many subscribers the centralised solution becomes attractive.</p>
+
+<h3 id="pv-viability">7.6 Tab 6 — Economic viability</h3>
+<p>Study of a system of given power, <b>grid-connected</b> or <b>stand-alone</b>, with hour-by-hour production.</p>
+<ol class="steps">
+<li><div class="step-content"><b>System</b>: type, target power (kWp) — adjusted to a whole number of groups (modules + one inverter).</div></li>
+<li><div class="step-content"><b>Irradiance and temperature</b>: 12 typical days of the site (downloaded profiles when available, otherwise half-sine and entered day/night spread), or an hourly measurement file (Excel or text: 24 columns, one irradiance row in W/m² then one temperature row per day; 2, 60 or 730 rows for a typical day, month or year; the “?” button recalls the expected format).</div></li>
+<li><div class="step-content"><b>Equipment</b>: module (Pp, Vmp, Imp, Voc, Isc, cost), inverter (DC voltage, kVA, cost), battery and controller (stand-alone), autonomy in hours of average daily production. Equipment chosen from the equipment databases (their values cannot be edited here).</div></li>
+<li><div class="step-content"><b>Economic data</b>: O&amp;M, installation, insurance (per kW), subsidy, tariff and its growth, lifetime, inflation, discount rate.</div></li>
+<li><div class="step-content"><b>Model parameters…</b>  (window toolbar, next to “Equipment databases…”; the <b>system losses, NOCT and temperature coefficient</b> are also used by the sizing: loss factor = 1 − losses, cell temperature Ta + (NOCT − 20) at 800 W/m², power correction by the coefficient): cells, reference conditions, NOCT, Pmax temperature coefficient, system losses, degradation, clipping, inverter efficiency and power factor, depth of discharge, battery efficiency and stored share, lifetimes.</div></li>
+<li><div class="step-content"><b>Compute</b>; <b>Sensitivity analysis</b> (NPV, IRR, break-even tariff versus power and tariff; CSV export); <b>Minimum subsidy</b>, <b>Minimum tariff</b>; <b>Report</b> (savable text).</div></li>
+</ol>
+<p>Results: installed power, number of modules, inverters, batteries, controllers, annual energy, specific yield (kWh/kWp/yr) and performance ratio PR, investment, NPV, IRR, simple and discounted payback, LCOE, minimum tariff, minimum subsidy, charts (weather, hourly and monthly production, cash flows, sensitivity).</p>
+
+<h3 id="pv-bases">7.7 Equipment databases</h3>
+<p>Modules (Pp, Vopt, Iopt, Voc, Isc, coefficients), batteries (Ah, efficiency, voltage, technology, recommended depth of discharge), charge controllers
+(A, MPPT or PWM, maximum input voltage), inverters (VA, DC voltage, efficiency, stand-alone or grid), locations (coordinates, 12 horizontal irradiations,
+12 temperatures) and — for solar water pumping — <b>pumps</b> (type, rated power, head and flow, efficiencies, price; “Pumps” tab). Costs of each item: unit price, replacement cost and period, annual maintenance, installation (kF). Changes are saved in
+<code>~/.nrjxpert/pv/</code>; « Restore the original values » goes back to the supplied files.</p>
+<p><b>Supplied database (November 2026)</b>: current generic equipment and indicative prices in Dakar (in thousands of CFA francs incl. VAT; to be converted if another currency unit is chosen) — modules from 100 to 620 Wp
+(≈ 170 to 250 F/Wp), AGM, gel and OPzV lead-acid and LFP lithium batteries (lifetimes in hot climate: 4, 5, 8 and 12 years; depth of discharge 50, 60,
+70 and 90 %), PWM and MPPT charge controllers, stand-alone inverters from 12 to 48 V and grid inverters. Sizing uses the depth of discharge of the
+battery when the database gives one, charge controllers of the system type (MPPT or PWM) whose input voltage withstands the array when cold, and
+stand-alone inverters at the bus voltage (grid inverters are used only in tab 6). A personal database older than this version is set aside
+(<code>*.avant-2026-11.csv</code>).</p>
+<div class="warn">Prices are orders of magnitude: replace them by quotations from your suppliers before an economic study.</div>
+
+<h3 id="pv-methodes">7.8 PV calculation methods</h3>
+<h4>Horizontal → module plane (monthly mean day, Klein)</h4>
+<div class="eq">H<sub>β</sub> = H·[(1 − H<sub>d</sub>/H)·R<sub>b</sub> + (H<sub>d</sub>/H)·(1 + cos β)/2 + ρ<sub>g</sub>·(1 − cos β)/2]</div>
+<p>H<sub>d</sub>/H: Erbs correlation as a function of K<sub>t</sub> = H/H<sub>0</sub>; R<sub>b</sub>: mean beam tilt factor (Liu-Jordan); albedo 0.2.</p>
+<h4>Demand and battery load</h4>
+<div class="eq">E<sub>d</sub> = Σ n·P·K<sub>u</sub>·K<sub>s</sub>/η · h · (days/7) &nbsp;&nbsp; Q<sub>d</sub> (Ah/day) = E<sub>d</sub> / (U<sub>bus</sub>·η<sub>conv</sub>·η<sub>cables</sub>·η<sub>bat</sub>)</div>
+<h4>PV array — PWM controller (original model)</h4>
+<div class="eq">I<sub>array</sub> = Q<sub>d</sub> / H<sub>design</sub> ; N<sub>p</sub> = ⌈I<sub>array</sub> / (0.9·I<sub>mp</sub>)⌉ ; N<sub>s</sub> = ⌈1.2·U<sub>bus</sub> / (0.9·V<sub>mp</sub>)⌉ ; E<sub>month</sub> = U<sub>bus</sub>·N<sub>p</sub>·I<sub>mp</sub>·0.9·H·days</div>
+<h4>PV array — MPPT controller</h4>
+<div class="eq">P<sub>p</sub> = Q<sub>d</sub>·U<sub>bus</sub> / (H<sub>design</sub>·0.9·f<sub>T</sub>·η<sub>MPPT</sub>) ; f<sub>T</sub> = 1 − 0.004·(T<sub>c</sub> − 25), T<sub>c</sub> = T<sub>a</sub> + 25 °C ; η<sub>MPPT</sub> = 0.96 ; E<sub>month</sub> = P<sub>p</sub>·H·0.9·f<sub>T</sub>·η<sub>MPPT</sub>·days</div>
+<p>String of N<sub>s</sub> modules such that the hot V<sub>mp</sub> (cells at 70 °C) exceeds 1.3·U<sub>bus</sub>. The 0.9 factor groups cables, dust, mismatch and ageing.</p>
+<h4>Battery, controller, inverter</h4>
+<div class="eq">C (Ah) = autonomy(h)·Q<sub>d</sub>/24 / DoD ; N<sub>s,bat</sub> = U<sub>bus</sub>/U<sub>bat</sub> ; controllers: 1.25·N<sub>p</sub>·I<sub>sc</sub> (PWM) or 1.25·P<sub>p</sub>/U<sub>bus</sub> (MPPT) ; inverters: 1.25·S<sub>max</sub></div>
+<p>All quantities are rounded up. The balance is made <b>month by month</b> on the DC bus (array production; demand including conversion, cable and storage losses, the battery efficiency being applied to all the energy consumed, including what the array supplies directly to the inverter: a conservative assumption): surplus = Σ max(0, E<sub>prod</sub> − E<sub>dem</sub>), deficit = Σ max(0, E<sub>dem</sub> − E<sub>prod</sub>), coverage = Σ min(E<sub>prod</sub>, E<sub>dem</sub>) / Σ E<sub>dem</sub>.</p>
+<h4>Costs</h4>
+<p><b>Life-cycle cost</b> (original method) = depreciation annuities of the investment over the depreciation period + maintenance and replacements over the operating period (with inflation); cost per kWh = life-cycle cost / annual useful energy / period. <b>Present cost</b> and <b>LCOE</b>: see <a href="#economie">economic methods</a>.</p>
+<h4>Viability: module model</h4>
+<p>Single-diode model: I = I<sub>sc</sub>·(1 − exp((V − V<sub>oc</sub> + I·R<sub>s</sub>)/(N<sub>s</sub>·n·V<sub>t</sub>))), n = 1.5; R<sub>s</sub> derived from the fill factor; current solved by bisection, maximum power point by golden-section search; power calibrated on V<sub>mp</sub>·I<sub>mp</sub> at reference conditions; dV<sub>oc</sub>/dT calibrated on the Pmax temperature coefficient.</p>
+<div class="eq">T<sub>c</sub> = T<sub>a</sub> + (NOCT − 20)/800·S ; P<sub>AC</sub> = min(η<sub>inv</sub>·(1 − losses)·N<sub>s</sub>·N<sub>p</sub>·P<sub>mod</sub>(S, T<sub>c</sub>), P<sub>inv</sub>)</div>
+<p>Energy of year y: E<sub>1</sub>·(1 − d)<sup>y−1</sup>; stand-alone: × [(1 − f) + f·η<sub>bat</sub>] (f: stored share). Storage of a group: mean daily energy × autonomy/24 / (DoD·η<sub>bat</sub>).</p>
+
+<h3 id="pv-pompage">7.9 Solar water pumping</h3>
+<p><b>Solar water pumping…</b> button of the Photovoltaic systems window (or <b>Renewables</b> menu › Solar water pumping). The window sizes and simulates a photovoltaic pumping system, either <b>direct solar</b> (water stored in a tank) or <b>with battery</b>. Projects are saved as <code>.nxpomp</code>. The example of the course “Le pompage photovoltaïque” (village of 500 inhabitants, 25 m³/d, TDH 15 m, irradiation 5 h, margin 0 %) opens with <b>Help › Open a tutorial example…</b> › <code>pompage_village.nxpomp</code> (§ 3.8 of the tutorial, level 3).</p>
+<ul>
+<li><b>1. Site and measurements</b>: monthly irradiation and temperature (online data, file, paste from Excel or entry), conversion to the module plane.</li>
+<li><b>2. Water demand</b>: population (l/inh/d), livestock in TLU (cattle 1, sheep or goat 0.2, donkey 0.3, horse 1.2, camel 1.5; l/TLU/d), irrigation (area × net requirement / efficiency), other needs, distribution losses, monthly coefficients and hourly consumption profile.</li>
+<li><b>3. Well and pipe</b>: TDH entered, or calculated from the static level, the drawdown (fixed or flow/specific capacity), the tank inlet height and the elevation; head losses as a lump sum (% of static head) or by Darcy-Weisbach. System curve TDH(Q).</li>
+<li><b>4. Pump and sizing</b>: pump type (selection advice from the course), pump chosen from the database (“Pumps” tab of the equipment database: 26 centrifugal, positive-displacement and floating pumps with their head and flow range) or entered characteristics, configuration, efficiencies, <b>design margin</b> (10 % by default: increases the needs before the flow, array, tank and simulation are calculated), starting threshold, pumping duration, peak power method, module, voltage, battery and tank. Month-by-month results.</li>
+<li><b>5. Simulation</b>: hour-by-hour simulation over the site's typical days; monthly balance, typical day, tank level, operating point, report.</li>
+<li><b>6. Economic viability</b>: investment, levelised cost per m³, comparison with a diesel motor-pump.</li>
+</ul>
+<h4>Total dynamic head</h4>
+<div class="eq">TDH = HG + H<sub>L</sub>; HG = N<sub>s</sub> + R + h<sub>tank</sub> + elevation; R = Q / q<sub>s</sub> (q<sub>s</sub>: specific capacity) or fixed</div>
+<div class="eq">H<sub>L</sub> = λ·(L/D)·v²/2g·(1 + k<sub>minor</sub>); Swamee-Jain: λ = 0.25 / [log<sub>10</sub>(ε/3.7D + 5.74/Re<sup>0.9</sup>)]²; λ = 64/Re if Re &lt; 2000</div>
+<p>Course lump sum: H<sub>L</sub> ≈ 10 to 20 % of HG at nominal flow, proportional to Q².</p>
+<h4>Energy method (course)</h4>
+<div class="eq">E<sub>el</sub> (Wh/d) = C<sub>H</sub>·ΔQ·TDH / R<sub>p</sub>; C<sub>H</sub> = g·ρ/3600 = 2.725 Wh/(m³·m); R<sub>p</sub> = η<sub>p</sub>·η<sub>m</sub>·η<sub>conv</sub></div>
+<div class="eq">P<sub>c</sub> = E<sub>el</sub> / (Irr·η<sub>c</sub>); η<sub>c</sub> = (1 − losses)·[1 + γ·(T<sub>c</sub> − 25)], T<sub>c</sub> = T<sub>a</sub> + (NOCT − 20) (irradiance of 800 W/m²)</div>
+<p>The sizing month is the one with the largest P<sub>c</sub> (high demand and low irradiation).</p>
+<h4>Power method (course)</h4>
+<div class="eq">Q<sub>max</sub> = π·ΔQ / (2·ΔT) (cosine flow over ΔT; ≈ ΔQ/6 for 9 h); P<sub>H</sub> = Q<sub>max</sub>·TDH/367; P<sub>m</sub> = P<sub>H</sub>/η<sub>p</sub>; P<sub>el</sub> = P<sub>m</sub>/η<sub>m</sub>; P<sub>g</sub> = P<sub>el</sub>/(η<sub>conv</sub>·η<sub>c</sub>); P<sub>c</sub> = P<sub>g</sub>·1000/G</div>
+<p>P<sub>el</sub> also gives the nominal electrical power of the motor-pump (unless a power is imposed).</p>
+<h4>With battery (course)</h4>
+<div class="eq">E<sub>Ah</sub> = E<sub>el</sub>/U; P<sub>c</sub> = E<sub>el</sub>/(Irr·η<sub>c</sub>·η<sub>B</sub>); C<sub>Bt</sub> = E<sub>Ah</sub>·Aut/DOD/η<sub>B</sub>; N<sub>Bs</sub> = U/U<sub>B</sub></div>
+<h4>Array and battery</h4>
+<p>Direct solar: N<sub>s</sub> modules in series approach the motor or converter input voltage; with battery, N<sub>s</sub>·V<sub>mp</sub> ≥ 1.2·U. In automatic mode, the selected module gives the smallest array above P<sub>c</sub> among those with a suitable voltage; the battery, the smallest installed energy above C<sub>Bt</sub>.</p>
+<h4>Hourly simulation</h4>
+<p>Typical days: half-sine between sunrise and sunset, scaled to the monthly irradiation (or downloaded measured profiles). Array power: P = P<sub>c</sub>·G/1000·(1 − losses)·[1 + γ(T<sub>c</sub> − 25)]. Motor-pump of nominal power P<sub>n</sub> supplied with x·P<sub>n</sub>:</p>
+<div class="eq">x &lt; s: Q = 0; otherwise P<sub>H</sub> = η<sub>p</sub>·η<sub>m</sub>·P<sub>n</sub>·(x − s)/(1 − s) and Q·TDH(Q)/367 = P<sub>H</sub> (intersection with the system curve)</div>
+<p>This linear-above-threshold model reproduces the measured behaviour of PV-powered motor-pumps (Hamidat and Benyoucef, 2008): efficiency is zero at start-up and reaches η<sub>p</sub>·η<sub>m</sub> at nominal power. The pump stops when the tank is full; the deficit is the water demanded while the tank is empty. With battery, the pump runs at nominal power as long as the tank is not full and the battery is above 1 − DOD. Coverage = (demand − deficit)/demand; LWSP = deficit/demand.</p>
+<div class="warn">The simulation accounts for the starting threshold, low-irradiance hours and part-load efficiency, which the course methods ignore: it often gives a coverage below 100 % for an array sized by the energy method. The <b>Simulation</b> method selects the smallest array (by strings of modules) that reaches the target coverage.</div>
+<h4>Economics</h4>
+<p>Present cost = investment + Σ (operation + replacements)·(1 + i)<sup>t</sup>/(1 + a)<sup>t</sup>; cost per m³ = present cost / Σ delivered volume/(1 + a)<sup>t</sup>. Diesel motor-pump for comparison: same pump, pipe, tank and borehole; generator of 2·P<sub>n</sub> (2 kW minimum), consumption in l/kWh, maintenance per running hour, replacement according to its lifetime.</p>
+<p>References: L. Thiaw, <i>Le pompage photovoltaïque</i>, ESP-UCAD; E. Schiller et al., <i>Le pompage photovoltaïque</i>, IEPF, 1998; Sandia National Laboratories, <i>Stand-Alone Photovoltaic Systems</i>, 1995; IEC 62253:2011 (photovoltaic pumping systems); GIZ/FAO, <i>Toolbox on Solar Powered Irrigation Systems</i>; IWMI, <i>SIP sizing tool</i>; Practical Action, <i>Solar photovoltaic water pumping</i>, 2014; A. Hamidat, B. Benyoucef, <i>Renewable Energy</i> 33 (2008) 933-942; T. R. Lunel, D. R. Rousse, <i>pvpumpingsystem</i>, Journal of Open Source Software 5 (2020) 2637; I. M. Mahmoud et al., <i>Discover Sustainability</i> 5 (2024).</p>
+
+
+<!-- ====================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="wind">
+            <h2><span class="section-icon">🌬️</span>8. Wind systems</h2>
+<p>Five-tab window; toolbar: New, Open, Save (<code>.nxeol</code>), Import an EolXpert project (<code>.EOL</code>), Wind turbines (database), Help, Compute (<kbd>F5</kbd>).</p>
+
+<h3 id="wind-site">8.1 Tab 1 — Site and measurements</h3>
+<ul>
+<li><b>Terrain</b> (roughness z₀): open water (0.005 m), short-grass prairie (0.02), open country (0.07), crops and scattered dwellings (0.25), hedgerows, suburbs (0.40), urban areas and forests (1.00).</li>
+<li><b>Measurement height</b> (anemometer, often 10 m), <b>hub height</b>, <b>air density</b> (1.225 kg/m³ at sea level and 15 °C; ≈ 1.17 in Dakar). The speed ratio and turbulence intensity are displayed.</li>
+<li><b>Wind data</b>: <i>measurements</i> (one column of speeds in m/s per month, January first; empty cells = missing data) imported from Excel (.xls, .xlsx), a .csv/.txt file, pasted from Excel, supplied examples (Dakar-Yoff 1975, 1976, average, Saint-Louis 1999) or <b>Données en ligne…</b>; or <i>monthly Weibull parameters</i> (c, k, % calms) at measurement height.</li>
+<li><b>Weibull fit</b>: maximum likelihood (recommended) or regression on the cumulative frequency (EolXpert method).</li>
+</ul>
+<h3 id="wind-analyse">8.2 Tab 2 — Wind analysis</h3>
+<p>For the year and each month, at hub height: number of measurements, calms, mean and maximum speeds, c, k, power density (W/m²), recoverable energy (Betz limit, kWh/m²). Charts: histogram and Weibull distribution, monthly quantities.</p>
+<h3 id="wind-aero">8.3 Tab 3 — Wind turbine</h3>
+<p>Choice in the database; characteristics (Pn, cut-in, rated and cut-out speeds, diameter, average efficiency); power curve P = f(v); method:
+<b>manufacturer's curve</b> (recommended) or <b>average efficiency</b>. The database (« Wind turbines… » button) allows machines to be added, duplicated
+and deleted, and the curve to be entered or pasted point by point.</p>
+<p><b>Supplied database (November 2026)</b>: eight generic machines from 1 to 250 kW (permanent magnets up to 20 kW, variable pitch above), with power
+curve at ρ = 1.225 kg/m³, diameter, usual hub height and indicative prices of the machine and the tower (in thousands of CFA francs incl. VAT in Dakar, to be replaced by
+quotations). The <b>Database prices</b> button of tab 5 uses these prices. The EolXpert (2002) machines are removed; an older personal database is
+renamed <code>aerogenerateurs.avant-2026-11.csv</code>.</p>
+
+<h3 id="wind-production">8.4 Tab 4 — Production and sizing</h3>
+<ul>
+<li><b>Design margin</b> (%): increases the needs used for the number of machines and the storage (10 % by default for new projects, 0 % for old ones).</li>
+<li><b>Production losses</b> (%): unavailability, electrical losses, blade soiling (6 % by default) — net production = gross × (1 − losses).</li>
+<li><b>Demand</b> (kWh/day) and <b>losses to the loads</b> (storage, conversion, cables: 15 to 25 %).</li>
+<li>Results: net energy per month and per year (gross recalled), mean power, capacity factor, demand coverage, production per wind class, number of turbines (worst month and annual balance), comparison of all database machines, check against the measured series.</li>
+</ul>
+<h3 id="wind-economics">8.5 Tab 5 — Economic viability</h3>
+<ol class="steps">
+<li><div class="step-content"><b>System</b>: grid-connected (all net energy is sold, × conversion efficiency) or stand-alone (useful energy = min(available production, demand) each month; batteries for N days of autonomy). Number of machines: entered, or 0 to use the number from tab 4.</div></li>
+<li><div class="step-content"><b>Investment</b>: turbine (kF/kW), tower and foundations (kF/machine), power electronics (kF/kW), batteries (kF/kWh), installation (% of equipment).</div></li>
+<li><div class="step-content"><b>Operation</b>: O&amp;M and insurance (kF/kW/yr), major overhaul (% of turbine price, year), lifetimes of electronics and batteries.</div></li>
+<li><div class="step-content"><b>Economic data</b>: tariff (selling price or avoided cost) and growth, duration, inflation, discount rate, subsidy, yearly production loss; tariff range of the sensitivity.</div></li>
+<li><div class="step-content"><b>Compute</b>, <b>Minimum tariff</b>, <b>Minimum subsidy</b>, <b>Default values</b>.</div></li>
+</ol>
+<p>Results: energy sold or used, capacity factor, coverage, investment, NPV, IRR, simple and discounted payback, LCOE, minimum tariff, minimum subsidy; cumulative cash-flow chart (simple and discounted) and monthly energy; <b>sensitivity</b>: NPV versus tariff for wind from 80 to 120 % and LCOE versus wind; savable report; CSV export.</p>
+<div class="note">Wind energy varies very fast with wind speed: a 10 % weaker wind often costs 15 to 25 % of the energy. The quality of the wind data (on-site measurements over at least one year, at hub height) matters more than the precision of the costs.</div>
+
+<h3 id="wind-methodes">8.6 Wind calculation methods</h3>
+<h4>Weibull distribution</h4>
+<div class="eq">f(v) = (k/c)·(v/c)<sup>k−1</sup>·exp(−(v/c)<sup>k</sup>) ; v̄ = c·Γ(1 + 1/k) ; ⟨v³⟩ = c³·Γ(1 + 3/k)</div>
+<p>Maximum likelihood on non-zero winds: 1/k = Σv<sup>k</sup>ln v / Σv<sup>k</sup> − ⟨ln v⟩, c = (⟨v<sup>k</sup>⟩)<sup>1/k</sup>; windy fraction F = 1 − calms.</p>
+<h4>Height extrapolation, turbulence</h4>
+<div class="eq">v(H) = v(H<sub>meas</sub>)·ln(H/z₀) / ln(H<sub>meas</sub>/z₀) ; I = 1/ln(H/z₀) (z₀ ≤ 0.2 m)</div>
+<h4>Power density and recoverable energy</h4>
+<div class="eq">P/A = ½·ρ·(1 + 3I²)·F·⟨v³⟩ ; recoverable = 16/27·P/A (Betz limit)</div>
+<h4>Production</h4>
+<div class="eq">E<sub>month</sub> = (1 − losses)·F·∫<sub>v<sub>i</sub></sub><sup>v<sub>max</sub></sup> P(v)·f(v) dv · 24 · days</div>
+<p>Manufacturer's curve read at the equivalent speed v·(ρ/1.225)<sup>1/3</sup> (IEC 61400-12-1). Efficiency method: P = η·½ρ(1 + 3I²)·πD²/4·v³, limited to Pn. Number of machines = ⌈demand / (E<sub>net</sub>·(1 − losses to loads))⌉ for the worst month.</p>
+
+<!-- ====================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="economie">
+            <h2><span class="section-icon">💰</span>9. Economic methods</h2>
+<p>The PV and wind viability studies share the same definitions. Year 0: investment; years 1 to N: yearly flows; discount rate a, inflation i, tariff growth g.</p>
+<div class="eq">F<sub>0</sub> = −I·(1 − s) ; F<sub>y</sub> = t·(1+g)<sup>y</sup>·E<sub>y</sub> − (C<sub>yr</sub> + R<sub>y</sub>)·(1+i)<sup>y</sup> (+ V<sub>salv</sub>·(1+i)<sup>N</sup> in year N)</div>
+<table>
+<tr><th>Indicator</th><th>Definition</th></tr>
+<tr><td>NPV</td><td>Σ F<sub>y</sub>/(1+a)<sup>y</sup>. Viable if NPV ≥ 0.</td></tr>
+<tr><td>IRR</td><td>Rate that makes NPV zero (bisection search); viable if IRR ≥ a.</td></tr>
+<tr><td>Payback</td><td>Year when the cumulative flow (simple or discounted) becomes positive, interpolated.</td></tr>
+<tr><td>LCOE</td><td>[I·(1 − s) + PV(costs, replacements − salvage)] / Σ E<sub>y</sub>/(1+a)<sup>y</sup>.</td></tr>
+<tr><td>Minimum tariff</td><td>Tariff giving NPV = 0 (exact: NPV is linear in the tariff).</td></tr>
+<tr><td>Minimum subsidy</td><td>Share of the investment giving NPV = 0 at the entered tariff; “impossible” if &gt; 100 %.</td></tr>
+<tr><td>Salvage value</td><td>Remaining lifetime share of the last equipment bought (straight-line depreciation).</td></tr>
+<tr><td>Present cost (PV, tabs 4 and 5)</td><td>Investment + Σ (maintenance + replacements)·(1+i)<sup>t</sup>/(1+a)<sup>t</sup> − discounted salvage; a = interest rate.</td></tr>
+</table>
+
+<!-- ====================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="defauts">
+            <h2><span class="section-icon">📏</span>10. Default values and typical ranges</h2>
+<table>
+<tr><th>Quantity</th><th>Default</th><th>Typical range</th></tr>
+<tr><td>PV — system losses (dust, cables, mismatch)</td><td class="num">8 %</td><td>5 to 15 % (dust: 3 % or more in the Sahel)</td></tr>
+<tr><td>PV — Pmax temperature coefficient</td><td class="num">−0.40 %/°C</td><td>−0.30 to −0.45 %/°C</td></tr>
+<tr><td>PV — NOCT</td><td class="num">45 °C</td><td>42 to 48 °C</td></tr>
+<tr><td>PV — degradation</td><td class="num">0.5 %/yr</td><td>0.3 to 0.8 %/yr</td></tr>
+<tr><td>PV — performance ratio PR</td><td class="num">—</td><td>0.70 to 0.85</td></tr>
+<tr><td>PV — specific yield in Dakar</td><td class="num">—</td><td>1,450 to 1,700 kWh/kWp/yr</td></tr>
+<tr><td>Lead-acid batteries — lifetime / DoD</td><td class="num">5 yr / 60 %</td><td>4 to 6 years in hot climates; lithium 10 to 15 years, DoD 80 to 90 %</td></tr>
+<tr><td>Inverters, controllers — lifetime</td><td class="num">10 yr</td><td>8 to 15 years</td></tr>
+<tr><td>Wind — production losses</td><td class="num">6 %</td><td>5 to 10 % (remote site: more)</td></tr>
+<tr><td>Wind — yearly production loss</td><td class="num">0.5 %/yr</td><td>0.5 to 1.5 %/yr</td></tr>
+<tr><td>Wind — O&amp;M</td><td class="num">40 kF/kW/yr</td><td>2 to 3 % of the investment per year</td></tr>
+<tr><td>Wind — capacity factor (small wind)</td><td class="num">—</td><td>10 to 25 %</td></tr>
+<tr><td>Inverter — current limit Imax</td><td class="num">1.1 pu (PV, wind); 1.2 pu (battery)</td><td>1.0 to 1.5 pu (manufacturer I_skPF when known)</td></tr>
+<tr><td>Generating set — X'd, Rd</td><td class="num">0.25 pu; 0.1·Xd</td><td>X'd 0.15 to 0.35 pu</td></tr>
+<tr><td>Inflation / discount rate</td><td class="num">3 % / 8 %</td><td>depending on country and financing</td></tr>
+</table>
+
+<!-- ====================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="fichiers">
+            <h2><span class="section-icon">📁</span>11. Files and folders</h2>
+<table>
+<tr><th>File / folder</th><th>Content</th></tr>
+<tr><td><code>*.nxp</code></td><td>Network project (diagram, parameters, groups).</td></tr>
+<tr><td><code>*.nxpv</code></td><td>Photovoltaic project (site, demand, options, viability, imported weather data).</td></tr>
+<tr><td><code>*.nxeol</code></td><td>Wind project (site, measurements, turbine, production, viability).</td></tr>
+<tr><td><code>*.EOL</code></td><td>Old EolXpert projects (import only).</td></tr>
+<tr><td><code>~/.nrjxpert/pv/</code></td><td>Modified PV equipment databases (CSV).</td></tr>
+<tr><td><code>~/.nrjxpert/meteo/cache/</code></td><td>Weather service answers (90 days).</td></tr>
+<tr><td><code>~/.nrjxpert/aide/</code></td><td>Copy of this guide, opened in the browser.</td></tr>
+<tr><td>Figure and table exports</td><td><b>Right-click</b> any chart: PNG image (high resolution, white background), CSV data, copy the image or the data (paste into Excel). Right-click any table: CSV export (visible columns, all rows) or copy for Excel. CSV is UTF-8; ";" separator and decimal comma in French, "," and decimal point in English.</td></tr>
+<tr><td>Exports</td><td>Monthly averages (CSV, “;” separator, decimal comma), sensitivities (CSV), reports (text).</td></tr>
+</table>
+
+<!-- ====================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="depannage">
+            <h2><span class="section-icon">🛠️</span>12. Troubleshooting</h2>
+<table>
+<tr><th>Symptom</th><th>Cause and solution</th></tr>
+<tr><td>The calculation does not start, « local server not found » or « the local server stopped »</td><td>Check that « Use the local server on this computer »
+is ticked (default setting; Simulation › Calculation and server settings) and that the application is complete (the « server » folder must stay next to the application).
+An antivirus or a firewall can block the start: allow NRJXpert and its calculation server. The file <code>~/.nrjxpert/logs/server.log</code> gives the cause.</td></tr>
+<tr><td>Licence « missing », « not activated on this computer », « suspended » or « expired »</td><td>Open Help › License…: enter your activation key and click « Activate » (or « Check online » if the computer is already activated) (Internet connection required; the firewall must allow access to activation.nrjxpert.com over HTTPS). An expired licence is renewed with Niitan.</td></tr>
+<tr><td>« Invalid » or « unknown activation key »</td><td>Check what you typed (copy and paste recommended; the key starts with NRJX and has four groups of five characters). If the message persists, contact Niitan with the e-mail address used for the purchase.</td></tr>
+<tr><td>« Number of computers reached » or change of computer</td><td>On the old computer, use « Release this computer » in Help › License…, then activate on the new one.
+If the old computer is no longer available, contact the support with the computer ID.</td></tr>
+<tr><td>« server busy » or « maximum calculation time exceeded »</td><td>Many simultaneous calculations: try again in a moment. Study too heavy (long dynamics,
+OPF over many steps, test bench with long tests): reduce the simulated duration, the number of steps or the length of the profiles.</td></tr>
+<tr><td>Response time-out</td><td>Slow connection or long DER study (dynamics, OPF): reduce the simulated duration or the number of steps, then run again.</td></tr>
+<tr><td>« The load flow needs a slack bus »</td><td>Place one generator bus of slack type.</td></tr>
+<tr><td>« The network contains no source »</td><td>Add a source or a generator bus.</td></tr>
+<tr><td>Mixing of DC and AC sources refused</td><td>Calculate the DC and AC parts separately.</td></tr>
+<tr><td>Weather download impossible</td><td>Internet connection or proxy; service temporarily unavailable (automatic retry); try again later or change the source.</td></tr>
+<tr><td>December without irradiation (NASA)</td><td>CERES data are published a few months late: choose an earlier period.</td></tr>
+<tr><td>PV: months in deficit</td><td>Size on the least sunny month, increase the tilt or the peak power.</td></tr>
+<tr><td>PV: high-voltage module on a 12/24 V bus</td><td>Tick « MPPT charge controller ».</td></tr>
+<tr><td>Wind: Weibull / series difference &gt; 10 %</td><td>Rounded measurements, many calms or bimodal distribution: the value calculated on the series is the most reliable.</td></tr>
+<tr><td>Short circuit: « Configuration error of the short-circuit point »</td><td>Double-click on a terminal or place a fault on a line, then choose the « Short circuit » calculation.</td></tr>
+<tr><td>Short circuit: « zero positive-sequence impedance »</td><td>A conventional generator without Rd, Xd is at the fault point: enter its impedances (inverters are current sources).</td></tr>
+<tr><td>Short circuit: zero earth current</td><td>No zero-sequence path (isolated neutrals, delta winding): this is normal; otherwise enter R0, X0 and the neutral of the generators.</td></tr>
+<tr><td>DER study refused: « non-radial network »</td><td>The distribution load flow needs a radial network: open a loop.</td></tr>
+<tr><td>DER study: wrong profile length</td><td>All profiles and hourly prices must have the same number of values (DER study settings › Profiles).</td></tr>
+<tr><td>Study (OPF, economic dispatch, test bench): server error</td><td>Run the calculation again. If the error persists, attach the file <code>~/.nrjxpert/logs/server.log</code> to your support request.</td></tr>
+<tr><td>Test bench: « point of common coupling not found » or « does not separate an island »</td><td>Choose as PCC the switching device or series element located
+between the slack bus (upstream grid, dynamic model « grid ») and the site, in the « Microgrid tests » tab.</td></tr>
+<tr><td>Test bench: all dynamic tests fail (« collapse »)</td><td>No grid-forming source in the island: give a battery the grid-forming model (droop or VSM) or add a genset.</td></tr>
+<tr><td>Help not opened</td><td>Open <code>~/.nrjxpert/aide/help-en.html</code> in a web browser.</td></tr>
+</table>
+
+<!-- ====================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="glossaire">
+            <h2><span class="section-icon">📚</span>13. Glossary and references</h2>
+<div class="kv">
+<b>Slack bus</b><span>Bus whose voltage and angle are imposed; it supplies the balance of power.</span>
+<b>PV / PQ bus</b><span>Generator bus with P and V imposed / load bus with P and Q imposed.</span>
+<b>Kt</b><span>Clearness index: ratio of ground irradiation to extraterrestrial irradiation.</span>
+<b>NOCT</b><span>Cell temperature under 800 W/m², 20 °C, wind 1 m/s.</span>
+<b>PR</b><span>Performance ratio: AC energy / (peak power × irradiation on the plane).</span>
+<b>MPPT / PWM</b><span>Charge controller with maximum power point tracking / with simple switching.</span>
+<b>DoD</b><span>Admissible depth of discharge of the battery.</span>
+<b>Capacity factor</b><span>Energy produced / (rated power × 8760 h).</span>
+<b>LCOE</b><span>Levelized cost of energy.</span>
+<b>NPV, IRR</b><span>Net present value, internal rate of return.</span>
+<b>DER</b><span>Distributed energy resources: generation (PV, wind, gensets) and storage connected to the distribution network.</span>
+<b>I"k, ip</b><span>Initial symmetrical short-circuit current, peak current.</span>
+<b>I_skPF</b><span>Short-circuit current of an inverter-based generator (« full converter »), limited by its control.</span>
+<b>Grid-following / grid-forming inverter (GFL / GFM)</b><span>Inverter that follows the grid voltage (PLL) / that imposes its own voltage and frequency (droop, virtual synchronous machine VSM).</span>
+<b>SOC</b><span>Battery state of charge.</span>
+<b>RoCoF, nadir</b><span>Rate of change of frequency, minimum frequency after a disturbance.</span>
+<b>OPF, MILP</b><span>Optimal power flow; mixed-integer linear programming.</span>
+<b>SGAM</b><span>Smart Grid Architecture Model (IEC SRD 63200): domains × zones × interoperability layers.</span>
+<b>ADMS, DERMS, VPP</b><span>Advanced distribution management system; DER management system; virtual power plant.</span>
+<b>FLISR (FDIR)</b><span>Fault location, isolation and service restoration (self-healing).</span>
+<b>FPI</b><span>Fault passage indicator.</span>
+<b>SAIDI, SAIFI, MAIFI, ENS</b><span>Average interruption duration and frequency per customer; momentary interruptions; energy not supplied.</span>
+<b>IVVC, IVVC/r, CVR</b><span>Integrated Volt/VAR control (with inverters); conservation voltage reduction.</span>
+<b>V1G, V2G</b><span>Smart charging; bidirectional charging (vehicle-to-grid).</span>
+<b>CIM</b><span>Common Information Model: IEC 61970 (transmission), IEC 61968 (distribution), IEC 62325 (markets).</span>
+<b>PCC</b><span>Point of common coupling between the microgrid and the upstream grid.</span>
+<b>AMI, HES, OBIS</b><span>Advanced metering infrastructure; head-end system; object identification system of DLMS/COSEM data.</span>
+<b>NTL</b><span>Non-technical losses (theft, faulty meters, unregistered customers, billing errors).</span>
+<b>VTN, VEN</b><span>Virtual top node (operator, aggregator) and virtual end node (site, VPP) of OpenADR.</span>
+<b>SL-T, SL-A, FR</b><span>Target and achieved security levels, foundational requirements of IEC 62443.</span>
+</div>
+<h3>References</h3>
+<ul class="small">
+<li>Smart grids, standards: IEC SRD 63200 (SGAM), IEEE 2030.7 / 2030.8 (microgrids), IEEE 1547-2018, EN 50549, IEEE 1366 (reliability indices), IEEE P2030.14 (VPP), IEC 61970 / 61968 (CIM), IEC 61850, IEC 62056 (DLMS/COSEM), ITU-T G.9903 (G3-PLC), IEC 60870-5-104, ISO 15118, OCPP 2.0.1, OpenADR 2.0b, IEC 62559-2 (use cases), IEC 62443 and IEC 62351 (cybersecurity).</li>
+<li>L. Thiaw: smart grid specialisation guide, École Supérieure Polytechnique (ESP), Université Cheikh Anta Diop de Dakar (UCAD), 2026.</li>
+<li>J. A. Duffie, W. A. Beckman, <i>Solar Engineering of Thermal Processes</i>, Wiley (solar geometry, Liu-Jordan, Klein).</li>
+<li>D. G. Erbs, S. A. Klein, J. A. Duffie, “Estimation of the diffuse radiation fraction…”, <i>Solar Energy</i> 28, 1982.</li>
+<li>IEC 61400-12-1, power performance measurements of wind turbines; J. F. Manwell et al., <i>Wind Energy Explained</i>, Wiley.</li>
+<li>C. G. Justus et al., “Methods for estimating wind speed frequency distributions”, <i>J. Appl. Meteorol.</i>, 1978.</li>
+<li>IEC 60909-0:2016, Short-circuit currents in three-phase a.c. systems — Calculation of currents.</li>
+<li>IEEE 1547-2018, interconnection of distributed energy resources (Q(V), P(V) controls).</li>
+<li>NASA POWER: power.larc.nasa.gov; PVGIS: re.jrc.ec.europa.eu; Open-Meteo: open-meteo.com.</li>
+<li>L. Thiaw: NRJXpert, EolXpert (C++, 2002) and PV Systems Analyser (MATLAB, 2010-2013) programs.</li>
+<li>L. Thiaw: applied electricity course materials, École Supérieure Polytechnique (ESP), Université Cheikh Anta Diop de Dakar (UCAD).</li>
+<li>L. Thiaw: SimElecNetwork, first development phase, 2018-2020, École Supérieure Polytechnique (ESP), Université Cheikh Anta Diop de Dakar (UCAD).</li>
+</ul>
+<p class="small">NRJXpert — ESP / UCAD, Dakar. This guide is copied to <code>~/.nrjxpert/aide/</code> each time it is opened from the Help menu.</p>
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+
+        <div class="section" id="auteur">
+            <h2><span class="section-icon">👤</span>Author</h2>
+            <div class="author-card">
+                <div class="author-avatar">LT</div>
+                <div class="author-info">
+                    <div class="name">Prof. Lamine THIAW</div>
+                    <div class="role">Department of Electrical Engineering<br>École Supérieure Polytechnique<br>Cheikh Anta Diop University, Dakar</div>
+                    <a href="mailto:nrjxpert@niitan.com">nrjxpert@niitan.com</a>
+                </div>
+            </div>
+            <p class="small" style="margin-top:14px">November 2026</p>
+        </div>
+    </main>
+</div>
+
+<script>
+    // défilement doux vers les ancres de la page
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){
+        a.addEventListener('click', function(e){
+            var t = document.querySelector(this.getAttribute('href'));
+            if(t){ e.preventDefault(); t.scrollIntoView({behavior: 'smooth', block: 'start'}); }
+        });
+    });
+    // rubrique active dans le menu latéral
+    var navLinks = document.querySelectorAll('#sidebar nav a');
+    if('IntersectionObserver' in window){
+        var obs = new IntersectionObserver(function(entries){
+            entries.forEach(function(en){
+                if(en.isIntersecting) navLinks.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#' + en.target.id); });
+            });
+        }, {rootMargin: '-20% 0px -70% 0px'});
+        document.querySelectorAll('.section[id]').forEach(function(s){ obs.observe(s); });
+    }
+</script>
+</body>
+</html>

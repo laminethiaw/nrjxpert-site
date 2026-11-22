@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Level 2 — Power networks — NRJXpert tutorial</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tutoriel.css">
+<script src="tutoriel.js"></script>
+<script src="glossaire.js" defer></script>
+</head>
+<body>
+<div id="top"></div>
+
+<!-- ════════════════ MENU LATÉRAL ════════════════ -->
+<aside id="sidebar">
+    <div id="sidebar-header">
+        <div class="app-name">NRJXpert</div>
+        <div class="app-version">Version 2.0.0 · Tutorial › Level 2</div>
+    </div>
+    <nav>
+        <a href="#intro"><span class="nav-icon">📘</span>Introduction</a>
+        <a href="#n2-1"><span class="nav-icon">🧵</span>Lines and cables</a>
+        <a href="#n2-2"><span class="nav-icon">🔸</span>Transformers</a>
+        <a href="#n2-3"><span class="nav-icon">📗</span>Per-unit system</a>
+        <a href="#n2-4"><span class="nav-icon">📉</span>Voltage drop and losses</a>
+        <a href="#n2-5"><span class="nav-icon">🔀</span>Load flow: formulation</a>
+        <a href="#n2-6"><span class="nav-icon">📘</span>Solution methods</a>
+        <a href="#n2-7"><span class="nav-icon">⚡</span>Short circuit according to IEC 60909-0</a>
+        <a href="#n2-8"><span class="nav-icon">⚡</span>Protection: what short-circuit currents are used for</a>
+        <a href="#n2-ex"><span class="nav-icon">🎯</span>Exercises</a>
+        <a href="#n2-qcm"><span class="nav-icon">📋</span>Level 2 quiz</a>
+        <a href="#auteur"><span class="nav-icon">👤</span>Author</a>
+    </nav>
+    <div class="side-links"><a href="index-en.html">🏠 Tutorial home</a><a href="niveau1-en.html">← Level 1</a><a href="niveau3-en.html">Level 3 →</a><a href="../help-en.html">📖 User guide</a></div>
+</aside>
+
+<!-- ════════════════ ZONE PRINCIPALE ════════════════ -->
+<div id="main">
+    <div id="hero">
+        <h1><span class="badge b2">Level 2</span> Power networks</h1>
+        <div class="tagline">Modelling the elements of a network, calculating the power flow (load flow) and the short-circuit currents.</div>
+        <div class="badges">
+            <span class="hero-badge">Tutorial</span>
+            <span class="hero-badge">Version 2.0.0</span>
+            <span class="hero-badge">November 2026</span>
+            <a class="hero-badge language-link" href="./niveau2.html" lang="fr" aria-label="Click to show the French version">
+                EN / FR
+                <small>Click for the French version</small>
+            </a>
+        </div>
+    </div>
+
+    <div id="topbar">
+        <div class="title">Level 2 — Power networks</div>
+        <span class="meta">NRJXpert 2.0.0 · November 2026</span>
+    </div>
+
+    <main id="content">
+        <div id="toc-section">
+            <h2>Contents</h2>
+            <div class="toc-grid">
+                <a href="#intro"><span class="toc-num">00</span>Introduction</a>
+                <a href="#n2-1"><span class="toc-num">2.1</span>Lines and cables</a>
+                <a href="#n2-2"><span class="toc-num">2.2</span>Transformers</a>
+                <a href="#n2-3"><span class="toc-num">2.3</span>Per-unit system</a>
+                <a href="#n2-4"><span class="toc-num">2.4</span>Voltage drop and losses</a>
+                <a href="#n2-5"><span class="toc-num">2.5</span>Load flow: formulation</a>
+                <a href="#n2-6"><span class="toc-num">2.6</span>Solution methods</a>
+                <a href="#n2-7"><span class="toc-num">2.7</span>Short circuit according to IEC 60909-0</a>
+                <a href="#n2-8"><span class="toc-num">2.8</span>Protection: what short-circuit currents are used for</a>
+                <a href="#n2-ex"><span class="toc-num">09</span>Exercises</a>
+                <a href="#n2-qcm"><span class="toc-num">10</span>Level 2 quiz</a>
+            </div>
+        </div>
+
+        <div class="section" id="intro">
+            <h2><span class="section-icon">📘</span>Introduction</h2>
+<div class="objectifs">
+<h4>Objectives</h4>
+<ul>
+<li>Establish the equivalent circuit of a line, a cable and a transformer from manufacturer data.</li>
+<li>Convert physical quantities to per-unit quantities and back.</li>
+<li>Calculate a voltage drop and losses; check a voltage profile.</li>
+<li>Write the load-flow equations, do one Gauss-Seidel iteration by hand and interpret the convergence of the three methods.</li>
+<li>Calculate three-phase, phase-to-phase and phase-to-earth short-circuit currents according to IEC 60909 and deduce the breaking capacity.</li>
+</ul>
+<p class="prereq">Prerequisites: level 1, elementary matrix calculus. Duration: 20 to 25 h.</p>
+</div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n2-1">
+            <h2><span class="section-icon">🧵</span>2.1 Lines and cables</h2>
+<p>A line or cable is characterised by four <b>per-length</b> quantities (per km): resistance <i>r</i>, inductance <i>l</i> (reactance
+<i>x</i> = <i>l</i>ω), capacitance <i>c</i> and conductance <i>g</i> (neglected). Orders of magnitude:</p>
+<table>
+<tr><th>Asset</th><th>r (Ω/km)</th><th>x (Ω/km)</th><th>c (nF/km)</th><th>Remark</th></tr>
+<tr><td>MV overhead line, AAAC 148 mm²</td><td class="num">0.22 to 0.27</td><td class="num">0.35 to 0.40</td><td class="num">9 to 10</td><td>R/X ≈ 0.7</td></tr>
+<tr><td>MV overhead line, AAAC 54.6 mm²</td><td class="num">0.60</td><td class="num">0.40</td><td class="num">9</td><td>R/X ≈ 1.5</td></tr>
+<tr><td>MV underground cable, Al 150 mm²</td><td class="num">0.21</td><td class="num">0.11</td><td class="num">250 to 400</td><td>large capacitance</td></tr>
+<tr><td>LV copper cable 4 × 95 mm²</td><td class="num">0.24</td><td class="num">0.08</td><td class="num">—</td><td>R/X ≈ 3</td></tr>
+</table>
+<p>Models according to the electrical length: <b>short line</b> (&lt; 80 km overhead): <i>R</i> + j<i>X</i> in series; <b>medium line</b> (<b>π</b>
+model): <i>R</i> + j<i>X</i> in series and <i>C</i>/2 to earth at each end; long line: distributed-parameter model. NRJXpert offers the R, L, RL
+and RLC π models (<b>Network</b> palette) with <i>R</i> = <i>r·ℓ</i>, <i>L</i> = <i>l·ℓ</i>, <i>C</i> = <i>c·ℓ</i>.</p>
+<p><b>Zero-sequence quantities.</b> For earth faults, <i>r</i>₀, <i>x</i>₀ (return through the earth, about 3 times <i>x</i> for overhead lines) and
+<i>c</i>₀ are also needed: « Zero sequence » section of the lines.</p>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n2-2">
+            <h2><span class="section-icon">🔸</span>2.2 Transformers</h2>
+<p>The Kapp equivalent circuit reduces the transformer to a series impedance <i>Z</i><sub>sc</sub> = <i>R</i><sub>sc</sub> + j<i>X</i><sub>sc</sub> and a
+magnetising branch (<i>R</i><sub>fe</sub> ∥ j<i>X</i><sub>m</sub>), from the short-circuit test (<i>u</i><sub>sc</sub>, <i>P</i><sub>sc</sub>) and the
+no-load test (<i>i</i>₀, <i>P</i>₀):</p>
+<div class="eq">Z<sub>sc</sub> = u<sub>sc</sub>·U²/S<sub>n</sub> &nbsp;&nbsp; R<sub>sc</sub> = P<sub>sc</sub>·U²/S<sub>n</sub>² &nbsp;&nbsp; X<sub>sc</sub> = √(Z<sub>sc</sub>² − R<sub>sc</sub>²)
+&nbsp;&nbsp; (U = voltage of the side to which the impedance is referred)</div>
+<p>The <b>vector group</b> (Dyn, YNd, Yyn…) plays no role in the positive sequence but determines the zero-sequence path: a delta winding blocks
+the zero-sequence current, an earthed star neutral lets it through. Dyn11, very common in distribution, isolates the MV network from LV earth
+faults and provides the LV network with an earthed neutral.</p>
+<div class="ex"><h4>Example 2.1 — Distribution transformer</h4>
+<p>250 kVA, 30 kV / 400 V, <i>u</i><sub>sc</sub> = 4 %, <i>P</i><sub>sc</sub> = 3.25 kW. Calculate <i>Z</i><sub>sc</sub>, <i>R</i><sub>sc</sub>, <i>X</i><sub>sc</sub>
+referred to the secondary, the rated current and the voltage drop at full load with cos φ = 0.8.</p>
+<details class="sol"><summary>Show the solution</summary>
+<p><i>Z</i><sub>sc</sub> = 0.04 × 400²/250 000 = <span class="result">25.6 mΩ</span>; <i>R</i><sub>sc</sub> = 3 250 × 400²/250 000² = <span class="result">8.32 mΩ</span>;
+<i>X</i><sub>sc</sub> = <span class="result">24.21 mΩ</span>. <i>I</i><sub>n</sub> = 250 000/(√3 × 400) = 360.8 A.</p>
+<p>ΔU ≈ √3·<i>I</i>·(<i>R</i> cos φ + <i>X</i> sin φ) = √3 × 360.8 × (0.00832 × 0.8 + 0.02421 × 0.6) = <span class="result">13.2 V, i.e. 3.3 %</span>.</p>
+<p>These are exactly the values computed by the parameter dialog of the NRJXpert three-phase transformer (Network palette).</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n2-3">
+            <h2><span class="section-icon">📗</span>2.3 Per-unit system</h2>
+<p>A base power <i>S</i><sub>b</sub> (common to the whole network, e.g. 100 MVA or 10 MVA) and a base voltage <i>U</i><sub>b</sub> per voltage level
+(transformer ratios) are chosen. Every quantity is divided by its base:</p>
+<div class="eq">Z<sub>b</sub> = U<sub>b</sub>²/S<sub>b</sub> &nbsp;&nbsp; I<sub>b</sub> = S<sub>b</sub>/(√3·U<sub>b</sub>) &nbsp;&nbsp; z<sub>pu</sub> = Z/Z<sub>b</sub> &nbsp;&nbsp;
+change of base: z₂ = z₁·(S<sub>b2</sub>/S<sub>b1</sub>)·(U<sub>b1</sub>/U<sub>b2</sub>)²</div>
+<p>Advantages: transformers disappear (ratio 1 in pu), voltages are close to 1 pu, orders of magnitude can be compared between networks (the
+<i>u</i><sub>sc</sub> of a transformer = its impedance in pu on its own base). The NRJXpert server works in pu for the load flow
+(<i>S</i><sub>b</sub> = 100 MVA, <i>U</i><sub>b</sub> = network voltage entered in the calculation settings).</p>
+<div class="calc" data-calc="pu"></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n2-4">
+            <h2><span class="section-icon">📉</span>2.4 Voltage drop and losses</h2>
+<p>For a line of impedance <i>R</i> + j<i>X</i> carrying <i>P</i> + j<i>Q</i> at line voltage <i>U</i>:</p>
+<div class="eq">ΔU/U ≈ (R·P + X·Q)/U² &nbsp;&nbsp; losses: ΔP = R·(P² + Q²)/U² = 3·R·I²</div>
+<p>Practical consequences: the voltage drop depends mainly on <i>P</i> in resistive networks (LV, MV with small cross-sections) and on <i>Q</i> in
+inductive networks (HV); hence voltage control through reactive power in transmission, and the role of controlled inverters in distribution
+(level 5). Losses vary as the square of the power and the inverse square of the voltage: doubling the voltage divides losses by 4.</p>
+<div class="ex"><h4>Example 2.2 — MV feeder</h4>
+<p>A 10 km, 20 kV line (<i>r</i> = 0.3 Ω/km, <i>x</i> = 0.35 Ω/km) supplies 2 MW at cos φ = 0.9 at its end. Voltage drop and losses?</p>
+<details class="sol"><summary>Show the solution</summary>
+<p><i>R</i> = 3 Ω, <i>X</i> = 3.5 Ω, <i>Q</i> = 2 × tan(25.84°) = 0.969 Mvar. ΔU/U = (3 × 2 + 3.5 × 0.969)/20² = <span class="result">2.35 %</span> (470 V);
+losses = 3 × (2² + 0.969²)/20² = 0.037 MW = <span class="result">37 kW (1.9 %)</span>.</p>
+</details></div>
+<h3>Reactive power compensation</h3>
+<p>A shunt compensator placed near the loads supplies locally the reactive power they consume: the reactive power flowing in the lines
+decreases, and with it the voltage drop (<i>X·Q</i> term) and the losses (<i>R·Q²</i> term). A capacitor bank with <i>n</i> steps switched on
+supplies <i>Q</i> = <i>n</i>·<i>Q</i><sub>step</sub>·<i>V</i>² (constant impedance: it supplies less when the voltage falls). Shunt reactors
+absorb reactive power: they lower the voltage of lightly loaded or highly capacitive networks (long cables). With automatic control, a step
+is switched on when the voltage leaves the dead band from below and switched off when it leaves it from above; the band must be wider than
+the voltage change caused by one step, otherwise the steps hunt (palette: <b>Power system (load flow) › Switched shunt compensator</b>).</p>
+<div class="ex"><h4>Example 2.9 — Compensated IEEE 33-bus network (<code>exemples/compensation_ieee33.xml</code>)</h4>
+<p>Two switched compensators are placed at buses 30 (6 × 0.2 Mvar) and 14 (4 × 0.15 Mvar), with automatic control (setpoint 0.95 pu,
+dead band 2 %). Open the example with <b>Help › Open a tutorial example</b>, run the load flow (Newton-Raphson, <kbd>F5</kbd>), read the
+steps switched on in the compensators' tooltips, then repeat the calculation without compensation (control « None », 0 step switched on).</p>
+<details class="sol"><summary>Show the results</summary>
+<table>
+<tr><th></th><th>Without compensation</th><th>With compensation</th></tr>
+<tr><td>Steps switched on</td><td class="num">—</td><td class="num">4/6 (bus 30), 3/4 (bus 14)</td></tr>
+<tr><td>Reactive power supplied</td><td class="num">—</td><td class="num">0.71 + 0.40 Mvar</td></tr>
+<tr><td>Minimum voltage (bus 18)</td><td class="num">0.913 pu</td><td class="num">0.936 pu</td></tr>
+<tr><td>Losses</td><td class="num">202.7 kW</td><td class="num"><span class="result">140.7 kW (−31 %)</span></td></tr>
+<tr><td>Reactive power drawn at the substation</td><td class="num">2.44 Mvar</td><td class="num">1.28 Mvar</td></tr>
+</table>
+<p>The voltages of buses 30 and 14 (0.944 and 0.941 pu) lie within the band [0.94; 0.96] pu: one more step would push them above it, one
+less below it.</p>
+</details></div>
+<p>A <b>STATCOM</b> (or an SVC) regulates the voltage continuously, without steps, along its characteristic <i>V</i> = <i>V</i><sub>ref</sub> −
+slope·<i>Q</i>/<i>Q</i><sub>max</sub>. At its limit, the STATCOM keeps its maximum current (<i>Q</i> = <i>Q</i><sub>max</sub>·<i>V</i>) whereas
+the SVC is only a susceptance (<i>Q</i> = <i>Q</i><sub>max</sub>·<i>V</i>²): it supplies less reactive power when the voltage collapses, which
+is the STATCOM's advantage. In a short circuit, the STATCOM delivers its limited current (like an inverter); the SVC is neglected (palette:
+<b>Power system (load flow) › Static var compensator</b>; not available in demonstration mode).</p>
+<div class="ex"><h4>Example 2.10 — STATCOM at bus 30 (<code>exemples/statcom_ieee33.xml</code>)</h4>
+<p>The switched compensator of bus 30 is replaced by a +1.5 / −1 Mvar STATCOM (Vref = 0.97 pu, slope 3 %). Run the load flow
+(Newton-Raphson), then reduce <i>Q</i><sub>max</sub> to 0.6 Mvar.</p>
+<details class="sol"><summary>Show the results</summary>
+<table>
+<tr><th></th><th>Qmax = 1.5 Mvar</th><th>Qmax = 0.6 Mvar</th></tr>
+<tr><td>STATCOM state</td><td class="num">regulating</td><td class="num">capacitive limit</td></tr>
+<tr><td>Reactive power supplied</td><td class="num">0.99 Mvar</td><td class="num">0.57 Mvar (= 0.6 × 0.941)</td></tr>
+<tr><td>Voltage of bus 30</td><td class="num">0.950 pu (= 0.97 − 0.03 × 0.99/1.5)</td><td class="num">0.941 pu</td></tr>
+<tr><td>Losses</td><td class="num">136.1 kW</td><td class="num">144.6 kW</td></tr>
+</table>
+</details></div>
+<h3>Voltage control with transformer taps</h3>
+<p>The substation transformer is the most common means of holding the voltage of a feeder. Its primary winding carries <b>taps</b> that change the number
+of turns: the ratio becomes <i>a</i> = 1 + <i>n</i>·<i>p</i> (<i>n</i> = tap position, <i>p</i> = step, often 1.25 %). A positive position puts more turns on the primary and
+<b>lowers</b> the secondary voltage; a negative one raises it. An on-load tap changer changes position under load, one step at a time, when the regulated voltage
+leaves the dead band around the setpoint. In NRJXpert the ratio enters the transformer's π model (load flow, short circuit, dynamics); the dialog of the three-phase
+transformer (“Tap changer (OLTC)” section) offers “Nominal ratio”, “Fixed tap” or “Automatic (voltage control)”. In automatic mode the calculation moves one position at a
+time until the voltage on the chosen side is inside the band; it reports the limits and hunting (dead band narrower than the effect of one step). The clock-number phase
+shift can be added on request (ignored by the three-phase distribution sweep). A tap changer alone only corrects the head-of-feeder voltage: it raises or lowers the whole
+feeder by the same percentage, without reducing the voltage drop along the feeder (which compensators do).</p>
+<div class="ex"><h4>Example 2.11 — Tap changer at the head of the IEEE 33-bus feeder (<code>exemples/prises_ieee33.xml</code>)</h4>
+<p>The IEEE 33-bus network (no compensator) is supplied through a tapped transformer (1.25 % step, ± 8 positions) that automatically regulates the voltage of bus 2:
+setpoint 1.03 pu, dead band 2 %. Open the example with <b>Help › Open a tutorial example</b>, run the load flow (Newton-Raphson, <kbd>F5</kbd>) and read the
+position in the transformer results. To compare, edit the <code>tapMode</code> and <code>tapPos</code> tags of the first impedance in the XML file (“fixed” and −4 for a fixed tap, or remove the tap tags).</p>
+<details class="sol"><summary>Show the results</summary>
+<table>
+<tr><th></th><th>No tap</th><th>Automatic</th><th>Fixed tap −4</th></tr>
+<tr><td>Position</td><td class="num">—</td><td class="num">−2</td><td class="num">−4</td></tr>
+<tr><td>Voltage of bus 2</td><td class="num">0.997 pu</td><td class="num">1.023 pu</td><td class="num">1.050 pu</td></tr>
+<tr><td>Minimum voltage (bus 18)</td><td class="num">0.913 pu</td><td class="num">0.941 pu</td><td class="num">0.971 pu</td></tr>
+<tr><td>Losses</td><td class="num">202.7 kW</td><td class="num">191.2 kW</td><td class="num">180.2 kW</td></tr>
+</table>
+<p>The tap changer raises the whole feeder voltage by about 2.5 % for two positions; losses fall because, at constant power, the current decreases when the voltage rises.
+In automatic mode the tap stops at position −2: bus 2 is then at 1.023 pu, inside the band [1.02; 1.04] pu, and bus 18 stays just above 0.94 pu. With the fixed tap −4, bus 2
+is at 1.050 pu: the feeder end is no longer under-voltage, but the head of the feeder reaches the usual 1.05 pu limit as soon as the load drops. Hence the interest of automatic
+control, possibly combined with compensation (examples 2.9 and 6.4).</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n2-5">
+            <h2><span class="section-icon">🔀</span>2.5 Load flow: formulation</h2>
+<p>The load flow (power flow) calculates the steady state of a network from the generated and consumed <b>powers</b>. Since powers rather than
+impedances are imposed, the equations are <b>non-linear</b>.</p>
+<h3>Bus types</h3>
+<table>
+<tr><th>Type</th><th>Data</th><th>Unknowns</th><th>In NRJXpert</th></tr>
+<tr><td>Slack (swing)</td><td>|V|, θ = 0</td><td>P, Q</td><td>« Slack » generator: the source substation, which covers the losses</td></tr>
+<tr><td>Generation (PV)</td><td>P, |V|</td><td>Q, θ</td><td>Voltage-controlled generator</td></tr>
+<tr><td>Load (PQ)</td><td>P, Q</td><td>|V|, θ</td><td>Load bus</td></tr>
+</table>
+<h3>Admittance matrix and equations</h3>
+<p><b>Y</b><sub>bus</sub> is built element by element: for a branch of admittance <i>y<sub>ik</sub></i> between <i>i</i> and <i>k</i>, <i>y<sub>ik</sub></i>
+is added to <i>Y<sub>ii</sub></i> and <i>Y<sub>kk</sub></i> and subtracted from <i>Y<sub>ik</sub></i> and <i>Y<sub>ki</sub></i>; admittances to earth
+(<i>C</i>/2 of the lines) are added to the diagonal. At node <i>i</i>:</p>
+<div class="eq">S<sub>i</sub>* = P<sub>i</sub> − jQ<sub>i</sub> = V<sub>i</sub>*·Σ<sub>k</sub> Y<sub>ik</sub>V<sub>k</sub><br>
+P<sub>i</sub> = Σ<sub>k</sub> |V<sub>i</sub>||V<sub>k</sub>||Y<sub>ik</sub>| cos(θ<sub>ik</sub> − δ<sub>i</sub> + δ<sub>k</sub>) &nbsp;&nbsp;
+Q<sub>i</sub> = −Σ<sub>k</sub> |V<sub>i</sub>||V<sub>k</sub>||Y<sub>ik</sub>| sin(θ<sub>ik</sub> − δ<sub>i</sub> + δ<sub>k</sub>)</div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n2-6">
+            <h2><span class="section-icon">📘</span>2.6 Solution methods</h2>
+<h3>Gauss-Seidel</h3>
+<div class="eq">V<sub>i</sub><sup>(n+1)</sup> = [ (P<sub>i</sub> − jQ<sub>i</sub>)/V<sub>i</sub><sup>(n)*</sup> − Σ<sub>k≠i</sub> Y<sub>ik</sub>V<sub>k</sub> ] / Y<sub>ii</sub></div>
+<p>For each node the most recent voltages are used. PV node: <i>Q<sub>i</sub></i> is first calculated with the current voltages, then
+|<i>V<sub>i</sub></i>| is reset to its set-point after the update. Simple, but slow convergence (tens of iterations); an acceleration factor
+(1.4 to 1.6) helps.</p>
+<div class="ex"><h4>Example 2.3 — One iteration by hand</h4>
+<p>Two-node network in pu: node 1 slack <i>V</i>₁ = 1∠0°; line <i>z</i> = 0.02 + j0.06; node 2 load 0.8 + j0.4 pu. Start from
+<i>V</i>₂ = 1∠0° and iterate down to 10⁻⁴.</p>
+<details class="sol"><summary>Show the solution</summary>
+<p><i>y</i> = 1/<i>z</i> = 5 − j15; <i>Y</i>₂₂ = 5 − j15, <i>Y</i>₂₁ = −5 + j15. <i>S</i>₂ = −0.8 − j0.4 (load = negative injection).</p>
+<p><i>V</i>₂<sup>(1)</sup> = [(−0.8 + j0.4)/1 + (5 − j15)·1]/(5 − j15) = 1 + (−0.8 + j0.4)/(5 − j15) = 1 − 0.04 − j0.04 = 0.96 − j0.04 →
+<span class="result">0.9608∠−2.39°</span>.</p>
+<p>Then: 0.9575∠−2.39°; 0.95736∠−2.395°; 0.95735∠−2.395° (difference &lt; 10⁻⁴ at the 4th iteration). The final voltage is
+<span class="result">0.9573 pu ∠−2.39°</span>.</p>
+</details></div>
+<h3>Newton-Raphson</h3>
+<p>The power equations are linearised around the current state and solved for the corrections:</p>
+<div class="eq">[ ΔP ; ΔQ ] = [ ∂P/∂δ &nbsp; ∂P/∂|V| ; ∂Q/∂δ &nbsp; ∂Q/∂|V| ] · [ Δδ ; Δ|V| ] &nbsp;&nbsp; (Jacobian J, recalculated at each iteration)</div>
+<p><b>Quadratic</b> convergence: 3 to 6 iterations whatever the size of the network, but each iteration costs a factorisation of the Jacobian. It is
+the reference method.</p>
+<h3>Fast decoupled (Stott)</h3>
+<p>Assumptions: R ≪ X, small angles, |V| ≈ 1. Then ∂P/∂|V| ≈ 0 and ∂Q/∂δ ≈ 0, and the sub-matrices become constant (B' and B''): they are factorised
+only once. Very fast on transmission networks, but slow or divergent when R/X is large (distribution networks): see the lab below and the
+distribution load flow of level 5.</p>
+
+<div class="lab"><h4>Lab 3 — Load flow of a three-node 30 kV network</h4>
+<p>Data (<i>U</i><sub>n</sub> = 30 kV, AAAC lines, <i>r</i> = 0.27 Ω/km, <i>x</i> = 0.38 Ω/km):</p>
+<table>
+<tr><th>Element</th><th>Data</th></tr>
+<tr><td>P1 — source substation (slack)</td><td>V = 31.5 kV, phase 0</td></tr>
+<tr><td>G2 — power plant (PV bus)</td><td>Pgen = 3 MW, V = 31.4 kV</td></tr>
+<tr><td>Ch3 — load (PQ bus)</td><td>Pload = 5 MW, Qload = 2.5 Mvar</td></tr>
+<tr><td>Lines</td><td>L12 = 15 km (4.05 + j5.70 Ω), L13 = 20 km (5.40 + j7.60 Ω), L23 = 10 km (2.70 + j3.80 Ω)</td></tr>
+</table>
+<ol class="steps">
+<li><div class="step-content"><b>Calculation settings</b>: network voltage 30 kV, frequency 50 Hz.</div></li>
+<li><div class="step-content"><b>Network (load flow)</b> palette, single-line variant: place two generators and a load bus; set P1 as slack, G2 as PV bus, Ch3 as PQ load with
+the values above (voltages in kV, powers in MW and Mvar).</div></li>
+<li><div class="step-content">Connect the three nodes with three <b>impedances</b> (Passive elements section) of the R + jX values above, or with three RL lines from the
+palette (length and per-length characteristics; <i>l</i> = 0.38/314.16 = 1.21 mH/km).</div></li>
+<li><div class="step-content">Calculation <b>Load flow</b>, method <b>Newton-Raphson</b>, <kbd>F5</kbd>.</div></li>
+<li><div class="step-content">Compare with the results below (<code>exemples/loadflow_30kV_3noeuds.xml</code> can also be opened with <b>Help › Open a tutorial
+example</b>: the « Calculate a network file (XML) » window sends this network to the server):</div></li>
+</ol>
+<table>
+<tr><th>Node</th><th>V (kV)</th><th>Angle</th><th>Pgen (MW)</th><th>Qgen (Mvar)</th></tr>
+<tr><td>P1</td><td class="num">31.500</td><td class="num">0°</td><td class="num">2.060</td><td class="num">1.429</td></tr>
+<tr><td>G2</td><td class="num">31.400</td><td class="num">+0.006°</td><td class="num">3.000</td><td class="num">1.156</td></tr>
+<tr><td>Ch3</td><td class="num">30.937</td><td class="num">−0.476°</td><td class="num">—</td><td class="num">—</td></tr>
+</table>
+<p>Currents: L12 = 8.3 A, L13 = 38.4 A, L23 = 66.0 A; load current 104.3 A. Losses = 2.060 + 3.000 − 5.000 = <b>60 kW</b> (check:
+Σ 3·<i>R·I</i>² = 0.8 + 23.9 + 35.3 kW).</p>
+<p><b>To do</b>: run again with Gauss-Seidel (20 iterations) then Fast decoupled (35 iterations) against 3 for Newton-Raphson. Why is fast decoupled
+the slowest here? (R/X = 0.71: the assumption R ≪ X does not hold.) Set G2 to 30.5 kV: G2 then absorbs 6 Mvar. Conclusion: in a meshed network,
+small voltage set-point differences cause large reactive power flows.</p>
+</div>
+<h3>Reactive power limits of generators</h3>
+<p>A PV node is held only if the generator can supply the necessary reactive power. The P-Q diagram (capability curve) of an alternator is
+bounded by the stator current (<i>p</i>² + <i>q</i>² ≤ <i>v</i>²), the field current (<i>p</i>² + (<i>q</i> + <i>v</i>²/<i>X</i><sub>d</sub>)² ≤
+(<i>v</i>·<i>E</i><sub>fd max</sub>/<i>X</i><sub>d</sub>)², rotor heating), the under-excitation limit (stability, absorbed reactive power) and the
+turbine power. When the requested reactive power exceeds a limit, the load flow sets <i>Q</i> at that limit: the node becomes PQ and its voltage is
+no longer held; it becomes PV again if the voltage comes back to the right side of the set-point (<b>Capability, AVR, PSS…</b> button of the
+generator dialog).</p>
+<div class="ex"><h4>Example 2.14 — Plant generator at its reactive limit (<code>exemples/capacite_generateur.xml</code>)</h4>
+<p>A 20 kV network supplies, through a 0.5 + j4 Ω line, a 10 MW + 8 Mvar plant that owns a 10 MVA alternator (<i>X</i><sub>d</sub> = 1.8 pu,
+<i>E</i><sub>fd max</sub> = 2.5 pu, under-excitation 0.4 pu) producing 8 MW with a 20.4 kV set-point (1.02 pu). Compute the load flow with the
+capability curve, then without limit, then with a 10 MW + 4 Mvar plant.</p>
+<details class="sol"><summary>Show the solution</summary>
+<table>
+<tr><th></th><th>No limit</th><th>Curve, plant 8 Mvar</th><th>Curve, plant 4 Mvar</th></tr>
+<tr><td>Generator reactive power</td><td class="num">10.32 Mvar</td><td class="num">5.52 Mvar</td><td class="num">5.89 Mvar</td></tr>
+<tr><td>Node voltage</td><td class="num">1.020 pu</td><td class="num">0.972 pu</td><td class="num">1.016 pu</td></tr>
+<tr><td>Limit reached</td><td class="num">— (S = 13 MVA &gt; Sn)</td><td class="num">stator current</td><td class="num">excitation (E = 2.50 pu)</td></tr>
+</table>
+<p>Without limit the calculation makes the generator supply 10.3 Mvar: 13 MVA for a 10 MVA machine. At 0.972 pu and 8 MW, the rated current
+allows √(0.972² − 0.8²) × 10 = 5.52 Mvar. With less reactive power to supply, the voltage rises, the stator limit widens and the maximum
+excitation bounds the reactive power.</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n2-7">
+            <h2><span class="section-icon">⚡</span>2.7 Short circuit according to IEC 60909-0</h2>
+<h3>Principle: equivalent voltage source</h3>
+<p>All sources are replaced by a single source <i>c·U</i><sub>n</sub>/√3 at the fault point; loads are neglected (except motors) and the network is
+reduced to the impedance seen from the fault. The voltage factor <i>c</i> covers voltage variations and approximations:</p>
+<table>
+<tr><th>Nominal voltage</th><th>c<sub>max</sub> (breaking capacity, withstand)</th><th>c<sub>min</sub> (protection settings)</th></tr>
+<tr><td>U<sub>n</sub> ≤ 1 kV, tolerance +6 %</td><td class="num">1.05</td><td class="num">0.95</td></tr>
+<tr><td>U<sub>n</sub> ≤ 1 kV, tolerance +10 %</td><td class="num">1.10</td><td class="num">0.95</td></tr>
+<tr><td>U<sub>n</sub> &gt; 1 kV</td><td class="num">1.10</td><td class="num">1.00</td></tr>
+</table>
+<h3>Symmetrical components</h3>
+<p>An unbalanced three-phase system is decomposed (Fortescue) into three balanced systems: positive (1), negative (2) and zero (0) sequence, with
+<i>a</i> = e<sup>j2π/3</sup>:</p>
+<div class="eq">[V<sub>a</sub> ; V<sub>b</sub> ; V<sub>c</sub>] = [1 1 1 ; 1 a² a ; 1 a a²]·[V₀ ; V₁ ; V₂]</div>
+<p>Each element has three impedances <i>Z</i>₁, <i>Z</i>₂, <i>Z</i>₀ (static elements: <i>Z</i>₂ = <i>Z</i>₁); the impedance seen from the fault is
+calculated in each of the three networks, which are then combined according to the type of fault:</p>
+<table>
+<tr><th>Fault</th><th>Initial symmetrical current I"k</th><th>Combination of the networks</th></tr>
+<tr><td>Three-phase</td><td>c·U<sub>n</sub> / (√3·|Z₁|)</td><td>positive sequence only</td></tr>
+<tr><td>Phase-to-phase</td><td>c·U<sub>n</sub> / |Z₁ + Z₂|</td><td>positive and negative in opposition</td></tr>
+<tr><td>Two-phase-to-earth</td><td>earth current I"<sub>kE2E</sub> = √3·c·U<sub>n</sub>·|Z₂| / |Z₁Z₂ + Z₁Z₀ + Z₂Z₀|</td><td>negative ∥ zero</td></tr>
+<tr><td>Phase-to-earth</td><td>√3·c·U<sub>n</sub> / |Z₁ + Z₂ + Z₀|</td><td>all three in series</td></tr>
+</table>
+<p>Peak current: <i>i</i><sub>p</sub> = κ·√2·I"<sub>k</sub> with κ = 1.02 + 0.98·e<sup>−3R/X</sup>. Fault far from generators: breaking current
+<i>I</i><sub>b</sub> and steady-state current <i>I</i><sub>k</sub> equal to I"<sub>k</sub>. Short-circuit power: S"<sub>k</sub> = √3·U<sub>n</sub>·I"<sub>k</sub>.</p>
+<div class="calc" data-calc="icc3"></div>
+
+<div class="ex"><h4>Example 2.4 — Faults at the end of a 20 kV feeder</h4>
+<p>The upstream network is represented at the substation by <i>Z</i>₁ = <i>Z</i>₂ = 0.1 + j2 Ω and <i>Z</i>₀ = 0.05 + j1 Ω (earthed neutral). A 10 km
+line has <i>r</i> = 0.3, <i>x</i> = 0.35, <i>r</i>₀ = 0.45, <i>x</i>₀ = 1.2 Ω/km. Calculate I"k at the end of the line for the four types of fault
+(maximum Isc).</p>
+<details class="sol"><summary>Show the solution</summary>
+<p><i>Z</i>₁ = <i>Z</i>₂ = 0.1 + 3 + j(2 + 3.5) = 3.1 + j5.5 Ω (|<i>Z</i>₁| = 6.314 Ω); <i>Z</i>₀ = 0.05 + 4.5 + j(1 + 12) = 4.55 + j13 Ω; <i>c</i> = 1.1.</p>
+<table>
+<tr><th>Fault</th><th>Calculation</th><th>I"k</th></tr>
+<tr><td>Three-phase</td><td>1.1 × 20 000/(√3 × 6.314)</td><td class="num result">2 012 A</td></tr>
+<tr><td>Phase-to-phase</td><td>22 000/|6.2 + j11|</td><td class="num result">1 742 A</td></tr>
+<tr><td>Two-phase-to-earth</td><td>largest phase current</td><td class="num result">1 907 A</td></tr>
+<tr><td>Phase-to-earth</td><td>√3 × 22 000/|10.75 + j24|</td><td class="num result">1 449 A</td></tr>
+</table>
+<p>κ = 1.02 + 0.98·e<sup>−3 × 0.5636</sup> = 1.201; <i>i</i><sub>p</sub> = 1.201 × √2 × 2 012 = <span class="result">3.42 kA</span>;
+S"<sub>k</sub> = 69.7 MVA. Note: the phase-to-earth fault is the weakest here because <i>Z</i>₀ &gt; <i>Z</i>₁; near a Dyn transformer with an
+earthed neutral, it is often the opposite.</p>
+</details></div>
+
+<div class="lab"><h4>Lab 4 — Short circuit in NRJXpert</h4>
+<ol class="steps">
+<li><div class="step-content"><b>Calculation settings</b>: network voltage 20 kV.</div></li>
+<li><div class="step-content">Place a <b>generator</b> (single-line variant); Short-circuit column: Rd = 0.1, Xd = 2 Ω, Ri = Xi = 0 (Z₂ = Z₁), earthed neutral,
+R0 = 0.05, X0 = 1 Ω.</div></li>
+<li><div class="step-content">Place an <b>RL line</b> (Network palette): 10 km, r = 300 mΩ/km, l = 1.114 mH/km (0.35 Ω/km at 50 Hz); Zero sequence section:
+r0 = 0.45, x0 = 1.2 Ω/km. Place a load bus at the end (it is neglected in the calculation) and connect.</div></li>
+<li><div class="step-content">Double-click on the terminal at the end of the line: three-phase <b>Fault</b>, maximum current, Un = 20 kV. Choose the
+<b>Short circuit</b> calculation and run.</div></li>
+<li><div class="step-content">Read the summary (I"k, ip, κ, S"k, Z1, Z2, Z0, I"k of the four types) and compare with example 2.4. Repeat with a phase-to-earth fault:
+earth current 1 449 A (file <code>exemples/courtcircuit_20kV_monophase.xml</code>).</div></li>
+<li><div class="step-content">Right-click on the line › <b>Short circuit at this point…</b>: plot I"k against the distance (0, 2, 4, …, 10 km). Why is the curve not in
+1/<i>d</i>?</div></li>
+</ol>
+</div>
+<h3>Parallel lines: zero-sequence mutual coupling</h3>
+<p>Two circuits on the same tower (or two cables in the same trench) are magnetically coupled. In the positive and negative sequences the
+three phases compensate each other and the coupling is negligible; in the zero sequence the three currents are in phase and return through
+the earth: the mutual impedance <i>Z</i><sub>0m</sub> reaches 40 to 70 % of <i>Z</i>₀. For two parallel lines between the same nodes, with
+zero-sequence impedances <i>Z</i><sub>A</sub> and <i>Z</i><sub>B</sub>:</p>
+<div class="eq">Z<sub>0,eq</sub> = (Z<sub>A</sub>·Z<sub>B</sub> − Z<sub>0m</sub>²) / (Z<sub>A</sub> + Z<sub>B</sub> − 2·Z<sub>0m</sub>) &nbsp;&nbsp; = (Z<sub>0</sub> + Z<sub>0m</sub>)/2 for two identical lines</div>
+<p>The coupling therefore increases <i>Z</i>₀ seen from an earth fault and reduces its current; it also induces a zero-sequence current in the
+sound line, which distorts the measurement of distance protections (earth compensation factor). In NRJXpert: « Zero-sequence coupling with a
+parallel line » section of the line (coupled line, <i>r</i><sub>0m</sub>, <i>x</i><sub>0m</sub> in Ω/km, direction), taken into account in the
+zero-sequence network of the short-circuit calculation.</p>
+<div class="ex"><h4>Example 2.12 — 20 kV double line (<code>exemples/courtcircuit_lignes_paralleles.xml</code>)</h4>
+<p>The upstream network of example 2.4 supplies two identical 10 km lines in parallel (<i>Z</i>₁ = 3 + j3.5 Ω, <i>Z</i>₀ = 4.5 + j12 Ω each),
+coupled by <i>z</i><sub>0m</sub> = 0.15 + j0.7 Ω/km. Compute I"k at the receiving node for a phase-to-earth fault, with and without coupling
+(for the calculation without coupling, remove the <code>mutual0</code> tag of line L1 in the file, or choose « None » as parallel line in a project).</p>
+<details class="sol"><summary>Show the solution</summary>
+<p><i>Z</i>₁ = 0.1 + j2 + (3 + j3.5)/2 = 1.6 + j3.75 Ω. Without coupling: <i>Z</i>₀ = 0.05 + j1 + (4.5 + j12)/2 = 2.30 + j7.00 Ω,
+I"k1 = √3 × 22 000/|5.50 + j14.50| = <span class="result">2 457 A</span>. With coupling (<i>Z</i><sub>0m</sub> = 1.5 + j7 Ω):
+<i>Z</i>₀ = 0.05 + j1 + (6 + j19)/2 = 3.05 + j10.50 Ω, I"k1 = √3 × 22 000/|6.25 + j18.00| = <span class="result">2 000 A (−19 %)</span>.
+The three-phase fault (3 115 A) is unchanged: the coupling acts only in the zero sequence.</p>
+</details></div>
+<h3>Contribution of induction motors to the short circuit</h3>
+<p>During the first cycles of a fault, the rotor flux of an induction motor maintains an emf: the motor feeds into the fault a current close
+to its starting current, which dies out within a few cycles. IEC 60909 represents it by the impedance
+<i>Z</i><sub>M</sub> = <i>U</i><sub>n</sub>²/(<i>I</i><sub>LR</sub>/<i>I</i><sub>rM</sub> · <i>S</i><sub>rM</sub>) (positive and negative sequences;
+no zero-sequence path), with <i>R</i>/<i>X</i> = 0.10 (MV motors of at least 1 MW), 0.15 (MV under 1 MW) or 0.42 (LV, cables included); it
+increases I"k and ip but is neglected for the minimum current. In NRJXpert, <i>I</i><sub>LR</sub>/<i>I</i><sub>rM</sub> is taken from the
+equivalent circuit of the machine (<i>s</i> = 1).</p>
+<div class="ex"><h4>Example 2.13 — Three-phase fault at the bus of a 2 MVA motor</h4>
+<p>With the network of example 5.5 (file <code>exemples/demarrage_moteur.xml</code>, « Short circuit » calculation), three-phase fault at the
+motor bus, maximum Icc. <i>I</i><sub>LR</sub>/<i>I</i><sub>rM</sub> = 6.14; <i>U</i><sub>n</sub> = 6 kV.</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>Network: |<i>Z</i>| = |0.07 + j0.96| = 0.9625 Ω, I"k = 1.1 × 6 000/(√3 × 0.9625) = <span class="result">3 959 A</span>.
+Motor: |<i>Z</i><sub>M</sub>| = 6²/(6.14 × 2) = 2.93 Ω (<i>R</i>/<i>X</i> = 0.10), I"kM = 1.1 × 6 000/(√3 × 2.93) =
+<span class="result">1 300 A</span>. Total (sum nearly in phase): <span class="result">5 259 A</span>, i.e. +33 %; κ goes from 1.81 to 1.79
+and ip from 10.1 to 13.3 kA. The breaking capacity and the withstand of the busbars must take it into account.</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n2-8">
+            <h2><span class="section-icon">⚡</span>2.8 Protection: what short-circuit currents are used for</h2>
+<ul>
+<li><b>Breaking capacity</b> of the device ≥ maximum I"k (and ip ≤ making capacity) at the point of installation.</li>
+<li><b>Sensitivity</b>: the <b>minimum</b> short-circuit current (c<sub>min</sub>, furthest fault, often phase-to-earth or phase-to-phase) must trip the
+protection within the required time: this is the « minimum Isc » calculation of NRJXpert.</li>
+<li><b>Thermal withstand of cables</b>: I²·t ≤ k²·S² (k ≈ 143 for XLPE-insulated copper).</li>
+<li><b>Selectivity</b>: only the protection immediately upstream of the fault must trip (current, time or logic selectivity).</li>
+<li><b>Inverters</b>: their contribution is limited to 1.1 to 1.5 times their rated current; a network supplied mainly by inverters has low fault
+currents, which makes detection harder (level 5).</li>
+</ul>
+<h3>Protection plan and selectivity in NRJXpert</h3>
+<p>A switching device of breaker or recloser type receives a protection (<b>Protection</b> section of its dialog); a fuse has its rating. Available
+protections: <b>overcurrent</b> 50/51 (IEC 60255-151 inverse curves: <i>t</i> = TMS·<i>k</i>/((<i>I</i>/<i>I</i><sub>s</sub>)<sup>α</sup> − 1),
+SI: <i>k</i> = 0.14, α = 0.02; VI: 13.5 and 1; EI: 80 and 2; IEEE and definite-time curves), with high-set I&gt;&gt; and earth protection
+50N/51N on 3·<i>I</i><sub>0</sub>; LV breaker <b>electronic trip unit</b> (long time <i>I</i><sup>2</sup><i>t</i>, short time, instantaneous);
+<b>distance</b> 21 (apparent impedance <i>V</i>/<i>I</i>, three mho zones, typically 80 % instantaneous, 120 % at 0.3 s, 200 % at 1 s);
+<b>line differential</b> 87L. In the short-circuit calculation the server gives the operating time of each device and the device that clears the
+fault; two devices are deemed selective if their times differ by at least 0.3 s (breaker opening time, relay overshoot and safety margin). The
+<b>Selectivity…</b> button plots the time-current curves.</p>
+<div class="ex"><h4>Example 2.15 — Time selectivity of two feeders (<code>exemples/selectivite_depart.xml</code>)</h4>
+<p>The network of example 2.4 supplies a line LA (3 + j3.5 Ω) protected by breaker S1, then a line LB (2 + j2 Ω) protected by S2. SI relays:
+S1 <i>I</i><sub>s</sub> = 400 A, TMS = 0.3; S2 <i>I</i><sub>s</sub> = 200 A, TMS = 0.1; breaker opening 50 ms. Three-phase fault at the end of
+LB. Compute the times, then find the TMS of S1 that keeps a 0.3 s margin as fast as possible.</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>I"k = 1 400 A, seen by S1 and S2. S2: <i>I</i>/<i>I</i><sub>s</sub> = 7.0, <i>t</i> = 0.1 × 0.14/(7.0<sup>0.02</sup> − 1) + 0.05 =
+<span class="result">0.403 s</span>: S2 clears the fault. S1: <i>I</i>/<i>I</i><sub>s</sub> = 3.5, <i>t</i> = 0.3 × 0.14/(3.5<sup>0.02</sup> − 1)
++ 0.05 = 1.705 s: selective, but slow for a fault on LA (1.33 s for a fault at the end of LA, I"k = 2 012 A). With TMS = 0.12:
+<span class="result">0.712 s</span>, i.e. 0.31 s after S2; below that the calculation reports insufficient selectivity. The phase-to-earth fault
+(949 A) gives 0.49 s and 2.46 s: the earth protection (lower pickup on 3·<i>I</i><sub>0</sub>) speeds up the clearing of earth faults.</p>
+</details></div>
+<h3>Instrument transformers and surge arresters</h3>
+<p>A relay sees the network only through its <b>current</b> (CT) and <b>voltage transformers</b> (VT). A 5P20 protection CT keeps a composite
+error below 5 % up to 20 times its rated current, under its rated burden; with a different actual burden <i>S</i><sub>b</sub>, the actual
+accuracy limit factor is ALF′ = ALF·(<i>R</i><sub>ct</sub>·<i>I</i><sub>sn</sub>² + <i>S</i><sub>n</sub>)/(<i>R</i><sub>ct</sub>·<i>I</i><sub>sn</sub>² +
+<i>S</i><sub>b</sub>). Beyond it the CT saturates: the relay sees less current and trips later. A metal-oxide <b>surge arrester</b> limits
+lightning and switching overvoltages: the voltage at the equipment is <i>U</i><sub>eq</sub> = <i>U</i><sub>pl</sub> + 2·<i>S</i>·<i>L</i>/<i>v</i>
+(steepness <i>S</i>, distance <i>L</i>, <i>v</i> = 300 m/µs) and must stay at least 20 % below the lightning impulse withstand (BIL) of the
+equipment (IEC 60071-2). It must also withstand the <b>temporary overvoltages</b> of earth faults: with isolated or compensated neutral, the
+sound phases rise to √3 times the phase voltage, hence a higher rated voltage <i>U</i><sub>r</sub> than with an earthed neutral.</p>
+<div class="ex"><h4>Example 2.16 — Arrester in an isolated-neutral network (<code>exemples/parafoudre_neutre_isole.xml</code>)</h4>
+<p>20 kV network (<i>U</i><sub>m</sub> = 24 kV) with isolated neutral, zero-sequence capacitance 1 µF; arrester PF1 (<i>U</i><sub>c</sub> = 15.3 kV,
+<i>U</i><sub>r</sub> = 21 kV, <i>U</i><sub>pl</sub> = 70 kV, T = 1.0) 5 m from a transformer with a 125 kV BIL, 1 000 kV/µs wave. Phase-to-earth
+fault at the customer. Check the coordination, then repeat with an earthed neutral.</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>Lightning: <i>U</i><sub>eq</sub> = 70 + 2 × 1 000 × 5/300 = 103.3 kV, margin 125/103.3 = <span class="result">1.21</span> ≥ 1.2: satisfied
+(at 6 m it falls below 1.2). Isolated neutral: capacitive fault current of only 12 A, but <span class="result">k = 1.74</span> at the arrester:
+temporary overvoltage 1.74 × 24/√3 = 24.1 kV &gt; T·<i>U</i><sub>r</sub> = 21 kV; the calculation asks for <i>U</i><sub>r</sub> ≥ 24.1 kV (a 24 kV
+arrester with T = 1.05 is suitable). Earthed neutral: fault current 1 169 A, k = 1.18, overvoltage 16.4 kV: the 21 kV arrester is suitable.</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n2-ex">
+            <h2><span class="section-icon">🎯</span>Exercises</h2>
+<div class="ex"><h4>Exercise 1 — Short circuit at the secondary of a transformer</h4>
+<p>The transformer of example 2.1 is supplied by a network of infinite short-circuit power. Calculate the three-phase I"k at the secondary
+(c = 1.05), κ and ip.</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>I"k = 1.05 × 400/(√3 × 0.0256) = <span class="result">9.47 kA</span>; R/X = 0.344; κ = 1.02 + 0.98·e<sup>−1.031</sup> = 1.370;
+ip = 1.370 × √2 × 9.47 = <span class="result">18.3 kA</span>. The LV main breaker must have a breaking capacity of at least 10 kA (15 or 25 kA is
+chosen to account for the actual short-circuit power of the upstream network).</p>
+</details></div>
+<div class="ex"><h4>Exercise 2 — Change of base</h4>
+<p>A 2 MVA, 30/0.4 kV transformer has <i>u</i><sub>sc</sub> = 6 %. Express its impedance in pu on a 100 MVA base, then in ohms on the 30 kV side.</p>
+<details class="sol"><summary>Show the solution</summary>
+<p><i>z</i> = 0.06 × 100/2 = <span class="result">3 pu</span>; <i>Z</i><sub>b</sub> = 30²/100 = 9 Ω; <i>Z</i> = <span class="result">27 Ω</span>
+(= 0.06 × 30²/2).</p>
+</details></div>
+<div class="ex"><h4>Exercise 3 — Voltage profile</h4>
+<p>In lab 3, the load becomes 8 MW, 4 Mvar. Without detailed calculation, what will happen to V3, to Qgen of G2 and to the losses? Check with
+NRJXpert.</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>Forecast: V3 decreases (≈ (R·P + X·Q)/U² increases); G2, which holds its voltage, supplies more reactive power; losses grow roughly as the
+square of the flows. Calculation (Newton-Raphson, 3 iterations): V3 = <span class="result">30.629 kV</span> (−1.23°) instead of 30.937 kV; Qgen of
+G2 = <span class="result">3.71 Mvar</span> instead of 1.16; the substation supplies 5.17 MW and 0.53 Mvar; losses = 5.172 + 3 − 8 =
+<span class="result">172 kW</span>, i.e. 2.9 times more for a load 1.6 times larger.</p>
+</details></div>
+<div class="ex"><h4>Exercise 4 — Iterative methods</h4>
+<p>Explain why Newton-Raphson converges in 3 iterations from any reasonable initialisation (« flat » voltages 1∠0°), while Gauss-Seidel needs 20.
+What happens if the load becomes too large (beyond the maximum transmissible power)?</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>NR uses the derivatives (tangent): near the solution the error is squared at each iteration. GS corrects each node separately, with linear
+convergence. Beyond the voltage collapse point (nose of the P-V curve) there is no solution any more: no method converges and the server returns
+a non-convergence message.</p>
+</details></div>
+<div class="ex"><h4>Exercise 5 — Compensating an MV feeder</h4>
+<p>A 20 kV source supplies, through a feeder of impedance 2 + j6 Ω, a 5 MW and 3 Mvar load. Draw the network (20 kV slack bus,
+impedance, load bus) and answer:</p>
+<ol>
+<li>Voltage drop and losses with the approximate formulas, then with the load flow (Newton-Raphson).</li>
+<li>Reactive power to supply at the load bus to limit the voltage drop to 3 % (approximate formula).</li>
+<li>Place a 4 × 1 Mvar switched shunt compensator (palette <b>Power system (load flow)</b>): how many steps should be switched on?
+Check with the load flow; why is the reactive power supplied lower than <i>n</i> × 1 Mvar?</li>
+<li>Set the compensator to automatic control (setpoint 0.98 pu, dead band 2 %): what does the calculation choose?</li>
+<li>Replace the compensator by a ± 4 Mvar STATCOM holding the voltage at 1.00 pu (zero slope). What happens? What rating is needed, and
+is it desirable as far as losses are concerned?</li>
+</ol>
+<details class="sol"><summary>Show the solution</summary>
+<p>1. ΔU/U ≈ (R·P + X·Q)/U² = (2 × 5 + 6 × 3)/20² = 7 %, losses ≈ R·(P² + Q²)/U² = 2 × 34/400 = 0.17 MW. Load flow:
+<span class="result">0.922 pu</span> (7.8 % drop) and <span class="result">0.200 MW</span>: the approximate formulas assume the rated voltage
+at the load bus, whereas the current there is higher because the voltage is lower.</p>
+<p>2. (10 + 6·(3 − <i>Q</i><sub>c</sub>))/400 ≤ 0.03 ⇒ <i>Q</i><sub>c</sub> ≥ <span class="result">2.67 Mvar</span>.</p>
+<p>3. Three steps: <span class="result">0.968 pu</span>, losses 0.134 MW (−33 %), reactive power supplied only 2.81 Mvar, since a capacitor
+supplies <i>Q</i> = <i>n</i>·<i>Q</i><sub>step</sub>·<i>V</i>² (3 × 0.968² = 2.81). Two steps are not enough (0.952 pu).</p>
+<p>4. The band is [0.97; 0.99] pu: the calculation switches on <span class="result">4 steps</span> (0.985 pu), three giving 0.968 pu,
+below the band.</p>
+<p>5. The STATCOM reaches its <b>capacitive limit</b>: 3.94 Mvar (= 4 × 0.986), voltage 0.986 pu, warning from the calculation. To hold
+1.00 pu it needs <span class="result">4.9 Mvar</span>, and the losses rise again (0.143 MW against 0.133 MW): beyond the reactive power
+consumed by the load, the feeder carries reactive power back to the substation. A slope of a few % avoids this over-compensation.</p>
+</details></div>
+<div class="ex"><h4>Exercise 6 — Tap changer at the head of the feeder</h4>
+<p>Take the feeder of exercise 5 (20 kV source, impedance 2 + j6 Ω, load 5 MW and 3 Mvar, voltage 0.922 pu at the load bus). A tapped 20 kV / 20 kV transformer
+(1.25 % step, ± 8 positions; short-circuit impedance neglected) is placed between the source and the feeder.</p>
+<ol>
+<li>Estimate the position needed to bring the load voltage back to at least 0.98 pu. Check with the load flow with a fixed tap, for positions −2, −3, −4 and −5.</li>
+<li>Switch to automatic control (regulated voltage: secondary side of the transformer, setpoint 1.00 pu, dead band 2 %). What does the calculation choose?</li>
+<li>Reduce the dead band to 0.5 %. What does the calculation report, and why?</li>
+</ol>
+<details class="sol"><summary>Show the solution</summary>
+<p>1. Each position raises the voltage by about 1.25 % (slightly more at the load bus, because the current decreases): from 0.922 to 0.98 pu takes a little more than 4 positions.
+Load flow: <span class="result">0.950; 0.965; 0.979; 0.995 pu</span> for −2; −3; −4; −5. Position −4 is just below 0.98 pu: <span class="result">−5</span> is needed.</p>
+<p>2. The band is [0.99; 1.01] pu: the calculation stops at <span class="result">position −5</span> (0.995 pu); −4 gives 0.979 pu, below the band.</p>
+<p>3. A <b>hunting</b> warning: one position changes the voltage by 1.5 %, more than the width of the band (0.5 %); no position falls inside the band and the calculation
+oscillates between two positions. The dead band must be wider than the effect of one position.</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n2-qcm">
+            <h2><span class="section-icon">📋</span>Level 2 quiz</h2>
+<div class="qcm" data-answer="b"><p class="q">1. In the π model of a line, the total capacitance C is distributed:</p>
+<ol><li data-k="a">entirely at the sending end</li><li data-k="b">C/2 at each end</li><li data-k="c">in series with R</li><li data-k="d">C at each end</li></ol>
+<div class="fb">C/2 on each side: this is what NRJXpert does (corrected in October 2026: each side used to be C·l).</div></div>
+<div class="qcm" data-answer="c"><p class="q">2. A transformer has u<sub>sc</sub> = 4 %. Its impedance on its own base is:</p>
+<ol><li data-k="a">4 Ω</li><li data-k="b">0.4 pu</li><li data-k="c">0.04 pu</li><li data-k="d">25 pu</li></ol>
+<div class="fb">u<sub>sc</sub> is the impedance in pu on the base (S<sub>n</sub>, U<sub>n</sub>).</div></div>
+<div class="qcm" data-answer="a"><p class="q">3. On a highly resistive low-voltage network, the voltage drop depends mainly on:</p>
+<ol><li data-k="a">the active power</li><li data-k="b">the reactive power</li><li data-k="c">the frequency</li><li data-k="d">the cable capacitance</li></ol>
+<div class="fb">ΔU/U ≈ (RP + XQ)/U² with R ≫ X.</div></div>
+<div class="qcm" data-answer="d"><p class="q">4. In a load flow, the unknowns of a PV node are:</p>
+<ol><li data-k="a">P and Q</li><li data-k="b">|V| and θ</li><li data-k="c">P and θ</li><li data-k="d">Q and θ</li></ol>
+<div class="fb">P and |V| are imposed; Q and the angle are calculated.</div></div>
+<div class="qcm" data-answer="b"><p class="q">5. The slack node is used to:</p>
+<ol><li data-k="a">set the frequency</li><li data-k="b">provide the angle reference and cover the unknown losses</li><li data-k="c">represent the loads</li><li data-k="d">control the reactive power of the PV nodes</li></ol>
+<div class="fb">Since losses are known only after the calculation, one node must balance the power.</div></div>
+<div class="qcm" data-answer="c"><p class="q">6. The fast decoupled method is poorly suited to:</p>
+<ol><li data-k="a">large transmission networks</li><li data-k="b">meshed networks</li><li data-k="c">distribution networks with high R/X</li><li data-k="d">networks without a PV node</li></ol>
+<div class="fb">It assumes R ≪ X; in distribution the backward/forward sweep is preferred (level 5).</div></div>
+<div class="qcm" data-answer="a"><p class="q">7. To size the breaking capacity of a circuit breaker, one uses:</p>
+<ol><li data-k="a">the maximum I"k (c<sub>max</sub>)</li><li data-k="b">the minimum I"k (c<sub>min</sub>)</li><li data-k="c">the rated current</li><li data-k="d">the overload current</li></ol>
+<div class="fb">The minimum current is used for the setting (sensitivity) of the protection.</div></div>
+<div class="qcm" data-answer="d"><p class="q">8. A phase-to-earth fault connects the sequence networks:</p>
+<ol><li data-k="a">positive only</li><li data-k="b">positive and negative in opposition</li><li data-k="c">negative and zero in parallel</li><li data-k="d">positive, negative and zero in series</li></ol>
+<div class="fb">I"k1 = √3·c·Un/|Z1 + Z2 + Z0|.</div></div>
+<div class="qcm" data-answer="b"><p class="q">9. A delta winding:</p>
+<ol><li data-k="a">lets zero-sequence current through to the upstream network</li><li data-k="b">blocks the zero-sequence current</li><li data-k="c">doubles the positive-sequence impedance</li><li data-k="d">suppresses the three-phase fault current</li></ol>
+<div class="fb">The zero-sequence current circulates in the delta without leaving on the lines.</div></div>
+<div class="qcm" data-answer="c"><p class="q">10. For R/X = 0.1, the factor κ is about:</p>
+<ol><li data-k="a">1.02</li><li data-k="b">1.30</li><li data-k="c">1.75</li><li data-k="d">2.00</li></ol>
+<div class="fb">κ = 1.02 + 0.98·e<sup>−0.3</sup> = 1.746: highly inductive network, large DC component.</div></div>
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="page-nav"><a href="niveau1-en.html">← Level 1 — Fundamentals</a><a href="niveau3-en.html">Level 3 — Renewable energy →</a></div>
+
+        <div class="section" id="auteur">
+            <h2><span class="section-icon">👤</span>Author</h2>
+            <div class="author-card">
+                <div class="author-avatar">LT</div>
+                <div class="author-info">
+                    <div class="name">Prof. Lamine THIAW</div>
+                    <div class="role">Department of Electrical Engineering<br>École Supérieure Polytechnique<br>Cheikh Anta Diop University, Dakar</div>
+                    <a href="mailto:nrjxpert@niitan.com">nrjxpert@niitan.com</a>
+                </div>
+            </div>
+            <p class="small" style="margin-top:14px">November 2026</p>
+        </div>
+    </main>
+</div>
+
+<script>
+    // défilement doux vers les ancres de la page
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){
+        a.addEventListener('click', function(e){
+            var t = document.querySelector(this.getAttribute('href'));
+            if(t){ e.preventDefault(); t.scrollIntoView({behavior: 'smooth', block: 'start'}); }
+        });
+    });
+    // rubrique active dans le menu latéral
+    var navLinks = document.querySelectorAll('#sidebar nav a');
+    if('IntersectionObserver' in window){
+        var obs = new IntersectionObserver(function(entries){
+            entries.forEach(function(en){
+                if(en.isIntersecting) navLinks.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#' + en.target.id); });
+            });
+        }, {rootMargin: '-20% 0px -70% 0px'});
+        document.querySelectorAll('.section[id]').forEach(function(s){ obs.observe(s); });
+    }
+</script>
+</body>
+</html>

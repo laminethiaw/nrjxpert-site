@@ -21,14 +21,16 @@
     <nav>
         <a href="#intro"><span class="nav-icon">📘</span>Introduction</a>
         <a href="#n1-1"><span class="nav-icon">🔹</span>Basic quantities and laws</a>
+        <a href="#n1-m"><span class="nav-icon">🧮</span>Methods for solving circuits</a>
         <a href="#n1-2"><span class="nav-icon">🔸</span>Sinusoidal steady state</a>
         <a href="#n1-3"><span class="nav-icon">⚡</span>Power and reactive power compensation</a>
+        <a href="#n1-res"><span class="nav-icon">📈</span>Resonance</a>
         <a href="#n1-4"><span class="nav-icon">🔺</span>Three-phase systems</a>
+        <a href="#n1-sym"><span class="nav-icon">🔱</span>Symmetrical components</a>
         <a href="#n1-5"><span class="nav-icon">🧩</span>Getting started with NRJXpert</a>
         <a href="#n1-ex"><span class="nav-icon">🎯</span>Exercises</a>
-        <a href="#n1-qcm"><span class="nav-icon">📋</span>Level 1 quiz</a>
-        <a href="#auteur"><span class="nav-icon">👤</span>Author</a>
-    </nav>
+        <a href="#n1-qcm"><span class="nav-icon">✅</span>Level 1 quiz</a>
+        <a href="#auteur"><span class="nav-icon">👤</span>Author</a></nav>
     <div class="side-links"><a href="index-en.html">🏠 Tutorial home</a><a href="niveau2-en.html">Level 2 — Power networks →</a><a href="../help-en.html">📖 User guide</a></div>
 </aside>
 
@@ -59,13 +61,15 @@
             <div class="toc-grid">
                 <a href="#intro"><span class="toc-num">00</span>Introduction</a>
                 <a href="#n1-1"><span class="toc-num">1.1</span>Basic quantities and laws</a>
-                <a href="#n1-2"><span class="toc-num">1.2</span>Sinusoidal steady state</a>
-                <a href="#n1-3"><span class="toc-num">1.3</span>Power and reactive power compensation</a>
-                <a href="#n1-4"><span class="toc-num">1.4</span>Three-phase systems</a>
-                <a href="#n1-5"><span class="toc-num">1.5</span>Getting started with NRJXpert</a>
+                <a href="#n1-m"><span class="toc-num">1.2</span>Methods for solving linear circuits</a>
+                <a href="#n1-2"><span class="toc-num">1.3</span>Sinusoidal steady state</a>
+                <a href="#n1-3"><span class="toc-num">1.4</span>Power and reactive power compensation</a>
+                <a href="#n1-res"><span class="toc-num">1.5</span>Resonance in electric circuits</a>
+                <a href="#n1-4"><span class="toc-num">1.6</span>Three-phase systems</a>
+                <a href="#n1-sym"><span class="toc-num">1.7</span>Symmetrical components</a>
+                <a href="#n1-5"><span class="toc-num">1.8</span>Getting started with NRJXpert</a>
                 <a href="#n1-ex"><span class="toc-num">06</span>Exercises</a>
-                <a href="#n1-qcm"><span class="toc-num">07</span>Level 1 quiz</a>
-            </div>
+                <a href="#n1-qcm"><span class="toc-num">07</span>Level 1 quiz</a></div>
         </div>
 
         <div class="section" id="intro">
@@ -74,12 +78,14 @@
 <h4>Objectives</h4>
 <ul>
 <li>Calculate currents, voltages and power in a DC or single-phase AC circuit.</li>
-<li>Handle phasors and complex impedances; draw the power triangle.</li>
-<li>Size a power-factor correction capacitor bank.</li>
-<li>Convert between phase and line quantities in three-phase systems; calculate star and delta loads.</li>
+<li>Solve a network by mesh currents, node potentials, Millman, superposition, Thévenin, Norton and Kennelly.</li>
+<li>Handle phasors and complex impedances; build the power triangle.</li>
+<li>Size a power-factor correction capacitor bank and recognise a resonance risk.</li>
+<li>Move from a simple quantity to a composed quantity in three-phase systems; calculate a star or delta load, balanced or not, and measure its power.</li>
+<li>Decompose an unbalanced system into positive, negative and zero-sequence components.</li>
 <li>Draw a circuit in NRJXpert, run the calculation and read the results.</li>
 </ul>
-<p class="prereq">Prerequisites: complex number algebra (rectangular and polar forms), trigonometry. Duration: 8 to 12 h.</p>
+<p class="prereq">Prerequisites: complex-number algebra (rectangular and polar form), trigonometry. Duration: 14 to 18 h.</p>
 </div>
 
 <!-- ================================================================== -->
@@ -88,9 +94,9 @@
         <div class="section" id="n1-1">
             <h2><span class="section-icon">🔹</span>1.1 Basic quantities and laws</h2>
 <h3>Voltage, current, power</h3>
-<p><b>Voltage</b> <i>U</i> (volt, V) is a potential difference between two points; <b>current</b> <i>I</i> (ampere, A) is the flow rate of
-charges in a conductor. A two-terminal element receives the power <i>P</i> = <i>U·I</i> (watt, W) in the <b>load convention</b> (arrows of
-<i>U</i> and <i>I</i> in opposite directions); if it supplies it (generator), the generator convention is used. Energy is
+<p><b>Voltage</b> <i>U</i> (volt, V) is a potential difference between two points; <b>current</b> <i>I</i> (ampere, A) is the flow
+of charge in a conductor. A two-terminal element receives the power <i>P</i> = <i>U·I</i> (watt, W) in the <b>receiver convention</b> (arrows
+of <i>U</i> and <i>I</i> in opposite directions); if it supplies power (generator), the generator convention is used. Energy is
 <i>W</i> = <i>P·t</i> (joule; in practice Wh or kWh: 1 kWh = 3.6 MJ).</p>
 <h3>Ohm's law and combinations</h3>
 <div class="eq">U = R·I &nbsp;&nbsp; P = R·I² = U²/R<br>
@@ -98,169 +104,686 @@ Series: R<sub>eq</sub> = R₁ + R₂ + … &nbsp;&nbsp; Parallel: 1/R<sub>eq</su
 <p>Voltage divider (series): <i>U</i>₂ = <i>E</i>·<i>R</i>₂/(<i>R</i>₁ + <i>R</i>₂). Current divider (parallel):
 <i>I</i>₂ = <i>I</i>·<i>R</i>₁/(<i>R</i>₁ + <i>R</i>₂).</p>
 <p>The resistance of a conductor of length <i>L</i> and cross-section <i>S</i> is <i>R</i> = ρ·<i>L</i>/<i>S</i>; for copper
-ρ ≈ 0.0175 Ω·mm²/m at 20 °C and 0.0225 Ω·mm²/m at the operating temperature used by NF C 15-100. This formula is used everywhere in cable
-selection (level 3).</p>
+ρ ≈ 0.0175 Ω·mm²/m at 20 °C and 0.0225 Ω·mm²/m at the service temperature used by NF C 15-100. This formula is used
+everywhere when selecting cables (level 3).</p>
 
 <h3>Kirchhoff's laws</h3>
-<div class="eq">Current law: Σ incoming currents = Σ outgoing currents &nbsp;&nbsp; Voltage law: Σ voltages around a loop = 0</div>
-<p>For a node connected to several branches (<i>E<sub>k</sub></i>, <i>R<sub>k</sub></i>), <b>Millman's theorem</b> gives its voltage directly:
-<i>V</i> = Σ(<i>E<sub>k</sub></i>/<i>R<sub>k</sub></i>) / Σ(1/<i>R<sub>k</sub></i>). It is the one-node special case of the <b>nodal voltage
-method</b> used by the NRJXpert server: the current law is written at every node, which gives a linear system <b>Y·V = J</b> (admittance matrix
-<b>Y</b>, potentials <b>V</b>, injected currents <b>J</b>).</p>
+<div class="eq">Node law: Σ incoming currents = Σ outgoing currents &nbsp;&nbsp; Mesh law: Σ voltages around a mesh = 0</div>
+<p>For a node connected to several branches (<i>E<sub>k</sub></i>, <i>R<sub>k</sub></i>), <b>Millman's theorem</b> gives its voltage
+directly: <i>V</i> = Σ(<i>E<sub>k</sub></i>/<i>R<sub>k</sub></i>) / Σ(1/<i>R<sub>k</sub></i>). It is the single-node special case of the
+<b>node-potential method</b> used by the NRJXpert server: the node law is written at each node, which gives a linear
+system <b>Y·V = J</b> (admittance matrix <b>Y</b>, potentials <b>V</b>, injected currents <b>J</b>).</p>
 
 <div class="ex"><h4>Example 1.1 — Series and parallel circuit</h4>
 <p>A battery <i>E</i> = 12 V supplies <i>R</i>₁ = 4 Ω and <i>R</i>₂ = 8 Ω. Calculate currents, voltages and power
 (a) in series, (b) in parallel.</p>
-<details class="sol"><summary>Show the solution</summary>
-<p>(a) <i>R</i><sub>eq</sub> = 12 Ω; <i>I</i> = 12/12 = <span class="result">1 A</span>; <i>U</i>₁ = 4 V, <i>U</i>₂ = 8 V (voltage divider:
-12 × 8/12); <i>P</i> = 12 W (4 W + 8 W).</p>
+<details class="sol"><summary>Show solution</summary>
+<p>(a) <i>R</i><sub>eq</sub> = 12 Ω; <i>I</i> = 12/12 = <span class="result">1 A</span>; <i>U</i>₁ = 4 V, <i>U</i>₂ = 8 V (voltage
+divider: 12 × 8/12); <i>P</i> = 12 W (4 W + 8 W).</p>
 <p>(b) <i>R</i><sub>eq</sub> = 4 × 8/12 = 2.667 Ω; <i>I</i> = <span class="result">4.5 A</span>; <i>I</i>₁ = 3 A, <i>I</i>₂ = 1.5 A;
-<i>P</i> = 54 W. The smallest resistance takes the largest current.</p>
+<i>P</i> = 54 W. The smallest resistance takes the most current.</p>
 </details></div>
 
 <div class="ex"><h4>Example 1.2 — Two sources in parallel (Millman)</h4>
-<p>A source <i>E</i>₁ = 12 V with internal resistance <i>R</i>₁ = 2 Ω and a source <i>E</i>₂ = 9 V, <i>R</i>₂ = 3 Ω together supply a load
-<i>R</i>₃ = 6 Ω. Calculate the load voltage and the current of each source.</p>
-<details class="sol"><summary>Show the solution</summary>
+<p>A source <i>E</i>₁ = 12 V with internal resistance <i>R</i>₁ = 2 Ω and a source <i>E</i>₂ = 9 V, <i>R</i>₂ = 3 Ω supply
+a load <i>R</i>₃ = 6 Ω together. Calculate the load voltage and the current of each source.</p>
+<details class="sol"><summary>Show solution</summary>
 <p><i>V</i> = (12/2 + 9/3 + 0/6)/(1/2 + 1/3 + 1/6) = 9/1 = <span class="result">9 V</span>. <i>I</i>₃ = 9/6 = 1.5 A;
-<i>I</i>₁ = (12 − 9)/2 = 1.5 A; <i>I</i>₂ = (9 − 9)/3 = 0 A. The 9 V source supplies nothing: its emf equals the node voltage.
-With <i>E</i>₂ = 8 V it would absorb current (it would be charged): this is what happens to a weak battery put in parallel with a charged one.</p>
+<i>I</i>₁ = (12 − 9)/2 = 1.5 A; <i>I</i>₂ = (9 − 9)/3 = 0 A. The 9 V source delivers nothing: its EMF equals the node voltage.
+With <i>E</i>₂ = 8 V it would absorb current (it would be recharged): this is what happens to a weak battery connected in parallel
+with a charged one.</p>
+</details></div>
+
+<h3>Sign conventions</h3>
+<p>Before any calculation the arrows must be oriented. The current <i>i<sub>ab</sub></i> is counted positive from <i>a</i> to <i>b</i>;
+the voltage <i>u<sub>ab</sub></i> is the potential difference <i>v<sub>a</sub></i> − <i>v<sub>b</sub></i>. Two conventions coexist:</p>
+<table>
+<tr><th>Convention</th><th>Arrows of <i>u</i> and <i>i</i></th><th>Power received</th><th>Use</th></tr>
+<tr><td>Receiver</td><td>opposite directions</td><td><i>p</i> = <i>u·i</i></td><td>resistors, motors, loads</td></tr>
+<tr><td>Generator</td><td>same direction</td><td><i>p</i> = −<i>u·i</i></td><td>sources, alternators</td></tr>
+</table>
+<p>In a generator the current flows <b>towards rising potentials</b>, in a receiver towards falling potentials.
+A negative result is never an error: it simply means that the real quantity is in the opposite direction to the chosen
+arrow — a source crossed “backwards” behaves as a receiver (it is recharged). NRJXpert displays each current and
+each voltage <b>in the component's own direction</b>; this is why a current may appear negative (or 180° out of phase).</p>
+
+<div class="fig" id="fig-conventions"><svg viewBox="0 0 490 150" width="490" role="img" aria-label="Receiver and generator conventions" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" font-family="inherit"><path d="M30 72 L90 72"/><path d="M124 72 L190 72"/><rect x="90" y="62" width="34" height="20" rx="2"/><circle cx="30" cy="72" r="3" fill="currentColor" stroke="none"/><circle cx="190" cy="72" r="3" fill="currentColor" stroke="none"/><text x="23" y="76" text-anchor="end" font-size="12.5" fill="currentColor" stroke="none" font-style="italic">a</text><text x="197" y="76" text-anchor="start" font-size="12.5" fill="currentColor" stroke="none" font-style="italic">b</text><path d="M45 56 L75 56"/><polygon points="75,56 70,53.25 70,58.75" fill="currentColor" stroke="none"/><text x="60" y="49" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none" font-style="italic">i</text><path d="M180 98 L50 98"/><polygon points="50,98 55,95.25 55,100.75" fill="currentColor" stroke="none"/><text x="110" y="116" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none" font-style="italic">u</text><text x="110" y="32" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Receiver convention</text><text x="110" y="136" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">p = u·i</text><path d="M300 72 L360 72"/><path d="M394 72 L460 72"/><rect x="360" y="62" width="34" height="20" rx="2"/><circle cx="300" cy="72" r="3" fill="currentColor" stroke="none"/><circle cx="460" cy="72" r="3" fill="currentColor" stroke="none"/><text x="293" y="76" text-anchor="end" font-size="12.5" fill="currentColor" stroke="none" font-style="italic">a</text><text x="467" y="76" text-anchor="start" font-size="12.5" fill="currentColor" stroke="none" font-style="italic">b</text><path d="M315 56 L345 56"/><polygon points="345,56 340,53.25 340,58.75" fill="currentColor" stroke="none"/><text x="330" y="49" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none" font-style="italic">i</text><path d="M320 98 L450 98"/><polygon points="450,98 445,95.25 445,100.75" fill="currentColor" stroke="none"/><text x="380" y="116" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none" font-style="italic">u</text><text x="380" y="32" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Generator convention</text><text x="380" y="136" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">p = −u·i</text><text x="245" y="72" text-anchor="middle" font-size="1" fill="currentColor" stroke="none">·</text></svg><div class="cap">Sign conventions. The arrows of <i>u</i> and <i>i</i> are opposite in the receiver convention, in the same direction in the generator convention; <i>p</i> is the power <b>received</b> by the two-terminal element.</div></div>
+<h3>Active two-terminal element: the two models of a source</h3>
+<p>An active two-terminal element is an energy generator. Its output voltage depends on the current delivered:</p>
+<div class="eq">U = E − R<sub>i</sub>·I &nbsp;&nbsp; (<i>E</i>: electromotive force, open-circuit voltage; <i>R<sub>i</sub></i>: internal resistance)</div>
+<p>Dividing this relation by <i>R<sub>i</sub></i> gives <i>E</i>/<i>R<sub>i</sub></i> = <i>U</i>/<i>R<sub>i</sub></i> + <i>I</i>:
+the same source can also be written as a <b>current source</b> <i>J</i> = <i>E</i>/<i>R<sub>i</sub></i> = <i>I</i><sub>sc</sub> in parallel
+with <i>R<sub>i</sub></i>. The two models are equivalent <b>seen from outside</b> (but not for the balance of internal losses).</p>
+<div class="eq">Voltage model: <i>E</i>, <i>R<sub>i</sub></i> in series &nbsp;&nbsp;⇔&nbsp;&nbsp; Current model: <i>J</i> = <i>E</i>/<i>R<sub>i</sub></i>, <i>R<sub>i</sub></i> in parallel</div>
+<p>A source is <b>ideal</b> when <i>R<sub>i</sub></i> → 0 (voltage source: <i>U</i> = <i>E</i> whatever the load) or
+<i>R<sub>i</sub></i> → ∞ (current source: <i>I</i> = <i>J</i> whatever the load). A source is called <b>dependent</b> (or controlled)
+when its value depends on a voltage or a current of the circuit: this is the case of the small-signal equivalent circuits of
+transistors (<i>h</i> parameters) and, in power networks, of inverter models. NRJXpert handles independent sources, DC and
+AC, ideal or with internal impedance; the inverter-based generators of level 5 are, in short circuit, current
+sources.</p>
+
+<div class="fig" id="fig-sources"><svg viewBox="0 0 470 198" width="470" role="img" aria-label="Voltage source / current source equivalence" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" font-family="inherit"><path d="M40 40 L40 150"/><circle cx="40" cy="95" r="12"/><path d="M40 103 L40 87"/><polygon points="40,87 37.525,91.5 42.475,91.5" fill="currentColor" stroke="none"/><text x="22" y="99" text-anchor="end" font-size="12.5" fill="currentColor" stroke="none">E</text><path d="M40 40 L110 40"/><path d="M40 150 L110 150"/><rect x="103.5" y="53" width="13" height="34" rx="2"/><text x="122.5" y="74" text-anchor="start" font-size="12.5" fill="currentColor" stroke="none">R<tspan baseline-shift='sub' font-size='9'>i</tspan></text><path d="M110 40 L110 53"/><path d="M110 87 L110 150"/><path d="M110 40 L170 40"/><path d="M110 150 L170 150"/><circle cx="170" cy="40" r="3" fill="currentColor" stroke="none"/><circle cx="170" cy="150" r="3" fill="currentColor" stroke="none"/><text x="178" y="44" text-anchor="start" font-size="12.5" fill="currentColor" stroke="none" font-style="italic">1</text><text x="178" y="154" text-anchor="start" font-size="12.5" fill="currentColor" stroke="none" font-style="italic">2</text><text x="100" y="180" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">“voltage source” model</text><text x="222" y="100" text-anchor="middle" font-size="26" fill="currentColor" stroke="none">⇔</text><path d="M270 40 L270 150"/><circle cx="270" cy="95" r="12"/><path d="M270 103 L270 87"/><polygon points="270,87 267.525,91.5 272.475,91.5" fill="currentColor" stroke="none"/><text x="252" y="99" text-anchor="end" font-size="12.5" fill="currentColor" stroke="none">J</text><path d="M270 40 L340 40"/><path d="M270 150 L340 150"/><rect x="333.5" y="78" width="13" height="34" rx="2"/><text x="352.5" y="99" text-anchor="start" font-size="12.5" fill="currentColor" stroke="none">R<tspan baseline-shift='sub' font-size='9'>i</tspan></text><path d="M340 40 L340 78"/><path d="M340 112 L340 150"/><path d="M340 40 L400 40"/><path d="M340 150 L400 150"/><circle cx="400" cy="40" r="3" fill="currentColor" stroke="none"/><circle cx="400" cy="150" r="3" fill="currentColor" stroke="none"/><text x="408" y="44" text-anchor="start" font-size="12.5" fill="currentColor" stroke="none" font-style="italic">1</text><text x="408" y="154" text-anchor="start" font-size="12.5" fill="currentColor" stroke="none" font-style="italic">2</text><text x="335" y="180" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">“current source” model</text></svg><div class="cap">The two models of the same source: <i>J</i> = <i>E</i>/<i>R</i><sub>i</sub> = <i>I</i><sub>sc</sub>. They are equivalent seen from terminals 1-2, but not for internal losses (Thévenin ↔ Norton).</div></div>
+<h3>Generalised Ohm's law</h3>
+<p>For any branch made of resistances and EMFs in series, carrying the current <i>I<sub>ab</sub></i>:</p>
+<div class="eq">U<sub>ab</sub> = V<sub>a</sub> − V<sub>b</sub> = R<sub>ab</sub>·I<sub>ab</sub> − E<sub>ab</sub> &nbsp;&nbsp;
+with R<sub>ab</sub> = Σ R<sub>i</sub> and E<sub>ab</sub> = Σ ±E<sub>i</sub></div>
+<div class="fig" id="fig-ohm-gen"><svg viewBox="0 0 360 140" width="360" role="img" aria-label="Branch with resistances and EMFs" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" font-family="inherit"><path d="M30 62 L70 62"/><rect x="73" y="55.5" width="34" height="13" rx="2"/><text x="90" y="49.5" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">R<tspan baseline-shift='sub' font-size='9'>1</tspan></text><path d="M107 62 L130 62"/><circle cx="147" cy="62" r="12"/><path d="M139 62 L155 62"/><polygon points="155,62 150.5,59.525 150.5,64.475" fill="currentColor" stroke="none"/><text x="147" y="43" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">E<tspan baseline-shift='sub' font-size='9'>1</tspan></text><path d="M159 62 L182 62"/><rect x="185" y="55.5" width="34" height="13" rx="2"/><text x="202" y="49.5" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">R<tspan baseline-shift='sub' font-size='9'>2</tspan></text><path d="M219 62 L242 62"/><circle cx="259" cy="62" r="12"/><path d="M267 62 L251 62"/><polygon points="251,62 255.5,59.525 255.5,64.475" fill="currentColor" stroke="none"/><text x="259" y="43" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">E<tspan baseline-shift='sub' font-size='9'>2</tspan></text><path d="M271 62 L312 62"/><circle cx="30" cy="62" r="3" fill="currentColor" stroke="none"/><circle cx="312" cy="62" r="3" fill="currentColor" stroke="none"/><text x="23" y="66" text-anchor="end" font-size="12.5" fill="currentColor" stroke="none" font-style="italic">a</text><text x="319" y="66" text-anchor="start" font-size="12.5" fill="currentColor" stroke="none" font-style="italic">b</text><path d="M41 52 L59 52"/><polygon points="59,52 54.5,49.525 54.5,54.475" fill="currentColor" stroke="none"/><text x="50" y="44" text-anchor="middle" font-size="12" fill="currentColor" stroke="none" font-style="italic">I</text><path d="M300 98 L42 98"/><polygon points="42,98 47,95.25 47,100.75" fill="currentColor" stroke="none"/><text x="171" y="118" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">U<tspan baseline-shift='sub' font-size='9'>ab</tspan> = V<tspan baseline-shift='sub' font-size='9'>a</tspan> − V<tspan baseline-shift='sub' font-size='9'>b</tspan></text></svg><div class="cap">Generalised Ohm's law: <i>U</i><sub>ab</sub> = <i>R</i><sub>ab</sub>·<i>I</i><sub>ab</sub> − <i>E</i><sub>ab</sub>, with <i>R</i><sub>ab</sub> = <i>R</i>₁ + <i>R</i>₂ and <i>E</i><sub>ab</sub> = <i>E</i>₁ − <i>E</i>₂ (“+” sign for an EMF oriented from <i>a</i> to <i>b</i>).</div></div>
+<p>Sign of the EMFs: “+” if <i>E<sub>i</sub></i> is oriented from <i>a</i> to <i>b</i> (in the chosen current direction), “−” otherwise.
+This single relation replaces mesh-by-mesh writing; it is what allows, once the node potentials are known,
+to return to the branch currents (§ 1.2).</p>
+
+<h3>Power balance</h3>
+<p>A network calculation is only finished once it has been checked that <b>all the power produced is consumed</b>:</p>
+<div class="eq">P<sub>gen</sub> = Σ ±E<sub>i</sub>·I<sub>i</sub> + Σ ±U<sub>i</sub>·J<sub>i</sub> = P<sub>received</sub> = Σ R<sub>i</sub>·I<sub>i</sub>²</div>
+<p>Each term <i>E<sub>i</sub>·I<sub>i</sub></i> (or <i>U<sub>i</sub>·J<sub>i</sub></i> for a current source) takes the “+” sign
+if <i>E<sub>i</sub></i> and <i>I<sub>i</sub></i> are in the same direction (the source delivers), the “−” sign otherwise (the source receives). This is the
+safest check of a hand calculation as well as of an NRJXpert calculation: read the currents of all the branches and check
+that the equality holds to within 1 %.</p>
+
+<h3>Network vocabulary</h3>
+<table>
+<tr><th>Term</th><th>Definition</th></tr>
+<tr><td><b>Branch</b></td><td>part of a circuit made of generators and/or receivers <b>in series</b>: it carries a single current</td></tr>
+<tr><td><b>Node</b></td><td>point where at least <b>three</b> branches meet</td></tr>
+<tr><td><b>Mesh</b></td><td>closed path formed by a sequence of branches</td></tr>
+<tr><td><b>Independent mesh</b></td><td>mesh containing at least one branch that belongs to no other selected mesh</td></tr>
+</table>
+<p>A network with <i>b</i> branches and <i>n</i> nodes has <i>n</i> − 1 node equations and <i>b</i> − <i>n</i> + 1 independent
+meshes: this is the number of unknowns of each of the two methods of § 1.2. NRJXpert builds this topology
+automatically from the connected terminals (port junctions → nodes → branches).</p>
+
+<h3>Resistance of a conductor and temperature</h3>
+<div class="eq">R = ρ·L/S &nbsp;&nbsp; G = 1/R (siemens) &nbsp;&nbsp; R<sub>x</sub> = R<sub>θ</sub>·[1 + α<sub>θ</sub>·(T<sub>x</sub> − θ)]</div>
+<table>
+<tr><th>Material</th><th>ρ à 20 °C (Ω·m)</th><th>α (/°C)</th></tr>
+<tr><td>Silver</td><td class="num">16,4 × 10⁻⁹</td><td class="num">0,0038</td></tr>
+<tr><td>Copper</td><td class="num">17,2 × 10⁻⁹</td><td class="num">0,00393</td></tr>
+<tr><td>Aluminium</td><td class="num">28,2 × 10⁻⁹</td><td class="num">0,00391</td></tr>
+<tr><td>Tungsten</td><td class="num">54,7 × 10⁻⁹</td><td class="num">0,005</td></tr>
+<tr><td>Constantan</td><td class="num">123 × 10⁻⁹</td><td class="num">0,000008</td></tr>
+<tr><td>Carbon</td><td class="num">34 860 × 10⁻⁹</td><td class="num">−0,0005</td></tr>
+</table>
+<p>Hence the two values of ρ used in cable calculations (level 3): 0.0175 Ω·mm²/m at 20 °C for copper, but
+<b>0.0225</b> at the service temperature (≈ 70 °C) used by NF C 15-100, i.e. +28 %. A hot conductor is more resistive:
+losses, voltage drop and the minimum short-circuit current depend on it (IEC 60909, level 2).</p>
+
+<div class="ex"><h4>Example 1.3 — A source seen through its two models</h4>
+<p>A battery of EMF <i>E</i> = 12 V and internal resistance <i>R<sub>i</sub></i> = 0.2 Ω delivers into a 2 Ω load.
+Calculate <i>I</i> and <i>U</i> with the two models, then the efficiency of the source.</p>
+<details class="sol"><summary>Show solution</summary>
+<p>Voltage model: <i>I</i> = 12/(0.2 + 2) = <span class="result">5.455 A</span>; <i>U</i> = 12 − 0.2 × 5.455 = <span class="result">10.91 V</span>.</p>
+<p>Current model: <i>J</i> = 12/0.2 = 60 A in parallel with 0.2 Ω; current divider: <i>I</i> = 60 × 0.2/(0.2 + 2) = 5.455 A. Identical.</p>
+<p>Balance: <i>P</i><sub>gen</sub> = 12 × 5.455 = 65.5 W; load 2 × 5.455² = 59.5 W; internal losses 0.2 × 5.455² = 5.95 W;
+efficiency 90.9 %. In short circuit, <i>I</i><sub>sc</sub> = 60 A: this is the short-circuit current of the source, a notion that will
+be met again in networks (level 2) in the form <i>I</i>″<sub>k</sub> = <i>c·U<sub>n</sub></i>/(√3·<i>Z</i><sub>k</sub>).</p>
 </details></div>
 
 <!-- ================================================================== -->
             <a href="#top" class="back-to-top">↑ Back to top</a>
         </div>
+        <div class="section" id="n1-m">
+            <h2><span class="section-icon">🧮</span>1.2 Methods for solving linear circuits</h2>
+<p>Kirchhoff's laws are enough to write the equations of a network, but they give many of them: <i>b</i> unknown currents
+for <i>b</i> branches. The methods that follow <b>reduce the number of equations</b> and can be programmed; they are the ones used by
+the NRJXpert calculation server. They are presented in DC, but apply unchanged in AC by replacing
+<i>R</i> by <b>Z</b> and <i>G</i> by <b>Y</b> (§ 1.3).</p>
+
+<h3>Mesh-current method</h3>
+<p>Choose <i>b</i> − <i>n</i> + 1 <b>independent meshes</b> and assign a fictitious mesh current to each. The real current
+of a branch is the <b>algebraic sum</b> of the currents of the meshes it belongs to; a branch that belongs to only
+one mesh carries the current of that mesh. The system is written directly:</p>
+<div class="eq">[R]·[I] = [E] &nbsp;&nbsp;⇒&nbsp;&nbsp; [I] = [R]<sup>−1</sup>·[E]<br>
+R<sub>11</sub>·I<sub>I</sub> + R<sub>12</sub>·I<sub>II</sub> + … + R<sub>1N</sub>·I<sub>N</sub> = E<sub>I</sub> &nbsp;&nbsp; …</div>
+<table>
+<tr><th>Term</th><th>Rule</th></tr>
+<tr><td><i>R<sub>ii</sub></i> — self-resistance</td><td>sum of <b>all</b> the resistances of mesh <i>i</i> (always positive)</td></tr>
+<tr><td><i>R<sub>ij</sub></i> = <i>R<sub>ji</sub></i> — mutual resistance</td><td>sum of the resistances common to meshes <i>i</i> and <i>j</i>, given a “−” sign if the two mesh currents flow through the common branch in opposite directions</td></tr>
+<tr><td><i>E<sub>i</sub></i> — mesh EMF</td><td>algebraic sum of the EMFs of the mesh: “+” if the EMF is oriented in the chosen direction of travel</td></tr>
+</table>
+
+<h3>Node-potential method</h3>
+<p>One node is chosen as the <b>potential reference</b> (<i>V</i> = 0) — the potential difference between two points does not depend
+on this choice — and the node law is written at the other <i>n</i> − 1 nodes, expressing each current by the generalised Ohm's law.
+This gives a linear system whose unknowns are the potentials:</p>
+<div class="eq">[G]·[V] = [J] &nbsp;&nbsp;⇒&nbsp;&nbsp; [V] = [G]<sup>−1</sup>·[J]<br>
+G<sub>aa</sub>·V<sub>a</sub> − G<sub>ab</sub>·V<sub>b</sub> − … − G<sub>an</sub>·V<sub>n</sub> = J<sub>a</sub> &nbsp;&nbsp; …</div>
+<table>
+<tr><th>Term</th><th>Rule</th></tr>
+<tr><td><i>G<sub>aa</sub></i> — self-conductance</td><td>sum of the conductances of <b>all</b> the branches ending at node <i>a</i></td></tr>
+<tr><td><i>G<sub>ab</sub></i> = <i>G<sub>ba</sub></i> — mutual conductance</td><td>sum of the conductances of the branches directly connecting <i>a</i> and <i>b</i> (preceded by the “−” sign in the system)</td></tr>
+<tr><td><i>J<sub>a</sub></i> — “node current”</td><td>sum of the <i>E·G</i> and <i>J</i> terms of the branches ending at the node, “+” if the source is oriented <b>towards</b> the node</td></tr>
+</table>
+<p>Once the potentials are obtained, the currents follow from the generalised Ohm's law: <i>I<sub>k</sub></i> = (<i>V<sub>a</sub></i> − <i>V<sub>b</sub></i> + <i>E<sub>k</sub></i>)·<i>G<sub>k</sub></i>.
+<b>This is the method of the NRJXpert server</b> (admittance matrix <b>Y·V = J</b>, extended by modified nodal analysis to
+zero-impedance branches: ideal voltage source, wire, ammeter, inductor in DC).</p>
+<p>Applied to a <b>two-node</b> network, it reduces to <b>Millman's theorem</b>:</p>
+<div class="eq">U<sub>O′O</sub> = (Σ ±E<sub>k</sub>·G<sub>k</sub> + Σ ±J<sub>k</sub>) / Σ G<sub>k</sub></div>
+
+<div class="ex"><h4>Example 1.4 — The same network by the two methods</h4>
+<p>Network with 6 branches, 4 nodes (<i>a</i>, <i>b</i>, <i>c</i>, <i>d</i>) and 3 independent meshes:
+<i>E</i>₁ = 6 V, <i>E</i>₂ = 12 V, <i>E</i>₃ = 18 V; <i>R</i>₁ = <i>R</i>₂ = <i>R</i>₃ = 2 Ω; <i>R</i>₄ = <i>R</i>₅ = <i>R</i>₆ = 6 Ω.
+Calculate the six branch currents.</p>
+<div class="fig" id="fig-ex14"><svg viewBox="0 0 520 312" width="520" role="img" aria-label="Network of example 1.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" font-family="inherit"><path d="M70 200 L70 152"/><rect x="63.5" y="115" width="13" height="34" rx="2"/><text x="57.5" y="136" text-anchor="end" font-size="12.5" fill="currentColor" stroke="none">R₁</text><path d="M70 112 L70 108"/><circle cx="70" cy="96" r="12"/><path d="M70 104 L70 88"/><polygon points="70,88 67.525,92.5 72.475,92.5" fill="currentColor" stroke="none"/><text x="52" y="100" text-anchor="end" font-size="12.5" fill="currentColor" stroke="none">E₁</text><path d="M70 84 L70 50"/><path d="M70 50 L255 50"/><path d="M255 50 L255 102"/><rect x="248.5" y="105" width="13" height="34" rx="2"/><text x="267.5" y="126" text-anchor="start" font-size="12.5" fill="currentColor" stroke="none">R₆</text><path d="M255 142 L255 200"/><path d="M255 50 L455 50"/><path d="M455 50 L455 102"/><rect x="448.5" y="105" width="13" height="34" rx="2"/><text x="467.5" y="126" text-anchor="start" font-size="12.5" fill="currentColor" stroke="none">R₄</text><path d="M455 142 L455 200"/><path d="M70 200 L112 200"/><rect x="115" y="193.5" width="34" height="13" rx="2"/><text x="132" y="187.5" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">R₂</text><path d="M149 200 L176 200"/><circle cx="193" cy="200" r="12"/><path d="M185 200 L201 200"/><polygon points="201,200 196.5,197.525 196.5,202.475" fill="currentColor" stroke="none"/><text x="193" y="181" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">E₂</text><path d="M205 200 L255 200"/><path d="M255 200 L330 200"/><rect x="335" y="193.5" width="34" height="13" rx="2"/><text x="352" y="187.5" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">R₅</text><path d="M369 200 L455 200"/><path d="M70 200 L70 272"/><path d="M70 272 L158 272"/><circle cx="176" cy="272" r="12"/><path d="M168 272 L184 272"/><polygon points="184,272 179.5,269.525 179.5,274.475" fill="currentColor" stroke="none"/><text x="176" y="300" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">E₃</text><path d="M188 272 L212 272"/><rect x="219" y="265.5" width="34" height="13" rx="2"/><text x="236" y="293.5" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">R₃</text><path d="M253 272 L455 272"/><path d="M455 272 L455 200"/><circle cx="255" cy="50" r="3" fill="currentColor" stroke="none"/><text x="255" y="38" text-anchor="middle" font-size="13.5" fill="currentColor" stroke="none">a</text><circle cx="455" cy="200" r="3" fill="currentColor" stroke="none"/><text x="469" y="192" text-anchor="middle" font-size="13.5" fill="currentColor" stroke="none">b</text><circle cx="70" cy="200" r="3" fill="currentColor" stroke="none"/><text x="56" y="192" text-anchor="middle" font-size="13.5" fill="currentColor" stroke="none">c</text><circle cx="255" cy="200" r="3" fill="currentColor" stroke="none"/><text x="268" y="192" text-anchor="middle" font-size="13.5" fill="currentColor" stroke="none">d</text><path d="M146 40 L164 40"/><polygon points="164,40 159.5,37.525 159.5,42.475" fill="currentColor" stroke="none"/><text x="155" y="32" text-anchor="middle" font-size="12" fill="currentColor" stroke="none" font-style="italic">I₁</text><path d="M346 40 L364 40"/><polygon points="364,40 359.5,37.525 359.5,42.475" fill="currentColor" stroke="none"/><text x="355" y="32" text-anchor="middle" font-size="12" fill="currentColor" stroke="none" font-style="italic">I₄</text><path d="M266 159 L266 177"/><polygon points="266,177 263.525,172.5 268.475,172.5" fill="currentColor" stroke="none"/><text x="272" y="172" text-anchor="start" font-size="12" fill="currentColor" stroke="none" font-style="italic">I₆</text><path d="M221 190 L239 190"/><polygon points="239,190 234.5,187.525 234.5,192.475" fill="currentColor" stroke="none"/><text x="230" y="182" text-anchor="middle" font-size="12" fill="currentColor" stroke="none" font-style="italic">I₂</text><path d="M299 190 L317 190"/><polygon points="317,190 312.5,187.525 312.5,192.475" fill="currentColor" stroke="none"/><text x="308" y="182" text-anchor="middle" font-size="12" fill="currentColor" stroke="none" font-style="italic">I₅</text><path d="M386 283 L404 283"/><polygon points="404,283 399.5,280.525 399.5,285.475" fill="currentColor" stroke="none"/><text x="395" y="298" text-anchor="middle" font-size="12" fill="currentColor" stroke="none" font-style="italic">I₃</text><path d="M118 96 a 70 70 0 0 1 90 88" stroke-dasharray="4 3"/><polygon points="208,184 205.525,179.5 210.475,179.5" fill="currentColor" stroke="none"/><text x="160" y="142" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">I</text><path d="M305 100 a 70 70 0 0 1 95 82" stroke-dasharray="4 3"/><polygon points="400,182 397.525,177.5 402.475,177.5" fill="currentColor" stroke="none"/><text x="358" y="142" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">II</text><path d="M168 252 a 92 24 0 0 0 170 0" stroke-dasharray="4 3"/><polygon points="168,252 165.525,256.5 170.475,256.5" fill="currentColor" stroke="none"/><text x="253" y="249" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">III</text></svg><div class="cap">Network of example 1.4: <i>E</i>₁ = 6 V, <i>E</i>₂ = 12 V, <i>E</i>₃ = 18 V; <i>R</i>₁ = <i>R</i>₂ = <i>R</i>₃ = 2 Ω, <i>R</i>₄ = <i>R</i>₅ = <i>R</i>₆ = 6 Ω. Four nodes — <i>d</i> is taken as the potential reference — and three independent meshes (I, II, III, dotted).</div></div>
+<details class="sol"><summary>Show solution</summary>
+<p><b>a) Mesh currents.</b> Self-resistances: <i>R</i>₁₁ = <i>R</i>₁+<i>R</i>₂+<i>R</i>₆ = 10 Ω,
+<i>R</i>₂₂ = <i>R</i>₄+<i>R</i>₅+<i>R</i>₆ = 18 Ω, <i>R</i>₃₃ = <i>R</i>₂+<i>R</i>₃+<i>R</i>₅ = 10 Ω. Mutual resistances:
+<i>R</i>₁₂ = −<i>R</i>₆ = −6 Ω, <i>R</i>₁₃ = <i>R</i>₂ = 2 Ω, <i>R</i>₂₃ = <i>R</i>₅ = 6 Ω. Mesh EMFs:
+<i>E</i><sub>I</sub> = <i>E</i>₁ − <i>E</i>₂ = −6 V, <i>E</i><sub>II</sub> = 0, <i>E</i><sub>III</sub> = <i>E</i>₃ − <i>E</i>₂ = 6 V.</p>
+<div class="eq">⎡ 10 &nbsp;−6 &nbsp;&nbsp;2 ⎤ ⎡ I<sub>I</sub> ⎤ &nbsp;&nbsp; ⎡ −6 ⎤<br>
+⎢ −6 &nbsp;18 &nbsp;&nbsp;6 ⎥ ⎢ I<sub>II</sub> ⎥ = ⎢ &nbsp;&nbsp;0 ⎥<br>
+⎣ &nbsp;&nbsp;2 &nbsp;&nbsp;6 &nbsp;10 ⎦ ⎣ I<sub>III</sub> ⎦ &nbsp;&nbsp; ⎣ &nbsp;&nbsp;6 ⎦</div>
+<p>Solution: <i>I</i><sub>I</sub> = −1.5 A, <i>I</i><sub>II</sub> = −1.0 A, <i>I</i><sub>III</sub> = 1.5 A. Hence the branch currents:
+<i>I</i>₁ = <i>I</i><sub>I</sub> = <span class="result">−1.5 A</span>; <i>I</i>₂ = <i>I</i><sub>I</sub> + <i>I</i><sub>III</sub> = <span class="result">0 A</span>;
+<i>I</i>₃ = <i>I</i><sub>III</sub> = <span class="result">1.5 A</span>; <i>I</i>₄ = <i>I</i><sub>II</sub> = <span class="result">−1 A</span>;
+<i>I</i>₅ = −<i>I</i><sub>II</sub> − <i>I</i><sub>III</sub> = <span class="result">−0.5 A</span>; <i>I</i>₆ = <i>I</i><sub>I</sub> − <i>I</i><sub>II</sub> = <span class="result">−0.5 A</span>.</p>
+<p><b>b) Node potentials</b> (reference <i>V<sub>d</sub></i> = 0). Self-conductances:
+<i>G<sub>aa</sub></i> = <i>G</i>₁+<i>G</i>₆+<i>G</i>₄ = 5/6 S, <i>G<sub>bb</sub></i> = <i>G</i>₃+<i>G</i>₄+<i>G</i>₅ = 5/6 S,
+<i>G<sub>cc</sub></i> = <i>G</i>₁+<i>G</i>₂+<i>G</i>₃ = 3/2 S; mutual <i>G<sub>ab</sub></i> = <i>G</i>₄ = 1/6 S,
+<i>G<sub>bc</sub></i> = <i>G</i>₃ = 1/2 S, <i>G<sub>ac</sub></i> = <i>G</i>₁ = 1/2 S. Node currents:
+<i>J<sub>a</sub></i> = <i>E</i>₁<i>G</i>₁ = 3 A, <i>J<sub>b</sub></i> = <i>E</i>₃<i>G</i>₃ = 9 A,
+<i>J<sub>c</sub></i> = −<i>E</i>₁<i>G</i>₁ − <i>E</i>₂<i>G</i>₂ − <i>E</i>₃<i>G</i>₃ = −18 A.</p>
+<p>Solution: <i>V<sub>a</sub></i> = −3 V, <i>V<sub>b</sub></i> = 3 V, <i>V<sub>c</sub></i> = −12 V. Generalised Ohm's law:
+<i>I</i>₁ = (−<i>V<sub>a</sub></i> + <i>V<sub>c</sub></i> + <i>E</i>₁)<i>G</i>₁ = (3 − 12 + 6)/2 = −1.5 A;
+<i>I</i>₄ = (<i>V<sub>a</sub></i> − <i>V<sub>b</sub></i>)<i>G</i>₄ = −1 A; <i>I</i>₆ = <i>V<sub>a</sub></i>·<i>G</i>₆ = −0.5 A…
+<b>the same six currents</b>, with 3 equations instead of 6.</p>
+<p>Power balance: <i>P</i><sub>gen</sub> = <i>E</i>₁<i>I</i>₁ + <i>E</i>₂<i>I</i>₂ + <i>E</i>₃<i>I</i>₃ = 6(−1.5) + 0 + 18(1.5) = 18 W;
+<i>P</i><sub>received</sub> = Σ<i>R<sub>i</sub>I<sub>i</sub></i>² = 2(2.25) + 0 + 2(2.25) + 6(1) + 6(0.25) + 6(0.25) = 18 W. ✔
+Source <i>E</i>₁, crossed in the opposite direction, <b>receives</b> 9 W: it operates as a receiver.</p>
+</details></div>
+
+<h3>Superposition theorem</h3>
+<p>In a <b>linear</b> network, the current of a branch is the sum of the currents that each source would produce there acting alone,
+the other sources being <b>replaced by their internal resistance</b> (short circuit for an ideal voltage source, open
+circuit for an ideal current source). Useful when the sources are of different natures (DC + AC, several
+frequencies): each regime is calculated separately, then superposed. Beware: <b>powers do not superpose</b>
+(<i>P</i> = <i>RI</i>² is not linear).</p>
+
+<h3>Equivalent generator: Thévenin and Norton</h3>
+<p>To find only the current of <b>a single</b> branch, that branch is disconnected and the whole rest of the network
+(seen from the two terminals 1-2) is replaced by a single source:</p>
+<div class="eq">Thévenin: E<sub>th</sub> = U<sub>12</sub> open-circuit, R<sub>th</sub> = R<sub>eq,12</sub> &nbsp;&nbsp;⇒&nbsp;&nbsp; I = E<sub>th</sub>/(R<sub>th</sub> + R)<br>
+Norton: J<sub>N</sub> = I<sub>12</sub> short-circuit, R<sub>N</sub> = R<sub>th</sub> &nbsp;&nbsp;⇒&nbsp;&nbsp; I = J<sub>N</sub>·R<sub>N</sub>/(R<sub>N</sub> + R)</div>
+<p><i>R</i><sub>eq,12</sub> is calculated by switching the sources off (EMFs short-circuited, current sources opened) and reducing
+the passive network. These two theorems are the basis of short-circuit calculation: at the fault point, the whole network is a
+Thévenin generator of EMF <i>c·U<sub>n</sub></i>/√3 and impedance <b>Z</b><sub>k</sub> (level 2).</p>
+
+<div class="ex"><h4>Example 1.5 — Thévenin and Norton on the same branch</h4>
+<p><i>E</i>₁ = 36 V in series with <i>R</i>₁ = 12 Ω; a current source <i>I</i><sub>02</sub> = 6 A in parallel with <i>R</i>₂ = 6 Ω;
+the whole supplies <i>R</i> = 5 Ω. Calculate the current in <i>R</i>.</p>
+<div class="fig" id="fig-thevenin"><svg viewBox="0 0 460 240" width="460" role="img" aria-label="Circuit of example 1.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" font-family="inherit"><path d="M50 50 L300 50"/><path d="M50 190 L300 190"/><path d="M50 50 L50 88"/><rect x="43.5" y="91" width="13" height="34" rx="2"/><text x="37.5" y="112" text-anchor="end" font-size="12.5" fill="currentColor" stroke="none">R₁</text><path d="M50 128 L50 136"/><circle cx="50" cy="148" r="12"/><path d="M50 140 L50 156"/><polygon points="50,156 47.525,151.5 52.475,151.5" fill="currentColor" stroke="none"/><text x="32" y="152" text-anchor="end" font-size="12.5" fill="currentColor" stroke="none">E₁</text><path d="M50 160 L50 190"/><path d="M135 50 L135 106"/><circle cx="135" cy="118" r="12"/><path d="M135 126 L135 110"/><polygon points="135,110 132.525,114.5 137.475,114.5" fill="currentColor" stroke="none"/><text x="117" y="122" text-anchor="end" font-size="12.5" fill="currentColor" stroke="none">I₀₂</text><path d="M135 130 L135 190"/><path d="M210 50 L210 98"/><rect x="203.5" y="101" width="13" height="34" rx="2"/><text x="222.5" y="122" text-anchor="start" font-size="12.5" fill="currentColor" stroke="none">R₂</text><path d="M210 138 L210 190"/><path d="M300 50 L345 50"/><path d="M300 190 L345 190"/><circle cx="345" cy="50" r="3" fill="currentColor" stroke="none"/><circle cx="345" cy="190" r="3" fill="currentColor" stroke="none"/><text x="352" y="54" text-anchor="start" font-size="12.5" fill="currentColor" stroke="none" font-style="italic">1</text><text x="352" y="194" text-anchor="start" font-size="12.5" fill="currentColor" stroke="none" font-style="italic">2</text><path d="M345 50 L400 50"/><path d="M345 190 L400 190"/><path d="M400 50 L400 98"/><rect x="393.5" y="101" width="13" height="34" rx="2"/><text x="412.5" y="122" text-anchor="start" font-size="12.5" fill="currentColor" stroke="none">R</text><path d="M400 138 L400 190"/><path d="M411 65 L411 83"/><polygon points="411,83 408.525,78.5 413.475,78.5" fill="currentColor" stroke="none"/><text x="417" y="78" text-anchor="start" font-size="12" fill="currentColor" stroke="none" font-style="italic">I<tspan baseline-shift='sub' font-size='9'>R</tspan></text><text x="175" y="222" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">active network seen from terminals 1-2</text></svg><div class="cap">Example 1.5: <i>E</i>₁ = 36 V, <i>R</i>₁ = 12 Ω, <i>I</i>₀₂ = 6 A, <i>R</i>₂ = 6 Ω, <i>R</i> = 5 Ω. The network to the left of terminals 1-2 is replaced by <i>E</i><sub>th</sub> = 36 V in series with <i>R</i><sub>th</sub> = 4 Ω (Thévenin), or by <i>J</i><sub>N</sub> = 9 A in parallel with 4 Ω (Norton).</div></div>
+<details class="sol"><summary>Show solution</summary>
+<p><b>Thévenin.</b> Open-circuit (branch <i>R</i> disconnected), Millman: <i>E</i><sub>th</sub> = (<i>E</i>₁<i>G</i>₁ + <i>I</i><sub>02</sub>)/(<i>G</i>₁ + <i>G</i>₂)
+= (3 + 6)/(1/12 + 1/6) = <span class="result">36 V</span>. Sources switched off: <i>R</i><sub>th</sub> = <i>R</i>₁∥<i>R</i>₂ = 12 × 6/18 = <span class="result">4 Ω</span>.
+Hence <i>I<sub>R</sub></i> = 36/(4 + 5) = <span class="result">4 A</span>.</p>
+<p><b>Norton.</b> Terminals 1-2 short-circuited: <i>J<sub>N</sub></i> = <i>E</i>₁/<i>R</i>₁ + <i>I</i><sub>02</sub> = 3 + 6 = 9 A; <i>R<sub>N</sub></i> = 4 Ω.
+Current divider: <i>I<sub>R</sub></i> = 9 × 4/(4 + 5) = <span class="result">4 A</span>. The two models are indeed equivalent
+(<i>E</i><sub>th</sub> = <i>R<sub>N</sub></i>·<i>J<sub>N</sub></i>).</p>
+</details></div>
+
+<h3>Kennelly's theorem: star ↔ delta transformation</h3>
+<p>Three impedances in star and three impedances in delta are equivalent seen from their three terminals <i>a</i>, <i>b</i>, <i>c</i>:</p>
+<div class="eq">Star → delta: R<sub>ab</sub> = R<sub>a</sub> + R<sub>b</sub> + R<sub>a</sub>R<sub>b</sub>/R<sub>c</sub> &nbsp;&nbsp;
+R<sub>bc</sub> = R<sub>b</sub> + R<sub>c</sub> + R<sub>b</sub>R<sub>c</sub>/R<sub>a</sub> &nbsp;&nbsp;
+R<sub>ca</sub> = R<sub>c</sub> + R<sub>a</sub> + R<sub>c</sub>R<sub>a</sub>/R<sub>b</sub><br>
+Delta → star: R<sub>a</sub> = R<sub>ab</sub>R<sub>ca</sub>/(R<sub>ab</sub>+R<sub>bc</sub>+R<sub>ca</sub>) &nbsp;&nbsp; (likewise for R<sub>b</sub>, R<sub>c</sub>)</div>
+<div class="fig" id="fig-kennelly"><svg viewBox="0 0 600 240" width="600" role="img" aria-label="Star-delta transformation" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" font-family="inherit"><path d="M45 60 L92 60"/><rect x="95" y="53.5" width="34" height="13" rx="2"/><text x="112" y="47.5" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">R<tspan baseline-shift='sub' font-size='9'>a</tspan></text><path d="M129 60 L165 60"/><path d="M165 60 L165 120"/><path d="M45 180 L92 180"/><rect x="95" y="173.5" width="34" height="13" rx="2"/><text x="112" y="201.5" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">R<tspan baseline-shift='sub' font-size='9'>b</tspan></text><path d="M129 180 L165 180"/><path d="M165 180 L165 120"/><path d="M165 120 L192 120"/><rect x="197" y="113.5" width="34" height="13" rx="2"/><text x="214" y="107.5" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">R<tspan baseline-shift='sub' font-size='9'>c</tspan></text><path d="M231 120 L268 120"/><circle cx="165" cy="120" r="3" fill="currentColor" stroke="none"/><text x="158" y="112" text-anchor="end" font-size="12" fill="currentColor" stroke="none">O</text><circle cx="45" cy="60" r="3" fill="currentColor" stroke="none"/><circle cx="45" cy="180" r="3" fill="currentColor" stroke="none"/><circle cx="268" cy="120" r="3" fill="currentColor" stroke="none"/><text x="38" y="64" text-anchor="end" font-size="12.5" fill="currentColor" stroke="none" font-style="italic">a</text><text x="38" y="184" text-anchor="end" font-size="12.5" fill="currentColor" stroke="none" font-style="italic">b</text><text x="276" y="124" text-anchor="start" font-size="12.5" fill="currentColor" stroke="none" font-style="italic">c</text><text x="150" y="222" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">star (Y) connection</text><text x="322" y="122" text-anchor="middle" font-size="26" fill="currentColor" stroke="none">⇔</text><path d="M395 58 L395 98"/><path d="M395 142 L395 182"/><g transform="translate(395 120) rotate(90)"><rect x="-17" y="-6.5" width="34" height="13" rx="2"/></g><text x="421" y="124" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">R<tspan baseline-shift='sub' font-size='9'>ab</tspan></text><path d="M395 58 L459.332 81.4621"/><path d="M500.668 96.5379 L565 120"/><g transform="translate(480 89) rotate(20.0372)"><rect x="-17" y="-6.5" width="34" height="13" rx="2"/></g><text x="488.223" y="70.4527" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">R<tspan baseline-shift='sub' font-size='9'>ca</tspan></text><path d="M395 182 L459.332 158.538"/><path d="M500.668 143.462 L565 120"/><g transform="translate(480 151) rotate(-20.0372)"><rect x="-17" y="-6.5" width="34" height="13" rx="2"/></g><text x="488.223" y="177.547" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">R<tspan baseline-shift='sub' font-size='9'>bc</tspan></text><circle cx="395" cy="58" r="3" fill="currentColor" stroke="none"/><circle cx="395" cy="182" r="3" fill="currentColor" stroke="none"/><circle cx="565" cy="120" r="3" fill="currentColor" stroke="none"/><text x="386" y="62" text-anchor="end" font-size="12.5" fill="currentColor" stroke="none" font-style="italic">a</text><text x="386" y="190" text-anchor="end" font-size="12.5" fill="currentColor" stroke="none" font-style="italic">b</text><text x="574" y="124" text-anchor="start" font-size="12.5" fill="currentColor" stroke="none" font-style="italic">c</text><text x="480" y="222" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">delta (Δ) connection</text></svg><div class="cap">Kennelly's theorem: the two connections are equivalent seen from <i>a</i>, <i>b</i> and <i>c</i>. Balanced case: <i>R</i><sub>Δ</sub> = 3·<i>R</i><sub>Y</sub>.</div></div>
+<p>Balanced case: <i>R</i><sub>Δ</sub> = 3·<i>R</i><sub>Y</sub>. This is the key to three-phase load calculation (§ 1.6: a
+delta load absorbs three times the power of the same load in star) and to the NRJXpert single-line diagram, which reduces any delta
+load to its equivalent star (<i>R</i>/3, <i>L</i>/3, 3<i>C</i>). It is also used to reduce a bridge (Wheatstone circuit) that neither
+series nor parallel combination can simplify.</p>
+
+<div class="lab"><h4>Practical work — The two methods checked with NRJXpert</h4>
+<ol class="steps">
+<li><div class="step-content">Draw the network of example 1.4: three DC sources (6, 12 and 18 V) and six resistors
+(2, 2, 2, 6, 6, 6 Ω), connected as in the figure of the course; place an <b>ammeter</b> on at least two branches.</div></li>
+<li><div class="step-content">Calculation <b>Linear network</b>, method <b>Node potentials</b>, <kbd>F5</kbd>.</div></li>
+<li><div class="step-content">Compare the six currents with the hand calculation: signs included. The zero current of <i>R</i>₂ is a good
+test of the orientation of the sources.</div></li>
+<li><div class="step-content">Check the balance: read <i>I</i> and <i>U</i> of each component in the results table, calculate
+Σ<i>R·I</i>² and Σ<i>E·I</i> (18 W).</div></li>
+<li><div class="step-content">Disconnect branch <i>R</i>₄ (delete the link) and read the open-circuit voltage between its two terminals with a
+<b>voltmeter</b>: this is <i>E</i><sub>th</sub>. Reconnect <i>R</i>₄ and check <i>I</i>₄ = <i>E</i><sub>th</sub>/(<i>R</i><sub>th</sub> + <i>R</i>₄).</div></li>
+</ol>
+<p class="small">The software knows neither meshes nor Thévenin: it solves <b>Y·V = J</b>. These methods remain essential to
+<b>predict</b> the order of magnitude and to check the result.</p>
+</div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
         <div class="section" id="n1-2">
-            <h2><span class="section-icon">🔸</span>1.2 Sinusoidal steady state</h2>
+            <h2><span class="section-icon">🔸</span>1.3 Sinusoidal steady state</h2>
 <h3>Sinusoidal quantities and phasors</h3>
 <p>A voltage <i>u</i>(<i>t</i>) = <i>U</i>√2·sin(ω<i>t</i> + φ<sub>u</sub>) is characterised by its RMS value <i>U</i>, its angular frequency
 ω = 2π<i>f</i> (314.16 rad/s at 50 Hz) and its phase φ<sub>u</sub>. It is represented by the <b>phasor</b> (complex number)
-<b><i>U</i></b> = <i>U</i>·e<sup>jφu</sup> = <i>U</i>∠φ<sub>u</sub>. All quantities of a linear circuit have the same frequency: phasors turn the
-differential equations into complex algebraic equations, and Ohm's and Kirchhoff's laws apply unchanged.</p>
+<b><i>U</i></b> = <i>U</i>·e<sup>jφu</sup> = <i>U</i>∠φ<sub>u</sub>. All the quantities of a linear circuit have the same frequency:
+phasors turn differential equations into complex algebraic equations, and Ohm's and Kirchhoff's laws
+apply unchanged.</p>
 <h3>Impedances</h3>
 <table>
-<tr><th>Element</th><th>Impedance <b>Z</b></th><th>Phase of <i>u</i> relative to <i>i</i></th><th>In DC (f = 0)</th></tr>
-<tr><td>Resistance R</td><td>R</td><td>0</td><td>R</td></tr>
-<tr><td>Inductance L</td><td>jLω = jX<sub>L</sub></td><td>+90° (the current lags)</td><td>short circuit</td></tr>
+<tr><th>Element</th><th>Impedance <b>Z</b></th><th>Phase shift of <i>u</i> relative to <i>i</i></th><th>In DC (f = 0)</th></tr>
+<tr><td>Resistor R</td><td>R</td><td>0</td><td>R</td></tr>
+<tr><td>Inductor L</td><td>jLω = jX<sub>L</sub></td><td>+90° (the current lags)</td><td>short circuit</td></tr>
 <tr><td>Capacitor C</td><td>1/(jCω) = −jX<sub>C</sub></td><td>−90° (the current leads)</td><td>open circuit</td></tr>
 <tr><td>R, L, C in series</td><td>R + j(Lω − 1/(Cω))</td><td>φ = arctan(X/R)</td><td>—</td></tr>
 </table>
 <div class="eq"><b>U</b> = <b>Z</b>·<b>I</b> &nbsp;&nbsp; |<b>Z</b>| = √(R² + X²) &nbsp;&nbsp; φ = arg <b>Z</b> &nbsp;&nbsp; admittance <b>Y</b> = 1/<b>Z</b> = G + jB</div>
-<p>NRJXpert calculates the impedances at the network frequency (<b>Simulation › Calculation settings</b>); if all sources are DC it works at
-0 Hz: inductances become short circuits and capacitors open circuits.</p>
+<p>NRJXpert calculates impedances at the network frequency (<b>Simulation › Calculation settings</b>); if all the sources are
+DC, it works at 0 Hz: inductors become short circuits and capacitors open circuits.</p>
 
-<div class="ex"><h4>Example 1.3 — Load supplied through a line</h4>
-<p>A 230 V, 50 Hz source supplies a 10 Ω resistance through a line <i>R</i> = 0.5 Ω, <i>L</i> = 10 mH. Calculate the current, the voltage across
-the load and the voltage drop in the line.</p>
-<details class="sol"><summary>Show the solution</summary>
-<p><i>X</i> = 2π·50·0.01 = 3.1416 Ω; <b>Z</b> = 10.5 + j3.1416 Ω; |<b>Z</b>| = 10.960 Ω; φ = 16.66°.</p>
+<div class="ex"><h4>Example 1.6 — Load supplied through a line</h4>
+<p>A 230 V, 50 Hz source supplies a 10 Ω resistor through a line <i>R</i> = 0.5 Ω, <i>L</i> = 10 mH.
+Calculate the current, the load voltage and the voltage drop in the line.</p>
+<details class="sol"><summary>Show solution</summary>
+<p><i>X</i> = 2π·50·0,01 = 3,1416 Ω ; <b>Z</b> = 10,5 + j3,1416 Ω ; |<b>Z</b>| = 10,960 Ω ; φ = 16,66°.</p>
 <p><i>I</i> = 230/10.960 = <span class="result">20.99 A</span> (lagging the source voltage by 16.66°). Load voltage:
 10 × 20.99 = <span class="result">209.9 V</span>; voltage across the line: |0.5 + j3.1416| × 20.99 = 66.8 V.</p>
-<p>Note: 209.9 + 66.8 ≠ 230 V: voltages add up <b>as complex numbers</b>, not as RMS values. The « useful » voltage drop is
-230 − 209.9 = 20.1 V (8.7 %).</p>
+<p>Note: 209.9 + 66.8 ≠ 230 V: voltages add <b>as complex numbers</b>, not as RMS values. The “useful” voltage drop
+is 230 − 209.9 = 20.1 V (8.7 %).</p>
 </details></div>
 
-<div class="lab"><h4>Lab 1 — Checking example 1.3 in NRJXpert</h4>
+<div class="lab"><h4>Practical work 1 — Check example 1.6 in NRJXpert</h4>
 <ol class="steps">
 <li><div class="step-content">Start NRJXpert: the local calculation server starts by itself at the first calculation (default setting:
 <b>Simulation › Calculation and server settings › Use the local server on this computer</b>).</div></li>
 <li><div class="step-content">In the palette, choose the <b>Single-line</b> variant (only one terminal visible: the return through the neutral is implicit).</div></li>
 <li><div class="step-content">Place an <b>AC voltage source</b> (Sources section): double-click → 230 V, phase 0, 50 Hz.</div></li>
 <li><div class="step-content">Place a 10 Ω <b>resistor</b> (Passive elements section).</div></li>
-<li><div class="step-content">In <b>Calculation settings</b> choose the <b>RL</b> line model, then draw a link from the source terminal to the resistor terminal (drag from one
-terminal to the other); double-click on the link: R = 0.5 Ω, L = 10 mH (or per-length r and l × length).</div></li>
-<li><div class="step-content">Calculation: <b>Linear network</b>, method <b>Nodal voltages</b>; <kbd>F5</kbd>.</div></li>
-<li><div class="step-content">Read in the results table: <i>I</i> = 20.99 A, ∠<i>I</i> = −16.66°, resistor voltage 209.9 V. Hover over the link: voltage drop and losses
-<i>R·I</i>² = 220 W.</div></li>
+<li><div class="step-content">In <b>Calculation settings</b> choose the <b>RL</b> line model, then draw a link from the source terminal to that
+of the resistor (drag from one terminal to the other); double-click on the link: R = 0.5 Ω, L = 10 mH (or r and l per unit length × length).</div></li>
+<li><div class="step-content">Calculation: <b>Linear network</b>, method <b>Node potentials</b>; <kbd>F5</kbd>.</div></li>
+<li><div class="step-content">Read in the results table: <i>I</i> = 20.99 A, ∠<i>I</i> = −16.66°, resistor voltage 209.9 V. Hover over the
+link: voltage drop and losses <i>R·I</i>² = 220 W.</div></li>
 </ol>
-<p class="small">Variant: replace 50 Hz by 60 Hz; the current decreases (X<sub>L</sub> increases). Replace the source by a 230 V DC source: the
-inductance becomes a short circuit and <i>I</i> = 230/10.5 = 21.90 A.</p>
+<p class="small">Variant: replace 50 Hz by 60 Hz; the current falls (X<sub>L</sub> increases). Replace the source by a 230 V DC
+source: the inductor becomes a short circuit and <i>I</i> = 230/10.5 = 21.90 A.</p>
 </div>
+
+<h3>Average value, RMS value</h3>
+<p>A signal is <b>alternating</b> if its instantaneous value takes successively positive and negative values, <b>periodic</b>
+if it repeats identically every <i>T</i> seconds. Two quantities characterise it:</p>
+<div class="eq">U<sub>avg</sub> = (1/T)·∫₀<sup>T</sup> u(t)·dt &nbsp;&nbsp;&nbsp;&nbsp;
+I = √( (1/T)·∫₀<sup>T</sup> i²(t)·dt ) &nbsp;&nbsp; (RMS value)</div>
+<p>The RMS value is <b>defined by its effects</b>: it is the value of the direct current that would release the same amount of
+heat in a resistor during one period (<i>Q</i> = ∫<i>R·i</i>²d<i>t</i> = <i>R·I</i>²<i>T</i>). For a sinusoid,
+<i>I</i> = <i>I<sub>m</sub></i>/√2 and <i>U</i><sub>avg</sub> = 0. All measuring instruments and all rating plates give
+RMS values: “230 V” means <i>U<sub>m</sub></i> = 325 V.</p>
+
+<h3>From rotating vectors to phasors</h3>
+<p>A vector of length <i>I<sub>m</sub></i> rotating at speed ω has the projection <i>I<sub>m</sub></i>·sin(ω<i>t</i> + Ψ): to every
+sinusoidal quantity corresponds a rotating vector, and conversely. Hence <b>Fresnel's rule</b>: the sum of several
+sinusoidal quantities <b>of the same frequency</b> is a sinusoidal quantity of the same frequency, the geometric resultant of the
+vectors — it is much easier to add vectors than functions of time.</p>
+<p>The <b>cissoidal transformation</b> formalises this step: to <i>i</i>(<i>t</i>) = <i>I<sub>m</sub></i>·sin(ω<i>t</i> + Ψ<sub>i</sub>) we associate
+the complex quantity <u>I</u>(<i>t</i>) = <i>I<sub>m</sub></i>·e<sup>j(ω<i>t</i>+Ψi)</sup>, whose imaginary part is the real signal.
+Since all the quantities of a network rotate together, the factor e<sup>jω<i>t</i></sup> cancels: it is enough to keep
+the position of the vectors at <i>t</i> = 0, which is the <b>phasor</b>:</p>
+<div class="eq">i(t) = I√2·sin(ωt + Ψ<sub>i</sub>) &nbsp;→&nbsp; <u>I</u> = I·e<sup>jΨi</sup> = I∠Ψ<sub>i</sub> &nbsp;&nbsp;&nbsp;
+u(t) → <u>U</u> = U∠Ψ<sub>u</sub> &nbsp;&nbsp;&nbsp; e(t) → <u>E</u> = E∠Ψ<sub>e</sub></div>
+<table>
+<tr><th>Operation on the signal</th><th>On the phasor</th></tr>
+<tr><td><i>k</i>·<i>i</i>(<i>t</i>)</td><td><i>k</i>·<u>I</u></td></tr>
+<tr><td>Σ <i>i<sub>k</sub></i>(<i>t</i>)</td><td>Σ <u>I</u><sub><i>k</i></sub></td></tr>
+<tr><td>d<i>i</i>/d<i>t</i></td><td>jω·<u>I</u></td></tr>
+<tr><td>∫<i>i</i>·d<i>t</i></td><td><u>I</u>/(jω)</td></tr>
+</table>
+<p>This is the key property: differentiation and integration become <b>multiplications</b>. The differential equation of the
+series R-L-C circuit <i>e</i> = <i>Ri</i> + <i>L</i>·d<i>i</i>/d<i>t</i> + (1/<i>C</i>)∫<i>i</i>·d<i>t</i> becomes the algebraic equation
+<u>E</u> = [<i>R</i> + j<i>L</i>ω + 1/(j<i>C</i>ω)]·<u>I</u> = <b>Z</b>·<u>I</u>.</p>
+
+<h3>Kirchhoff's laws in complex form</h3>
+<div class="eq">Σ <u>I</u><sub>k</sub> = 0 (node) &nbsp;&nbsp;&nbsp;&nbsp; Σ <u>E</u><sub>k</sub> = Σ <b>Z</b><sub>k</sub>·<u>I</u><sub>k</sub> (mesh)</div>
+<p>Kirchhoff's laws therefore apply <b>to phasors</b>, and not to RMS values: three RMS voltages of 100 V,
+150 V and 200 V can perfectly well coexist in the same mesh (exercise 6). <b>All</b> the methods of § 1.2 — meshes,
+node potentials, Millman, superposition, Thévenin, Norton, Kennelly — remain valid by replacing:</p>
+<div class="eq">I → <u>I</u> &nbsp;&nbsp; U → <u>U</u> &nbsp;&nbsp; E → <u>E</u> &nbsp;&nbsp; R → <b>Z</b> &nbsp;&nbsp; G → <b>Y</b></div>
+<p>This is exactly what the NRJXpert server does: it builds the complex admittance matrix at the network
+frequency and solves <b>Y·V = J</b> in ℂ.</p>
+
+<div class="ex"><h4>Example 1.7 — Series and parallel equivalent two-terminal element</h4>
+<p>Across a passive two-terminal element, <i>u</i> = 100·sin(314<i>t</i> − 15°) V and <i>i</i> = 10·sin(314<i>t</i> + 45°) A. Determine the elements
+of the series and parallel equivalent two-terminal elements, then the active and reactive components of the voltage.</p>
+<details class="sol"><summary>Show solution</summary>
+<p>Phase shift φ = Ψ<sub>u</sub> − Ψ<sub>i</sub> = −15° − 45° = <span class="result">−60°</span> (the current leads: <b>capacitive</b>
+element). <b>Z</b> = (100/10)∠−60° = 10∠−60° = 5 − j8.66 Ω.</p>
+<p>Series: <i>R<sub>s</sub></i> = <span class="result">5 Ω</span>, <i>X<sub>C</sub></i> = 8.66 Ω → <i>C<sub>s</sub></i> = 1/(314 × 8.66) = <span class="result">368 µF</span>.</p>
+<p>Parallel: <b>Y</b> = 1/<b>Z</b> = 0.1∠+60° = 0.05 + j0.0866 S → <i>R<sub>p</sub></i> = <span class="result">20 Ω</span> and
+<i>B<sub>C</sub></i> = 0.0866 S → <i>C<sub>p</sub></i> = <span class="result">276 µF</span>. The two circuits are equivalent
+<b>at this frequency only</b>.</p>
+<p>Components: <i>u<sub>a</sub></i> = <i>U<sub>m</sub></i>cos φ·sin(314<i>t</i> + 45°) = 50·sin(314<i>t</i> + 45°) V (in phase with the current,
+it carries the active power) and <i>u<sub>r</sub></i> = <i>U<sub>m</sub></i>sin φ·sin(314<i>t</i> + 45° + 90°) = −86.6·sin(314<i>t</i> + 135°) V
+(in quadrature). Likewise for the current: <i>I<sub>a</sub></i> = 5 A and <i>I<sub>r</sub></i> = −8.66 A (amplitudes).</p>
+</details></div>
 
 <!-- ================================================================== -->
             <a href="#top" class="back-to-top">↑ Back to top</a>
         </div>
         <div class="section" id="n1-3">
-            <h2><span class="section-icon">⚡</span>1.3 Power and reactive power compensation</h2>
+            <h2><span class="section-icon">⚡</span>1.4 Power and reactive power compensation</h2>
 <div class="eq"><b>S</b> = <b>U</b>·<b>I</b>* = P + jQ &nbsp;&nbsp; P = U·I·cos φ (W) &nbsp;&nbsp; Q = U·I·sin φ (var) &nbsp;&nbsp; S = U·I = √(P² + Q²) (VA)
 &nbsp;&nbsp; cos φ = P/S</div>
-<p>Active power <i>P</i> produces work (heat, motion); reactive power <i>Q</i> only makes the energy « oscillate » between the source and the
-magnetic fields (motors, transformers) or electric fields (capacitors). It is not billed at low voltage, but it <b>increases the current</b> for the
-same active power: more losses (<i>R·I</i>²), more voltage drop and larger cables. Hence <b>compensation</b>: a capacitor in parallel supplies the
-reactive power the load absorbs.</p>
-<div class="eq">Q<sub>C</sub> = P·(tan φ₁ − tan φ₂) &nbsp;&nbsp; C = Q<sub>C</sub>/(ω·U²) (single-phase) &nbsp;&nbsp; three-phase, delta-connected capacitors: C = Q<sub>C</sub>/(3ω·U²)</div>
+<p>Active power <i>P</i> produces work (heat, motion); reactive power <i>Q</i> only makes energy “oscillate”
+between the source and the magnetic fields (motors, transformers) or electric fields (capacitors). It is not
+billed at low voltage, but it <b>increases the current</b> for the same active power: more losses (<i>R·I</i>²), more voltage
+drop and larger cable cross-sections. Hence <b>compensation</b>: a capacitor in parallel supplies the reactive power that the
+load absorbs.</p>
+<div class="eq">Q<sub>C</sub> = P·(tan φ₁ − tan φ₂) &nbsp;&nbsp; C = Q<sub>C</sub>/(ω·U²) (single-phase) &nbsp;&nbsp; three-phase, capacitors in delta: C = Q<sub>C</sub>/(3ω·U²)</div>
 
-<div class="ex"><h4>Example 1.4 — Compensating an inductive load</h4>
-<p>A load <i>R</i> = 10 Ω in series with <i>L</i> = 10 mH is connected to 230 V, 50 Hz. Calculate <i>I</i>, <i>P</i>, <i>Q</i>, cos φ, then the
-capacitance that brings cos φ to 1 and the new line current.</p>
-<details class="sol"><summary>Show the solution</summary>
-<p><b>Z</b> = 10 + j3.1416 Ω, |<b>Z</b>| = 10.482 Ω; <i>I</i> = 21.94 A; <i>P</i> = 10 × 21.94² = <span class="result">4 815 W</span>;
-<i>Q</i> = 3.1416 × 21.94² = <span class="result">1 513 var</span>; cos φ = 0.954.</p>
-<p><i>C</i> = 1 513/(314.16 × 230²) = <span class="result">91 µF</span>. The line current becomes <i>P</i>/<i>U</i> = 20.93 A (−4.6 %); the losses
-in the supply line fall by 9 % (ratio of the squares). The current in the load itself does not change.</p>
+<div class="ex"><h4>Example 1.8 — Compensating an inductive load</h4>
+<p>A load <i>R</i> = 10 Ω in series with <i>L</i> = 10 mH is connected to 230 V, 50 Hz. Calculate <i>I</i>, <i>P</i>, <i>Q</i>, cos φ, then
+the capacitance that brings cos φ back to 1 and the new line current.</p>
+<details class="sol"><summary>Show solution</summary>
+<p><b>Z</b> = 10 + j3.1416 Ω, |<b>Z</b>| = 10.482 Ω; <i>I</i> = 21.94 A; <i>P</i> = 10 × 21.94² = <span class="result">4,815 W</span>;
+<i>Q</i> = 3.1416 × 21.94² = <span class="result">1,513 var</span>; cos φ = 0.954.</p>
+<p><i>C</i> = 1,513/(314.16 × 230²) = <span class="result">91 µF</span>. The line current becomes <i>P</i>/<i>U</i> = 20.93 A (−4.6 %);
+the losses in the supply line fall by 9 % (ratio of the squares). The current in the load itself does not change.</p>
 </details></div>
+
+<h3>From instantaneous power to the three powers</h3>
+<p>With <i>u</i> = <i>U<sub>m</sub></i>sin(ω<i>t</i> + Ψ<sub>u</sub>) and <i>i</i> = <i>I<sub>m</sub></i>sin(ω<i>t</i> + Ψ<sub>i</sub>), the instantaneous
+power <i>p</i> = <i>u·i</i> oscillates at <b>2ω</b> around an average value: this average is the <b>active power</b>.</p>
+<div class="eq">P = (1/T)·∫₀<sup>T</sup> p(t)·dt = U·I·cos φ = R·I² (W) &nbsp;&nbsp;&nbsp; Q = U·I·sin φ = ±X·I² (var) &nbsp;&nbsp;&nbsp; S = U·I = √(P² + Q²) (VA)</div>
+<p>The sign of <i>Q</i> follows the nature of the two-terminal element: “+” for an <b>inductive</b> element (it consumes reactive power), “−” for a
+<b>capacitive</b> one (it produces reactive power). The four similar triangles — currents (<i>I<sub>a</sub></i>, <i>I<sub>r</sub></i>), voltages
+(<i>U<sub>a</sub></i>, <i>U<sub>r</sub></i>), impedances (<i>R</i>, <i>X</i>) and powers (<i>P</i>, <i>Q</i>) — are deduced from one another
+by multiplying by <i>I</i>, <i>I</i> and <i>I</i>: the same angle φ appears in each.</p>
+<p><b>Boucherot's theorem.</b> Active powers add up among themselves, reactive powers among themselves (with their
+sign); <b>apparent powers do not add up</b>: <i>P</i> = Σ<i>P<sub>k</sub></i>, <i>Q</i> = Σ<i>Q<sub>k</sub></i>,
+<i>S</i> = √(<i>P</i>² + <i>Q</i>²) ≤ Σ<i>S<sub>k</sub></i>. This is the method for calculating an installation: list the
+loads, add them up, and deduce the line current <i>I</i> = <i>S</i>/<i>U</i> (single-phase) or <i>S</i>/(√3<i>U</i>) (three-phase).</p>
+
+<div class="ex"><h4>Example 1.9 — Line parameters deduced from powers</h4>
+<p>A single-phase line supplies a receiver. At the sending end: <i>U</i>₁ = 6,300 V, <i>P</i>₁ = 560 kW; at the receiving end:
+<i>U</i>₂ = 5,500 V, <i>P</i>₂ = 500 kW; the line current is <i>I</i> = 100 A. Determine <i>R<sub>L</sub></i> and <i>X<sub>L</sub></i>.</p>
+<details class="sol"><summary>Show solution</summary>
+<p>The resistance is read directly from the active losses: <i>R<sub>L</sub></i> = (<i>P</i>₁ − <i>P</i>₂)/<i>I</i>² = 60,000/10,000 =
+<span class="result">6 Ω</span>.</p>
+<p>For the reactance, we go through the phase shifts: cos φ₂ = 500,000/(5,500 × 100) = 0.909 (φ₂ = 24.62°) and
+cos φ₁ = 560,000/(6,300 × 100) = 0.889 (φ₁ = 27.27°). Taking <u>I</u> = 100∠0° as the reference:
+<u>U</u>₂ = 5,500∠24.62° = 5,000 + j2,291 V and <u>U</u>₁ = 6,300∠27.27° = 5,600 + j2,886 V.</p>
+<p><b>Z</b><sub>L</sub> = (<u>U</u>₁ − <u>U</u>₂)/<u>I</u> = (600 + j595)/100 = <span class="result">6 + j5.95 Ω</span>.
+Check with the reactive power: <i>Q</i>₁ − <i>Q</i>₂ = 6,300 × 100 × sin 27.27° − 5,500 × 100 × sin 24.62° = 59.5 kvar =
+<i>X<sub>L</sub>·I</i>² ✔. Here, on a case with two measurements, we find what the level 2 load flow generalises to an entire network.</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n1-res">
+            <h2><span class="section-icon">📈</span>1.5 Resonance in electric circuits</h2>
+<h3>Series resonance (voltage resonance)</h3>
+<p>In a series R-L-C circuit, <b>Z</b> = <i>R</i> + j(<i>X<sub>L</sub></i> − <i>X<sub>C</sub></i>). When <i>X<sub>L</sub></i> = <i>X<sub>C</sub></i>,
+the imaginary part vanishes: the circuit is purely resistive, the current is maximal and in phase with the voltage, and
+<u>U</u><sub>L</sub> = −<u>U</u><sub>C</sub>.</p>
+<div class="eq">LCω₀² = 1 &nbsp;&nbsp;⇒&nbsp;&nbsp; ω₀ = 1/√(LC) &nbsp;&nbsp; f₀ = 1/(2π√(LC)) &nbsp;&nbsp;&nbsp;
+ρ = L ω₀ = 1/(Cω₀) = √(L/C) &nbsp;&nbsp; (characteristic impedance)</div>
+<p>The <b>overvoltage coefficient</b> (or quality factor) measures the voltage that appears across the reactive elements:</p>
+<div class="eq">q<sub>u</sub> = U<sub>L</sub>/U = U<sub>C</sub>/U = ρ/R</div>
+<p>With a <i>q</i> of 10, a 230 V source produces <b>2,300 V</b> across the capacitor: this is the danger of series
+resonance, and the point of tuned circuits in radio frequency.</p>
+
+<div class="fig" id="fig-rlc"><svg viewBox="0 0 540 205" width="540" role="img" aria-label="Series R-L-C circuit and Fresnel diagram" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" font-family="inherit"><path d="M60 50 L135 50"/><path d="M60 170 L300 170"/><path d="M60 50 L60 88"/><circle cx="60" cy="108" r="12"/><path d="M60 116 L60 100"/><polygon points="60,100 57.525,104.5 62.475,104.5" fill="currentColor" stroke="none"/><text x="42" y="112" text-anchor="end" font-size="12.5" fill="currentColor" stroke="none">u</text><path d="M60 128 L60 170"/><rect x="135" y="43.5" width="34" height="13" rx="2"/><text x="152" y="37.5" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">r</text><path d="M169 50 L192 50"/><path d="M192 50 a 4.25 4.25 0 0 1 8.5 0 a 4.25 4.25 0 0 1 8.5 0 a 4.25 4.25 0 0 1 8.5 0 a 4.25 4.25 0 0 1 8.5 0"/><text x="209" y="38" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">L</text><path d="M226 50 L258 50"/><path d="M258 42.5 L258 57.5"/><path d="M268 42.5 L268 57.5"/><text x="263" y="36.5" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">C</text><path d="M268 50 L300 50"/><path d="M300 50 L300 170"/><path d="M83 40 L101 40"/><polygon points="101,40 96.5,37.525 96.5,42.475" fill="currentColor" stroke="none"/><text x="92" y="32" text-anchor="middle" font-size="12" fill="currentColor" stroke="none" font-style="italic">i</text><path d="M395 152 L495 152"/><polygon points="495,152 490,149.25 490,154.75" fill="currentColor" stroke="none"/><text x="501" y="157" text-anchor="start" font-size="12.5" fill="currentColor" stroke="none" font-style="italic">I</text><path d="M395 152 L457 152"/><polygon points="457,152 453,149.8 453,154.2" fill="currentColor" stroke="none"/><text x="426" y="171" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">U<tspan baseline-shift='sub' font-size='9'>r</tspan></text><path d="M457 152 L457 74"/><polygon points="457,74 454.8,78 459.2,78" fill="currentColor" stroke="none"/><text x="464" y="90" text-anchor="start" font-size="11.5" fill="currentColor" stroke="none">U<tspan baseline-shift='sub' font-size='9'>L</tspan></text><path d="M457 74 L457 126"/><polygon points="457,126 454.8,122 459.2,122" fill="currentColor" stroke="none"/><text x="464" y="138" text-anchor="start" font-size="11.5" fill="currentColor" stroke="none">U<tspan baseline-shift='sub' font-size='9'>C</tspan></text><path d="M395 152 L457 126"/><polygon points="457,126 452.5,123.525 452.5,128.475" fill="currentColor" stroke="none"/><text x="415" y="128" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none" font-style="italic">U</text><text x="435" y="192" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">φ > 0: inductive circuit</text></svg><div class="cap">Series R-L-C circuit and its Fresnel diagram. At resonance <i>X<sub>L</sub></i> = <i>X<sub>C</sub></i>: <u>U</u><sub>L</sub> and <u>U</u><sub>C</sub> cancel each other, <u>U</u> = <u>U</u><sub>r</sub> and the current is maximal.</div></div>
+<h3>Parallel resonance (current resonance, antiresonance)</h3>
+<p>For a coil (<i>R</i>₁, <i>L</i>) in parallel with a capacitor (<i>R</i>₂, <i>C</i>), the admittance is written <b>Y</b> = <i>g</i> − j<i>b</i>
+with</p>
+<div class="eq">g = R₁/(R₁² + (Lω)²) + R₂/(R₂² + (1/Cω)²) &nbsp;&nbsp;&nbsp;
+b = Lω/(R₁² + (Lω)²) − (1/Cω)/(R₂² + (1/Cω)²)</div>
+<p>Resonance (<i>b</i> = 0) gives:</p>
+<div class="eq">ω′₀ = (1/√(LC))·√[(L/C − R₁²)/(L/C − R₂²)] = ω₀·√[(ρ² − R₁²)/(ρ² − R₂²)]</div>
+<p>It is possible only if <i>R</i>₁ and <i>R</i>₂ are <b>both</b> smaller than ρ, or both larger. If <i>R</i>₁ = <i>R</i>₂ ≠ ρ,
+we get ω′₀ = ω₀ back; if <i>R</i>₁ = <i>R</i>₂ = ρ, the circuit resonates at <b>all</b> frequencies. At resonance, the line
+current is minimal (limited by <i>R</i>) while the currents in <i>L</i> and <i>C</i> can be considerable: the overcurrent
+factor is <i>q<sub>i</sub></i> = <i>I<sub>L</sub></i>/<i>I</i> = <i>I<sub>C</sub></i>/<i>I</i>.</p>
+
+<div class="ex"><h4>Example 1.10 — Overvoltage in a series R-L-C circuit</h4>
+<p>A coil (<i>r</i> = 15 Ω, <i>L</i> = 12 mH) in series with <i>C</i> = 5 µF is supplied by <i>u</i> = 100·sin(5,000<i>t</i>) V.
+Calculate <i>i</i>(<i>t</i>), <i>u<sub>C</sub></i>(<i>t</i>) and <i>u</i><sub>coil</sub>(<i>t</i>), then the resonant frequency.</p>
+<details class="sol"><summary>Show solution</summary>
+<p><i>X<sub>L</sub></i> = 5,000 × 0.012 = 60 Ω; <i>X<sub>C</sub></i> = 1/(5,000 × 5·10⁻⁶) = 40 Ω;
+<b>Z</b> = 15 + j20 = 25∠53.13° Ω. <i>I<sub>m</sub></i> = 100/25 = 4 A:
+<span class="result"><i>i</i> = 4·sin(5,000<i>t</i> − 53.13°) A</span>.</p>
+<p>Capacitor: <i>U<sub>Cm</sub></i> = <i>X<sub>C</sub>·I<sub>m</sub></i> = 160 V, lagging the current by 90°:
+<span class="result"><i>u<sub>C</sub></i> = 160·sin(5,000<i>t</i> − 143.13°) V</span> — <b>larger than the source voltage</b>,
+even though resonance has not been reached.</p>
+<p>Coil: <b>Z</b><sub>b</sub> = 15 + j60 = 61.85∠75.96° Ω → <span class="result"><i>u</i><sub>b</sub> = 247.4·sin(5,000<i>t</i> + 22.83°) V</span>.</p>
+<p>Resonance: ω₀ = 1/√(0.012 × 5·10⁻⁶) = 4,082 rad/s (650 Hz); ρ = √(L/C) = 49 Ω and <i>q<sub>u</sub></i> = 49/15 = 3.3: at
+resonance, 100 V applied would give 327 V across the capacitor.</p>
+</details></div>
+
+<div class="warn">In power networks, resonance is not just an exercise: a bank of compensation capacitors (§ 1.4) forms,
+together with the short-circuit inductance of the upstream transformer, a resonant circuit. If its natural frequency falls on a
+harmonic that is present (250 Hz, 350 Hz…), the harmonic currents are amplified and the capacitors age prematurely. Protection is provided
+by <b>detuning reactors</b> (anti-harmonic inductors) that detune the assembly (typically to around 190 Hz).</div>
 
 <!-- ================================================================== -->
             <a href="#top" class="back-to-top">↑ Back to top</a>
         </div>
         <div class="section" id="n1-4">
-            <h2><span class="section-icon">🔺</span>1.4 Three-phase systems</h2>
-<p>A balanced three-phase system has three voltages of the same RMS value, shifted by 120°: <b>V</b><sub>a</sub> = V∠0°,
-<b>V</b><sub>b</sub> = V∠−120°, <b>V</b><sub>c</sub> = V∠+120° (positive sequence). <b>Phase</b> voltages <i>V</i> are measured between phase and
-neutral, <b>line</b> voltages <i>U</i> between phases: <i>U</i> = √3·<i>V</i> (230/400 V at low voltage).</p>
+            <h2><span class="section-icon">🔺</span>1.6 Three-phase systems</h2>
+<p>A balanced three-phase system consists of three voltages of the same RMS value, shifted by 120°: <b>V</b><sub>a</sub> = V∠0°,
+<b>V</b><sub>b</sub> = V∠−120°, <b>V</b><sub>c</sub> = V∠+120° (positive sequence). The <b>phase</b> voltages <i>V</i> (phase-to-neutral) are measured between phase and
+neutral, the <b>line</b> voltages <i>U</i> (phase-to-phase) between phases: <i>U</i> = √3·<i>V</i> (230/400 V in low voltage).</p>
 <table>
-<tr><th>Connection</th><th>Voltage across one branch</th><th>Line current</th><th>Power</th></tr>
+<tr><th>Connection</th><th>Voltage across a branch</th><th>Line current</th><th>Power</th></tr>
 <tr><td>Star (Y)</td><td>V = U/√3</td><td>I = J (branch current)</td><td rowspan="2">P = √3·U·I·cos φ; Q = √3·U·I·sin φ</td></tr>
 <tr><td>Delta (Δ)</td><td>U</td><td>I = √3·J</td></tr>
 </table>
-<p>For the same impedance per branch, delta absorbs <b>3 times</b> the power of star. In balanced operation the neutral current is zero (sum of
-three equal phasors shifted by 120°): <b>one phase only</b> is studied (single-phase equivalent, or « single-line » diagram), as NRJXpert does in
-load-flow and short-circuit calculations. In unbalanced operation (single-phase loads) the neutral carries the sum of the phase currents.</p>
+<p>For the same impedance per branch, the delta absorbs <b>3 times</b> the power of the star. When balanced, the neutral
+current is zero (sum of three equal phasors shifted by 120°): <b>a single phase</b> is studied (equivalent single-phase diagram,
+called “single-line”), as NRJXpert does in load flow and short-circuit calculations. When unbalanced (single-phase
+loads), the neutral carries the sum of the phase currents.</p>
 
-<div class="ex"><h4>Example 1.5 — Balanced three-phase load</h4>
-<p>A three-phase load (<i>R</i> = 10 Ω, <i>L</i> = 10 mH per branch) is supplied at 400 V, 50 Hz. Calculate the line current and the power
-(a) in star, (b) in delta. (c) In star with neutral, phase c is disconnected: what is the neutral current?</p>
-<details class="sol"><summary>Show the solution</summary>
+<div class="ex"><h4>Example 1.11 — Balanced three-phase load</h4>
+<p>A three-phase load (<i>R</i> = 10 Ω, <i>L</i> = 10 mH per branch) is supplied at 400 V, 50 Hz. Calculate the line current and the
+power (a) in star, (b) in delta. (c) In star with neutral, phase c is cut: what is the neutral current?</p>
+<details class="sol"><summary>Show solution</summary>
 <p>|<b>Z</b>| = 10.482 Ω, cos φ = 0.954.</p>
 <p>(a) <i>V</i> = 230.9 V; <i>I</i> = 230.9/10.482 = <span class="result">22.03 A</span>; <i>P</i> = 3 × 10 × 22.03² = <span class="result">14.56 kW</span>;
 <i>Q</i> = 4.58 kvar.</p>
 <p>(b) Branch current <i>J</i> = 400/10.482 = 38.16 A; line current <i>I</i> = √3 × 38.16 = <span class="result">66.10 A</span>;
 <i>P</i> = <span class="result">43.69 kW</span> (3 times more).</p>
-<p>(c) <b>I</b><sub>N</sub> = <b>I</b><sub>a</sub> + <b>I</b><sub>b</sub>: two 22.03 A phasors shifted by 120°, whose sum has the same magnitude,
-<span class="result">22.03 A</span>. The neutral must therefore have the same cross-section as the phases.</p>
+<p>(c) <b>I</b><sub>N</sub> = <b>I</b><sub>a</sub> + <b>I</b><sub>b</sub>: two phasors of 22.03 A shifted by 120°, whose sum has the same
+magnitude, <span class="result">22.03 A</span>. The neutral must therefore have the same cross-section as the phases.</p>
 </details></div>
 
-<div class="lab"><h4>Lab 2 — Three-phase source and load</h4>
+<div class="lab"><h4>Practical work 2 — Three-phase source and load</h4>
 <ol class="steps">
-<li><div class="step-content">Palette, <b>Complete</b> variant: place a <b>three-phase voltage source</b> (U = 400 V, φa = 0, 50 Hz, positive sequence) and a
-<b>three-phase RLC load</b> (star with neutral connected; R = 10 Ω, L = 10 mH, C = 0: these are the proposed values).</div></li>
+<li><div class="step-content">Palette, <b>Full</b> variant: place a <b>three-phase voltage source</b> (U = 400 V, φa = 0, 50 Hz, positive sequence) and a
+<b>three-phase RLC load</b> (star connection with neutral connected; R = 10 Ω, L = 10 mH, C = 0: these are the default values).</div></li>
 <li><div class="step-content">Connect a, b, c of the source to a, b, c of the load (three links).</div></li>
 <li><div class="step-content">Calculation <b>Linear network</b>, <kbd>F5</kbd>. Hover over the load: <i>I</i> = 22.03 A in each phase, shifted by 120°.</div></li>
-<li><div class="step-content">Change the connection to <b>delta</b>: line current 66.10 A. Then go back to star and delete the link of phase c: compare the currents of
-phases a and b.</div></li>
+<li><div class="step-content">Change the connection to <b>delta</b>: line current 66.10 A. Then go back to star and delete the link of phase c:
+compare the currents of phases a and b.</div></li>
 </ol>
+</div>
+
+<h3>Where the three phases come from</h3>
+<p>A turn of area <i>S</i>₀ rotating at speed ω in a magnetic field <i>B</i> sees a flux Φ = <i>B·S</i>₀·cos(ω<i>t</i> + Ψ)
+and is the seat of an EMF <i>e</i> = −dΦ/d<i>t</i> = <i>B·S</i>₀·ω·sin(ω<i>t</i> + Ψ): sinusoidal. If <b>three</b> coils
+shifted by 120° in space are placed around the same rotor (electromagnet), three EMFs shifted by 120° in time are obtained:</p>
+<div class="eq">e<sub>A</sub> = E<sub>m</sub>·sin(ωt) &nbsp;&nbsp; e<sub>B</sub> = E<sub>m</sub>·sin(ωt − 2π/3) &nbsp;&nbsp; e<sub>C</sub> = E<sub>m</sub>·sin(ωt + 2π/3)
+&nbsp;&nbsp;⇒&nbsp;&nbsp; e<sub>A</sub> + e<sub>B</sub> + e<sub>C</sub> = 0 &nbsp;&nbsp; and &nbsp;&nbsp; <u>E</u><sub>A</sub> + <u>E</u><sub>B</sub> + <u>E</u><sub>C</sub> = 0</div>
+<p>The <b>phase sequence (or order)</b> is the order in which the maxima follow one another: A-B-C (positive sequence) or A-C-B (negative
+sequence) — it determines the direction of rotation of induction motors. Three-phase power, discovered in 1890-1891, prevailed
+because it provides <b>two voltages</b> (phase and line), transmits the same power with <b>less copper</b>, and produces a
+rotating field: the induction motor, the most widespread machine in industry.</p>
+
+<h3>Relations between voltages and currents</h3>
+<p>The isosceles triangle formed by two phase voltages gives <i>U<sub>BC</sub></i> = 2·<i>V<sub>C</sub></i>·cos 30° = √3·<i>V</i>; likewise, in
+delta, the line current is the difference of two branch currents shifted by 120°:</p>
+<div class="eq">Star: U = √3·V &nbsp;&nbsp; I = J &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Delta: U = V &nbsp;&nbsp; I = √3·J</div>
+
+<div class="fig" id="fig-couplages"><svg viewBox="0 0 600 250" width="600" role="img" aria-label="Star and delta connections" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" font-family="inherit"><path d="M150 118 L150 50"/><path d="M150 118 L91 155"/><path d="M150 118 L209 155"/><path d="M150 50 L150 26"/><path d="M91 155 L70 168"/><path d="M209 155 L230 168"/><circle cx="150" cy="118" r="3" fill="currentColor" stroke="none"/><text x="158" y="135" text-anchor="start" font-size="12" fill="currentColor" stroke="none">N</text><text x="150" y="18" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">1</text><text x="58" y="174" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">2</text><text x="242" y="174" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">3</text><path d="M159 110 L159 56"/><polygon points="159,56 156.8,60 161.2,60" fill="currentColor" stroke="none"/><text x="165" y="82" text-anchor="start" font-size="12" fill="currentColor" stroke="none" font-style="italic">V</text><path d="M126 42 L68 154"/><polygon points="68,154 65.8,150 70.2,150" fill="currentColor" stroke="none"/><text x="76" y="88" text-anchor="end" font-size="12" fill="currentColor" stroke="none" font-style="italic">U</text><text x="150" y="236" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">star: U = √3·V, I = J</text><path d="M440 50 L370 162"/><path d="M440 50 L510 162"/><path d="M370 162 L510 162"/><path d="M440 50 L440 24"/><path d="M370 162 L344 180"/><path d="M510 162 L536 180"/><text x="440" y="16" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">1</text><text x="334" y="190" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">2</text><text x="546" y="190" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">3</text><path d="M392 140 L426 86"/><polygon points="426,86 423.8,90 428.2,90" fill="currentColor" stroke="none"/><text x="384" y="108" text-anchor="end" font-size="12" fill="currentColor" stroke="none" font-style="italic">U = V</text><path d="M422 174 L462 174"/><polygon points="462,174 458,171.8 458,176.2" fill="currentColor" stroke="none"/><text x="442" y="190" text-anchor="middle" font-size="12" fill="currentColor" stroke="none" font-style="italic">J</text><path d="M514 190 L548 190"/><polygon points="548,190 544,187.8 544,192.2" fill="currentColor" stroke="none"/><text x="532" y="206" text-anchor="middle" font-size="12" fill="currentColor" stroke="none" font-style="italic">I</text><text x="440" y="236" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">delta: U = V, I = √3·J</text></svg><div class="cap">The two connections. In star, each branch receives the phase voltage <i>V</i> = <i>U</i>/√3 and carries the line current; in delta, it receives the line voltage <i>U</i> and the line current is √3·<i>J</i>.</div></div>
+<h3>Calculating a 4-wire system (star with neutral)</h3>
+<p>Generator, line and receiver, balanced or not: <b>Millman's theorem</b> is applied between the receiver neutral O′ and
+the generator neutral O:</p>
+<div class="eq"><u>U</u><sub>O′O</sub> = (<u>E</u><sub>A</sub><b>Y</b><sub>A</sub> + <u>E</u><sub>B</sub><b>Y</b><sub>B</sub> + <u>E</u><sub>C</sub><b>Y</b><sub>C</sub>) / (<b>Y</b><sub>A</sub> + <b>Y</b><sub>B</sub> + <b>Y</b><sub>C</sub> + <b>Y</b><sub>N</sub>)<br>
+with <b>Y</b><sub>A</sub> = 1/(<b>Z</b><sub>OA</sub> + <b>Z</b><sub>L</sub> + <b>Z</b><sub>A′</sub>) … and <b>Y</b><sub>N</sub> = 1/<b>Z</b><sub>N</sub></div>
+<div class="eq"><u>I</u><sub>A</sub> = (<u>E</u><sub>A</sub> − <u>U</u><sub>O′O</sub>)·<b>Y</b><sub>A</sub> &nbsp;&nbsp;&nbsp; (same for B and C) &nbsp;&nbsp;&nbsp; <u>I</u><sub>N</sub> = −<u>U</u><sub>O′O</sub>·<b>Y</b><sub>N</sub></div>
+<p>If the system is balanced (<b>Y</b><sub>A</sub> = <b>Y</b><sub>B</sub> = <b>Y</b><sub>C</sub> and Σ<u>E</u> = 0), then <u>U</u><sub>O′O</sub> = 0 and
+<u>I</u><sub>N</sub> = 0: <b>the neutral wire can be removed</b> and the study reduces to a single phase. It is this equivalent
+single-phase diagram — the <b>single-line</b> diagram — that NRJXpert uses for load flow, short circuit and DER studies.</p>
+<p>When unbalanced, on the contrary, <u>U</u><sub>O′O</sub> ≠ 0: the receiver neutral <b>shifts</b>, the three phase voltages are
+no longer equal, and the neutral current is Σ<u>I</u><sub>k</sub>. If the neutral is cut, some phases are overvoltaged
+(exercise 9): this is the classic incident on low-voltage networks with poorly distributed single-phase loads.</p>
+
+<h3>Calculating a 3-wire system</h3>
+<p><b>Star receiver</b> — the line voltages are known (they always satisfy <u>U</u><sub>AB</sub> + <u>U</u><sub>BC</sub> + <u>U</u><sub>CA</sub> = 0):</p>
+<div class="eq"><u>V</u><sub>A</sub> = (<u>U</u><sub>AB</sub><b>Y</b><sub>B</sub> + <u>U</u><sub>AC</sub><b>Y</b><sub>C</sub>)/(<b>Y</b><sub>A</sub>+<b>Y</b><sub>B</sub>+<b>Y</b><sub>C</sub>) &nbsp;&nbsp;
+<u>V</u><sub>B</sub> = (<u>U</u><sub>BA</sub><b>Y</b><sub>A</sub> + <u>U</u><sub>BC</sub><b>Y</b><sub>C</sub>)/(Σ<b>Y</b>) &nbsp;&nbsp;
+<u>V</u><sub>C</sub> = (<u>U</u><sub>CA</sub><b>Y</b><sub>A</sub> + <u>U</u><sub>CB</sub><b>Y</b><sub>B</sub>)/(Σ<b>Y</b>)</div>
+<p><b>Delta receiver</b> — the branch voltages are the line voltages:</p>
+<div class="eq"><u>J</u><sub>AB</sub> = <u>U</u><sub>AB</sub>/<b>Z</b><sub>AB</sub> … &nbsp;&nbsp;&nbsp;
+<u>I</u><sub>A</sub> = <u>J</u><sub>AB</sub> − <u>J</u><sub>CA</sub> &nbsp;&nbsp; <u>I</u><sub>B</sub> = <u>J</u><sub>BC</sub> − <u>J</u><sub>AB</sub> &nbsp;&nbsp; <u>I</u><sub>C</sub> = <u>J</u><sub>CA</sub> − <u>J</u><sub>BC</sub></div>
+<p>If the line impedance is not negligible, the delta is first transformed into its equivalent star (Kennelly, § 1.2), then
+<u>U</u><sub>O′O</sub> and the line currents are calculated, and one returns to the branch currents through
+<u>U</u><sub>A′B′</sub> = <u>I</u><sub>A</sub><b>Z</b><sub>A′</sub> − <u>I</u><sub>B</sub><b>Z</b><sub>B′</sub>.</p>
+
+<h3>Three-phase power</h3>
+<div class="eq">P = Σ V<sub>k</sub>J<sub>k</sub>cos φ<sub>k</sub> &nbsp;&nbsp; Q = Σ V<sub>k</sub>J<sub>k</sub>sin φ<sub>k</sub> &nbsp;&nbsp; S = √(P² + Q²) &nbsp;&nbsp; (general case)<br>
+Balanced: P = 3·V·J·cos φ = √3·U·I·cos φ &nbsp;&nbsp; Q = √3·U·I·sin φ &nbsp;&nbsp; S = √3·U·I</div>
+<p>Warning: when unbalanced, <i>S</i> = √3·<i>U·I</i> no longer makes sense, and cos φ is no longer unique — calculate phase by phase
+(or, better, with the symmetrical components of § 1.7).</p>
+
+<h3>Power measurement</h3>
+<table>
+<tr><th>Network</th><th>Connection</th><th>Result</th></tr>
+<tr><td>Balanced, with neutral</td><td>1 wattmeter (one phase)</td><td><i>P</i> = 3·<i>P<sub>W</sub></i></td></tr>
+<tr><td>Unbalanced, 4 wires</td><td>3 wattmeters</td><td><i>P</i> = <i>P<sub>W1</sub></i> + <i>P<sub>W2</sub></i> + <i>P<sub>W3</sub></i></td></tr>
+<tr><td>3 wires (balanced or not)</td><td><b>2 wattmeters</b> (two-wattmeter method)</td><td><i>P</i> = <i>P<sub>W1</sub></i> + <i>P<sub>W2</sub></i></td></tr>
+<tr><td>Balanced, 3 wires</td><td>1 wattmeter connected in “quadrature”</td><td><i>Q</i> = √3·<i>P<sub>W</sub></i></td></tr>
+</table>
+<div class="fig" id="fig-wattmetres"><svg viewBox="0 0 570 240" width="570" role="img" aria-label="Two-wattmeter connection" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" font-family="inherit"><path d="M45 60 L152 60"/><path d="M188 60 L470 60"/><text x="36" y="64" text-anchor="end" font-size="13" fill="currentColor" stroke="none">A</text><path d="M45 125 L247 125"/><path d="M283 125 L470 125"/><text x="36" y="129" text-anchor="end" font-size="13" fill="currentColor" stroke="none">B</text><path d="M45 190 L470 190"/><text x="36" y="194" text-anchor="end" font-size="13" fill="currentColor" stroke="none">C</text><rect x="470" y="40" width="80" height="170" rx="4"/><text x="510" y="118" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">load</text><text x="510" y="136" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">balanced</text><text x="510" y="151" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">or not</text><circle cx="170" cy="60" r="18" fill="none"/><text x="170" y="65" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">W₁</text><path d="M170 78 L170 190" stroke-dasharray="5 4"/><circle cx="170" cy="190" r="3" fill="currentColor" stroke="none"/><circle cx="265" cy="125" r="18" fill="none"/><text x="265" y="130" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">W₂</text><path d="M265 143 L265 190" stroke-dasharray="5 4"/><circle cx="265" cy="190" r="3" fill="currentColor" stroke="none"/><path d="M86 50 L104 50"/><polygon points="104,50 99.5,47.525 99.5,52.475" fill="currentColor" stroke="none"/><text x="95" y="42" text-anchor="middle" font-size="12" fill="currentColor" stroke="none" font-style="italic">I<tspan baseline-shift='sub' font-size='9'>A</tspan></text><path d="M86 115 L104 115"/><polygon points="104,115 99.5,112.525 99.5,117.475" fill="currentColor" stroke="none"/><text x="95" y="107" text-anchor="middle" font-size="12" fill="currentColor" stroke="none" font-style="italic">I<tspan baseline-shift='sub' font-size='9'>B</tspan></text><path d="M86 180 L104 180"/><polygon points="104,180 99.5,177.525 99.5,182.475" fill="currentColor" stroke="none"/><text x="95" y="172" text-anchor="middle" font-size="12" fill="currentColor" stroke="none" font-style="italic">I<tspan baseline-shift='sub' font-size='9'>C</tspan></text><text x="218" y="228" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">voltage circuits connected to phase C (dotted)</text></svg><div class="cap">Two-wattmeter method (3-wire network): the current circuits are inserted in two phases, the voltage circuits connected to the third. <i>P</i> = <i>P</i><sub>W1</sub> + <i>P</i><sub>W2</sub>, whether the load is balanced or not, with no access to the neutral; a wattmeter reads a negative value if cos φ &lt; 0.5.</div></div>
+<p><b>Why two wattmeters are enough.</b> In a 3-wire system, <i>i<sub>A</sub></i> + <i>i<sub>B</sub></i> + <i>i<sub>C</sub></i> = 0, so
+<i>i<sub>C</sub></i> = −<i>i<sub>A</sub></i> − <i>i<sub>B</sub></i> and</p>
+<div class="eq">p = v<sub>A</sub>i<sub>A</sub> + v<sub>B</sub>i<sub>B</sub> + v<sub>C</sub>i<sub>C</sub> = (v<sub>A</sub> − v<sub>C</sub>)·i<sub>A</sub> + (v<sub>B</sub> − v<sub>C</sub>)·i<sub>B</sub> = u<sub>AC</sub>·i<sub>A</sub> + u<sub>BC</sub>·i<sub>B</sub></div>
+<p>The average gives <i>P</i> = <i>U<sub>AC</sub>I<sub>A</sub></i>cos(<u>U</u><sub>AC</sub>,<u>I</u><sub>A</sub>) + <i>U<sub>BC</sub>I<sub>B</sub></i>cos(<u>U</u><sub>BC</sub>,<u>I</u><sub>B</sub>),
+that is, the sum of the readings of the two wattmeters — <b>whether the receiver is balanced or not</b>, and without any access to the
+neutral. In the <b>balanced case only</b>:</p>
+<div class="eq">P<sub>W1</sub> = U·I·cos(φ − 30°) &nbsp;&nbsp; P<sub>W2</sub> = U·I·cos(φ + 30°) &nbsp;&nbsp;⇒&nbsp;&nbsp;
+P<sub>W1</sub> + P<sub>W2</sub> = √3·U·I·cos φ = P &nbsp;&nbsp; and &nbsp;&nbsp; P<sub>W1</sub> − P<sub>W2</sub> = U·I·sin φ = Q/√3</div>
+<p>Practical consequence: for |φ| &gt; 60° (cos φ &lt; 0.5), one of the two wattmeters <b>reads a negative value</b>; its current circuit must be
+reversed and its reading counted as negative. A negative wattmeter is therefore not a fault.</p>
+
+<div class="ex"><h4>Example 1.12 — Unbalanced delta load and two wattmeters</h4>
+<p>A 380 V, 50 Hz network supplies a delta-connected load: <i>L</i> = 121 mH between 1 and 2, <i>R</i>₁ = 76 Ω between 2 and 3,
+<i>R</i>₂ = 38 Ω between 3 and 1. Calculate the line currents, <i>P</i>, <i>Q</i>, <i>S</i>, then the readings of the two wattmeters.</p>
+<div class="fig" id="fig-ex112"><svg viewBox="0 0 500 238" width="500" role="img" aria-label="Unbalanced delta load" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" font-family="inherit"><path d="M250 54 L286.842 103.368"/><path d="M313.158 138.632 L350 188"/><g transform="translate(300 121) rotate(53.2672)"><path d="M-17 0 a 4.25 4.25 0 0 1 8.5 0 a 4.25 4.25 0 0 1 8.5 0 a 4.25 4.25 0 0 1 8.5 0 a 4.25 4.25 0 0 1 8.5 0"/></g><text x="328.852" y="103.469" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">L = 121 mH</text><path d="M250 54 L213.158 103.368"/><path d="M186.842 138.632 L150 188"/><g transform="translate(200 121) rotate(-53.2672)"><rect x="-17" y="-6.5" width="34" height="13" rx="2"/></g><text x="172.751" y="104.665" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">R₂ = 38 Ω</text><path d="M150 188 L228 188"/><path d="M272 188 L350 188"/><g transform="translate(250 188) rotate(0)"><rect x="-17" y="-6.5" width="34" height="13" rx="2"/></g><text x="250" y="216" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">R₁ = 76 Ω</text><path d="M250 54 L250 24"/><path d="M150 188 L120 206"/><path d="M350 188 L380 206"/><text x="250" y="16" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">1</text><text x="108" y="216" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">3</text><text x="392" y="216" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">2</text><path d="M262 23 L262 41"/><polygon points="262,41 259.525,36.5 264.475,36.5" fill="currentColor" stroke="none"/><text x="268" y="36" text-anchor="start" font-size="12" fill="currentColor" stroke="none" font-style="italic">I₁</text><path d="M121 213 L139 213"/><polygon points="139,213 134.5,210.525 134.5,215.475" fill="currentColor" stroke="none"/><text x="130" y="228" text-anchor="middle" font-size="12" fill="currentColor" stroke="none" font-style="italic">I₃</text><path d="M379 213 L361 213"/><polygon points="361,213 365.5,210.525 365.5,215.475" fill="currentColor" stroke="none"/><text x="370" y="228" text-anchor="middle" font-size="12" fill="currentColor" stroke="none" font-style="italic">I₂</text></svg><div class="cap">Example 1.12: unbalanced delta load on a 380 V network. <i>L</i> between lines 1 and 2, <i>R</i>₁ between 2 and 3, <i>R</i>₂ between 3 and 1.</div></div>
+<details class="sol"><summary>Show solution</summary>
+<p><i>X<sub>L</sub></i> = 314.16 × 0.121 = 38.01 Ω. With <u>U</u>₁₂ = 380∠0°, <u>U</u>₂₃ = 380∠−120°, <u>U</u>₃₁ = 380∠120°:
+<u>J</u>₁₂ = 380∠0°/38.01∠90° = 10.00∠−90° A; <u>J</u>₂₃ = 380∠−120°/76 = 5∠−120° A; <u>J</u>₃₁ = 380∠120°/38 = 10∠120° A.</p>
+<p>Line currents: <u>I</u>₁ = <u>J</u>₁₂ − <u>J</u>₃₁ = <span class="result">19.32∠−75° A</span>;
+<u>I</u>₂ = <u>J</u>₂₃ − <u>J</u>₁₂ = <span class="result">6.19∠113.8° A</span>; <u>I</u>₃ = <u>J</u>₃₁ − <u>J</u>₂₃ = <span class="result">13.23∠100.9° A</span>.
+They are very different from one another: this is the hallmark of unbalance.</p>
+<p>Powers: <i>P</i> = <i>R</i>₁<i>J</i>₂₃² + <i>R</i>₂<i>J</i>₃₁² = 76 × 25 + 38 × 100 = <span class="result">5,700 W</span>;
+<i>Q</i> = <i>X<sub>L</sub>J</i>₁₂² = 38.01 × 100 = <span class="result">3,801 var</span>; <i>S</i> = <span class="result">6,850 VA</span>.</p>
+<p>Two wattmeters (currents of lines 1 and 2, voltages <u>U</u>₁₃ and <u>U</u>₂₃): <i>P<sub>W1</sub></i> = 7,090 W and
+<i>P<sub>W2</sub></i> = −1,390 W; sum = <span class="result">5,700 W</span> ✔. On the other hand,
+√3(<i>P<sub>W1</sub></i> − <i>P<sub>W2</sub></i>) = 14,687 var ≠ <i>Q</i>: <b>the reactive power formula is valid only when balanced</b>.</p>
+</details></div>
+
+<div class="lab"><h4>Practical work — Unbalance and neutral loss</h4>
+<ol class="steps">
+<li><div class="step-content">Palette, <b>Full</b> variant: 400 V, 50 Hz three-phase source (positive sequence), neutral connected; three single-phase
+resistors of 10 Ω, 11 Ω and 22 Ω between each phase and the neutral (exercise 9).</div></li>
+<li><div class="step-content">Calculation <b>Linear network</b> (<kbd>F5</kbd>): read the three currents (22, 20 and 10 A) and, with an ammeter placed
+on the neutral wire, the neutral current (11.1 A).</div></li>
+<li><div class="step-content">Delete the neutral link: read the new voltages across the three resistors
+(193.9 V; 207.8 V; 266.6 V). The <b>smallest</b> resistance sees its voltage drop, the largest is <b>overvoltaged</b>.</div></li>
+<li><div class="step-content">Put the neutral back and unbalance further (10 Ω, 100 Ω, 1,000 Ω): observe the neutral-point voltage
+(<u>U</u><sub>O′O</sub>) and conclude on the sizing of the neutral conductor.</div></li>
+</ol>
+<p class="small">This is why the standard requires a neutral with the same cross-section as the phases in low voltage, and
+why single-phase loads are spread across the three phases.</p>
 </div>
 
 <!-- ================================================================== -->
             <a href="#top" class="back-to-top">↑ Back to top</a>
         </div>
+        <div class="section" id="n1-sym">
+            <h2><span class="section-icon">🔱</span>1.7 Symmetrical components</h2>
+<p>An unbalanced network can no longer be calculated on a single phase. The method of symmetrical components (Fortescue, 1918) reduces it
+to <b>three balanced networks</b>, each calculable on one phase.</p>
+<p><b>Theorem.</b> Any system of three sinusoidal quantities of the same nature and the same frequency is the superposition of three
+balanced systems: a <b>positive-sequence</b> system (subscript d or 1), a <b>negative-sequence</b> system (i or 2) and a <b>zero-sequence</b> system
+(0), with the rotation operator <i>a</i> = e<sup>j2π/3</sup> (<i>a</i>³ = 1, 1 + <i>a</i> + <i>a</i>² = 0):</p>
+<div class="eq">positive: <u>A</u>₁ = <u>K</u><sub>d</sub>, <u>B</u>₁ = a²<u>K</u><sub>d</sub>, <u>C</u>₁ = a<u>K</u><sub>d</sub> &nbsp;&nbsp;&nbsp;
+negative: <u>A</u>₂ = <u>K</u><sub>i</sub>, <u>B</u>₂ = a<u>K</u><sub>i</sub>, <u>C</u>₂ = a²<u>K</u><sub>i</sub> &nbsp;&nbsp;&nbsp;
+zero: <u>A</u>₀ = <u>B</u>₀ = <u>C</u>₀ = <u>K</u>₀</div>
+<div class="eq"><u>K</u><sub>d</sub> = ⅓(<u>A</u> + a<u>B</u> + a²<u>C</u>) &nbsp;&nbsp; <u>K</u><sub>i</sub> = ⅓(<u>A</u> + a²<u>B</u> + a<u>C</u>) &nbsp;&nbsp;
+<u>K</u>₀ = ⅓(<u>A</u> + <u>B</u> + <u>C</u>) &nbsp;&nbsp;&nbsp; (Fortescue matrix)</div>
+<div class="fig" id="fig-sym"><svg viewBox="0 0 570 195" width="570" role="img" aria-label="The three Fortescue systems" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" font-family="inherit"><path d="M95 88 L95 44"/><polygon points="95,36 91.6,44 98.4,44" fill="currentColor" stroke="none"/><text x="95" y="24" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">A₁</text><path d="M95 88 L56.8949 110"/><polygon points="49.9667,114 58.5949,112.944 55.1949,107.056" fill="currentColor" stroke="none"/><text x="36.1103" y="126" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">B₁</text><path d="M95 88 L133.105 110"/><polygon points="140.033,114 134.805,107.056 131.405,112.944" fill="currentColor" stroke="none"/><text x="153.89" y="126" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">C₁</text><text x="95" y="180" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">positive (subscript d or 1)</text><path d="M285 88 L285 44"/><polygon points="285,36 281.6,44 288.4,44" fill="currentColor" stroke="none"/><text x="285" y="24" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">A₂</text><path d="M285 88 L323.105 110"/><polygon points="330.033,114 324.805,107.056 321.405,112.944" fill="currentColor" stroke="none"/><text x="343.89" y="126" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">B₂</text><path d="M285 88 L246.895 110"/><polygon points="239.967,114 248.595,112.944 245.195,107.056" fill="currentColor" stroke="none"/><text x="226.11" y="126" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">C₂</text><text x="285" y="180" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">negative (i or 2)</text><path d="M475 88 L475 44"/><polygon points="475,36 471.6,44 478.4,44" fill="currentColor" stroke="none"/><path d="M471 88 L471 44"/><polygon points="471,36 467.6,44 474.4,44" fill="currentColor" stroke="none"/><path d="M479 88 L479 44"/><polygon points="479,36 475.6,44 482.4,44" fill="currentColor" stroke="none"/><text x="475" y="22" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">A₀ = B₀ = C₀</text><text x="475" y="180" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">zero (0)</text></svg><div class="cap">Fortescue decomposition: any system of three phasors is the sum of a positive-sequence system, a negative-sequence system (phase order reversed) and a zero-sequence system (three coincident phasors, which flow only if a return path exists).</div></div>
+<p>Physical interpretation: the <b>positive-sequence</b> component is the “normal” system, the one that makes motors turn in the right direction;
+the <b>negative-sequence</b> component creates a field rotating the other way (heating and braking torque in machines: the
+ratio <i>V</i><sub>i</sub>/<i>V</i><sub>d</sub> is limited to 2 % in operation); the <b>zero-sequence</b> component is in phase on all three phases and
+can flow only if a <b>return path</b> exists (neutral wire or earth): <u>I</u><sub>N</sub> = 3·<u>I</u>₀.</p>
+
+<h3>Sequence impedances</h3>
+<p>A balanced receiver of impedance <b>Z</b>, with its neutral connected through <b>Z</b><sub>N</sub>, subjected to three arbitrary voltages, is calculated
+sequence by sequence:</p>
+<div class="eq"><u>I</u><sub>d</sub> = <u>V</u><sub>d</sub>/<b>Z</b> &nbsp;&nbsp; <u>I</u><sub>i</sub> = <u>V</u><sub>i</sub>/<b>Z</b> &nbsp;&nbsp;
+<u>I</u>₀ = <u>V</u>₀/(<b>Z</b> + 3<b>Z</b><sub>N</sub>) &nbsp;&nbsp;⇒&nbsp;&nbsp;
+<u>I</u>₁ = <u>I</u><sub>d</sub> + <u>I</u><sub>i</sub> + <u>I</u>₀, <u>I</u>₂ = a²<u>I</u><sub>d</sub> + a<u>I</u><sub>i</sub> + <u>I</u>₀, …</div>
+<p>The factor <b>3Z<sub>N</sub></b> comes from the three zero-sequence currents returning together through the neutral. For
+machines and transformers, <b>Z</b>₀ differs strongly from <b>Z</b><sub>d</sub> (and depends on the connection: a delta winding
+blocks the zero-sequence): these are the <code>R0</code>, <code>X0</code> and <code>zeroSequence</code> data entered in NRJXpert.</p>
+
+<h3>Compensation theorem and equations</h3>
+<p>To handle a <b>fault</b> (or any localised asymmetry), the asymmetric element is replaced by three voltage sources
+equal to the voltage drops across it (compensation theorem: a resistor carrying <i>i<sub>k</sub></i> is equivalent
+to an EMF <i>E<sub>k</sub></i> = <i>R<sub>k</sub>i<sub>k</sub></i> oriented opposite to the current). By decomposing these sources and
+applying superposition, three balanced diagrams and three general equations are obtained:</p>
+<div class="eq">① <u>E</u><sub>1eq</sub> = <u>I</u>₁·<b>Z</b><sub>1eq</sub> + <u>V</u>₁ &nbsp;&nbsp;&nbsp;
+② 0 = <u>I</u>₂·<b>Z</b><sub>2eq</sub> + <u>V</u>₂ &nbsp;&nbsp;&nbsp; ③ 0 = <u>I</u>₀·<b>Z</b><sub>0eq</sub> + <u>V</u>₀</div>
+<p>Only the positive-sequence networks contain sources (alternators produce only a positive-sequence system). These three equations are not
+enough: they are completed by the <b>fault equations</b>.</p>
+
+<div class="calc" data-calc="fortescue"></div>
+
+<div class="ex"><h4>Example 1.13 — Decomposition of an unbalanced system</h4>
+<p>Decompose <u>V</u><sub>A</sub> = 220∠0° V, <u>V</u><sub>B</sub> = 200∠−110° V, <u>V</u><sub>C</sub> = 180∠130° V.</p>
+<details class="sol"><summary>Show solution</summary>
+<p><u>V</u><sub>d</sub> = ⅓(<u>V</u><sub>A</sub> + a<u>V</u><sub>B</sub> + a²<u>V</u><sub>C</sub>) = <span class="result">199,3∠6,34° V</span> ;
+<u>V</u><sub>i</sub> = <span class="result">11,29∠−28,1° V</span> ; <u>V</u>₀ = <span class="result">20,53∠−54,4° V</span>.</p>
+<p>Check: <u>V</u><sub>d</sub> + <u>V</u><sub>i</sub> + <u>V</u>₀ = 220∠0° ✔. Negative-sequence unbalance ratio
+<i>V</i><sub>i</sub>/<i>V</i><sub>d</sub> = <span class="result">5.7 %</span> (well above the 2 % allowed: a motor connected here
+would overheat); zero-sequence component 10.3 % — it will flow only if the neutral is distributed.</p>
+</details></div>
+
+<div class="ex"><h4>Example 1.14 — Single-phase-to-earth short circuit</h4>
+<p>Phase A of a network is earthed. Express the fault current as a function of the sequence impedances.</p>
+<details class="sol"><summary>Show solution</summary>
+<p>Fault equations: <u>I</u><sub>B</sub> = 0, <u>I</u><sub>C</sub> = 0, <u>V</u><sub>A</sub> = 0.</p>
+<p>From <u>I</u><sub>B</sub> = <u>I</u><sub>C</sub> we get <u>I</u>₁ = <u>I</u>₂, then from <u>I</u><sub>B</sub> = 0:
+<u>I</u>₁(a² + a) + <u>I</u>₀ = 0, hence <span class="result"><u>I</u>₁ = <u>I</u>₂ = <u>I</u>₀</span>. Adding ①, ② and ③ and
+noting that <u>V</u>₁ + <u>V</u>₂ + <u>V</u>₀ = <u>V</u><sub>A</sub> = 0:</p>
+<div class="eq"><u>I</u>₁ = <u>E</u><sub>1eq</sub>/(<b>Z</b><sub>1eq</sub> + <b>Z</b><sub>2eq</sub> + <b>Z</b><sub>0eq</sub>) &nbsp;&nbsp;⇒&nbsp;&nbsp;
+<u>I</u><sub>A</sub> = 3·<u>I</u>₁ = 3·<u>E</u><sub>1eq</sub>/(<b>Z</b><sub>1eq</sub> + <b>Z</b><sub>2eq</sub> + <b>Z</b><sub>0eq</sub>)</div>
+<p>The three sequence networks are therefore <b>in series</b>. This is the single-phase fault formula of IEC 60909
+(<i>I</i>″<sub>k1</sub> = √3·<i>c·U<sub>n</sub></i>/|<b>Z</b>₁ + <b>Z</b>₂ + <b>Z</b>₀|) that the NRJXpert server implements: see
+<a href="niveau2-en.html#n2-7">§ 2.7</a>, where three-phase, phase-to-phase and phase-to-phase-to-earth faults are treated the same way.</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
         <div class="section" id="n1-5">
-            <h2><span class="section-icon">🧩</span>1.5 Getting started with NRJXpert</h2>
-<p>The software has a <b>client</b> (drawing the diagrams, data entry, display) and a <b>calculation server</b>, built into the software and
-running on your computer, which receives the diagram, turns it into equations and returns the results. The menus are detailed in the
-<a href="../help-en.html">user guide</a>; the essentials:</p>
+            <h2><span class="section-icon">🧩</span>1.8 Getting started with NRJXpert</h2>
+<p>The software consists of a <b>client</b> (drawing of diagrams, data entry, display) and a <b>calculation server</b>, built into the software and run on your computer, which receives the
+diagram, turns it into equations and returns the results. The menus are detailed in the <a href="../help-en.html">user
+guide</a>; the essentials:</p>
 <table>
 <tr><th>Action</th><th>How</th></tr>
-<tr><td>Place a component</td><td>click in the palette then click in the diagram; <kbd>Esc</kbd> stops placing</td></tr>
-<tr><td>Connect</td><td>drag from one terminal to another (the link model — wire, R, L, RL, RLC π — is chosen in the calculation settings)</td></tr>
-<tr><td>Parameters</td><td>double-click (or <kbd>Ctrl+E</kbd>); invalid fields are framed in red</td></tr>
-<tr><td>Rotate, delete</td><td><kbd>Ctrl+R</kbd>, <kbd>Del</kbd>; multiple selection with a rectangle, grouping <kbd>Ctrl+G</kbd></td></tr>
+<tr><td>Place a component</td><td>click in the palette then click in the diagram; <kbd>Esc</kbd> stops placement</td></tr>
+<tr><td>Connect</td><td>drag from one terminal to another (the link model — wire, R, L, RL, π-RLC — is chosen in the calculation settings)</td></tr>
+<tr><td>Parameters</td><td>double-click (or <kbd>Ctrl+E</kbd>); invalid fields are outlined in red</td></tr>
+<tr><td>Rotate, delete</td><td><kbd>Ctrl+R</kbd>, <kbd>Del</kbd>; multiple selection by rectangle, grouping <kbd>Ctrl+G</kbd></td></tr>
 <tr><td>Calculate</td><td>choose the calculation and the method in the toolbar, <kbd>F5</kbd></td></tr>
-<tr><td>Read the results</td><td>table on the right (I, ∠I, U, ∠U), tooltips of components and links, Selection panel</td></tr>
+<tr><td>Read the results</td><td>table on the right (I, ∠I, U, ∠U), tooltips on components and links, Selection panel</td></tr>
 <tr><td>Save</td><td><kbd>Ctrl+S</kbd> (<code>.nxp</code> file)</td></tr>
 </table>
-<div class="warn">A software result is never a proof. Before using it, check an order of magnitude by hand (current ≈ voltage/impedance,
-power ≈ sum of the loads) and the units entered (mH or H, kV or V, µF or F).</div>
+<div class="warn">A software result is never a proof. Before using it, check an order of magnitude by hand
+(current ≈ voltage/impedance, power ≈ sum of the loads) and the units entered (mH or H, kV or V, µF or F).</div>
 
 <!-- ================================================================== -->
             <a href="#top" class="back-to-top">↑ Back to top</a>
@@ -268,70 +791,231 @@ power ≈ sum of the loads) and the units entered (mH or H, kV or V, µF or F).<
         <div class="section" id="n1-ex">
             <h2><span class="section-icon">🎯</span>Exercises</h2>
 <div class="ex"><h4>Exercise 1 — Water heater</h4>
-<p>A 2 kW, 230 V water heater is supplied by a 25 m, 2 × 2.5 mm² copper cable. (a) Resistance of the element? (b) Cable resistance
-(ρ = 0.0225) and voltage drop? (c) Energy consumed in 3 h and cost at 120 F/kWh?</p>
-<details class="sol"><summary>Show the solution</summary>
-<p>(a) <i>R</i> = 230²/2000 = 26.45 Ω. (b) <i>R</i><sub>cable</sub> = 0.0225 × 2 × 25/2.5 = 0.45 Ω (go and return); <i>I</i> ≈ 230/26.9 = 8.55 A;
-ΔU = 3.85 V, i.e. <span class="result">1.7 %</span>. (c) Actual <i>P</i> = 26.45 × 8.55² = 1 934 W; 5.8 kWh; <span class="result">696 F</span>.</p>
+<p>A 2 kW water heater at 230 V is supplied by a 25 m, 2 × 2.5 mm² copper cable. (a) Resistance of the element?
+(b) Resistance of the cable (ρ = 0.0225) and voltage drop? (c) Energy consumed in 3 h and cost at 120 F/kWh?</p>
+<details class="sol"><summary>Show solution</summary>
+<p>(a) <i>R</i> = 230²/2000 = 26.45 Ω. (b) <i>R</i><sub>cable</sub> = 0.0225 × 2 × 25/2.5 = 0.45 Ω (outgoing and return); <i>I</i> ≈ 230/26.9 = 8.55 A;
+ΔU = 3.85 V, i.e. <span class="result">1.7 %</span>. (c) Actual <i>P</i> = 26.45 × 8.55² = 1,934 W; 5.8 kWh; <span class="result">696 F</span>.</p>
 </details></div>
 <div class="ex"><h4>Exercise 2 — Single-phase motor</h4>
-<p>A motor absorbs 1.5 kW at 230 V with cos φ = 0.75. (a) Current, <i>Q</i>, <i>S</i>? (b) Capacitor to obtain cos φ = 0.95? (c) New current?</p>
-<details class="sol"><summary>Show the solution</summary>
-<p>(a) <i>S</i> = 2 000 VA; <i>I</i> = <span class="result">8.70 A</span>; <i>Q</i> = 2000 × sin(41.41°) = 1 323 var.
+<p>A motor draws 1.5 kW at 230 V with cos φ = 0.75. (a) Current, <i>Q</i>, <i>S</i>? (b) Capacitor to obtain cos φ = 0.95?
+(c) New current?</p>
+<details class="sol"><summary>Show solution</summary>
+<p>(a) <i>S</i> = 2,000 VA; <i>I</i> = <span class="result">8.70 A</span>; <i>Q</i> = 2000 × sin(41.41°) = 1,323 var.
 (b) <i>Q<sub>C</sub></i> = 1500 × (0.8819 − 0.3287) = 830 var; <i>C</i> = 830/(314.16 × 230²) = <span class="result">50 µF</span>.
 (c) <i>I</i> = 1500/(230 × 0.95) = <span class="result">6.86 A</span> (−21 %).</p>
 </details></div>
 <div class="ex"><h4>Exercise 3 — Three-phase workshop</h4>
-<p>A 400 V workshop has 3 motors of 11 kW (efficiency 0.9, cos φ = 0.85) and 6 kW of lighting (cos φ = 1) spread over the three phases. Calculate
-<i>P</i>, <i>Q</i>, <i>S</i>, the overall cos φ and the line current.</p>
-<details class="sol"><summary>Show the solution</summary>
+<p>A 400 V workshop comprises 3 motors of 11 kW (efficiency 0.9, cos φ = 0.85) and 6 kW of lighting (cos φ = 1) spread over the
+three phases. Calculate <i>P</i>, <i>Q</i>, <i>S</i>, the overall cos φ and the line current.</p>
+<details class="sol"><summary>Show solution</summary>
 <p>Motors: <i>P</i> = 3 × 11/0.9 = 36.67 kW; <i>Q</i> = 36.67 × tan(31.79°) = 22.72 kvar. Total: <i>P</i> = 42.67 kW, <i>Q</i> = 22.72 kvar,
-<i>S</i> = 48.34 kVA; cos φ = <span class="result">0.883</span>; <i>I</i> = 48 340/(√3 × 400) = <span class="result">69.8 A</span>.</p>
+<i>S</i> = 48.34 kVA; cos φ = <span class="result">0.883</span>; <i>I</i> = 48,340/(√3 × 400) = <span class="result">69.8 A</span>.</p>
 </details></div>
-<div class="ex"><h4>Exercise 4 — With NRJXpert: divider and Millman</h4>
-<p>Draw example 1.2 (two DC sources with series resistance, 6 Ω load) and check <i>V</i> = 9 V. Replace <i>E</i>₂ by 8 V: what is the sign of the
-current of this source? Interpret.</p>
-<details class="sol"><summary>Show the solution</summary>
-<p><i>V</i> = (6 + 8/3)/1 = 8.667 V; <i>I</i>₂ = (8 − 8.667)/3 = <span class="result">−0.222 A</span>: the 8 V source receives current (it behaves
-as a load). The software shows this negative current (or shifted by 180°) in the direction of the source.</p>
+<div class="ex"><h4>Exercise 4 — With NRJXpert: voltage divider and Millman</h4>
+<p>Draw example 1.2 (two DC sources with series resistance, 6 Ω load) and check <i>V</i> = 9 V. Replace
+<i>E</i>₂ by 8 V: what is the sign of this source's current? Interpret.</p>
+<details class="sol"><summary>Show solution</summary>
+<p><i>V</i> = (6 + 8/3)/1 = 8.667 V; <i>I</i>₂ = (8 − 8.667)/3 = <span class="result">−0.222 A</span>: the 8 V source receives current
+(it behaves as a receiver). The software displays this current as negative (or 180° out of phase) in the direction of the source.</p>
 </details></div>
 
+
+<p class="small">Exercises 5 to 10 are taken from the applied electricity tutorials of the Department of Electrical Engineering
+(ESP-UCAD). All of them lend themselves to verification with NRJXpert.</p>
+
+<div class="ex"><h4>Exercise 5 — Coil and capacitor in series</h4>
+<p>A coil (<i>r</i>, <i>L</i>) in series with a capacitor <i>C</i> carries <i>I</i> = 2 A at 50 Hz. The measurements are
+<i>U</i> = 100 V across the assembly, <i>U<sub>B</sub></i> = 150 V across the coil and <i>U<sub>C</sub></i> = 200 V across the
+capacitor. Determine <i>r</i>, <i>L</i> and <i>C</i>.</p>
+<details class="sol"><summary>Show solution</summary>
+<p>The capacitor is purely reactive: <i>X<sub>C</sub></i> = <i>U<sub>C</sub></i>/<i>I</i> = 100 Ω →
+<i>C</i> = 1/(314.16 × 100) = <span class="result">31.8 µF</span>.</p>
+<p>Two equations for the coil: (<i>rI</i>)² + (<i>X<sub>L</sub>I</i>)² = <i>U<sub>B</sub></i>² = 150² and
+(<i>rI</i>)² + (<i>X<sub>L</sub>I</i> − <i>X<sub>C</sub>I</i>)² = <i>U</i>² = 100². Subtracting:
+2·<i>X<sub>C</sub></i>·<i>X<sub>L</sub></i>·<i>I</i>² = 150² − 100² + (<i>X<sub>C</sub>I</i>)² → <i>X<sub>L</sub></i> = 65.6 Ω →
+<i>L</i> = <span class="result">209 mH</span>; then <i>r</i> = √((150/2)² − 65.6²) = <span class="result">36.3 Ω</span>.</p>
+<p>Check: <b>Z</b> = 36.3 + j(65.6 − 100) = 50∠−43.4° Ω, i.e. <i>U</i> = 50 × 2 = 100 V ✔. Note that
+<i>U<sub>B</sub></i> + <i>U<sub>C</sub></i> = 350 V ≫ <i>U</i> = 100 V: the voltages add <b>vectorially</b>, and the circuit is
+capacitive even though it contains a large inductance.</p>
+</details></div>
+
+<div class="ex"><h4>Exercise 6 — AC network: meshes, nodes and power balance</h4>
+<p>Three branches in parallel between two nodes. Branch 1: <u>E</u>₁ = 120∠30° V, <i>r</i>₁ = 3 Ω, <i>X<sub>L1</sub></i> = 8 Ω,
+<i>X<sub>C1</sub></i> = 4 Ω. Branch 2: <u>E</u>₂ = 220∠30° V, <i>r</i>₂ = 6 Ω, <i>X<sub>L2</sub></i> = 16 Ω, <i>X<sub>C2</sub></i> = 8 Ω.
+Branch 3 (no source): <i>r</i>₃ = 12 Ω, <i>X<sub>L3</sub></i> = 32 Ω, <i>X<sub>C3</sub></i> = 16 Ω.
+(a) Calculate the currents by the independent-mesh method. (b) Find them again by the node-potential method.
+(c) Calculate the voltages across each element and draw up the power balance. (d) Repeat with a current source
+<u>J</u> = 10∠−23.1° A injected at the upper node.</p>
+<div class="fig" id="fig-ex6"><svg viewBox="0 0 500 288" width="500" role="img" aria-label="Network of exercise 6" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" font-family="inherit"><path d="M70 55 L420 55"/><path d="M70 250 L420 250"/><path d="M70 55 L70 78"/><path d="M62.5 85 L77.5 85"/><path d="M62.5 95 L77.5 95"/><text x="83.5" y="94" text-anchor="start" font-size="12.5" fill="currentColor" stroke="none">X<tspan baseline-shift='sub' font-size='9'>C1</tspan></text><path d="M70 100 L70 110"/><path d="M70 113 a 4.25 4.25 0 0 1 0 8.5 a 4.25 4.25 0 0 1 0 8.5 a 4.25 4.25 0 0 1 0 8.5 a 4.25 4.25 0 0 1 0 8.5"/><text x="84" y="134" text-anchor="start" font-size="12.5" fill="currentColor" stroke="none">X<tspan baseline-shift='sub' font-size='9'>L1</tspan></text><path d="M70 150 L70 158"/><rect x="63.5" y="161" width="13" height="34" rx="2"/><text x="82.5" y="182" text-anchor="start" font-size="12.5" fill="currentColor" stroke="none">r₁</text><path d="M70 198 L70 206"/><circle cx="70" cy="220" r="12"/><path d="M70 228 L70 212"/><polygon points="70,212 67.525,216.5 72.475,216.5" fill="currentColor" stroke="none"/><text x="52" y="224" text-anchor="end" font-size="12.5" fill="currentColor" stroke="none">E₁</text><path d="M70 234 L70 250"/><path d="M83 79 L83 61"/><polygon points="83,61 80.525,65.5 85.475,65.5" fill="currentColor" stroke="none"/><text x="89" y="74" text-anchor="start" font-size="12" fill="currentColor" stroke="none" font-style="italic">I₁</text><path d="M245 55 L245 78"/><path d="M237.5 85 L252.5 85"/><path d="M237.5 95 L252.5 95"/><text x="258.5" y="94" text-anchor="start" font-size="12.5" fill="currentColor" stroke="none">X<tspan baseline-shift='sub' font-size='9'>C3</tspan></text><path d="M245 100 L245 110"/><path d="M245 113 a 4.25 4.25 0 0 1 0 8.5 a 4.25 4.25 0 0 1 0 8.5 a 4.25 4.25 0 0 1 0 8.5 a 4.25 4.25 0 0 1 0 8.5"/><text x="259" y="134" text-anchor="start" font-size="12.5" fill="currentColor" stroke="none">X<tspan baseline-shift='sub' font-size='9'>L3</tspan></text><path d="M245 150 L245 158"/><rect x="238.5" y="161" width="13" height="34" rx="2"/><text x="257.5" y="182" text-anchor="start" font-size="12.5" fill="currentColor" stroke="none">r₃</text><path d="M245 198 L245 250"/><path d="M258 61 L258 79"/><polygon points="258,79 255.525,74.5 260.475,74.5" fill="currentColor" stroke="none"/><text x="264" y="74" text-anchor="start" font-size="12" fill="currentColor" stroke="none" font-style="italic">I₃</text><path d="M420 55 L420 78"/><path d="M412.5 85 L427.5 85"/><path d="M412.5 95 L427.5 95"/><text x="433.5" y="94" text-anchor="start" font-size="12.5" fill="currentColor" stroke="none">X<tspan baseline-shift='sub' font-size='9'>C2</tspan></text><path d="M420 100 L420 110"/><path d="M420 113 a 4.25 4.25 0 0 1 0 8.5 a 4.25 4.25 0 0 1 0 8.5 a 4.25 4.25 0 0 1 0 8.5 a 4.25 4.25 0 0 1 0 8.5"/><text x="434" y="134" text-anchor="start" font-size="12.5" fill="currentColor" stroke="none">X<tspan baseline-shift='sub' font-size='9'>L2</tspan></text><path d="M420 150 L420 158"/><rect x="413.5" y="161" width="13" height="34" rx="2"/><text x="432.5" y="182" text-anchor="start" font-size="12.5" fill="currentColor" stroke="none">r₂</text><path d="M420 198 L420 206"/><circle cx="420" cy="220" r="12"/><path d="M420 228 L420 212"/><polygon points="420,212 417.525,216.5 422.475,216.5" fill="currentColor" stroke="none"/><text x="402" y="224" text-anchor="end" font-size="12.5" fill="currentColor" stroke="none">E₂</text><path d="M420 234 L420 250"/><path d="M407 79 L407 61"/><polygon points="407,61 404.525,65.5 409.475,65.5" fill="currentColor" stroke="none"/><text x="401" y="74" text-anchor="end" font-size="12" fill="currentColor" stroke="none" font-style="italic">I₂</text><circle cx="245" cy="55" r="3" fill="currentColor" stroke="none"/><circle cx="245" cy="250" r="3" fill="currentColor" stroke="none"/><text x="245" y="41" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">upper node</text><text x="245" y="274" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">lower node (potential reference)</text><path d="M455 61 L455 244"/><polygon points="455,61 452.525,65.5 457.475,65.5" fill="currentColor" stroke="none"/><text x="466" y="155" text-anchor="start" font-size="12.5" fill="currentColor" stroke="none" font-style="italic">U</text><path d="M420 55 L455 55"/><path d="M420 250 L455 250"/></svg><div class="cap">Exercise 6: three branches between two nodes. <u>E</u>₁ = 120∠30° V (<i>r</i>₁ = 3 Ω, <i>X</i><sub>L1</sub> = 8 Ω, <i>X</i><sub>C1</sub> = 4 Ω); <u>E</u>₂ = 220∠30° V (6, 16, 8 Ω); passive branch 3 (12, 32, 16 Ω). Both sources deliver towards the upper node: <u>I</u>₁ + <u>I</u>₂ = <u>I</u>₃. Question (d): the current source <u>J</u> is injected at the upper node.</div></div>
+<details class="sol"><summary>Show solution</summary>
+<p>Impedances: <b>Z</b>₁ = 3 + j4 = 5∠53.13°; <b>Z</b>₂ = 6 + j8 = 10∠53.13°; <b>Z</b>₃ = 12 + j16 = 20∠53.13° Ω
+(same argument: all the currents will be shifted by the same angle).</p>
+<p><b>(a) Meshes.</b> Two independent meshes (1-3 and 2-3), with currents <u>I</u><sub>I</sub> and <u>I</u><sub>II</sub> both flowing
+through <b>Z</b>₃:</p>
+<div class="eq">(<b>Z</b>₁ + <b>Z</b>₃)·<u>I</u><sub>I</sub> + <b>Z</b>₃·<u>I</u><sub>II</sub> = <u>E</u>₁ &nbsp;&nbsp;&nbsp;
+<b>Z</b>₃·<u>I</u><sub>I</sub> + (<b>Z</b>₂ + <b>Z</b>₃)·<u>I</u><sub>II</sub> = <u>E</u>₂</div>
+<p>i.e., in magnitude, [25 20; 20 30]·[<i>I</i>] = [120; 220] at ∠(30° − 53.13°): <u>I</u><sub>I</sub> = −2.286∠−23.13° =
+<span class="result">2.286∠156.87° A</span> and <u>I</u><sub>II</sub> = <span class="result">8.857∠−23.13° A</span>;
+<u>I</u>₃ = <u>I</u><sub>I</sub> + <u>I</u><sub>II</sub> = <span class="result">6.571∠−23.13° A</span>.</p>
+<p><b>(b) Nodes</b> (Millman, a single independent node):
+<u>U</u> = (<u>E</u>₁<b>Y</b>₁ + <u>E</u>₂<b>Y</b>₂)/(<b>Y</b>₁+<b>Y</b>₂+<b>Y</b>₃) = (24 + 22)∠−23.13°/0.35∠−53.13° =
+<span class="result">131.4∠30° V</span>. Then <u>I</u>₁ = (<u>E</u>₁ − <u>U</u>)<b>Y</b>₁ = 2.286∠156.87° A,
+<u>I</u>₂ = (<u>E</u>₂ − <u>U</u>)<b>Y</b>₂ = 8.857∠−23.13° A, <u>I</u>₃ = <u>U</u>·<b>Y</b>₃ = 6.571∠−23.13° A: identical.</p>
+<p><b>(c) Voltages and balance.</b> Branch 1: <i>U<sub>r</sub></i> = 6.86 V, <i>U<sub>L</sub></i> = 18.29 V, <i>U<sub>C</sub></i> = 9.14 V;
+branch 2: 53.1 V, 141.7 V, 70.9 V; branch 3: 78.9 V, 210.3 V, 105.1 V.
+Power supplied: <u>S</u> = <u>E</u>₁<u>I</u>₁* + <u>E</u>₂<u>I</u>₂* = <span class="result">1,004.6 W + j1,339.4 var</span>;
+power received: Σ<i>r<sub>k</sub>I<sub>k</sub></i>² = 1,004.6 W and Σ<i>X<sub>k</sub>I<sub>k</sub></i>² = 1,339.4 var ✔.
+<b>Source <u>E</u>₁ is acting as a receiver</b> (its current is at 156.87° from its EMF): it absorbs 164.6 W supplied by <u>E</u>₂.</p>
+<p><b>(d) With the current source</b>: <u>U</u> = (<u>E</u>₁<b>Y</b>₁ + <u>E</u>₂<b>Y</b>₂ + <u>J</u>)/Σ<b>Y</b> =
+<span class="result">160∠30° V</span>; <u>I</u>₁ = <span class="result">8∠156.87° A</span>, <u>I</u>₂ = <span class="result">6∠−23.13° A</span>,
+<u>I</u>₃ = <span class="result">8∠−23.13° A</span> (node law: −8 + 6 + 10 = 8 ✔).
+Balance: <u>S</u> = <u>E</u>₁<u>I</u>₁* + <u>E</u>₂<u>I</u>₂* + <u>U</u>·<u>J</u>* = 1,176 W + j1,568 var = Σ<b>Z</b><sub>k</sub><i>I<sub>k</sub></i>² ✔.</p>
+<p class="small">Fresnel diagram: place <u>U</u> at 30°, the three currents at −23.13° (and 156.87° for <u>I</u>₁); for each
+branch, <u>U</u><sub>r</sub> is in phase with the current, <u>U</u><sub>L</sub> leads by 90°, <u>U</u><sub>C</sub> lags by 90°, and their
+vector sum reaches <u>E</u> and <u>U</u>.</p>
+</details></div>
+
+<div class="ex"><h4>Exercise 7 — Single-phase workshop: compensation and voltage drop</h4>
+<p>A 50 Hz single-phase line (<i>r<sub>L</sub></i> = 0.3 Ω, <i>l<sub>L</sub></i> = 4 mH) supplies, at <i>V<sub>r</sub></i> = 230 V, a workshop
+made up of: 20 incandescent lamps of 250 W; a 4 kW motor (mechanical power) with efficiency 0.85 and cos φ = 0.8;
+an electromagnet <b>Z</b> = 5 + j<i>L</i>ω with <i>L</i> = 100 mH. (1) Line current. (2) cos φ of the workshop. (3) Expression of the
+new power factor after connecting a capacitor <i>C</i>. (4) Value of <i>C</i> for cos φ = 1.
+(5-6) Voltage <i>V<sub>g</sub></i> at the sending end of the line, without then with compensation.</p>
+<details class="sol"><summary>Show solution</summary>
+<p><b>Inventory (Boucherot).</b> Lamps: <i>P</i> = 5,000 W, <i>Q</i> = 0. Motor: <i>P</i> = 4,000/0.85 = 4,706 W,
+<i>S</i> = 5,882 VA, <i>Q</i> = 3,529 var. Electromagnet: <b>Z</b> = 5 + j31.42 = 31.81∠80.96° Ω → <i>I</i> = 7.23 A,
+<i>P</i> = 261 W, <i>Q</i> = 1,642 var.</p>
+<p>(1-2) <i>P</i><sub>tot</sub> = <span class="result">9,967 W</span>, <i>Q</i><sub>tot</sub> = <span class="result">5,172 var</span>,
+<i>S</i> = 11,229 VA → <i>I</i> = 11,229/230 = <span class="result">48.8 A</span> and cos φ = <span class="result">0.888</span> (inductive).</p>
+<p>(3) The capacitor supplies <i>Q<sub>C</sub></i> = <i>C</i>ω<i>V<sub>r</sub></i>². The power triangle becomes
+(<i>P</i><sub>tot</sub>; <i>Q</i><sub>tot</sub> − <i>Q<sub>C</sub></i>):</p>
+<div class="eq">cos φ₁ = P<sub>tot</sub> / √[ P<sub>tot</sub>² + (P<sub>tot</sub>·tan φ − 2πf·C·V<sub>r</sub>²)² ]</div>
+<p>(4) cos φ₁ = 1 ⇔ <i>Q<sub>C</sub></i> = <i>Q</i><sub>tot</sub> → <i>C</i> = 5,172/(314.16 × 230²) = <span class="result">311 µF</span>.</p>
+<p>(5) <b>Z</b><sub>L</sub> = 0.3 + j1.257 Ω. Without compensation, <u>I</u> = 48.8∠−27.4° A (phase reference: <u>V</u><sub>r</sub>):
+<u>V</u><sub>g</sub> = <u>V</u><sub>r</sub> + <b>Z</b><sub>L</sub><u>I</u> = <span class="result">275.4∠9.98° V</span>, i.e. 19.7 % above 230 V.</p>
+<p>(6) With compensation, <u>I</u> = 9,967/230 = 43.3 A in phase: <u>V</u><sub>g</sub> = <span class="result">249.0∠12.63° V</span>
+(8.3 %). The line losses fall from 715 W to 563 W (−21 %). Compensation reduces the current, the voltage drop
+<b>and</b> the losses — which is exactly what NRJXpert calculates for a distribution feeder (level 5, Q(V) control).</p>
+</details></div>
+
+<div class="ex"><h4>Exercise 8 — Connections of a three-phase load</h4>
+<p>(a) Three resistors connected in delta consume 60 kW. What power do they absorb in star?
+(b) Three 15 Ω resistors and three 8 Ω reactances are connected symmetrically to a 530 V network as follows:
+(1) <i>R</i> and <i>X</i> in series, in star; (2) <i>R</i> and <i>X</i> in parallel, in delta; (3) <i>R</i> in delta and <i>X</i> in star.
+Calculate the line current in each case.</p>
+<details class="sol"><summary>Show solution</summary>
+<p>(a) In star, each branch receives <i>U</i>/√3 instead of <i>U</i>: the power is divided by 3 →
+<span class="result">20 kW</span>. (Kennelly's rule: <i>R</i><sub>Δ</sub> = 3<i>R</i><sub>Y</sub>.)</p>
+<p>(b1) <b>Z</b> = 15 + j8 = 17 Ω ; <i>V</i> = 530/√3 = 306 V → <i>I</i> = <span class="result">18,0 A</span>.</p>
+<p>(b2) <b>Z</b> = 15·(j8)/(15 + j8) = 7.06∠61.9° Ω; branch current <i>J</i> = 530/7.06 = 75.1 A →
+<i>I</i> = √3 × 75.1 = <span class="result">130.0 A</span>.</p>
+<p>(b3) Two loads in parallel: the delta-connected resistors draw <i>I<sub>R</sub></i> = √3 × 530/15 = 61.2 A, in phase with the
+voltage; the star-connected reactances draw <i>I<sub>X</sub></i> = 306/8 = 38.2 A, lagging by 90°. Hence
+<i>I</i> = √(61.2² + 38.2²) = <span class="result">72.2 A</span> and cos φ = 0.848.</p>
+</details></div>
+
+<div class="ex"><h4>Exercise 9 — Neutral break</h4>
+<p>A 4-wire 380/220 V network supplies three star-connected resistors: <i>R</i>₁ = 10 Ω, <i>R</i>₂ = 11 Ω, <i>R</i>₃ = 22 Ω.
+Calculate the voltages and currents (a) with the neutral conductor, (b) after the neutral breaks.</p>
+<details class="sol"><summary>Show solution</summary>
+<p>(a) Each resistor receives 220 V: <i>I</i>₁ = <span class="result">22 A</span>, <i>I</i>₂ = <span class="result">20 A</span>,
+<i>I</i>₃ = <span class="result">10 A</span>. Neutral current: <u>I</u><sub>N</sub> = <u>I</u>₁ + <u>I</u>₂ + <u>I</u>₃ =
+<span class="result">11.1∠−51.1° A</span> — not negligible, even though the loads are purely resistive.</p>
+<p>(b) The neutral point shifts (Millman): <u>V</u><sub>N′</sub> = Σ<u>V</u><sub>k</sub><i>G<sub>k</sub></i>/Σ<i>G<sub>k</sub></i> =
+<span class="result">47.1∠−51.1° V</span>. The voltages across the resistors become
+<span class="result">193.9 V; 207.8 V; 266.6 V</span> and the currents 19.4 A; 18.9 A; 12.1 A.</p>
+<p>The weakest load (<i>R</i>₃ = 22 Ω, the least power-consuming) is <b>overvoltaged by 21 %</b>: lamps or electronic
+devices connected there would be destroyed. This is the classic accident of a neutral break in low voltage.</p>
+<p><b>Variant (factory).</b> 400 V network: phase 1 — 100 A at cos φ = 1; phase 2 — 60 A at cos φ = 0.9 lagging; phase 3 — 200 A at
+cos φ = 0.8 lagging. Then <i>I<sub>N</sub></i> = <span class="result">181 A</span> (almost as much as the most heavily loaded phase!),
+<i>P</i> = 72.5 kW, <i>Q</i> = 33.8 kvar, <i>S</i> = 80.0 kVA. After the neutral breaks (constant-impedance loads):
+261.8 V; 340.2 V; 138.9 V — the most lightly loaded phase rises to 340 V.</p>
+</details></div>
+
+<div class="ex"><h4>Exercise 10 — Two-wattmeter method and faults</h4>
+<p>A 3-wire, 400 V / 50 Hz three-phase network supplies a balanced star load made up, per phase, of a resistor
+<i>R</i> = 20 Ω in series with a capacitor <i>C</i> = 20 µF. (1) Line currents, <i>P</i>, <i>Q</i>, <i>S</i>. (2) Readings of the two
+wattmeters. (3) Repeat the calculation if one phase of the load is short-circuited, then if one supply line
+breaks.</p>
+<details class="sol"><summary>Show solution</summary>
+<p>(1) <i>X<sub>C</sub></i> = 159.2 Ω; <b>Z</b> = 20 − j159.2 = 160.4∠−82.84° Ω; <i>V</i> = 231 V →
+<i>I</i> = <span class="result">1.44 A</span>; <i>P</i> = 3<i>RI</i>² = <span class="result">124 W</span>;
+<i>Q</i> = −3<i>X<sub>C</sub>I</i>² = <span class="result">−990 var</span> (the load <b>supplies</b> reactive power); <i>S</i> = 997 VA.</p>
+<p>(2) φ = −82.84°: <i>P<sub>W1</sub></i> = <i>UI</i>cos(φ − 30°) = <span class="result">−223.5 W</span> and
+<i>P<sub>W2</sub></i> = <i>UI</i>cos(φ + 30°) = <span class="result">+347.9 W</span>; sum = 124 W ✔. Since cos φ = 0.124 &lt; 0.5,
+one of the wattmeters indeed reads a negative value. Reactive power check: √3(<i>P<sub>W1</sub></i> − <i>P<sub>W2</sub></i>) = −990 var ✔
+(valid here, the system being balanced).</p>
+<p>(3a) <b>Phase A short-circuited</b>: the load neutral point is brought to the potential of phase A. The other two branches
+receive the line voltages: <i>I<sub>B</sub></i> = <i>I<sub>C</sub></i> = 400/160.4 = <span class="result">2.49 A</span> and
+<i>I<sub>A</sub></i> = <span class="result">4.32 A</span> (√3 times more); <i>P</i> = <span class="result">249 W</span> (double).</p>
+<p>(3b) <b>Line break</b>: the two remaining branches are in series across one line voltage:
+<i>I</i> = 400/(2 × 160.4) = <span class="result">1.25 A</span>; <i>P</i> = 2<i>RI</i>² = <span class="result">62 W</span> (half).
+A single wattmeter is then enough. Both cases can be drawn and checked directly in NRJXpert (delete a link,
+or connect the two terminals of a branch with a wire).</p>
+</details></div>
 
 <!-- ================================================================== -->
             <a href="#top" class="back-to-top">↑ Back to top</a>
         </div>
         <div class="section" id="n1-qcm">
-            <h2><span class="section-icon">📋</span>Level 1 quiz</h2>
+            <h2><span class="section-icon">✅</span>Level 1 quiz</h2>
 <div class="qcm" data-answer="c"><p class="q">1. Two resistors of 6 Ω and 3 Ω in parallel have an equivalent resistance of:</p>
-<ol><li data-k="a">9 Ω</li><li data-k="b">4.5 Ω</li><li data-k="c">2 Ω</li><li data-k="d">0.5 Ω</li></ol>
+<ol><li data-k="a">9 Ω</li><li data-k="b">4,5 Ω</li><li data-k="c">2 Ω</li><li data-k="d">0,5 Ω</li></ol>
 <div class="fb">6 × 3/(6 + 3) = 2 Ω: the equivalent is always smaller than the smallest resistance.</div></div>
-<div class="qcm" data-answer="b"><p class="q">2. At 50 Hz, a 10 mH inductance has a reactance of:</p>
-<ol><li data-k="a">0.5 Ω</li><li data-k="b">3.14 Ω</li><li data-k="c">31.4 Ω</li><li data-k="d">500 Ω</li></ol>
-<div class="fb">X = 2πfL = 314.16 × 0.01 = 3.14 Ω.</div></div>
-<div class="qcm" data-answer="a"><p class="q">3. In DC steady state, a capacitor behaves as:</p>
+<div class="qcm" data-answer="b"><p class="q">2. A 10 mH inductor has, at 50 Hz, a reactance of:</p>
+<ol><li data-k="a">0,5 Ω</li><li data-k="b">3,14 Ω</li><li data-k="c">31,4 Ω</li><li data-k="d">500 Ω</li></ol>
+<div class="fb">X = 2πfL = 314,16 × 0,01 = 3,14 Ω.</div></div>
+<div class="qcm" data-answer="a"><p class="q">3. In established DC steady state, a capacitor behaves as:</p>
 <ol><li data-k="a">an open circuit</li><li data-k="b">a short circuit</li><li data-k="c">a resistance 1/C</li><li data-k="d">an ideal voltage source</li></ol>
-<div class="fb">1/(jCω) becomes infinite when ω → 0: no permanent current.</div></div>
+<div class="fb">1/(jCω) becomes infinite as ω → 0: no steady current.</div></div>
 <div class="qcm" data-answer="d"><p class="q">4. An inductive load absorbs:</p>
-<ol><li data-k="a">P &lt; 0 and Q &gt; 0</li><li data-k="b">P &gt; 0 and Q &lt; 0</li><li data-k="c">P = 0 and Q &gt; 0</li><li data-k="d">P &gt; 0 and Q &gt; 0</li></ol>
-<div class="fb">In the load convention, an R-L load absorbs active and reactive power; a capacitor « supplies » reactive power (Q &lt; 0).</div></div>
-<div class="qcm" data-answer="b"><p class="q">5. Compensating the reactive power of an installation mainly:</p>
-<ol><li data-k="a">reduces the active power consumed</li><li data-k="b">reduces the current and therefore the line losses</li><li data-k="c">increases the frequency</li><li data-k="d">reduces the voltage</li></ol>
+<ol><li data-k="a">P &lt; 0 et Q &gt; 0</li><li data-k="b">P &gt; 0 et Q &lt; 0</li><li data-k="c">P = 0 et Q &gt; 0</li><li data-k="d">P &gt; 0 et Q &gt; 0</li></ol>
+<div class="fb">In receiver convention, an R-L load absorbs active and reactive power; a capacitor “supplies” reactive power (Q &lt; 0).</div></div>
+<div class="qcm" data-answer="b"><p class="q">5. Compensating the reactive energy of an installation mainly makes it possible to:</p>
+<ol><li data-k="a">reduce the active power consumed</li><li data-k="b">reduce the current and therefore the line losses</li><li data-k="c">increase the frequency</li><li data-k="d">reduce the voltage</li></ol>
 <div class="fb">At constant P, I = P/(U·cos φ) decreases when cos φ increases.</div></div>
 <div class="qcm" data-answer="c"><p class="q">6. On a 230/400 V network, the voltage between two phases is:</p>
 <ol><li data-k="a">230 V</li><li data-k="b">326 V</li><li data-k="c">400 V</li><li data-k="d">690 V</li></ol>
-<div class="fb">U = √3·V = 1.732 × 230.9 = 400 V.</div></div>
-<div class="qcm" data-answer="a"><p class="q">7. For equal branch impedances, a delta load absorbs, compared with star:</p>
+<div class="fb">U = √3·V = 1,732 × 230,9 = 400 V.</div></div>
+<div class="qcm" data-answer="a"><p class="q">7. With equal branch impedances, a delta load absorbs, compared with star:</p>
 <ol><li data-k="a">3 times more power</li><li data-k="b">√3 times more</li><li data-k="c">the same</li><li data-k="d">3 times less</li></ol>
 <div class="fb">Each branch receives U instead of U/√3: the power (in U²) is multiplied by 3.</div></div>
-<div class="qcm" data-answer="b"><p class="q">8. The neutral current of a balanced star-connected three-phase load is:</p>
+<div class="qcm" data-answer="b"><p class="q">8. The neutral current of a balanced three-phase star load is:</p>
 <ol><li data-k="a">equal to the line current</li><li data-k="b">zero</li><li data-k="c">√3 times the line current</li><li data-k="d">3 times the line current</li></ol>
 <div class="fb">I<sub>a</sub> + I<sub>b</sub> + I<sub>c</sub> = 0 for three equal phasors shifted by 120°.</div></div>
 <div class="qcm" data-answer="d"><p class="q">9. The NRJXpert server calculates a linear network by:</p>
-<ol><li data-k="a">the mesh method</li><li data-k="b">Thévenin's theorem</li><li data-k="c">the Newton-Raphson method</li><li data-k="d">the nodal voltage method (Y·V = J)</li></ol>
-<div class="fb">Newton-Raphson is used for the load flow (non-linear power equations), not for the linear network.</div></div>
-<div class="qcm" data-answer="c"><p class="q">10. 209.9 V across the load and 66.8 V across the line, for a 230 V source: why is the sum not 230 V?</p>
-<ol><li data-k="a">rounding error of the software</li><li data-k="b">losses in the line</li><li data-k="c">the voltages are phase-shifted and add up as complex numbers</li><li data-k="d">the frequency is not 50 Hz</li></ol>
-<div class="fb">The voltage law applies to phasors: |<b>U</b><sub>1</sub> + <b>U</b><sub>2</sub>| ≤ |<b>U</b><sub>1</sub>| + |<b>U</b><sub>2</sub>|.</div></div>
+<ol><li data-k="a">the mesh method</li><li data-k="b">Thévenin's theorem</li><li data-k="c">the Newton-Raphson method</li><li data-k="d">the node-potential method (Y·V = J)</li></ol>
+<div class="fb">Newton-Raphson is used for load flow (nonlinear power equations), not for the linear network.</div></div>
+<div class="qcm" data-answer="c"><p class="q">10. 209.9 V across the load and 66.8 V across the line, for a 230 V source: why is the sum
+not 230 V?</p>
+<ol><li data-k="a">software rounding error</li><li data-k="b">losses in the line</li><li data-k="c">the voltages are out of phase and add up as complex numbers</li><li data-k="d">the frequency is not 50 Hz</li></ol>
+<div class="fb">The mesh law applies to phasors: |<b>U</b><sub>1</sub> + <b>U</b><sub>2</sub>| ≤ |<b>U</b><sub>1</sub>| + |<b>U</b><sub>2</sub>|.</div></div>
+<div class="qcm" data-answer="b"><p class="q">11. In the mesh-current method, the mutual resistance <i>R</i><sub>12</sub> carries a “−” sign when:</p>
+<ol><li data-k="a">the common branch contains a source</li><li data-k="b">the two mesh currents flow through the common branch in opposite directions</li><li data-k="c">mesh 1 is larger than mesh 2</li><li data-k="d">never</li></ol>
+<div class="fb">The sign reflects the relative orientation of the two mesh currents in the branch they share.</div></div>
+<div class="qcm" data-answer="c"><p class="q">12. In the node-potential method, the “node current” <i>J<sub>a</sub></i> is:</p>
+<ol><li data-k="a">the sum of the unknown branch currents</li><li data-k="b">the short-circuit current of the node</li><li data-k="c">the sum of the <i>E·G</i> and <i>J</i> terms of the branches meeting at the node, oriented towards it</li><li data-k="d">always zero</li></ol>
+<div class="fb">Voltage sources are converted into equivalent current sources <i>E·G</i> (Norton model).</div></div>
+<div class="qcm" data-answer="a"><p class="q">13. Three 30 Ω resistors in delta are equivalent, in star, to three resistors of:</p>
+<ol><li data-k="a">10 Ω</li><li data-k="b">30 Ω</li><li data-k="c">90 Ω</li><li data-k="d">17,3 Ω</li></ol>
+<div class="fb">Kennelly, balanced case: <i>R</i><sub>Δ</sub> = 3<i>R</i><sub>Y</sub>.</div></div>
+<div class="qcm" data-answer="d"><p class="q">14. The superposition theorem does <b>not</b> allow adding:</p>
+<ol><li data-k="a">branch currents</li><li data-k="b">voltages</li><li data-k="c">node potentials</li><li data-k="d">powers</li></ol>
+<div class="fb"><i>P</i> = <i>RI</i>² is quadratic: the currents must be superposed first, then the power calculated.</div></div>
+<div class="qcm" data-answer="b"><p class="q">15. At resonance of a series R-L-C circuit with overvoltage coefficient <i>q</i> = 10 supplied at 230 V, the capacitor voltage is:</p>
+<ol><li data-k="a">23 V</li><li data-k="b">2 300 V</li><li data-k="c">230 V</li><li data-k="d">0 V</li></ol>
+<div class="fb"><i>U<sub>C</sub></i> = <i>q·U</i> = ρ<i>U</i>/<i>R</i>: this is the danger of series resonance.</div></div>
+<div class="qcm" data-answer="c"><p class="q">16. The two-wattmeter method measures the active power of a 3-wire network:</p>
+<ol><li data-k="a">only if the load is balanced</li><li data-k="b">only if the load is star-connected</li><li data-k="c">in all cases, balanced or not</li><li data-k="d">only if cos φ &gt; 0.5</li></ol>
+<div class="fb">The proof uses only <i>i<sub>A</sub></i> + <i>i<sub>B</sub></i> + <i>i<sub>C</sub></i> = 0. On the other hand, √3(<i>P<sub>W1</sub></i> − <i>P<sub>W2</sub></i>) = <i>Q</i> is true only when balanced.</div></div>
+<div class="qcm" data-answer="a"><p class="q">17. The zero-sequence component of a system of currents can flow only if:</p>
+<ol><li data-k="a">a return path exists (neutral or earth)</li><li data-k="b">the system is balanced</li><li data-k="c">the load is delta-connected</li><li data-k="d">the frequency is 50 Hz</li></ol>
+<div class="fb">The three zero-sequence currents are in phase: their sum, <i>I<sub>N</sub></i> = 3<i>I</i>₀, must be able to close.</div></div>
+<div class="qcm" data-answer="d"><p class="q">18. After the neutral conductor breaks in an LV network with unbalanced single-phase loads:</p>
+<ol><li data-k="a">nothing changes</li><li data-k="b">all the voltages drop</li><li data-k="c">all the currents vanish</li><li data-k="d">the neutral point shifts: the most lightly loaded phase is overvoltaged</li></ol>
+<div class="fb"><u>V</u><sub>N′</sub> = Σ<u>V</u><sub>k</sub><b>Y</b><sub>k</sub>/Σ<b>Y</b><sub>k</sub> ≠ 0: see exercise 9.</div></div>
+
             <a href="#top" class="back-to-top">↑ Back to top</a>
         </div>
         <div class="page-nav"><a href="index-en.html">← Tutorial home</a><a href="niveau2-en.html">Level 2 — Power networks →</a></div>

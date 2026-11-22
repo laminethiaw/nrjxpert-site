@@ -197,6 +197,75 @@ une PLL, régulateur de tension PI à pente, limite en courant (STATCOM) ou en s
 <p>En régulation, les deux compensateurs se comportent de la même façon. En butée, le STATCOM garde son courant maximal : il fournit trois
 fois plus de réactif que le SVC pendant le creux de tension.</p>
 </details></div>
+<h3>Machines asynchrones : démarrage direct et creux de tension</h3>
+<p>Le moteur asynchrone à cage est la charge dynamique la plus répandue (pompes, ventilateurs, compresseurs). Au démarrage direct, il
+absorbe 5 à 7 fois son courant nominal sous un facteur de puissance faible (0,2 à 0,3) : le creux de tension qui en résulte gêne les
+autres usagers et peut empêcher le moteur d'accélérer (couple ∝ V²). Pendant un creux de tension (défaut), le moteur ralentit ; s'il
+dépasse le glissement du couple maximal avant le retour de la tension, il décroche et reste bloqué. NRJXpert utilise le modèle du
+3<sup>e</sup> ordre : f.é.m. transitoire <i>E</i>′ derrière <i>R</i><sub>s</sub> + j<i>X</i>′ (<i>X</i>′ = <i>X</i><sub>s</sub> +
+<i>X</i><sub>m</sub>∥<i>X</i><sub>r</sub>), dynamique du flux rotorique (constante <i>T</i>′<sub>0</sub> = (<i>X</i><sub>r</sub> +
+<i>X</i><sub>m</sub>)/(ω·<i>R</i><sub>r</sub>)) et équation du mouvement 2<i>H</i>·d<i>s</i>/d<i>t</i> = <i>C</i><sub>r</sub> −
+<i>C</i><sub>em</sub>, avec un couple résistant <i>C</i><sub>r</sub> = <i>T</i><sub>0</sub>·(1 − <i>s</i>)<sup><i>k</i></sup>
+(palette <b>Réseau (load flow) › Machine asynchrone</b>).</p>
+<div class="ex"><h4>Exemple 5.5 — Démarrage d'un moteur de 2 MVA (<code>exemples/demarrage_moteur.xml</code>)</h4>
+<p>Un poste 6 kV (<i>Z</i><sub>cc</sub> = 0,02 + j0,36 Ω) alimente par un câble de 0,05 + j0,6 Ω une charge de 1 MW + 0,4 Mvar et une
+pompe entraînée par un moteur de 2 MVA (schéma équivalent par défaut, <i>T</i><sub>0</sub> = 0,7 pu, <i>k</i> = 2, <i>H</i> = 0,6 s),
+démarré à 0,5 s. Lancer la simulation dynamique (5 s) et tracer la tension du bus, la vitesse et le courant du moteur.</p>
+<details class="sol" open><summary>Résultats du serveur (simulation RMS, 5 s)</summary>
+<table>
+<tr><th>Grandeur</th><th>Valeur</th></tr>
+<tr><td>Tension du bus avant démarrage</td><td class="num">5,95 kV (0,992 pu)</td></tr>
+<tr><td>Tension minimale pendant le démarrage</td><td class="num"><span class="result">4,41 kV (0,734 pu)</span></td></tr>
+<tr><td>Courant de démarrage</td><td class="num">886 A (4,6 <i>I</i><sub>n</sub> sous 0,755 pu ; 6,1 <i>I</i><sub>n</sub> sous 1 pu)</td></tr>
+<tr><td>Durée pour atteindre 95 % de la vitesse</td><td class="num">1,3 s</td></tr>
+<tr><td>Régime établi</td><td class="num">glissement 2,3 %, 1,35 MW, 0,76 Mvar, 5,80 kV</td></tr>
+</table>
+<p>Le creux de 26 % dépasse largement les 10 % habituellement admis pour un démarrage fréquent : il faudrait un démarreur
+(étoile-triangle, progressif) ou un variateur, ou un réseau plus puissant. Rallonger artificiellement le câble (ou passer le couple
+résistant à 1 pu avec <i>k</i> = 0) montre le cas où le moteur ne démarre plus.</p>
+</details></div>
+<h3>Machine synchrone : régulateur de tension et stabilisateur (PSS)</h3>
+<p>Un régulateur de tension (AVR) rapide et à gain élevé tient bien la tension après un défaut, mais il réduit l'amortissement des
+oscillations électromécaniques (de l'ordre de 1 Hz pour une machine reliée à un réseau puissant) et peut le rendre négatif. Le
+stabilisateur de puissance (PSS) ajoute à la consigne de l'AVR un signal tiré de l'écart de vitesse : <i>V</i><sub>s</sub> =
+<i>K</i><sub>pss</sub>·[s<i>T</i><sub>w</sub>/(1 + s<i>T</i><sub>w</sub>)]·[(1 + s<i>T</i><sub>1</sub>)/(1 + s<i>T</i><sub>2</sub>)]·Δω, le filtre
+passe-haut ne laissant passer que les oscillations et l'avance de phase compensant le retard de l'excitation. Paramètres : bouton
+<b>Capacité, AVR, PSS…</b> du générateur (H, X'd, Xd, T'd0 : bouton DER, modèle « sync_gen »).</p>
+<div class="fig" id="fig-pss"><svg viewBox="0 0 600 235" width="600" role="img" aria-label="Schéma bloc du régulateur de tension et du stabilisateur PSS" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" font-family="inherit"><rect x="20" y="30" width="50" height="34" rx="5"/><text x="45" y="51.55" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Δω</text><path d="M70 47L100 47"/><path d="M93.5526 49.7259L100 47L93.5526 44.2741" fill="currentColor"/><rect x="100" y="28" width="70" height="38" rx="5"/><text x="135" y="51.2" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">Kpss</text><path d="M170 47L200 47"/><path d="M193.553 49.7259L200 47L193.553 44.2741" fill="currentColor"/><rect x="200" y="24" width="120" height="46" rx="5"/><text x="260" y="44.35" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">filtre passe-haut</text><text x="260" y="57.35" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">sTw/(1+sTw)</text><path d="M320 47L350 47"/><path d="M343.553 49.7259L350 47L343.553 44.2741" fill="currentColor"/><rect x="350" y="24" width="120" height="46" rx="5"/><text x="410" y="44.35" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">avance de phase</text><text x="410" y="57.35" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">(1+sT1)/(1+sT2)</text><path d="M470 47H520V112"/><text x="526" y="82" text-anchor="start" font-size="12" fill="currentColor" stroke="none">Vs</text><rect x="400" y="20" width="190" height="56" rx="7" stroke-dasharray="4 3" stroke-opacity=".0"/><text x="300" y="14" text-anchor="middle" font-size="12" fill="currentColor" stroke="none" font-weight="bold">PSS</text><circle cx="520" cy="130" r="17"/><path d="M510 130h20M520 120v20" stroke-width="1.2"/><text x="486" y="108" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">+</text><text x="552" y="126" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">+</text><path d="M520 147V175"/><text x="560" y="180" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">−</text><path d="M590 130H537"/><text x="572" y="122" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">Vréf</text><path d="M503 130H470"/><path d="M480 130L462 130"/><path d="M468.447 127.274L462 130L468.447 132.726" fill="currentColor"/><rect x="380" y="112" width="84" height="36" rx="5"/><text x="422" y="127.35" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">AVR</text><text x="422" y="140.35" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">Ka / (1+sTa)</text><path d="M380 130L350 130"/><path d="M356.447 127.274L350 130L356.447 132.726" fill="currentColor"/><rect x="260" y="112" width="90" height="36" rx="5"/><text x="305" y="127.35" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">excitation</text><text x="305" y="140.35" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">1/(1+sT'd0)</text><path d="M260 130L230 130"/><path d="M236.447 127.274L230 130L236.447 132.726" fill="currentColor"/><rect x="110" y="112" width="120" height="36" rx="5"/><text x="170" y="134.025" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">machine + réseau</text><path d="M110 130H60V64"/><path d="M60 76L60 66"/><path d="M62.7259 72.4474L60 66L57.2741 72.4474" fill="currentColor"/><text x="54" y="100" text-anchor="end" font-size="11.5" fill="currentColor" stroke="none">Δω</text><path d="M170 148V205H520V175"/><path d="M520 188L520 177"/><path d="M522.726 183.447L520 177L517.274 183.447" fill="currentColor"/><text x="345" y="220" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">Vt</text></svg><div class="cap">Le PSS lit l'écart de vitesse Δω, ne garde que les oscillations (filtre passe-haut, constante Tw), compense par une avance de phase (T1, T2) le retard introduit par l'excitation et la machine, puis ajoute le signal Vs à la consigne de l'AVR. Il crée ainsi un couple d'amortissement en phase avec Δω. Sans lui, un AVR rapide (Ka élevé) peut rendre l'oscillation instable.</div></div>
+<div class="ex"><h4>Exemple 5.6 — Amortissement par le PSS (<code>exemples/pss_generateur.xml</code>)</h4>
+<p>Un alternateur de 10 MVA (8 MW, <i>H</i> = 3 s, <i>X</i>′<sub>d</sub> = 0,3, <i>X</i><sub>d</sub> = 1,8 pu, <i>T</i>′<sub>d0</sub> = 6 s) est relié
+au réseau par une ligne de 0,4 + j16 Ω ; son AVR a un gain <i>K</i><sub>a</sub> = 100. Défaut au bus du générateur de 1,0 à 1,1 s.
+Simuler 10 s avec le PSS du fichier (<i>K</i><sub>pss</sub> = 10, <i>T</i><sub>w</sub> = 10 s, <i>T</i><sub>1</sub> = 0,3 s,
+<i>T</i><sub>2</sub> = 0,05 s), puis sans PSS (<i>K</i><sub>pss</sub> = 0).</p>
+<details class="sol" open><summary>Résultats du serveur (simulation RMS, 10 s)</summary>
+<table>
+<tr><th>Écart de fréquence maximal</th><th>1,1 – 3 s</th><th>3 – 6 s</th><th>6 – 10 s</th></tr>
+<tr><td>Sans PSS</td><td class="num">0,88 Hz</td><td class="num">1,08 Hz</td><td class="num"><span class="result">1,25 Hz</span> (croissant)</td></tr>
+<tr><td>Avec PSS</td><td class="num">0,65 Hz</td><td class="num">0,37 Hz</td><td class="num"><span class="result">0,01 Hz</span></td></tr>
+</table>
+<p>Oscillation à 1,35 Hz. Sans PSS, l'AVR rapide la rend instable : l'amplitude croît jusqu'à la perte de synchronisme ; avec le PSS, elle
+s'éteint en quelques secondes. Le réglage de <i>T</i><sub>1</sub>, <i>T</i><sub>2</sub> dépend du point de fonctionnement : il se vérifie
+(par simulation ou analyse modale) pour chaque configuration.</p>
+</details></div>
+
+<div class="ex"><h4>Exemple 5.8 — Onduleur suiveur en régime électromagnétique (<code>exemples/emt_onduleur.xml</code>)</h4>
+<p>Les simulations RMS précédentes ne montrent ni les formes d'onde ni les déséquilibres. Le modèle <b>EMT moyen</b> d'un onduleur de 100 kVA, 400 V, suiveur de réseau (boucle de courant en axes dq, PLL, courant limité à 1,2 pu, réseau de rapport de court-circuit 10) calcule les trois tensions et courants instantanés.
+Scénario du fichier : consigne de puissance 50 kW, portée à 100 kW à 0,1 s ; creux de tension <b>monophasé</b> à 50 % (phase a) de 0,3 à 0,4 s ; durée 0,6 s.
+Ce fichier décrit une étude, pas un réseau : il n'a pas de schéma. <b>Aide › Ouvrir un exemple du tutoriel</b> l'ouvre dans la fenêtre « Calcul d'un fichier réseau (XML) » ; cliquer sur « Calculer sur le serveur ». Le résumé donne, pour chaque série (<code>t</code>, <code>va</code>, <code>ia</code>, <code>p</code>, <code>q</code>, <code>f_pll</code>…), le nombre de points, le minimum et le maximum ; la réponse complète contient les valeurs.
+Refaire le calcul en ajoutant dans le JSON <code>"inverter": {"pll_maf": true, "pll_wn_hz": 8}</code> (PLL à filtre à moyenne glissante).</p>
+<details class="sol"><summary>Résultats du serveur</summary>
+<table>
+<tr><th></th><th>PLL standard (20 Hz)</th><th>PLL avec filtre MAF (8 Hz)</th></tr>
+<tr><td>Puissance établie (0,05 à 0,1 s, puis 0,2 à 0,3 s)</td><td class="num">50,0 puis 100,0 kW</td><td class="num">50,0 puis 100,0 kW</td></tr>
+<tr><td>Ondulation de <i>P</i> pendant le creux (crête à crête)</td><td class="num">18,9 kW</td><td class="num">18,7 kW</td></tr>
+<tr><td>Ondulation de la fréquence de la PLL pendant le creux</td><td class="num"><span class="result">10,9 Hz</span></td><td class="num"><span class="result">0,07 Hz</span></td></tr>
+<tr><td>Courant crête (nominal : 204 A)</td><td class="num">245 A (1,2 pu)</td><td class="num">245 A (1,2 pu)</td></tr>
+</table>
+<p>Le creux monophasé crée une composante inverse de la tension : la puissance instantanée oscille à 100 Hz (environ 19 kW crête à crête pour 100 kW), à peu près autant avec les deux PLL. Mais la PLL standard reçoit cette composante à 100 Hz
+et sa fréquence oscille de 11 Hz crête à crête ; le filtre MAF la ramène à 0,07 Hz, au prix d'une PLL plus lente (8 Hz de bande). Le courant reste limité à 1,2 pu et la puissance retrouve 100 kW après le creux. Ce phénomène, invisible en RMS, justifie les
+exigences de tenue aux creux de tension et les essais en régime électromagnétique.</p>
+</details></div>
+
 
 <!-- ================================================================== -->
             <a href="#top" class="back-to-top">↑ Retour en haut</a>
@@ -221,7 +290,7 @@ ventes au réseau, effacement de charges. C'est la version moderne de la <b>rép
 états de charge) et binaires (groupe en marche ou non, charge ou décharge).</p>
 <div class="eq">min Σ<sub>t</sub> [ coût carburant + démarrages + achats − ventes + usure batterie + délestage ]<br>
 sous : bilan de puissance à chaque heure ; P<sub>min</sub>·u ≤ P ≤ P<sub>n</sub>·u ; SOC<sub>t</sub> = SOC<sub>t−1</sub> + (η<sub>c</sub>P<sub>c</sub> − P<sub>d</sub>/η<sub>d</sub>)Δt ; réserve tournante</div>
-<div class="ex"><h4>Exemple 5.4 — Micro-réseau îloté sur 24 h</h4>
+<div class="ex"><h4>Exemple 5.7 — Micro-réseau îloté sur 24 h</h4>
 <p>Fichier <code>exemples/dispatch_microreseau_ilote.xml</code> : groupe 1,5 MVA (gasoil 800 F/l), PV 0,8 MW, batterie 0,9 MWh / 0,3 MW.</p>
 <details class="sol" open><summary>Résultats du serveur</summary>
 <p>Énergie servie 16,6 MWh ; carburant 4 664 l ; part renouvelable <span class="result">36,6 %</span> ; aucun écrêtement ni délestage ;
@@ -293,6 +362,12 @@ niveau 4 (investissements).</p></div>
 <div class="qcm" data-answer="d"><p class="q">8. La gestion économique d'un micro-réseau utilise des variables binaires pour :</p>
 <ol><li data-k="a">les tensions</li><li data-k="b">les prix</li><li data-k="c">les pertes</li><li data-k="d">la marche/arrêt des groupes et l'exclusion charge/décharge</li></ol>
 <div class="fb">D'où un problème MILP, résolu par HiGHS (SciPy).</div></div>
+<div class="qcm" data-answer="b"><p class="q">9. Un moteur asynchrone démarre sous 80 % de sa tension nominale. Son couple de démarrage vaut :</p>
+<ol><li data-k="a">80 % de sa valeur nominale</li><li data-k="b">64 % de sa valeur nominale</li><li data-k="c">51 % de sa valeur nominale</li><li data-k="d">la même valeur</li></ol>
+<div class="fb">Le couple varie comme V² : 0,8² = 0,64. Si le couple résistant de la charge est plus grand, le moteur ne démarre pas ou décroche (exemple 5.5).</div></div>
+<div class="qcm" data-answer="b"><p class="q">10. À quoi sert l'avance de phase (T1, T2) d'un stabilisateur de puissance (PSS) ?</p>
+<ol><li data-k="a">à filtrer le bruit de mesure de la vitesse</li><li data-k="b">à compenser le retard de l'excitation et de la machine, pour que le couple ajouté soit en phase avec Δω</li><li data-k="c">à augmenter le gain statique de l'AVR</li><li data-k="d">à limiter la tension d'excitation</li></ol>
+<div class="fb">Un couple d'amortissement doit être en phase avec l'écart de vitesse ; le retard de la chaîne d'excitation le décale, l'avance de phase le rattrape (exemple 5.6).</div></div>
             <a href="#top" class="back-to-top">↑ Retour en haut</a>
         </div>
         <div class="page-nav"><a href="niveau4.html">← Niveau 4 — Études économiques</a><a href="etudes-de-cas.html">Études de cas →</a></div>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grid-voltage>20000</grid-voltage><grid-frequency>50</grid-frequency><method>newtonRaphson</method>
+<solve>loadFlow</solve>
+<neutral-port-Id>2</neutral-port-Id>
+<dipoles>
+<dipole><type>SlackBus</type><Id>1</Id><name>Poste</name><V>20.0</V><phase>0.0</phase><Rd>0.1</Rd><Xd>2.0</Xd><IdPorts>[1, 2]</IdPorts><port><Id>1</Id><ownerId>1</ownerId><sign>0</sign><IdConnectedPorts>[3]</IdConnectedPorts></port><port><Id>2</Id><ownerId>1</ownerId><sign>0</sign><IdConnectedPorts>[6, 8]</IdConnectedPorts></port></dipole>
+<dipole><type>Impedance</type><Id>2</Id><name>Ligne</name><R_X>[0.5, 4.0]</R_X><lengthKm>10</lengthKm><IdPorts>[3, 4]</IdPorts><port><Id>3</Id><ownerId>2</ownerId><sign>0</sign><IdConnectedPorts>[1]</IdConnectedPorts></port><port><Id>4</Id><ownerId>2</ownerId><sign>0</sign><IdConnectedPorts>[5, 7]</IdConnectedPorts></port></dipole>
+<dipole><type>PVbus</type><Id>3</Id><name>G1</name><Pgen>8.0</Pgen><Qgen>0</Qgen><V>20.4</V><phase>0.0</phase><Rd>0.2</Rd><Xd>8.0</Xd><Ri>0.2</Ri><Xi>8.0</Xi><R0>0.1</R0><X0>2.0</X0><qlimMode>curve</qlimMode><Sn>10</Sn><Xdsync>1.8</Xdsync><Efdmax>2.5</Efdmax><uel>0.4</uel><Pmax>9</Pmax><IdPorts>[5, 6]</IdPorts><port><Id>5</Id><ownerId>3</ownerId><sign>0</sign><IdConnectedPorts>[4, 7]</IdConnectedPorts></port><port><Id>6</Id><ownerId>3</ownerId><sign>0</sign><IdConnectedPorts>[2, 8]</IdConnectedPorts></port></dipole>
+<dipole><type>PQbus</type><Id>4</Id><name>Usine</name><Pload>10</Pload><Qload>8</Qload><IdPorts>[7, 8]</IdPorts><port><Id>7</Id><ownerId>4</ownerId><sign>0</sign><IdConnectedPorts>[4, 5]</IdConnectedPorts></port><port><Id>8</Id><ownerId>4</ownerId><sign>0</sign><IdConnectedPorts>[2, 6]</IdConnectedPorts></port></dipole>
+</dipoles>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teacher's guide — NRJXpert tutorial</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tutoriel.css">
+<script src="tutoriel.js"></script>
+<script src="glossaire.js" defer></script>
+</head>
+<body>
+<div id="top"></div>
+
+<!-- ════════════════ MENU LATÉRAL ════════════════ -->
+<aside id="sidebar">
+    <div id="sidebar-header">
+        <div class="app-name">NRJXpert</div>
+        <div class="app-version">Version 2.0.0 · Tutorial › Teacher&#x27;s guide</div>
+    </div>
+    <nav>
+        <a href="#ge-1"><span class="nav-icon">📘</span>Setting up the room</a>
+        <a href="#ge-2"><span class="nav-icon">👩‍🏫</span>Progressions</a>
+        <a href="#ge-3"><span class="nav-icon">👩‍🏫</span>Lab sessions</a>
+        <a href="#ge-4"><span class="nav-icon">👩‍🏫</span>Assessment and marking schemes</a>
+        <a href="#ge-5"><span class="nav-icon">📐</span>Exam subjects (2 h, documents allowed: formula sheet of the appendices)</a>
+        <a href="#ge-6"><span class="nav-icon">🧩</span>Final-year projects</a>
+        <a href="#ge-7"><span class="nav-icon">👩‍🏫</span>Teaching tips</a>
+        <a href="#auteur"><span class="nav-icon">👤</span>Author</a>
+    </nav>
+    <div class="side-links"><a href="index-en.html">🏠 Tutorial home</a><a href="../help-en.html">📖 User guide</a></div>
+</aside>
+
+<!-- ════════════════ ZONE PRINCIPALE ════════════════ -->
+<div id="main">
+    <div id="hero">
+        <h1>Teacher's guide</h1>
+        <div class="tagline">Using NRJXpert to train technicians and engineers: organisation, progressions, sessions, assessment.</div>
+        <div class="badges">
+            <span class="hero-badge">Tutorial</span>
+            <span class="hero-badge">Version 2.0.0</span>
+            <span class="hero-badge">November 2026</span>
+            <a class="hero-badge language-link" href="./guide-enseignant.html" lang="fr" aria-label="Click to show the French version">
+                EN / FR
+                <small>Click for the French version</small>
+            </a>
+        </div>
+    </div>
+
+    <div id="topbar">
+        <div class="title">Teacher&#x27;s guide</div>
+        <span class="meta">NRJXpert 2.0.0 · November 2026</span>
+    </div>
+
+    <main id="content">
+        <div id="toc-section">
+            <h2>Contents</h2>
+            <div class="toc-grid">
+                <a href="#ge-1"><span class="toc-num">1</span>Setting up the room</a>
+                <a href="#ge-2"><span class="toc-num">2</span>Progressions</a>
+                <a href="#ge-3"><span class="toc-num">3</span>Lab sessions</a>
+                <a href="#ge-4"><span class="toc-num">4</span>Assessment and marking schemes</a>
+                <a href="#ge-5"><span class="toc-num">5</span>Exam subjects (2 h, documents allowed: formula sheet of the appendices)</a>
+                <a href="#ge-6"><span class="toc-num">6</span>Final-year projects</a>
+                <a href="#ge-7"><span class="toc-num">7</span>Teaching tips</a>
+            </div>
+        </div>
+
+        <div class="section" id="ge-1">
+            <h2><span class="section-icon">📘</span>1. Setting up the room</h2>
+<ul>
+<li><b>Software</b>: NRJXpert installer (macOS or Windows); it includes the calculation server, nothing else to install on the computers.
+The local server is the default setting: nothing to configure on the computers.</li>
+<li><b>Licence</b>: enter the institution's activation key (Help › License…) then « Activate ». Activation needs the
+Internet once per computer; the number of computers depends on the licence. Do not display the key during a session or hand it to students: give it only to the people who set up the computers. Report to the supplier any key circulated outside the institution.
+Before the session, check that the institution's firewall allows access to <code>activation.nrjxpert.com</code> (HTTPS) and that the Licence window shows « Active ».
+A whole class calculating at the same time is not a problem: each calculation runs on the computer itself and takes less than one second (a
+few seconds for the DER studies of level 5, up to about fifteen seconds for the test bench of level 7).</li>
+<li><b>Unstable connection</b>: once the computers are activated, all the sessions work offline; only the periodic licence checks and the retrieval
+of online weather data need the Internet. The reference results of the tutorial allow marking even without a connection.</li>
+<li><b>Examples</b>: when the tutorial is first opened, they are copied to <code>~/.nrjxpert/aide/tutoriel/exemples/</code>; a student who modifies them
+keeps his or her version.</li>
+<li><b>Weather data</b>: downloading them also requires the Internet; prepare the CSV files in advance for an offline session.</li>
+<li><b>Language</b>: with the interface in English (Options › Language), the Help menu opens the English pages of the tutorial.</li>
+</ul>
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="ge-2">
+            <h2><span class="section-icon">👩‍🏫</span>2. Progressions</h2>
+<table>
+<tr><th>Programme</th><th>Volume</th><th>Content</th><th>Assessment</th></tr>
+<tr><td>Higher technician diploma in electrical engineering, professional bachelor in renewable energy</td><td>40 h (12 h lectures, 28 h labs)</td>
+<td>Level 1; level 3 § 3.1 to 3.4; level 4 § 4.1 to 4.3; case study 1 (decentralised part)</td><td>2 marked labs + 1 sizing report</td></tr>
+<tr><td>Bachelor in electrical engineering (3rd year)</td><td>60 h</td><td>Levels 1 and 2; level 3 complete; level 4</td><td>Written exam + marked labs</td></tr>
+<tr><td>Engineering school / master (1st year)</td><td>60 h</td><td>Level 2 in depth (load flow, short circuit); levels 3 and 4; case studies 1 to 3</td><td>Project in pairs + exam</td></tr>
+<tr><td>Master in renewable energy / power networks (2nd year)</td><td>40 h</td><td>Level 5; case studies 2 and 4; projects A to C of level 5</td><td>Project + presentation</td></tr>
+<tr><td>Smart grid specialisation (2nd-year master, specialised master, utility engineers)</td><td>38 h + project</td><td>Level 6 complete: SGAM and the NRJXpert SGAM workshop, FLISR and reliability, IVVC/r, VPP, microgrids, EV, CIM and IEC 61850, owner's engineering; synthesis project</td><td>Owner's engineering mission report + presentation</td></tr>
+<tr><td>Smart grid expert (after the specialisation)</td><td>24 to 30 h + assignment</td><td>Level 7: IEEE 2030.8 tests, smart metering and non-technical losses, DLMS/COSEM data collection, OpenADR 2.0b demand response, IEC 62443 cybersecurity; expert assignment § 7.6</td><td>Test report + loss audit + risk assessment, presentation</td></tr>
+<tr><td>Continuing education for smart grid consultants / project managers</td><td>3 days</td><td>Level 6 § 6.1, 6.2, 6.8, 6.9, 6.10; labs 6.3 and 6.9; use case sheets on a real project</td><td>Use case sheet + bid analysis grid</td></tr>
+<tr><td>Continuing education (consulting firms, installers)</td><td>3 to 5 days</td><td>Level 3, wiring, level 4, case study adapted to the trade</td><td>Real case study</td></tr>
+</table>
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="ge-3">
+            <h2><span class="section-icon">👩‍🏫</span>3. Lab sessions</h2>
+<table>
+<tr><th>Session</th><th>Duration</th><th>Content (references to the tutorial)</th><th>Deliverable</th></tr>
+<tr><td>1. Getting started</td><td>2 h</td><td>Lab 1 (load and RL line), examples 1.1 and 1.2 drawn</td><td>Table hand calculation / software</td></tr>
+<tr><td>2. Three-phase and compensation</td><td>3 h</td><td>Lab 2, example 1.4, exercise 3 of level 1</td><td>Report</td></tr>
+<tr><td>3. Transformer and voltage drop</td><td>3 h</td><td>Examples 2.1 and 2.2; three-phase transformer of the palette</td><td>Report</td></tr>
+<tr><td>4. Load flow</td><td>4 h</td><td>Example 2.3 by hand, lab 3, exercise 3 of level 2, example 2.14 (reactive power limits); examples 5.5 and 5.6 (motor start, PSS) to go further</td><td>Comparison of the 3 methods, voltage profile</td></tr>
+<tr><td>4 bis. Reactive power compensation</td><td>2 h</td><td>§ 2.4, examples 2.9 (switched steps, IEEE 33), 2.10 (STATCOM) and 2.11 (transformer tap changer), exercises 5 and 6 of level 2; example 5.4 (STATCOM and SVC in dynamics) to go further</td><td>Sizing a switched bank, setting the dead band, STATCOM / SVC limits</td></tr>
+<tr><td>5. Short circuit</td><td>4 h</td><td>Example 2.4, lab 4, example 2.15 (selectivity), example 2.16 (arrester, isolated neutral), example 2.12 (coupled parallel lines), example 2.13 (motor contribution), exercise 1 of level 2, case study 3</td><td>Choice of the protections</td></tr>
+<tr><td>6. Solar resource and weather</td><td>2 h</td><td>Lab 5, example 3.1</td><td>Site sheet</td></tr>
+<tr><td>7. Stand-alone PV system</td><td>4 h</td><td>Example 3.3, lab 6, exercise 1 of level 3</td><td>Sizing report</td></tr>
+<tr><td>8. Wiring and costs</td><td>3 h</td><td>Example 3.4, lab 7, exercise 2 of level 3</td><td>Table of links, quotation</td></tr>
+<tr><td>9. Wind</td><td>3 h</td><td>Examples 3.6 and 3.7, lab 8, case study 4</td><td>Production note</td></tr>
+<tr><td>10. Solar water pumping</td><td>2 h</td><td>Example 3.8, lab 8 bis, exercise 4 of level 3, case study 5</td><td>Pump and array sizing note</td></tr>
+<tr><td>11. Economics and viability</td><td>4 h</td><td>Examples 4.1 to 4.4, lab 9, case study 2</td><td>NPV, IRR, LCOE, sensitivity</td></tr>
+</table>
+<p>For level 5, plan 3 sessions of 4 h (lab 10 and projects A to C).</p>
+<p>For level 6, plan 7 sessions of 4 h and a half-session: (1) SGAM and protocols (tools 6.1 and 6.8, lab 6.1); (2) FLISR and reliability (example 6.3, lab 6.3, reliability
+calculator); (3) IVVC/r and CVR (example 6.4); (4) VPP, EV and microgrids (examples 6.5 and 6.6, lab 6.7); (5) owner's engineering: IEC 62559 sheet,
+specification, TCO, acceptance plan (lab 6.9); (6) SGAM workshop, lecture 6.11 and labs 6.11-A and B; (7) labs 6.11-C, D and E
+(logical / technical, gap analysis and security, CIM exchange); (7a, 2 h) lab 6.11-F and exercises 6.11. The expected results of labs 6.11 (number of
+elements, cells, protocols, findings) are given in the collapsible answers: they let you check quickly that a student followed the method. Have the
+workshop HTML report and the SGAM model (XML) handed in. The interactive tools (SGAM mapping, use case sheet, self-assessment) keep the entries in the student's
+browser: have the work exported (Markdown or text) to hand it in.</p>
+<p>For level 7, plan 4 sessions of 4 h and the assignment: (1) microgrid test bench (example 7.1, lab 7.1); (2) smart metering and losses (examples 7.2,
+labs 7.2); (3) OpenADR demand response (example 7.3, lab 7.3); (4) IEC 62443 risk assessment (lab 7.4). The HTML reports produced by NRJXpert
+(Report… button) are the deliverables.</p>
+<h3>Marking scheme of the level 6 synthesis project (out of 20)</h3>
+<table>
+<tr><th>Criterion</th><th>Points</th></tr>
+<tr><td>Diagnosis and NRJXpert model of the feeder (load flow, hosting capacity)</td><td>3</td></tr>
+<tr><td>IEC 62559 use case sheets and SGAM architecture (NRJXpert workshop: complete traceability, check without errors or warnings)</td><td>4</td></tr>
+<tr><td>Studies: reliability (2, 4, 6 switches), IVVC, VPP, islanding — interpretation of the results</td><td>5</td></tr>
+<tr><td>Specification: interoperability (CIM, IEC 61850, points list), cybersecurity</td><td>3</td></tr>
+<tr><td>Bid analysis (TCO, grid) and FAT/SAT acceptance plan</td><td>3</td></tr>
+<tr><td>Quality of the report and of the presentation</td><td>2</td></tr>
+</table>
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="ge-4">
+            <h2><span class="section-icon">👩‍🏫</span>4. Assessment and marking schemes</h2>
+<h3>Lab report (out of 20)</h3>
+<table>
+<tr><th>Criterion</th><th>Points</th></tr>
+<tr><td>Data and assumptions clearly stated (units, sources)</td><td class="num">3</td></tr>
+<tr><td>Detailed hand calculation of at least one result</td><td class="num">5</td></tr>
+<tr><td>Software results correctly recorded (screenshots, tables)</td><td class="num">4</td></tr>
+<tr><td>Comparison and explanation of the differences</td><td class="num">4</td></tr>
+<tr><td>Physical interpretation, answers to the « what happens if… » questions</td><td class="num">3</td></tr>
+<tr><td>Presentation</td><td class="num">1</td></tr>
+</table>
+<h3>Sizing report (out of 20)</h3>
+<table>
+<tr><th>Criterion</th><th>Points</th></tr>
+<tr><td>Realistic and justified load assessment</td><td class="num">3</td></tr>
+<tr><td>Sizing of the generator, storage and electronics (method and rounding)</td><td class="num">5</td></tr>
+<tr><td>Wiring: cross-sections, protection, voltage drops, costs</td><td class="num">4</td></tr>
+<tr><td>Economic study (discounted cost, LCOE, comparison of variants)</td><td class="num">4</td></tr>
+<tr><td>Sensitivity and reasoned recommendation</td><td class="num">3</td></tr>
+<tr><td>Design note following the template (case studies)</td><td class="num">1</td></tr>
+</table>
+<p>The end-of-level quizzes (8 to 12 questions) lend themselves to formative assessment: the student does them alone, the score is displayed; they can be
+reused for summative assessment on paper.</p>
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="ge-5">
+            <h2><span class="section-icon">📐</span>5. Exam subjects (2 h, documents allowed: formula sheet of the appendices)</h2>
+<div class="ex"><h4>Subject A — Electrification of a health post (technician)</h4>
+<ol>
+<li>Draw up the energy balance of a health post (list of appliances provided).</li>
+<li>Size the array, battery, charge controller and inverter at 24 V for a worst month of 4.8 kWh/m²/d.</li>
+<li>Choose the cross-section of the array → controller cable (12 m, ΔU ≤ 3 %) and its protection.</li>
+<li>Calculate the annuity and the cost of the kWh over 15 years at 8 %.</li>
+</ol>
+<p class="small">Solution: follow example 3.3 and example 3.4; marks 5 + 7 + 4 + 4.</p></div>
+<div class="ex"><h4>Subject B — Distribution network (engineer)</h4>
+<ol>
+<li>Three-node network (data of lab 3): write <b>Y</b><sub>bus</sub> in pu (base 10 MVA, 30 kV); do one Gauss-Seidel iteration.</li>
+<li>Comment on the NRJXpert results provided (Newton-Raphson): losses, reactive power of the PV node.</li>
+<li>Three-phase and phase-to-earth short circuit at node 3 (data provided), choice of the breaking capacity.</li>
+<li>A 2 MW PV plant is added at node 3: expected effects on the voltage and the losses; control law to propose.</li>
+</ol>
+<p class="small">Solution: examples 2.3, 2.4; lab 3; § 5.2. Marks 6 + 4 + 6 + 4.</p></div>
+<div class="ex"><h4>Subject C — Hybrid project (master)</h4>
+<p>Compare for a 100 kW peak site: genset alone, PV + batteries, optimised hybrid (level 5 results provided). Discuss the discount rate, the price of
+diesel and the renewable share; conclude with a quantified recommendation.</p></div>
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="ge-6">
+            <h2><span class="section-icon">🧩</span>6. Final-year projects</h2>
+<ul>
+<li>Electrification plan of a municipality: centralised, decentralised, grid extension (case studies 1 and 2, level 5).</li>
+<li>PV hosting capacity of a real MV feeder (operator's data) and connection rules.</li>
+<li>Stability of an island microgrid (Saloum islands) with grid-forming batteries.</li>
+<li>Update of the equipment database with market prices and sensitivity study of the LCOE.</li>
+<li>Measurement / simulation comparison on an existing PV installation of the school.</li>
+<li>Loss audit of a real feeder with smart-meter data (level 7) and AMI business case.</li>
+</ul>
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="ge-7">
+            <h2><span class="section-icon">👩‍🏫</span>7. Teaching tips</h2>
+<ul>
+<li>Require the hand calculation <b>before</b> using the software; mark the explanation of the differences more than the value obtained.</li>
+<li>Vary one input at a time and ask for a qualitative prediction before running the calculation again.</li>
+<li>Use local data (site weather, supplier prices, measured consumption profiles): motivation and the quality of the discussions improve markedly.</li>
+<li>Recall the limits of the models: transformer ratio not represented by the server, indicative prices, typical days.</li>
+<li>Unit entry errors (mH/H, kV/V, kW/W) are the first cause of absurd results: have the orders of magnitude checked.</li>
+</ul>
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="page-nav"><a href="etudes-de-cas-en.html">← Case studies</a><a href="annexes-en.html">Appendices →</a></div>
+
+        <div class="section" id="auteur">
+            <h2><span class="section-icon">👤</span>Author</h2>
+            <div class="author-card">
+                <div class="author-avatar">LT</div>
+                <div class="author-info">
+                    <div class="name">Prof. Lamine THIAW</div>
+                    <div class="role">Department of Electrical Engineering<br>École Supérieure Polytechnique<br>Cheikh Anta Diop University, Dakar</div>
+                    <a href="mailto:nrjxpert@niitan.com">nrjxpert@niitan.com</a>
+                </div>
+            </div>
+            <p class="small" style="margin-top:14px">November 2026</p>
+        </div>
+    </main>
+</div>
+
+<script>
+    // défilement doux vers les ancres de la page
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){
+        a.addEventListener('click', function(e){
+            var t = document.querySelector(this.getAttribute('href'));
+            if(t){ e.preventDefault(); t.scrollIntoView({behavior: 'smooth', block: 'start'}); }
+        });
+    });
+    // rubrique active dans le menu latéral
+    var navLinks = document.querySelectorAll('#sidebar nav a');
+    if('IntersectionObserver' in window){
+        var obs = new IntersectionObserver(function(entries){
+            entries.forEach(function(en){
+                if(en.isIntersecting) navLinks.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#' + en.target.id); });
+            });
+        }, {rootMargin: '-20% 0px -70% 0px'});
+        document.querySelectorAll('.section[id]').forEach(function(s){ obs.observe(s); });
+    }
+</script>
+</body>
+</html>

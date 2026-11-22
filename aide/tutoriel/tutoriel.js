@@ -165,7 +165,7 @@
     },
     dispatch: function(div){
       form(div, T("Répartition économique de trois groupes", "Economic dispatch of three units"), [
-        ["pd", T("Demande P<sub>D</sub>", "Demand P<sub>D</sub>"), "952", "MW"],
+        ["pd", T("Demande P_D", "Demand P_D"), "952", "MW"],
         ["b1", "β₁", "1", "F/MWh"], ["g1", "γ₁", "0,0625", "F/MWh²"],
         ["b2", "β₂", "1", "F/MWh"], ["g2", "γ₂", "0,0125", "F/MWh²"],
         ["b3", "β₃", "1", "F/MWh"], ["g3", "γ₃", "0,025", "F/MWh²"]],
@@ -175,7 +175,7 @@
         var lam = (v.pd + s2) / s1, out = "", tot = 0, neg = false;
         for(i = 0; i < 3; i++){
           var p = (lam - b[i]) / (2 * g[i]); tot += p; if(p < 0) neg = true;
-          out += "P<sub>" + (i + 1) + "</sub> = <b>" + fr(p, 2) + " MW</b>" + (i < 2 ? " ; " : "");
+          out += "P<sub>" + (i + 1) + "</sub> = <b>" + fr(p, 2) + " MW</b>" + (i < 2 ? T(" ; ", "; ") : "");
         }
         return T("Coût marginal commun λ = <b>", "Common marginal cost λ = <b>") + fr(lam, 4) + " F/MWh</b><br>" + out +
           T("<br>Total = ", "<br>Total = ") + fr(tot, 2) + " MW" +

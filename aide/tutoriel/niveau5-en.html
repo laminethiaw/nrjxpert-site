@@ -193,6 +193,73 @@ regulator with slope, current limit (STATCOM) or susceptance limit (SVC). Repeat
 <p>While regulating, both compensators behave alike. At their limit, the STATCOM keeps its maximum current: it supplies three times as much
 reactive power as the SVC during the voltage dip.</p>
 </details></div>
+<h3>Induction machines: direct-on-line start and voltage dips</h3>
+<p>The squirrel-cage induction motor is the most common dynamic load (pumps, fans, compressors). In a direct-on-line start it draws 5 to 7
+times its rated current at a low power factor (0.2 to 0.3): the resulting voltage dip disturbs other users and may prevent the motor from
+accelerating (torque ∝ V²). During a voltage dip (fault) the motor slows down; if it goes past the slip of maximum torque before the voltage
+returns, it stalls and stays locked. NRJXpert uses the third-order model: transient emf <i>E</i>′ behind <i>R</i><sub>s</sub> + j<i>X</i>′
+(<i>X</i>′ = <i>X</i><sub>s</sub> + <i>X</i><sub>m</sub>∥<i>X</i><sub>r</sub>), rotor flux dynamics (time constant <i>T</i>′<sub>0</sub> =
+(<i>X</i><sub>r</sub> + <i>X</i><sub>m</sub>)/(ω·<i>R</i><sub>r</sub>)) and equation of motion 2<i>H</i>·d<i>s</i>/d<i>t</i> = <i>T</i><sub>l</sub> −
+<i>T</i><sub>e</sub>, with a load torque <i>T</i><sub>l</sub> = <i>T</i><sub>0</sub>·(1 − <i>s</i>)<sup><i>k</i></sup>
+(palette <b>Power system (load flow) › Induction machine</b>).</p>
+<div class="ex"><h4>Example 5.5 — Starting a 2 MVA motor (<code>exemples/demarrage_moteur.xml</code>)</h4>
+<p>A 6 kV substation (<i>Z</i><sub>sc</sub> = 0.02 + j0.36 Ω) supplies through a 0.05 + j0.6 Ω cable a 1 MW + 0.4 Mvar load and a pump
+driven by a 2 MVA motor (default equivalent circuit, <i>T</i><sub>0</sub> = 0.7 pu, <i>k</i> = 2, <i>H</i> = 0.6 s), started at 0.5 s. Run the
+dynamic simulation (5 s) and plot the bus voltage, the speed and the current of the motor.</p>
+<details class="sol" open><summary>Server results (RMS simulation, 5 s)</summary>
+<table>
+<tr><th>Quantity</th><th>Value</th></tr>
+<tr><td>Bus voltage before the start</td><td class="num">5.95 kV (0.992 pu)</td></tr>
+<tr><td>Minimum voltage during the start</td><td class="num"><span class="result">4.41 kV (0.734 pu)</span></td></tr>
+<tr><td>Starting current</td><td class="num">886 A (4.6 <i>I</i><sub>n</sub> at 0.755 pu; 6.1 <i>I</i><sub>n</sub> at 1 pu)</td></tr>
+<tr><td>Time to reach 95 % of the speed</td><td class="num">1.3 s</td></tr>
+<tr><td>Steady state</td><td class="num">slip 2.3 %, 1.35 MW, 0.76 Mvar, 5.80 kV</td></tr>
+</table>
+<p>The 26 % dip is far beyond the 10 % usually accepted for frequent starts: a starter (star-delta, soft starter) or a drive would be
+needed, or a stronger network. Artificially lengthening the cable (or setting the load torque to 1 pu with <i>k</i> = 0) shows the case where
+the motor no longer starts.</p>
+</details></div>
+<h3>Synchronous machine: voltage regulator and stabiliser (PSS)</h3>
+<p>A fast, high-gain voltage regulator (AVR) holds the voltage well after a fault, but it reduces the damping of electromechanical oscillations
+(about 1 Hz for a machine connected to a strong network) and may make it negative. The power system stabiliser (PSS) adds to the AVR set-point
+a signal taken from the speed deviation: <i>V</i><sub>s</sub> = <i>K</i><sub>pss</sub>·[s<i>T</i><sub>w</sub>/(1 + s<i>T</i><sub>w</sub>)]·[(1 +
+s<i>T</i><sub>1</sub>)/(1 + s<i>T</i><sub>2</sub>)]·Δω, the washout passing only the oscillations and the lead compensating the lag of the
+excitation. Parameters: <b>Capability, AVR, PSS…</b> button of the generator (H, X'd, Xd, T'd0: DER button, « sync_gen » model).</p>
+<div class="fig" id="fig-pss"><svg viewBox="0 0 600 235" width="600" role="img" aria-label="Block diagram of the voltage regulator and the PSS" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" font-family="inherit"><rect x="20" y="30" width="50" height="34" rx="5"/><text x="45" y="51.55" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Δω</text><path d="M70 47L100 47"/><path d="M93.5526 49.7259L100 47L93.5526 44.2741" fill="currentColor"/><rect x="100" y="28" width="70" height="38" rx="5"/><text x="135" y="51.2" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">Kpss</text><path d="M170 47L200 47"/><path d="M193.553 49.7259L200 47L193.553 44.2741" fill="currentColor"/><rect x="200" y="24" width="120" height="46" rx="5"/><text x="260" y="44.35" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">washout</text><text x="260" y="57.35" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">sTw/(1+sTw)</text><path d="M320 47L350 47"/><path d="M343.553 49.7259L350 47L343.553 44.2741" fill="currentColor"/><rect x="350" y="24" width="120" height="46" rx="5"/><text x="410" y="44.35" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">lead-lag</text><text x="410" y="57.35" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">(1+sT1)/(1+sT2)</text><path d="M470 47H520V112"/><text x="526" y="82" text-anchor="start" font-size="12" fill="currentColor" stroke="none">Vs</text><rect x="400" y="20" width="190" height="56" rx="7" stroke-dasharray="4 3" stroke-opacity=".0"/><text x="300" y="14" text-anchor="middle" font-size="12" fill="currentColor" stroke="none" font-weight="bold">PSS</text><circle cx="520" cy="130" r="17"/><path d="M510 130h20M520 120v20" stroke-width="1.2"/><text x="486" y="108" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">+</text><text x="552" y="126" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">+</text><path d="M520 147V175"/><text x="560" y="180" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">−</text><path d="M590 130H537"/><text x="572" y="122" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">Vref</text><path d="M503 130H470"/><path d="M480 130L462 130"/><path d="M468.447 127.274L462 130L468.447 132.726" fill="currentColor"/><rect x="380" y="112" width="84" height="36" rx="5"/><text x="422" y="127.35" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">AVR</text><text x="422" y="140.35" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">Ka / (1+sTa)</text><path d="M380 130L350 130"/><path d="M356.447 127.274L350 130L356.447 132.726" fill="currentColor"/><rect x="260" y="112" width="90" height="36" rx="5"/><text x="305" y="127.35" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">exciter</text><text x="305" y="140.35" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">1/(1+sT'd0)</text><path d="M260 130L230 130"/><path d="M236.447 127.274L230 130L236.447 132.726" fill="currentColor"/><rect x="110" y="112" width="120" height="36" rx="5"/><text x="170" y="134.025" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">machine + grid</text><path d="M110 130H60V64"/><path d="M60 76L60 66"/><path d="M62.7259 72.4474L60 66L57.2741 72.4474" fill="currentColor"/><text x="54" y="100" text-anchor="end" font-size="11.5" fill="currentColor" stroke="none">Δω</text><path d="M170 148V205H520V175"/><path d="M520 188L520 177"/><path d="M522.726 183.447L520 177L517.274 183.447" fill="currentColor"/><text x="345" y="220" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">Vt</text></svg><div class="cap">The PSS reads the speed deviation Δω, keeps only the oscillations (washout filter, time constant Tw), compensates with a phase lead (T1, T2) the lag introduced by the exciter and the machine, then adds the signal Vs to the AVR set-point. It thus creates a damping torque in phase with Δω. Without it, a fast AVR (high Ka) can make the oscillation unstable.</div></div>
+<div class="ex"><h4>Example 5.6 — Damping by the PSS (<code>exemples/pss_generateur.xml</code>)</h4>
+<p>A 10 MVA alternator (8 MW, <i>H</i> = 3 s, <i>X</i>′<sub>d</sub> = 0.3, <i>X</i><sub>d</sub> = 1.8 pu, <i>T</i>′<sub>d0</sub> = 6 s) is connected
+to the network through a 0.4 + j16 Ω line; its AVR has a gain <i>K</i><sub>a</sub> = 100. Fault at the generator bus from 1.0 to 1.1 s. Simulate
+10 s with the PSS of the file (<i>K</i><sub>pss</sub> = 10, <i>T</i><sub>w</sub> = 10 s, <i>T</i><sub>1</sub> = 0.3 s, <i>T</i><sub>2</sub> = 0.05 s),
+then without PSS (<i>K</i><sub>pss</sub> = 0).</p>
+<details class="sol" open><summary>Server results (RMS simulation, 10 s)</summary>
+<table>
+<tr><th>Maximum frequency deviation</th><th>1.1 – 3 s</th><th>3 – 6 s</th><th>6 – 10 s</th></tr>
+<tr><td>Without PSS</td><td class="num">0.88 Hz</td><td class="num">1.08 Hz</td><td class="num"><span class="result">1.25 Hz</span> (growing)</td></tr>
+<tr><td>With PSS</td><td class="num">0.65 Hz</td><td class="num">0.37 Hz</td><td class="num"><span class="result">0.01 Hz</span></td></tr>
+</table>
+<p>Oscillation at 1.35 Hz. Without PSS the fast AVR makes it unstable: the amplitude grows until loss of synchronism; with the PSS it dies out
+within a few seconds. The setting of <i>T</i><sub>1</sub>, <i>T</i><sub>2</sub> depends on the operating point: it must be checked (by simulation or
+modal analysis) for each configuration.</p>
+</details></div>
+
+<div class="ex"><h4>Example 5.8 — Grid-following inverter in electromagnetic transients (<code>exemples/emt_onduleur.xml</code>)</h4>
+<p>The previous RMS simulations show neither waveforms nor unbalance. The <b>average EMT</b> model of a 100 kVA, 400 V grid-following inverter (dq current loop, PLL, current limited to 1.2 pu, grid with a short-circuit ratio of 10) computes the three instantaneous voltages and currents.
+Scenario of the file: power set-point 50 kW, raised to 100 kW at 0.1 s; <b>single-phase</b> voltage dip to 50 % (phase a) from 0.3 to 0.4 s; duration 0.6 s.
+This file describes a study, not a network: it has no diagram. <b>Help › Open a tutorial example</b> opens it in the « Network file calculation (XML) » window; click « Calculate on the server ». The summary gives, for each series (<code>t</code>, <code>va</code>, <code>ia</code>, <code>p</code>, <code>q</code>, <code>f_pll</code>…), the number of points, the minimum and the maximum; the full answer contains the values.
+Run the calculation again after adding to the JSON <code>"inverter": {"pll_maf": true, "pll_wn_hz": 8}</code> (PLL with a moving-average filter).</p>
+<details class="sol"><summary>Server results</summary>
+<table>
+<tr><th></th><th>Standard PLL (20 Hz)</th><th>PLL with MAF filter (8 Hz)</th></tr>
+<tr><td>Steady power (0.05 to 0.1 s, then 0.2 to 0.3 s)</td><td class="num">50.0 then 100.0 kW</td><td class="num">50.0 then 100.0 kW</td></tr>
+<tr><td>Ripple of <i>P</i> during the dip (peak to peak)</td><td class="num">18.9 kW</td><td class="num">18.7 kW</td></tr>
+<tr><td>Ripple of the PLL frequency during the dip</td><td class="num"><span class="result">10.9 Hz</span></td><td class="num"><span class="result">0.07 Hz</span></td></tr>
+<tr><td>Peak current (rated: 204 A)</td><td class="num">245 A (1.2 pu)</td><td class="num">245 A (1.2 pu)</td></tr>
+</table>
+<p>The single-phase dip creates a negative-sequence voltage component: the instantaneous power oscillates at 100 Hz (about 19 kW peak to peak for 100 kW), about as much with both PLLs. But the standard PLL receives this component at 100 Hz
+and its frequency oscillates by 11 Hz peak to peak; the MAF filter brings it down to 0.07 Hz, at the price of a slower PLL (8 Hz bandwidth). The current stays limited to 1.2 pu and the power returns to 100 kW after the dip. This phenomenon, invisible in RMS, justifies
+the voltage dip ride-through requirements and electromagnetic-transient tests.</p>
+</details></div>
+
 
 <!-- ================================================================== -->
             <a href="#top" class="back-to-top">↑ Back to top</a>
@@ -212,11 +279,11 @@ with PV, wind, battery and genset, three-phase fault → I"k = 1.656 kA of which
         <div class="section" id="n5-6">
             <h2><span class="section-icon">💰</span>5.6 Economic dispatch and OPF</h2>
 <p><b>Economic dispatch</b> decides, hour by hour, who produces: start-up of the gensets, charging and discharging of the batteries, purchases and sales
-to the grid, load curtailment. It is a <b>mixed-integer linear programme</b> (MILP): continuous variables (powers, states of charge) and binary ones
+to the grid, load curtailment. It is the modern version of the <b>economic dispatch</b> of <a href="niveau2-en.html#n2-9">§ 2.9</a>: where that one equalised the marginal costs of a few thermal units at a given instant, here a <b>mixed-integer linear programme</b> (MILP) is solved over 24 h: continuous variables (powers, states of charge) and binary ones
 (genset on or off, charging or discharging).</p>
 <div class="eq">min Σ<sub>t</sub> [ fuel cost + start-ups + purchases − sales + battery wear + load shedding ]<br>
 subject to: power balance at each hour; P<sub>min</sub>·u ≤ P ≤ P<sub>n</sub>·u; SOC<sub>t</sub> = SOC<sub>t−1</sub> + (η<sub>c</sub>P<sub>c</sub> − P<sub>d</sub>/η<sub>d</sub>)Δt; spinning reserve</div>
-<div class="ex"><h4>Example 5.4 — Islanded microgrid over 24 h</h4>
+<div class="ex"><h4>Example 5.7 — Islanded microgrid over 24 h</h4>
 <p>File <code>exemples/dispatch_microreseau_ilote.xml</code>: 1.5 MVA genset (diesel 800 F/l), 0.8 MW PV, 0.9 MWh / 0.3 MW battery.</p>
 <details class="sol" open><summary>Server results</summary>
 <p>Energy served 16.6 MWh; fuel 4 664 l; renewable share <span class="result">36.6 %</span>; no curtailment or load shedding; cost
@@ -285,6 +352,12 @@ renewable share; identify when curtailment appears. Complete with the economic a
 <div class="qcm" data-answer="d"><p class="q">8. The economic dispatch of a microgrid uses binary variables for:</p>
 <ol><li data-k="a">the voltages</li><li data-k="b">the prices</li><li data-k="c">the losses</li><li data-k="d">on/off of the gensets and the charge/discharge exclusion</li></ol>
 <div class="fb">Hence a MILP problem, solved by HiGHS (SciPy).</div></div>
+<div class="qcm" data-answer="b"><p class="q">9. An induction motor starts at 80 % of its rated voltage. Its starting torque is:</p>
+<ol><li data-k="a">80 % of its rated value</li><li data-k="b">64 % of its rated value</li><li data-k="c">51 % of its rated value</li><li data-k="d">the same value</li></ol>
+<div class="fb">Torque varies as V²: 0.8² = 0.64. If the load torque is higher, the motor cannot start or it stalls (example 5.5).</div></div>
+<div class="qcm" data-answer="b"><p class="q">10. What is the phase lead (T1, T2) of a power system stabiliser (PSS) for?</p>
+<ol><li data-k="a">to filter the speed measurement noise</li><li data-k="b">to compensate the lag of the exciter and the machine so that the added torque is in phase with Δω</li><li data-k="c">to increase the static gain of the AVR</li><li data-k="d">to limit the field voltage</li></ol>
+<div class="fb">A damping torque must be in phase with the speed deviation; the lag of the excitation chain shifts it, the phase lead brings it back (example 5.6).</div></div>
             <a href="#top" class="back-to-top">↑ Back to top</a>
         </div>
         <div class="page-nav"><a href="niveau4-en.html">← Level 4 — Economic studies</a><a href="niveau6-en.html">Level 6 — Smart grids →</a></div>

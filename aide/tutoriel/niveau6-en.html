@@ -226,6 +226,10 @@ contractual range reduces the consumption of voltage-sensitive loads (ZIP model)
 <b>Volt/VAR control (IVVC)</b>, which compares over the load profile: S0 no control, S1 local control (Q(V) of the inverters, voltage relays of the
 capacitors), S2 centralised IVVC (tap + capacitors), S3 IVVC/r (+ reactive power of the inverters). Settings: « Volt/VAR » tab (objective losses / CVR,
 tap changer range, ZIP model).</p>
+<p>If the substation transformer is a three-phase transformer with taps (“Tap changer (OLTC)” section of its dialog), IVVC uses its <b>actual</b> parameters:
+step, initial position, lowest and highest positions, and the ratio in the transformer's π model; it then proposes the position hour by hour and returns the
+tap positions (positive position = more primary turns = lower voltage). Without a tapped transformer, the tap changer stays the abstract device of the slack
+bus, set by the range of the “Volt/VAR” tab.</p>
 <div class="ex"><h4>Example 6.4 — IEEE 33-bus with 2 × 0.8 MWp and two stepped capacitor banks (<code>exemples/ivvc_ieee33.xml</code>)</h4>
 <details class="sol" open><summary>Results over 24 h (objective: losses)</summary>
 <table class="sgam-fig">

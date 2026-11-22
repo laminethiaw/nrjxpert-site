@@ -76,6 +76,18 @@ Load flow : S<sub>i</sub>* = V<sub>i</sub>*Σ<sub>k</sub>Y<sub>ik</sub>V<sub>k</
 <h3>Court-circuit (CEI 60909-0)</h3>
 <div class="eq">I"k3 = cU<sub>n</sub>/(√3|Z₁|) &nbsp; I"k2 = cU<sub>n</sub>/|Z₁ + Z₂| &nbsp; I"k1 = √3cU<sub>n</sub>/|Z₁ + Z₂ + Z₀|<br>
 I"<sub>kE2E</sub> = √3cU<sub>n</sub>|Z₂|/|Z₁Z₂ + Z₁Z₀ + Z₂Z₀| &nbsp; i<sub>p</sub> = κ√2 I"k &nbsp; κ = 1,02 + 0,98e<sup>−3R/X</sup> &nbsp; S"k = √3U<sub>n</sub>I"k</div>
+<h3>Machines tournantes</h3>
+<div class="eq">Synchrone : E = V + jX<sub>d</sub>I &nbsp; P = (EV/X<sub>d</sub>)sin δ &nbsp; Q = (EV cos δ − V²)/X<sub>d</sub> &nbsp; capacité : p² + q² ≤ v² ; p² + (q + v²/X<sub>d</sub>)² ≤ (vE<sub>fd max</sub>/X<sub>d</sub>)²<br>
+Asynchrone : s = (n<sub>s</sub> − n)/n<sub>s</sub> &nbsp; n<sub>s</sub> = 60f/p &nbsp; P<sub>méc</sub> = 3I<sub>r</sub>²R<sub>r</sub>(1 − s)/s &nbsp; C ∝ V² &nbsp; Z<sub>M</sub> = U<sub>n</sub>²/((I<sub>LR</sub>/I<sub>rM</sub>)·S<sub>rM</sub>) (CEI 60909, R/X = 0,10 ; 0,15 ; 0,42)</div>
+<h3>Protection et sélectivité</h3>
+<div class="eq">Temps inverse (CEI 60255-151) : t = TMS·k/((I/I<sub>s</sub>)<sup>α</sup> − 1) &nbsp; SI : k = 0,14, α = 0,02 &nbsp; VI : 13,5 ; 1 &nbsp; EI : 80 ; 2<br>
+Marge de sélectivité chronométrique ≈ 0,3 s &nbsp; Tenue des câbles : I²t ≤ k²S² (k = 143 Cu/PR) &nbsp; Fusibles gG en série : calibre amont ≥ 1,6 × aval<br>
+Distance : Z = V/I &nbsp; zones 80 % (instantané), 120 % (0,3 s), 200 % (1 s) &nbsp; k<sub>0</sub> = (Z₀ − Z₁)/(3Z₁) &nbsp; Z<sub>0,éq</sub> = (Z<sub>A</sub>Z<sub>B</sub> − Z<sub>0m</sub>²)/(Z<sub>A</sub> + Z<sub>B</sub> − 2Z<sub>0m</sub>)<br>
+TC : ALF′ = ALF·(R<sub>ct</sub>I<sub>sn</sub>² + S<sub>n</sub>)/(R<sub>ct</sub>I<sub>sn</sub>² + S<sub>b</sub>)</div>
+<h3>Régime de neutre et coordination d'isolement</h3>
+<div class="eq">Neutre isolé : I<sub>c</sub> = 3ωC<sub>0</sub>U<sub>n</sub>/√3 &nbsp; phases saines : √3 × tension simple<br>
+Résistance : R<sub>n</sub> = U<sub>n</sub>/(√3·I<sub>lim</sub>) &nbsp; Petersen : L = 1/(3ω²C<sub>0</sub>(1 + v)) &nbsp; I<sub>résiduel</sub> ≈ I<sub>c</sub>√(v² + r²)<br>
+Parafoudre : U<sub>eq</sub> = U<sub>pl</sub> + 2SL/v (v = 300 m/µs) &nbsp; marge BIL/U<sub>eq</sub> ≥ 1,2 &nbsp; TOV : U<sub>r</sub> ≥ k·U<sub>m</sub>/(√3·T), k ≈ 1,4 (terre) ou √3 (isolé, compensé)</div>
 <h3>Solaire</h3>
 <div class="eq">δ = 23,45 sin(360(284 + n)/365) &nbsp; ω<sub>s</sub> = arccos(−tan φ tan δ) &nbsp; K<sub>t</sub> = H/H₀<br>
 H<sub>β</sub> = H[(1 − H<sub>d</sub>/H)R<sub>b</sub> + (H<sub>d</sub>/H)(1 + cos β)/2 + ρ(1 − cos β)/2]<br>
@@ -95,6 +107,9 @@ Q<sub>max</sub> = πV/(2ΔT) &nbsp; P<sub>H</sub> = Q<sub>max</sub>·HMT/367 &nb
 <h3>Économie</h3>
 <div class="eq">CRF = a(1 + a)<sup>N</sup>/((1 + a)<sup>N</sup> − 1) &nbsp; VAN = ΣF<sub>n</sub>/(1 + a)<sup>n</sup> &nbsp; LCOE = C<sub>act</sub>/ΣE<sub>n</sub>/(1 + a)<sup>n</sup><br>
 taux réel = (1 + a)/(1 + i) − 1 &nbsp; subvention minimale = max(0, −VAN/I₀)</div>
+<h3>Réseaux intelligents (niveaux 6 et 7)</h3>
+<div class="eq">SAIDI = Σ(N<sub>i</sub>·t<sub>i</sub>)/N<sub>T</sub> &nbsp; SAIFI = ΣN<sub>i</sub>/N<sub>T</sub> &nbsp; CVRf ≈ 2Z + I &nbsp; RoCoF ≈ ΔP·f₀/(2H·ΣSn)<br>
+PNT = E<sub>injectée</sub> − E<sub>comptée</sub> − E<sub>technique</sub> &nbsp; précision = VP/(VP + FP) &nbsp; rappel = VP/(VP + FN) &nbsp; succès d'une trame = 1 − (1 − pⁿ)^(r+1)</div>
             <a href="#top" class="back-to-top">↑ Retour en haut</a>
         </div>
         <div class="section" id="a2">
@@ -142,6 +157,8 @@ taux réel = (1 + a)/(1 + i) − 1 &nbsp; subvention minimale = max(0, −VAN/I�
 <tr><td>Rendements</td><td>onduleur 92 à 97 % ; MPPT 96 à 98 % ; batterie plomb 80 à 85 %, lithium 92 à 95 %</td></tr>
 <tr><td>Consommation d'un groupe</td><td>0,25 l/kWh à pleine charge, 0,35 à 0,45 l/kWh à faible charge</td></tr>
 <tr><td>Taux d'actualisation</td><td>6 à 12 % ; inflation 2 à 4 %</td></tr>
+<tr><td>Machines et protection (HTA)</td><td>démarrage direct d'un moteur : 5 à 7 In, cos φ 0,2 à 0,3, creux admis ≈ 10 % ; X″d 0,12 à 0,25 pu ; marge de sélectivité 0,3 s ; TC 5P20 ; BIL 125 kV pour Um = 24 kV</td></tr>
+<tr><td>Défaut à la terre (HTA)</td><td>neutre isolé : quelques A à quelques centaines d'A (capacitif) ; résistance : 300 à 1 000 A ; Petersen : résiduel 2 à 10 A ; neutre direct : plusieurs kA</td></tr>
 </table>
             <a href="#top" class="back-to-top">↑ Retour en haut</a>
         </div>
@@ -166,8 +183,9 @@ taux réel = (1 + a)/(1 + i) − 1 &nbsp; subvention minimale = max(0, −VAN/I�
 <li>M. E. Baran, F. F. Wu, « Network reconfiguration in distribution systems for loss reduction and load balancing », <i>IEEE Trans. Power Delivery</i>, 1989 — réseau IEEE 33 nœuds.</li>
 <li>J. A. Duffie, W. A. Beckman, <i>Solar Engineering of Thermal Processes</i>, Wiley — géométrie solaire, plan incliné.</li>
 <li>J. F. Manwell, J. G. McGowan, A. L. Rogers, <i>Wind Energy Explained</i>, Wiley — Weibull, courbes de puissance.</li>
-<li>CEI 60909-0:2016 (courants de court-circuit) ; CEI 60364 / NF C 15-100 (installations BT) ; UTE C15-712-1 (installations PV) ;
-CEI 61400-12-1 (courbes de puissance éoliennes) ; IEEE 1547-2018 (raccordement des DER).</li>
+<li>CEI 60909-0:2016 (courants de court-circuit) ; CEI 60255-151 (relais à maximum de courant) ; CEI 61869 (transformateurs de mesure) ; CEI 60071-1/-2 (coordination d'isolement) ; CEI 60099-5 (parafoudres) ; CEI 60364 / NF C 15-100 (installations BT) ; UTE C15-712-1 (installations PV) ;
+CEI 61400-12-1 (courbes de puissance éoliennes) ; IEEE 1547-2018 (raccordement des DER) ; IEEE 2030.7 / 2030.8 (micro-réseaux) ; CEI 62056 (DLMS/COSEM) ; OpenADR 2.0b ;
+CEI 62443 et CEI 62351 (cybersécurité).</li>
 </ul>
             <a href="#top" class="back-to-top">↑ Retour en haut</a>
         </div>

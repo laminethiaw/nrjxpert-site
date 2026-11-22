@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Level 2 — Power networks — NRJXpert tutorial</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tutoriel.css">
+<script src="tutoriel.js"></script>
+<script src="glossaire.js" defer></script>
+</head>
+<body>
+<div id="top"></div>
+
+<!-- ════════════════ MENU LATÉRAL ════════════════ -->
+<aside id="sidebar">
+    <div id="sidebar-header">
+        <div class="app-name">NRJXpert</div>
+        <div class="app-version">Version 2.0.0 · Tutorial › Level 2</div>
+    </div>
+    <nav>
+        <a href="#intro"><span class="nav-icon">📘</span>Introduction</a>
+        <a href="#n2-1"><span class="nav-icon">🧵</span>Lines and cables</a>
+        <a href="#n2-2"><span class="nav-icon">🔸</span>Transformers</a>
+        <a href="#n2-3"><span class="nav-icon">📗</span>Per-unit system</a>
+        <a href="#n2-4"><span class="nav-icon">📉</span>Voltage drop and losses</a>
+        <a href="#n2-5"><span class="nav-icon">🔀</span>Load flow: formulation</a>
+        <a href="#n2-6"><span class="nav-icon">📘</span>Solution methods</a>
+        <a href="#n2-7"><span class="nav-icon">⚡</span>Short circuit according to IEC 60909-0</a>
+        <a href="#n2-8"><span class="nav-icon">⚡</span>Protection: what short-circuit currents are used for</a>
+        <a href="#n2-ex"><span class="nav-icon">🎯</span>Exercises</a>
+        <a href="#n2-qcm"><span class="nav-icon">📋</span>Level 2 quiz</a>
+        <a href="#auteur"><span class="nav-icon">👤</span>Author</a>
+    </nav>
+    <div class="side-links"><a href="index-en.html">🏠 Tutorial home</a><a href="niveau1-en.html">← Level 1</a><a href="niveau3-en.html">Level 3 →</a><a href="../help-en.html">📖 User guide</a></div>
+</aside>
+
+<!-- ════════════════ ZONE PRINCIPALE ════════════════ -->
+<div id="main">
+    <div id="hero">
+        <h1><span class="badge b2">Level 2</span> Power networks</h1>
+        <div class="tagline">Modelling the elements of a network, calculating the power flow (load flow) and the short-circuit currents.</div>
+        <div class="badges">
+            <span class="hero-badge">Tutorial</span>
+            <span class="hero-badge">Version 2.0.0</span>
+            <span class="hero-badge">November 2026</span>
+            <a class="hero-badge language-link" href="./niveau2.html" lang="fr" aria-label="Click to show the French version">
+                EN / FR
+                <small>Click for the French version</small>
+            </a>
+        </div>
+    </div>
+
+    <div id="topbar">
+        <div class="title">Level 2 — Power networks</div>
+        <span class="meta">NRJXpert 2.0.0 · November 2026</span>
+    </div>
+
+    <main id="content">
+        <div id="toc-section">
+            <h2>Contents</h2>
+            <div class="toc-grid">
+                <a href="#intro"><span class="toc-num">00</span>Introduction</a>
+                <a href="#n2-1"><span class="toc-num">2.1</span>Lines and cables</a>
+                <a href="#n2-2"><span class="toc-num">2.2</span>Transformers</a>
+                <a href="#n2-3"><span class="toc-num">2.3</span>Per-unit system</a>
+                <a href="#n2-4"><span class="toc-num">2.4</span>Voltage drop and losses</a>
+                <a href="#n2-5"><span class="toc-num">2.5</span>Load flow: formulation</a>
+                <a href="#n2-6"><span class="toc-num">2.6</span>Solution methods</a>
+                <a href="#n2-7"><span class="toc-num">2.7</span>Short circuit according to IEC 60909-0</a>
+                <a href="#n2-8"><span class="toc-num">2.8</span>Protection: what short-circuit currents are used for</a>
+                <a href="#n2-ex"><span class="toc-num">09</span>Exercises</a>
+                <a href="#n2-qcm"><span class="toc-num">10</span>Level 2 quiz</a>
+            </div>
+        </div>
+
+        <div class="section" id="intro">
+            <h2><span class="section-icon">📘</span>Introduction</h2>
+<div class="objectifs">
+<h4>Objectives</h4>
+<ul>
+<li>Establish the equivalent circuit of a line, a cable and a transformer from manufacturer data.</li>
+<li>Convert physical quantities to per-unit quantities and back.</li>
+<li>Calculate a voltage drop and losses; check a voltage profile.</li>
+<li>Write the load-flow equations, do one Gauss-Seidel iteration by hand and interpret the convergence of the three methods.</li>
+<li>Calculate three-phase, phase-to-phase and phase-to-earth short-circuit currents according to IEC 60909 and deduce the breaking capacity.</li>
+</ul>
+<p class="prereq">Prerequisites: level 1, elementary matrix calculus. Duration: 20 to 25 h.</p>
+</div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n2-1">
+            <h2><span class="section-icon">🧵</span>2.1 Lines and cables</h2>
+<p>A line or cable is characterised by four <b>per-length</b> quantities (per km): resistance <i>r</i>, inductance <i>l</i> (reactance
+<i>x</i> = <i>l</i>ω), capacitance <i>c</i> and conductance <i>g</i> (neglected). Orders of magnitude:</p>
+<table>
+<tr><th>Asset</th><th>r (Ω/km)</th><th>x (Ω/km)</th><th>c (nF/km)</th><th>Remark</th></tr>
+<tr><td>MV overhead line, AAAC 148 mm²</td><td class="num">0.22 to 0.27</td><td class="num">0.35 to 0.40</td><td class="num">9 to 10</td><td>R/X ≈ 0.7</td></tr>
+<tr><td>MV overhead line, AAAC 54.6 mm²</td><td class="num">0.60</td><td class="num">0.40</td><td class="num">9</td><td>R/X ≈ 1.5</td></tr>
+<tr><td>MV underground cable, Al 150 mm²</td><td class="num">0.21</td><td class="num">0.11</td><td class="num">250 to 400</td><td>large capacitance</td></tr>
+<tr><td>LV copper cable 4 × 95 mm²</td><td class="num">0.24</td><td class="num">0.08</td><td class="num">—</td><td>R/X ≈ 3</td></tr>
+</table>
+<p>Models according to the electrical length: <b>short line</b> (&lt; 80 km overhead): <i>R</i> + j<i>X</i> in series; <b>medium line</b> (<b>π</b>
+model): <i>R</i> + j<i>X</i> in series and <i>C</i>/2 to earth at each end; long line: distributed-parameter model. NRJXpert offers the R, L, RL
+and RLC π models (<b>Network</b> palette) with <i>R</i> = <i>r·ℓ</i>, <i>L</i> = <i>l·ℓ</i>, <i>C</i> = <i>c·ℓ</i>.</p>
+<p><b>Zero-sequence quantities.</b> For earth faults, <i>r</i>₀, <i>x</i>₀ (return through the earth, about 3 times <i>x</i> for overhead lines) and
+<i>c</i>₀ are also needed: « Zero sequence » section of the lines.</p>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n2-2">
+            <h2><span class="section-icon">🔸</span>2.2 Transformers</h2>
+<p>The Kapp equivalent circuit reduces the transformer to a series impedance <i>Z</i><sub>sc</sub> = <i>R</i><sub>sc</sub> + j<i>X</i><sub>sc</sub> and a
+magnetising branch (<i>R</i><sub>fe</sub> ∥ j<i>X</i><sub>m</sub>), from the short-circuit test (<i>u</i><sub>sc</sub>, <i>P</i><sub>sc</sub>) and the
+no-load test (<i>i</i>₀, <i>P</i>₀):</p>
+<div class="eq">Z<sub>sc</sub> = u<sub>sc</sub>·U²/S<sub>n</sub> &nbsp;&nbsp; R<sub>sc</sub> = P<sub>sc</sub>·U²/S<sub>n</sub>² &nbsp;&nbsp; X<sub>sc</sub> = √(Z<sub>sc</sub>² − R<sub>sc</sub>²)
+&nbsp;&nbsp; (U = voltage of the side to which the impedance is referred)</div>
+<p>The <b>vector group</b> (Dyn, YNd, Yyn…) plays no role in the positive sequence but determines the zero-sequence path: a delta winding blocks
+the zero-sequence current, an earthed star neutral lets it through. Dyn11, very common in distribution, isolates the MV network from LV earth
+faults and provides the LV network with an earthed neutral.</p>
+<div class="ex"><h4>Example 2.1 — Distribution transformer</h4>
+<p>250 kVA, 30 kV / 400 V, <i>u</i><sub>sc</sub> = 4 %, <i>P</i><sub>sc</sub> = 3.25 kW. Calculate <i>Z</i><sub>sc</sub>, <i>R</i><sub>sc</sub>, <i>X</i><sub>sc</sub>
+referred to the secondary, the rated current and the voltage drop at full load with cos φ = 0.8.</p>
+<details class="sol"><summary>Show the solution</summary>
+<p><i>Z</i><sub>sc</sub> = 0.04 × 400²/250 000 = <span class="result">25.6 mΩ</span>; <i>R</i><sub>sc</sub> = 3 250 × 400²/250 000² = <span class="result">8.32 mΩ</span>;
+<i>X</i><sub>sc</sub> = <span class="result">24.21 mΩ</span>. <i>I</i><sub>n</sub> = 250 000/(√3 × 400) = 360.8 A.</p>
+<p>ΔU ≈ √3·<i>I</i>·(<i>R</i> cos φ + <i>X</i> sin φ) = √3 × 360.8 × (0.00832 × 0.8 + 0.02421 × 0.6) = <span class="result">13.2 V, i.e. 3.3 %</span>.</p>
+<p>These are exactly the values computed by the parameter dialog of the NRJXpert three-phase transformer (Network palette).</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n2-3">
+            <h2><span class="section-icon">📗</span>2.3 Per-unit system</h2>
+<p>A base power <i>S</i><sub>b</sub> (common to the whole network, e.g. 100 MVA or 10 MVA) and a base voltage <i>U</i><sub>b</sub> per voltage level
+(transformer ratios) are chosen. Every quantity is divided by its base:</p>
+<div class="eq">Z<sub>b</sub> = U<sub>b</sub>²/S<sub>b</sub> &nbsp;&nbsp; I<sub>b</sub> = S<sub>b</sub>/(√3·U<sub>b</sub>) &nbsp;&nbsp; z<sub>pu</sub> = Z/Z<sub>b</sub> &nbsp;&nbsp;
+change of base: z₂ = z₁·(S<sub>b2</sub>/S<sub>b1</sub>)·(U<sub>b1</sub>/U<sub>b2</sub>)²</div>
+<p>Advantages: transformers disappear (ratio 1 in pu), voltages are close to 1 pu, orders of magnitude can be compared between networks (the
+<i>u</i><sub>sc</sub> of a transformer = its impedance in pu on its own base). The NRJXpert server works in pu for the load flow
+(<i>S</i><sub>b</sub> = 100 MVA, <i>U</i><sub>b</sub> = network voltage entered in the calculation settings).</p>
+<div class="calc" data-calc="pu"></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n2-4">
+            <h2><span class="section-icon">📉</span>2.4 Voltage drop and losses</h2>
+<p>For a line of impedance <i>R</i> + j<i>X</i> carrying <i>P</i> + j<i>Q</i> at line voltage <i>U</i>:</p>
+<div class="eq">ΔU/U ≈ (R·P + X·Q)/U² &nbsp;&nbsp; losses: ΔP = R·(P² + Q²)/U² = 3·R·I²</div>
+<p>Practical consequences: the voltage drop depends mainly on <i>P</i> in resistive networks (LV, MV with small cross-sections) and on <i>Q</i> in
+inductive networks (HV); hence voltage control through reactive power in transmission, and the role of controlled inverters in distribution
+(level 5). Losses vary as the square of the power and the inverse square of the voltage: doubling the voltage divides losses by 4.</p>
+<div class="ex"><h4>Example 2.2 — MV feeder</h4>
+<p>A 10 km, 20 kV line (<i>r</i> = 0.3 Ω/km, <i>x</i> = 0.35 Ω/km) supplies 2 MW at cos φ = 0.9 at its end. Voltage drop and losses?</p>
+<details class="sol"><summary>Show the solution</summary>
+<p><i>R</i> = 3 Ω, <i>X</i> = 3.5 Ω, <i>Q</i> = 2 × tan(25.84°) = 0.969 Mvar. ΔU/U = (3 × 2 + 3.5 × 0.969)/20² = <span class="result">2.35 %</span> (470 V);
+losses = 3 × (2² + 0.969²)/20² = 0.037 MW = <span class="result">37 kW (1.9 %)</span>.</p>
+</details></div>
+<h3>Reactive power compensation</h3>
+<p>A shunt compensator placed near the loads supplies locally the reactive power they consume: the reactive power flowing in the lines
+decreases, and with it the voltage drop (<i>X·Q</i> term) and the losses (<i>R·Q²</i> term). A capacitor bank with <i>n</i> steps switched on
+supplies <i>Q</i> = <i>n</i>·<i>Q</i><sub>step</sub>·<i>V</i>² (constant impedance: it supplies less when the voltage falls). Shunt reactors
+absorb reactive power: they lower the voltage of lightly loaded or highly capacitive networks (long cables). With automatic control, a step
+is switched on when the voltage leaves the dead band from below and switched off when it leaves it from above; the band must be wider than
+the voltage change caused by one step, otherwise the steps hunt (palette: <b>Power system (load flow) › Switched shunt compensator</b>).</p>
+<div class="ex"><h4>Example 2.9 — Compensated IEEE 33-bus network (<code>exemples/compensation_ieee33.xml</code>)</h4>
+<p>Two switched compensators are placed at buses 30 (6 × 0.2 Mvar) and 14 (4 × 0.15 Mvar), with automatic control (setpoint 0.95 pu,
+dead band 2 %). Open the example with <b>Help › Open a tutorial example</b>, run the load flow (Newton-Raphson, <kbd>F5</kbd>), read the
+steps switched on in the compensators' tooltips, then repeat the calculation without compensation (control « None », 0 step switched on).</p>
+<details class="sol"><summary>Show the results</summary>
+<table>
+<tr><th></th><th>Without compensation</th><th>With compensation</th></tr>
+<tr><td>Steps switched on</td><td class="num">—</td><td class="num">4/6 (bus 30), 3/4 (bus 14)</td></tr>
+<tr><td>Reactive power supplied</td><td class="num">—</td><td class="num">0.71 + 0.40 Mvar</td></tr>
+<tr><td>Minimum voltage (bus 18)</td><td class="num">0.913 pu</td><td class="num">0.936 pu</td></tr>
+<tr><td>Losses</td><td class="num">202.7 kW</td><td class="num"><span class="result">140.7 kW (−31 %)</span></td></tr>
+<tr><td>Reactive power drawn at the substation</td><td class="num">2.44 Mvar</td><td class="num">1.28 Mvar</td></tr>
+</table>
+<p>The voltages of buses 30 and 14 (0.944 and 0.941 pu) lie within the band [0.94; 0.96] pu: one more step would push them above it, one
+less below it.</p>
+</details></div>
+<p>A <b>STATCOM</b> (or an SVC) regulates the voltage continuously, without steps, along its characteristic <i>V</i> = <i>V</i><sub>ref</sub> −
+slope·<i>Q</i>/<i>Q</i><sub>max</sub>. At its limit, the STATCOM keeps its maximum current (<i>Q</i> = <i>Q</i><sub>max</sub>·<i>V</i>) whereas
+the SVC is only a susceptance (<i>Q</i> = <i>Q</i><sub>max</sub>·<i>V</i>²): it supplies less reactive power when the voltage collapses, which
+is the STATCOM's advantage. In a short circuit, the STATCOM delivers its limited current (like an inverter); the SVC is neglected (palette:
+<b>Power system (load flow) › Static var compensator</b>; not available in demonstration mode).</p>
+<div class="ex"><h4>Example 2.10 — STATCOM at bus 30 (<code>exemples/statcom_ieee33.xml</code>)</h4>
+<p>The switched compensator of bus 30 is replaced by a +1.5 / −1 Mvar STATCOM (Vref = 0.97 pu, slope 3 %). Run the load flow
+(Newton-Raphson), then reduce <i>Q</i><sub>max</sub> to 0.6 Mvar.</p>
+<details class="sol"><summary>Show the results</summary>
+<table>
+<tr><th></th><th>Qmax = 1.5 Mvar</th><th>Qmax = 0.6 Mvar</th></tr>
+<tr><td>STATCOM state</td><td class="num">regulating</td><td class="num">capacitive limit</td></tr>
+<tr><td>Reactive power supplied</td><td class="num">0.99 Mvar</td><td class="num">0.57 Mvar (= 0.6 × 0.941)</td></tr>
+<tr><td>Voltage of bus 30</td><td class="num">0.950 pu (= 0.97 − 0.03 × 0.99/1.5)</td><td class="num">0.941 pu</td></tr>
+<tr><td>Losses</td><td class="num">136.1 kW</td><td class="num">144.6 kW</td></tr>
+</table>
+</details></div>
+<h3>Voltage control with transformer taps</h3>
+<p>The substation transformer is the most common means of holding the voltage of a feeder. Its primary winding carries <b>taps</b> that change the number
+of turns: the ratio becomes <i>a</i> = 1 + <i>n</i>·<i>p</i> (<i>n</i> = tap position, <i>p</i> = step, often 1.25 %). A positive position puts more turns on the primary and
+<b>lowers</b> the secondary voltage; a negative one raises it. An on-load tap changer changes position under load, one step at a time, when the regulated voltage
+leaves the dead band around the setpoint. In NRJXpert the ratio enters the transformer's π model (load flow, short circuit, dynamics); the dialog of the three-phase
+transformer (“Tap changer (OLTC)” section) offers “Nominal ratio”, “Fixed tap” or “Automatic (voltage control)”. In automatic mode the calculation moves one position at a
+time until the voltage on the chosen side is inside the band; it reports the limits and hunting (dead band narrower than the effect of one step). The clock-number phase
+shift can be added on request (ignored by the three-phase distribution sweep). A tap changer alone only corrects the head-of-feeder voltage: it raises or lowers the whole
+feeder by the same percentage, without reducing the voltage drop along the feeder (which compensators do).</p>
+<div class="ex"><h4>Example 2.11 — Tap changer at the head of the IEEE 33-bus feeder (<code>exemples/prises_ieee33.xml</code>)</h4>
+<p>The IEEE 33-bus network (no compensator) is supplied through a tapped transformer (1.25 % step, ± 8 positions) that automatically regulates the voltage of bus 2:
+setpoint 1.03 pu, dead band 2 %. Open the example with <b>Help › Open a tutorial example</b>, run the load flow (Newton-Raphson, <kbd>F5</kbd>) and read the
+position in the transformer results. To compare, edit the <code>tapMode</code> and <code>tapPos</code> tags of the first impedance in the XML file (“fixed” and −4 for a fixed tap, or remove the tap tags).</p>
+<details class="sol"><summary>Show the results</summary>
+<table>
+<tr><th></th><th>No tap</th><th>Automatic</th><th>Fixed tap −4</th></tr>
+<tr><td>Position</td><td class="num">—</td><td class="num">−2</td><td class="num">−4</td></tr>
+<tr><td>Voltage of bus 2</td><td class="num">0.997 pu</td><td class="num">1.023 pu</td><td class="num">1.050 pu</td></tr>
+<tr><td>Minimum voltage (bus 18)</td><td class="num">0.913 pu</td><td class="num">0.941 pu</td><td class="num">0.971 pu</td></tr>
+<tr><td>Losses</td><td class="num">202.7 kW</td><td class="num">191.2 kW</td><td class="num">180.2 kW</td></tr>
+</table>
+<p>The tap changer raises the whole feeder voltage by about 2.5 % for two positions; losses fall because, at constant power, the current decreases when the voltage rises.
+In automatic mode the tap stops at position −2: bus 2 is then at 1.023 pu, inside the band [1.02; 1.04] pu, and bus 18 stays just above 0.94 pu. With the fixed tap −4, bus 2
+is at 1.050 pu: the feeder end is no longer under-voltage, but the head of the feeder reaches the usual 1.05 pu limit as soon as the load drops. Hence the interest of automatic
+control, possibly combined with compensation (examples 2.9 and 6.4).</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n2-5">
+            <h2><span class="section-icon">🔀</span>2.5 Load flow: formulation</h2>
+<p>The load flow (power flow) calculates the steady state of a network from the generated and consumed <b>powers</b>. Since powers rather than
+impedances are imposed, the equations are <b>non-linear</b>.</p>
+<h3>Bus types</h3>
+<table>
+<tr><th>Type</th><th>Data</th><th>Unknowns</th><th>In NRJXpert</th></tr>
+<tr><td>Slack (swing)</td><td>|V|, θ = 0</td><td>P, Q</td><td>« Slack » generator: the source substation, which covers the losses</td></tr>
+<tr><td>Generation (PV)</td><td>P, |V|</td><td>Q, θ</td><td>Voltage-controlled generator</td></tr>
+<tr><td>Load (PQ)</td><td>P, Q</td><td>|V|, θ</td><td>Load bus</td></tr>
+</table>
+<h3>Admittance matrix and equations</h3>
+<p><b>Y</b><sub>bus</sub> is built element by element: for a branch of admittance <i>y<sub>ik</sub></i> between <i>i</i> and <i>k</i>, <i>y<sub>ik</sub></i>
+is added to <i>Y<sub>ii</sub></i> and <i>Y<sub>kk</sub></i> and subtracted from <i>Y<sub>ik</sub></i> and <i>Y<sub>ki</sub></i>; admittances to earth
+(<i>C</i>/2 of the lines) are added to the diagonal. At node <i>i</i>:</p>
+<div class="eq">S<sub>i</sub>* = P<sub>i</sub> − jQ<sub>i</sub> = V<sub>i</sub>*·Σ<sub>k</sub> Y<sub>ik</sub>V<sub>k</sub><br>
+P<sub>i</sub> = Σ<sub>k</sub> |V<sub>i</sub>||V<sub>k</sub>||Y<sub>ik</sub>| cos(θ<sub>ik</sub> − δ<sub>i</sub> + δ<sub>k</sub>) &nbsp;&nbsp;
+Q<sub>i</sub> = −Σ<sub>k</sub> |V<sub>i</sub>||V<sub>k</sub>||Y<sub>ik</sub>| sin(θ<sub>ik</sub> − δ<sub>i</sub> + δ<sub>k</sub>)</div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n2-6">
+            <h2><span class="section-icon">📘</span>2.6 Solution methods</h2>
+<h3>Gauss-Seidel</h3>
+<div class="eq">V<sub>i</sub><sup>(n+1)</sup> = [ (P<sub>i</sub> − jQ<sub>i</sub>)/V<sub>i</sub><sup>(n)*</sup> − Σ<sub>k≠i</sub> Y<sub>ik</sub>V<sub>k</sub> ] / Y<sub>ii</sub></div>
+<p>For each node the most recent voltages are used. PV node: <i>Q<sub>i</sub></i> is first calculated with the current voltages, then
+|<i>V<sub>i</sub></i>| is reset to its set-point after the update. Simple, but slow convergence (tens of iterations); an acceleration factor
+(1.4 to 1.6) helps.</p>
+<div class="ex"><h4>Example 2.3 — One iteration by hand</h4>
+<p>Two-node network in pu: node 1 slack <i>V</i>₁ = 1∠0°; line <i>z</i> = 0.02 + j0.06; node 2 load 0.8 + j0.4 pu. Start from
+<i>V</i>₂ = 1∠0° and iterate down to 10⁻⁴.</p>
+<details class="sol"><summary>Show the solution</summary>
+<p><i>y</i> = 1/<i>z</i> = 5 − j15; <i>Y</i>₂₂ = 5 − j15, <i>Y</i>₂₁ = −5 + j15. <i>S</i>₂ = −0.8 − j0.4 (load = negative injection).</p>
+<p><i>V</i>₂<sup>(1)</sup> = [(−0.8 + j0.4)/1 + (5 − j15)·1]/(5 − j15) = 1 + (−0.8 + j0.4)/(5 − j15) = 1 − 0.04 − j0.04 = 0.96 − j0.04 →
+<span class="result">0.9608∠−2.39°</span>.</p>
+<p>Then: 0.9575∠−2.39°; 0.95736∠−2.395°; 0.95735∠−2.395° (difference &lt; 10⁻⁴ at the 4th iteration). The final voltage is
+<span class="result">0.9573 pu ∠−2.39°</span>.</p>
+</details></div>
+<h3>Newton-Raphson</h3>
+<p>The power equations are linearised around the current state and solved for the corrections:</p>
+<div class="eq">[ ΔP ; ΔQ ] = [ ∂P/∂δ &nbsp; ∂P/∂|V| ; ∂Q/∂δ &nbsp; ∂Q/∂|V| ] · [ Δδ ; Δ|V| ] &nbsp;&nbsp; (Jacobian J, recalculated at each iteration)</div>
+<p><b>Quadratic</b> convergence: 3 to 6 iterations whatever the size of the network, but each iteration costs a factorisation of the Jacobian. It is
+the reference method.</p>
+<h3>Fast decoupled (Stott)</h3>
+<p>Assumptions: R ≪ X, small angles, |V| ≈ 1. Then ∂P/∂|V| ≈ 0 and ∂Q/∂δ ≈ 0, and the sub-matrices become constant (B' and B''): they are factorised
+only once. Very fast on transmission networks, but slow or divergent when R/X is large (distribution networks): see the lab below and the
+distribution load flow of level 5.</p>
+
+<div class="lab"><h4>Lab 3 — Load flow of a three-node 30 kV network</h4>
+<p>Data (<i>U</i><sub>n</sub> = 30 kV, AAAC lines, <i>r</i> = 0.27 Ω/km, <i>x</i> = 0.38 Ω/km):</p>
+<table>
+<tr><th>Element</th><th>Data</th></tr>
+<tr><td>P1 — source substation (slack)</td><td>V = 31.5 kV, phase 0</td></tr>
+<tr><td>G2 — power plant (PV bus)</td><td>Pgen = 3 MW, V = 31.4 kV</td></tr>
+<tr><td>Ch3 — load (PQ bus)</td><td>Pload = 5 MW, Qload = 2.5 Mvar</td></tr>
+<tr><td>Lines</td><td>L12 = 15 km (4.05 + j5.70 Ω), L13 = 20 km (5.40 + j7.60 Ω), L23 = 10 km (2.70 + j3.80 Ω)</td></tr>
+</table>
+<ol class="steps">
+<li><div class="step-content"><b>Calculation settings</b>: network voltage 30 kV, frequency 50 Hz.</div></li>
+<li><div class="step-content"><b>Network (load flow)</b> palette, single-line variant: place two generators and a load bus; set P1 as slack, G2 as PV bus, Ch3 as PQ load with
+the values above (voltages in kV, powers in MW and Mvar).</div></li>
+<li><div class="step-content">Connect the three nodes with three <b>impedances</b> (Passive elements section) of the R + jX values above, or with three RL lines from the
+palette (length and per-length characteristics; <i>l</i> = 0.38/314.16 = 1.21 mH/km).</div></li>
+<li><div class="step-content">Calculation <b>Load flow</b>, method <b>Newton-Raphson</b>, <kbd>F5</kbd>.</div></li>
+<li><div class="step-content">Compare with the results below (<code>exemples/loadflow_30kV_3noeuds.xml</code> can also be opened with <b>Help › Open a tutorial
+example</b>: the « Calculate a network file (XML) » window sends this network to the server):</div></li>
+</ol>
+<table>
+<tr><th>Node</th><th>V (kV)</th><th>Angle</th><th>Pgen (MW)</th><th>Qgen (Mvar)</th></tr>
+<tr><td>P1</td><td class="num">31.500</td><td class="num">0°</td><td class="num">2.060</td><td class="num">1.429</td></tr>
+<tr><td>G2</td><td class="num">31.400</td><td class="num">+0.006°</td><td class="num">3.000</td><td class="num">1.156</td></tr>
+<tr><td>Ch3</td><td class="num">30.937</td><td class="num">−0.476°</td><td class="num">—</td><td class="num">—</td></tr>
+</table>
+<p>Currents: L12 = 8.3 A, L13 = 38.4 A, L23 = 66.0 A; load current 104.3 A. Losses = 2.060 + 3.000 − 5.000 = <b>60 kW</b> (check:
+Σ 3·<i>R·I</i>² = 0.8 + 23.9 + 35.3 kW).</p>
+<p><b>To do</b>: run again with Gauss-Seidel (20 iterations) then Fast decoupled (35 iterations) against 3 for Newton-Raphson. Why is fast decoupled
+the slowest here? (R/X = 0.71: the assumption R ≪ X does not hold.) Set G2 to 30.5 kV: G2 then absorbs 6 Mvar. Conclusion: in a meshed network,
+small voltage set-point differences cause large reactive power flows.</p>
+</div>
+<h3>The synchronous machine in the network: E, Xd, X′d and X″d</h3>
+<p>The rotor of a generator, fed with direct current (the <b>excitation</b>), creates a field rotating at synchronous speed; the stator sees an EMF <i>E</i> proportional to the excitation. In steady state the machine is represented by this source <i>E</i> behind the synchronous reactance <i>X</i><sub>d</sub>:</p>
+<div class="eq"><i>E</i> = <i>V</i> + j<i>X</i><sub>d</sub>·<i>I</i> &nbsp;&nbsp; ⇒ &nbsp;&nbsp; <i>P</i> = (<i>E</i>·<i>V</i>/<i>X</i><sub>d</sub>)·sin δ , &nbsp;&nbsp; <i>Q</i> = (<i>E</i>·<i>V</i>·cos δ − <i>V</i>²)/<i>X</i><sub>d</sub></div>
+<p>Active power is set by the turbine torque (internal angle δ), reactive power by the excitation: an <b>over-excited</b> machine (<i>E</i> cos δ &gt; <i>V</i>) supplies reactive power and raises the voltage, an <b>under-excited</b> one absorbs it. This is why a generator is a PV bus in the load flow: its voltage regulator (AVR) adjusts <i>E</i> to hold <i>V</i>, and <i>Q</i> is a result of the calculation.</p>
+<p>During a short circuit the rotor flux cannot change instantly: the apparent reactance of the machine goes from <b>X″<sub>d</sub></b> (subtransient, first 10 to 50 ms), to <b>X′<sub>d</sub></b> (transient, up to a few seconds) and then <b>X<sub>d</sub></b> (steady state). The lower the reactance, the larger the current: from 5–8 times rated current at the start to 1–2 times in steady state. Each study therefore uses the reactance that matches its time scale:</p>
+<table><tr><th>Study</th><th>Reactance</th><th>Typical values (pu)</th></tr>
+<tr><td>Load flow (steady state)</td><td>X<sub>d</sub> (for the excitation limit)</td><td>1.2 to 2.2</td></tr>
+<tr><td>Dynamics (stability, PSS)</td><td>X′<sub>d</sub> and T′<sub>d0</sub> (flux time constant)</td><td>0.2 to 0.4; 4 to 8 s</td></tr>
+<tr><td>Short circuit IEC 60909 (I″<sub>k</sub>)</td><td>X″<sub>d</sub> (corrected by the factor K<sub>G</sub>)</td><td>0.12 to 0.25</td></tr></table>
+<p>A <b>synchronous motor</b> is the same machine with negative active power: it consumes <i>P</i> but can still supply or absorb reactive power according to its excitation. Its short-circuit contribution is that of a generator.</p>
+<h3>Reactive power limits of generators</h3>
+<p>A PV node is held only if the generator can supply the necessary reactive power. The P-Q diagram (capability curve) of an alternator is
+bounded by the stator current (<i>p</i>² + <i>q</i>² ≤ <i>v</i>²), the field current (<i>p</i>² + (<i>q</i> + <i>v</i>²/<i>X</i><sub>d</sub>)² ≤
+(<i>v</i>·<i>E</i><sub>fd max</sub>/<i>X</i><sub>d</sub>)², rotor heating), the under-excitation limit (stability, absorbed reactive power) and the
+turbine power. When the requested reactive power exceeds a limit, the load flow sets <i>Q</i> at that limit: the node becomes PQ and its voltage is
+no longer held; it becomes PV again if the voltage comes back to the right side of the set-point (<b>Capability, AVR, PSS…</b> button of the
+generator dialog).</p>
+<div class="fig" id="fig-capacite"><svg viewBox="0 0 560 262" width="560" role="img" aria-label="P-Q capability curve of a generator" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" font-family="inherit"><path d="M375 210L374.988 207.75L374.951 205.5L374.891 203.25L374.806 201L374.696 198.75L374.562 196.5L374.404 194.25L374.221 192L374.014 189.75L373.781 187.5L373.525 185.25L373.243 183L372.936 180.75L372.605 178.5L372.248 176.25L371.866 174L371.459 171.75L371.025 169.5L370.567 167.25L370.082 165L369.571 162.75L369.034 160.5L368.47 158.25L367.88 156L367.263 153.75L366.618 151.5L365.946 149.25L365.246 147L364.518 144.75L363.762 142.5L362.977 140.25L362.163 138L361.319 135.75L360.446 133.5L359.543 131.25L358.609 129L357.644 126.75L356.647 124.5L355.618 122.25L354.557 120L353.463 117.75L352.334 115.5L351.172 113.25L349.975 111L348.741 108.75L347.472 106.5L346.165 104.25L344.82 102L343.437 99.75L342.014 97.5L340.549 95.25L339.044 93L337.495 90.75L335.902 88.5L334.264 86.25L331.388 84L327.794 81.75L323.958 79.5L319.839 77.25L315.383 75L184.617 75L183.43 77.25L183.16 79.5L182.89 81.75L182.62 84L182.35 86.25L182.08 88.5L181.81 90.75L181.54 93L181.27 95.25L181 97.5L180.73 99.75L180.46 102L180.19 104.25L179.92 106.5L179.65 108.75L179.38 111L179.11 113.25L178.84 115.5L178.57 117.75L178.3 120L178.03 122.25L177.76 124.5L177.49 126.75L177.22 129L176.95 131.25L176.68 133.5L176.41 135.75L176.14 138L175.87 140.25L175.6 142.5L175.33 144.75L175.06 147L174.79 149.25L174.52 151.5L174.25 153.75L173.98 156L173.71 158.25L173.44 160.5L173.17 162.75L172.9 165L172.63 167.25L172.36 169.5L172.09 171.75L171.82 174L171.55 176.25L171.28 178.5L171.01 180.75L170.74 183L170.47 185.25L170.2 187.5L169.93 189.75L169.66 192L169.39 194.25L169.12 196.5L168.85 198.75L168.58 201L168.31 203.25L168.04 205.5L167.77 207.75L167.5 210Z" fill="currentColor" fill-opacity=".08" stroke-width="2.4"/><path d="M100 210H415 M250 216V40"/><text x="419" y="214" text-anchor="start" font-size="12" fill="currentColor" stroke="none">Q</text><text x="258" y="38" text-anchor="start" font-size="12" fill="currentColor" stroke="none">P</text><text x="400" y="228" text-anchor="middle" font-size="10.5" fill="currentColor" stroke="none">1</text><text x="100" y="228" text-anchor="middle" font-size="10.5" fill="currentColor" stroke="none">−1</text><text x="250" y="228" text-anchor="middle" font-size="10.5" fill="currentColor" stroke="none">0</text><path d="M175 75H317.5" stroke-dasharray="4 3"/><text x="172" y="79" text-anchor="end" font-size="11" fill="currentColor" stroke="none">Pmax (turbine)</text><circle cx="336.969" cy="90" r="4" fill="currentColor"/><text x="350.969" y="92" text-anchor="start" font-size="11" fill="currentColor" stroke="none">example 2.14 point: field limit reached</text><text x="379" y="177" text-anchor="start" font-size="11" fill="currentColor" stroke="none">field limit (rotor)</text><text x="290" y="52.5" text-anchor="start" font-size="11" fill="currentColor" stroke="none">stator limit (stator heating): p² + q² ≤ v²</text><text x="163.5" y="165" text-anchor="end" font-size="11" fill="currentColor" stroke="none">under-excitation (stability)</text><text x="332.5" y="248" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">over-excited: supplies Mvar</text><text x="167.5" y="248" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">under-excited: absorbs Mvar</text></svg><div class="cap">Operating region of a generator (v = 1 pu; Xd = 1.8; Efd max = 2.5). In over-excited operation the field (rotor) limit bounds the reactive power at low output, then the stator limit; in under-excited operation the stability limit. A generator reaching its limit becomes a PQ bus: it no longer holds its voltage and the load flow flags it.</div></div>
+<div class="ex"><h4>Example 2.14 — Plant generator at its reactive limit (<code>exemples/capacite_generateur.xml</code>)</h4>
+<p>A 20 kV network supplies, through a 0.5 + j4 Ω line, a 10 MW + 8 Mvar plant that owns a 10 MVA alternator (<i>X</i><sub>d</sub> = 1.8 pu,
+<i>E</i><sub>fd max</sub> = 2.5 pu, under-excitation 0.4 pu) producing 8 MW with a 20.4 kV set-point (1.02 pu). Compute the load flow with the
+capability curve, then without limit, then with a 10 MW + 4 Mvar plant.</p>
+<details class="sol"><summary>Show the solution</summary>
+<table>
+<tr><th></th><th>No limit</th><th>Curve, plant 8 Mvar</th><th>Curve, plant 4 Mvar</th></tr>
+<tr><td>Generator reactive power</td><td class="num">10.32 Mvar</td><td class="num">5.52 Mvar</td><td class="num">5.89 Mvar</td></tr>
+<tr><td>Node voltage</td><td class="num">1.020 pu</td><td class="num">0.972 pu</td><td class="num">1.016 pu</td></tr>
+<tr><td>Limit reached</td><td class="num">— (S = 13 MVA &gt; Sn)</td><td class="num">stator current</td><td class="num">excitation (E = 2.50 pu)</td></tr>
+</table>
+<p>Without limit the calculation makes the generator supply 10.3 Mvar: 13 MVA for a 10 MVA machine. At 0.972 pu and 8 MW, the rated current
+allows √(0.972² − 0.8²) × 10 = 5.52 Mvar. With less reactive power to supply, the voltage rises, the stator limit widens and the maximum
+excitation bounds the reactive power.</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n2-7">
+            <h2><span class="section-icon">⚡</span>2.7 Short circuit according to IEC 60909-0</h2>
+<h3>Principle: equivalent voltage source</h3>
+<p>All sources are replaced by a single source <i>c·U</i><sub>n</sub>/√3 at the fault point; loads are neglected (except motors) and the network is
+reduced to the impedance seen from the fault. The voltage factor <i>c</i> covers voltage variations and approximations:</p>
+<table>
+<tr><th>Nominal voltage</th><th>c<sub>max</sub> (breaking capacity, withstand)</th><th>c<sub>min</sub> (protection settings)</th></tr>
+<tr><td>U<sub>n</sub> ≤ 1 kV, tolerance +6 %</td><td class="num">1.05</td><td class="num">0.95</td></tr>
+<tr><td>U<sub>n</sub> ≤ 1 kV, tolerance +10 %</td><td class="num">1.10</td><td class="num">0.95</td></tr>
+<tr><td>U<sub>n</sub> &gt; 1 kV</td><td class="num">1.10</td><td class="num">1.00</td></tr>
+</table>
+<h3>Symmetrical components</h3>
+<p>An unbalanced three-phase system is decomposed (Fortescue) into three balanced systems: positive (1), negative (2) and zero (0) sequence, with
+<i>a</i> = e<sup>j2π/3</sup>:</p>
+<div class="eq">[V<sub>a</sub> ; V<sub>b</sub> ; V<sub>c</sub>] = [1 1 1 ; 1 a² a ; 1 a a²]·[V₀ ; V₁ ; V₂]</div>
+<p>Each element has three impedances <i>Z</i>₁, <i>Z</i>₂, <i>Z</i>₀ (static elements: <i>Z</i>₂ = <i>Z</i>₁); the impedance seen from the fault is
+calculated in each of the three networks, which are then combined according to the type of fault:</p>
+<table>
+<tr><th>Fault</th><th>Initial symmetrical current I"k</th><th>Combination of the networks</th></tr>
+<tr><td>Three-phase</td><td>c·U<sub>n</sub> / (√3·|Z₁|)</td><td>positive sequence only</td></tr>
+<tr><td>Phase-to-phase</td><td>c·U<sub>n</sub> / |Z₁ + Z₂|</td><td>positive and negative in opposition</td></tr>
+<tr><td>Two-phase-to-earth</td><td>earth current I"<sub>kE2E</sub> = √3·c·U<sub>n</sub>·|Z₂| / |Z₁Z₂ + Z₁Z₀ + Z₂Z₀|</td><td>negative ∥ zero</td></tr>
+<tr><td>Phase-to-earth</td><td>√3·c·U<sub>n</sub> / |Z₁ + Z₂ + Z₀|</td><td>all three in series</td></tr>
+</table>
+<p>Peak current: <i>i</i><sub>p</sub> = κ·√2·I"<sub>k</sub> with κ = 1.02 + 0.98·e<sup>−3R/X</sup>. Fault far from generators: breaking current
+<i>I</i><sub>b</sub> and steady-state current <i>I</i><sub>k</sub> equal to I"<sub>k</sub>. Short-circuit power: S"<sub>k</sub> = √3·U<sub>n</sub>·I"<sub>k</sub>.</p>
+<div class="calc" data-calc="icc3"></div>
+
+<div class="ex"><h4>Example 2.4 — Faults at the end of a 20 kV feeder</h4>
+<p>The upstream network is represented at the substation by <i>Z</i>₁ = <i>Z</i>₂ = 0.1 + j2 Ω and <i>Z</i>₀ = 0.05 + j1 Ω (earthed neutral). A 10 km
+line has <i>r</i> = 0.3, <i>x</i> = 0.35, <i>r</i>₀ = 0.45, <i>x</i>₀ = 1.2 Ω/km. Calculate I"k at the end of the line for the four types of fault
+(maximum Isc).</p>
+<details class="sol"><summary>Show the solution</summary>
+<p><i>Z</i>₁ = <i>Z</i>₂ = 0.1 + 3 + j(2 + 3.5) = 3.1 + j5.5 Ω (|<i>Z</i>₁| = 6.314 Ω); <i>Z</i>₀ = 0.05 + 4.5 + j(1 + 12) = 4.55 + j13 Ω; <i>c</i> = 1.1.</p>
+<table>
+<tr><th>Fault</th><th>Calculation</th><th>I"k</th></tr>
+<tr><td>Three-phase</td><td>1.1 × 20 000/(√3 × 6.314)</td><td class="num result">2 012 A</td></tr>
+<tr><td>Phase-to-phase</td><td>22 000/|6.2 + j11|</td><td class="num result">1 742 A</td></tr>
+<tr><td>Two-phase-to-earth</td><td>largest phase current</td><td class="num result">1 907 A</td></tr>
+<tr><td>Phase-to-earth</td><td>√3 × 22 000/|10.75 + j24|</td><td class="num result">1 449 A</td></tr>
+</table>
+<p>κ = 1.02 + 0.98·e<sup>−3 × 0.5636</sup> = 1.201; <i>i</i><sub>p</sub> = 1.201 × √2 × 2 012 = <span class="result">3.42 kA</span>;
+S"<sub>k</sub> = 69.7 MVA. Note: the phase-to-earth fault is the weakest here because <i>Z</i>₀ &gt; <i>Z</i>₁; near a Dyn transformer with an
+earthed neutral, it is often the opposite.</p>
+</details></div>
+
+<div class="lab"><h4>Lab 4 — Short circuit in NRJXpert</h4>
+<ol class="steps">
+<li><div class="step-content"><b>Calculation settings</b>: network voltage 20 kV.</div></li>
+<li><div class="step-content">Place a <b>generator</b> (single-line variant); Short-circuit column: Rd = 0.1, Xd = 2 Ω, Ri = Xi = 0 (Z₂ = Z₁), earthed neutral,
+R0 = 0.05, X0 = 1 Ω.</div></li>
+<li><div class="step-content">Place an <b>RL line</b> (Network palette): 10 km, r = 300 mΩ/km, l = 1.114 mH/km (0.35 Ω/km at 50 Hz); Zero sequence section:
+r0 = 0.45, x0 = 1.2 Ω/km. Place a load bus at the end (it is neglected in the calculation) and connect.</div></li>
+<li><div class="step-content">Double-click on the terminal at the end of the line: three-phase <b>Fault</b>, maximum current, Un = 20 kV. Choose the
+<b>Short circuit</b> calculation and run.</div></li>
+<li><div class="step-content">Read the summary (I"k, ip, κ, S"k, Z1, Z2, Z0, I"k of the four types) and compare with example 2.4. Repeat with a phase-to-earth fault:
+earth current 1 449 A (file <code>exemples/courtcircuit_20kV_monophase.xml</code>).</div></li>
+<li><div class="step-content">Right-click on the line › <b>Short circuit at this point…</b>: plot I"k against the distance (0, 2, 4, …, 10 km). Why is the curve not in
+1/<i>d</i>?</div></li>
+</ol>
+</div>
+<h3>Parallel lines: zero-sequence mutual coupling</h3>
+<p>Two circuits on the same tower (or two cables in the same trench) are magnetically coupled. In the positive and negative sequences the
+three phases compensate each other and the coupling is negligible; in the zero sequence the three currents are in phase and return through
+the earth: the mutual impedance <i>Z</i><sub>0m</sub> reaches 40 to 70 % of <i>Z</i>₀. For two parallel lines between the same nodes, with
+zero-sequence impedances <i>Z</i><sub>A</sub> and <i>Z</i><sub>B</sub>:</p>
+<div class="eq">Z<sub>0,eq</sub> = (Z<sub>A</sub>·Z<sub>B</sub> − Z<sub>0m</sub>²) / (Z<sub>A</sub> + Z<sub>B</sub> − 2·Z<sub>0m</sub>) &nbsp;&nbsp; = (Z<sub>0</sub> + Z<sub>0m</sub>)/2 for two identical lines</div>
+<p>The coupling therefore increases <i>Z</i>₀ seen from an earth fault and reduces its current; it also induces a zero-sequence current in the
+sound line, which distorts the measurement of distance protections (earth compensation factor). In NRJXpert: « Zero-sequence coupling with a
+parallel line » section of the line (coupled line, <i>r</i><sub>0m</sub>, <i>x</i><sub>0m</sub> in Ω/km, direction), taken into account in the
+zero-sequence network of the short-circuit calculation.</p>
+<div class="fig" id="fig-mutuelle"><svg viewBox="0 0 560 190" width="560" role="img" aria-label="Two parallel lines coupled in zero sequence" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" font-family="inherit"><path d="M40 30V150M520 30V150" stroke-width="3"/><path d="M40 55 H215M305 55 H520"/><rect x="215" y="43" width="90" height="24" rx="5"/><text x="260" y="59.2" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">Z0</text><text x="500" y="47" text-anchor="end" font-size="11.5" fill="currentColor" stroke="none">Line A</text><path d="M90 47L150 47"/><path d="M143.553 49.7259L150 47L143.553 44.2741" fill="currentColor"/><text x="120" y="41" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">I0</text><path d="M40 125 H215M305 125 H520"/><rect x="215" y="113" width="90" height="24" rx="5"/><text x="260" y="129.2" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">Z0</text><text x="500" y="117" text-anchor="end" font-size="11.5" fill="currentColor" stroke="none">Line B</text><path d="M90 117L150 117"/><path d="M143.553 119.726L150 117L143.553 114.274" fill="currentColor"/><text x="120" y="111" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">I0</text><path d="M240 67V113" stroke-dasharray="3 3"/><path d="M280 67V113" stroke-dasharray="3 3"/><path d="M260 80L260 100" stroke-dasharray="5 4"/><path d="M257.274 93.5526L260 100L262.726 93.5526" fill="currentColor"/><path d="M260 100L260 80" stroke-dasharray="5 4"/><path d="M262.726 86.4474L260 80L257.274 86.4474" fill="currentColor"/><text x="298" y="94" text-anchor="start" font-size="12" fill="currentColor" stroke="none">Z0m</text><text x="280" y="170" text-anchor="middle" font-size="12.5" fill="currentColor" stroke="none">Z0,eq = (Z0 + Z0m)/2 for two identical lines</text><text x="280" y="20" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">Zero-sequence currents in the same direction: each line's flux adds to the other's</text></svg><div class="cap">Zero-sequence network of two parallel lines. The three zero-sequence currents are in phase and return through the earth: the fluxes of the two lines add up. Each line therefore sees Z0 + Z0m (not Z0): the impedance seen from the fault increases and the earth-fault current decreases. In positive and negative sequence the three phases cancel out: no coupling.</div></div>
+<div class="ex"><h4>Example 2.12 — 20 kV double line (<code>exemples/courtcircuit_lignes_paralleles.xml</code>)</h4>
+<p>The upstream network of example 2.4 supplies two identical 10 km lines in parallel (<i>Z</i>₁ = 3 + j3.5 Ω, <i>Z</i>₀ = 4.5 + j12 Ω each),
+coupled by <i>z</i><sub>0m</sub> = 0.15 + j0.7 Ω/km. Compute I"k at the receiving node for a phase-to-earth fault, with and without coupling
+(for the calculation without coupling, remove the <code>mutual0</code> tag of line L1 in the file, or choose « None » as parallel line in a project).</p>
+<details class="sol"><summary>Show the solution</summary>
+<p><i>Z</i>₁ = 0.1 + j2 + (3 + j3.5)/2 = 1.6 + j3.75 Ω. Without coupling: <i>Z</i>₀ = 0.05 + j1 + (4.5 + j12)/2 = 2.30 + j7.00 Ω,
+I"k1 = √3 × 22 000/|5.50 + j14.50| = <span class="result">2 457 A</span>. With coupling (<i>Z</i><sub>0m</sub> = 1.5 + j7 Ω):
+<i>Z</i>₀ = 0.05 + j1 + (6 + j19)/2 = 3.05 + j10.50 Ω, I"k1 = √3 × 22 000/|6.25 + j18.00| = <span class="result">2 000 A (−19 %)</span>.
+The three-phase fault (3 115 A) is unchanged: the coupling acts only in the zero sequence.</p>
+</details></div>
+<h3>Induction machine: equivalent circuit, slip and torque</h3>
+<p>The rotor of an induction machine is not supplied: the rotating stator field (speed <i>n</i><sub>s</sub> = 60·<i>f</i>/<i>p</i>) induces currents in it as soon as the rotor turns at a different speed <i>n</i>. The <b>slip</b> is defined as <i>s</i> = (<i>n</i><sub>s</sub> − <i>n</i>)/<i>n</i><sub>s</sub>: 1 at standstill, 2 to 4 % at rated load, negative for a generator (squirrel-cage wind turbine). Per phase, the machine is represented by <i>R</i><sub>s</sub> + j<i>X</i><sub>s</sub> in series with the parallel combination of j<i>X</i><sub>m</sub> (magnetisation) and <i>R</i><sub>r</sub>/<i>s</i> + j<i>X</i><sub>r</sub> (rotor). The resistance <i>R</i><sub>r</sub>/<i>s</i> = <i>R</i><sub>r</sub> + <i>R</i><sub>r</sub>(1 − <i>s</i>)/<i>s</i> contains the mechanical power: <i>P</i><sub>mech</sub> = 3·<i>I</i>r²·<i>R</i><sub>r</sub>·(1 − <i>s</i>)/<i>s</i>.</p>
+<p>Two fundamental consequences for the network engineer:</p>
+<ul>
+<li><b>At start (<i>s</i> = 1)</b>, <i>R</i><sub>r</sub>/<i>s</i> is small: the machine behaves as a low impedance and draws <b>5 to 7 times its rated current</b> at a power factor of 0.2 to 0.3. This current causes the starting voltage dip.</li>
+<li><b>Torque varies as the square of the voltage</b>: neglecting the magnetising branch, <i>T</i> ≈ (3/ω<sub>s</sub>)·<i>V</i>²·(<i>R</i><sub>r</sub>/<i>s</i>)/[(<i>R</i><sub>s</sub> + <i>R</i><sub>r</sub>/<i>s</i>)² + (<i>X</i><sub>s</sub> + <i>X</i><sub>r</sub>)²]. At 80 % voltage the torque falls to 64 %. The slip at maximum torque does not depend on voltage; if the load torque exceeds the available maximum torque, the motor <b>stalls</b>: it slows down, its current stays high, which lowers the voltage even further.</li>
+</ul>
+<p>Finally, an induction machine always consumes reactive power (magnetisation and leakage: 0.3 to 0.5 times its rated active power): in the load flow it is a PQ load whose slip (hence <i>P</i> and <i>Q</i>) NRJXpert computes for the bus voltage.</p>
+<div class="fig" id="fig-asynchrone"><svg viewBox="0 0 600 230" width="600" role="img" aria-label="Equivalent circuit and torque-speed characteristic of an induction machine" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" font-family="inherit"><path d="M15 70H40"/><circle cx="15" cy="70" r="3"/><text x="15" y="56" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">V</text><rect x="40" y="58" width="34" height="24" rx="5"/><text x="57" y="73.85" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">Rs</text><path d="M74 70H88"/><rect x="88" y="58" width="34" height="24" rx="5"/><text x="105" y="73.85" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">Xs</text><path d="M122 70H150"/><circle cx="150" cy="70" r="2.5" fill="currentColor"/><path d="M150 70V95"/><rect x="134" y="95" width="32" height="40" rx="5"/><text x="150" y="118.85" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">Xm</text><path d="M150 135V170"/><path d="M150 70H175"/><rect x="175" y="58" width="34" height="24" rx="5"/><text x="192" y="73.85" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">Xr</text><path d="M209 70H223"/><rect x="223" y="58" width="46" height="24" rx="5"/><text x="246" y="73.85" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">Rr/s</text><path d="M269 70H282V170H15"/><text x="150" y="195" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">s = (ns − n)/ns</text><text x="150" y="212" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">s = 1 at standstill, ≈ 0.03 at rated load</text><path d="M340 170H595 M340 170V30"/><text x="467.5" y="188" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">speed n/ns</text><text x="334" y="28" text-anchor="end" font-size="11.5" fill="currentColor" stroke="none">torque</text><text x="340" y="184" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">0</text><text x="585" y="184" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">1</text><path d="M340 122 C420 123.2 500 82 548.25 82 C566.25 82.8 577 130 585 170" stroke-width="2.2"/><path d="M340 139.28 C420 140.048 500 113.68 548.25 113.68 C566.25 114.192 577 144.4 585 170" stroke-dasharray="2 4"/><path d="M340 150H585" stroke-dasharray="6 3"/><text x="346" y="164" text-anchor="start" font-size="11" fill="currentColor" stroke="none">load torque</text><text x="458" y="74" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">maximum torque</text><text x="344" y="114" text-anchor="start" font-size="11" fill="currentColor" stroke="none">start-up</text><text x="352" y="30" text-anchor="start" font-size="11" fill="currentColor" stroke="none">Rated voltage (—)</text><text x="352" y="44" text-anchor="start" font-size="11" fill="currentColor" stroke="none">0.8 × voltage: torque × 0.64 (···)</text></svg><div class="cap">Left, per-phase equivalent circuit: Rs, Xs (stator), Xm (magnetising), Xr and Rr/s (rotor referred to the stator). At standstill (s = 1), Rr/s is small: high current (5 to 7 In). Right, torque-speed characteristic: torque varies as V² (the dotted curve is for a 20 % lower voltage). If the load torque exceeds the available torque, the motor cannot start or it stalls.</div></div>
+<h3>Contribution of induction motors to the short circuit</h3>
+<p>During the first cycles of a fault, the rotor flux of an induction motor maintains an emf: the motor feeds into the fault a current close
+to its starting current, which dies out within a few cycles. IEC 60909 represents it by the impedance
+<i>Z</i><sub>M</sub> = <i>U</i><sub>n</sub>²/(<i>I</i><sub>LR</sub>/<i>I</i><sub>rM</sub> · <i>S</i><sub>rM</sub>) (positive and negative sequences;
+no zero-sequence path), with <i>R</i>/<i>X</i> = 0.10 (MV motors of at least 1 MW), 0.15 (MV under 1 MW) or 0.42 (LV, cables included); it
+increases I"k and ip but is neglected for the minimum current. In NRJXpert, <i>I</i><sub>LR</sub>/<i>I</i><sub>rM</sub> is taken from the
+equivalent circuit of the machine (<i>s</i> = 1).</p>
+<div class="ex"><h4>Example 2.13 — Three-phase fault at the bus of a 2 MVA motor</h4>
+<p>With the network of example 5.5 (file <code>exemples/demarrage_moteur.xml</code>, « Short circuit » calculation), three-phase fault at the
+motor bus, maximum Icc. <i>I</i><sub>LR</sub>/<i>I</i><sub>rM</sub> = 6.14; <i>U</i><sub>n</sub> = 6 kV.</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>Network: |<i>Z</i>| = |0.07 + j0.96| = 0.9625 Ω, I"k = 1.1 × 6 000/(√3 × 0.9625) = <span class="result">3 959 A</span>.
+Motor: |<i>Z</i><sub>M</sub>| = 6²/(6.14 × 2) = 2.93 Ω (<i>R</i>/<i>X</i> = 0.10), I"kM = 1.1 × 6 000/(√3 × 2.93) =
+<span class="result">1 300 A</span>. Total (sum nearly in phase): <span class="result">5 259 A</span>, i.e. +33 %; κ goes from 1.81 to 1.79
+and ip from 10.1 to 13.3 kA. The breaking capacity and the withstand of the busbars must take it into account.</p>
+</details></div>
+<h3>Doubly-fed induction generator (DFIG)</h3>
+<p>Most 1.5 to 5 MW wind turbines installed between 2000 and 2020 are <b>DFIGs</b>: a <b>wound-rotor</b> induction machine whose stator is connected directly to the grid and whose rotor is supplied, through slip rings, by a <i>back-to-back</i> AC converter (rotor-side converter, DC link, grid-side converter) also connected to the grid. The converter injects currents of frequency <i>s</i>·<i>f</i> into the rotor: the machine can therefore <b>turn at a speed different from synchronism</b> (in practice 0.7 to 1.3 times the synchronous speed, i.e. <i>s</i> from +0.3 to −0.3) while delivering at grid frequency. The speed can follow the wind to extract maximum power (<i>P</i> ∝ <i>v</i>³, hence <i>P</i> ∝ ω³).</p>
+<div class="fig" id="fig-dfig"><svg viewBox="0 0 600 180" width="600" role="img" aria-label="Doubly-fed induction generator: stator on the grid, rotor through a converter" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" font-family="inherit"><path d="M20 40H580"/><text x="40" y="30" text-anchor="start" font-size="11.5" fill="currentColor" stroke="none">Grid</text><circle cx="130" cy="40" r="3" fill="currentColor"/><path d="M130 40V98"/><text x="142" y="75" text-anchor="start" font-size="11.5" fill="currentColor" stroke="none">Ps</text><circle cx="130" cy="140" r="42"/><text x="130" y="138" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">DFIG</text><text x="130" y="154" text-anchor="middle" font-size="10" fill="currentColor" stroke="none">stator / rotor</text><path d="M20 140H88"/><text x="54" y="130" text-anchor="middle" font-size="10.5" fill="currentColor" stroke="none">Turbine</text><path d="M172 140H230"/><text x="201" y="130" text-anchor="middle" font-size="10.5" fill="currentColor" stroke="none">Rotor</text><rect x="230" y="118" width="90" height="44" rx="6"/><text x="275" y="137" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">AC/DC</text><text x="275" y="153" text-anchor="middle" font-size="10" fill="currentColor" stroke="none">rotor side</text><path d="M320 140H400"/><text x="360" y="130" text-anchor="middle" font-size="10.5" fill="currentColor" stroke="none">DC link</text><rect x="400" y="118" width="90" height="44" rx="6"/><text x="445" y="137" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">DC/AC</text><text x="445" y="153" text-anchor="middle" font-size="10" fill="currentColor" stroke="none">grid side</text><path d="M445 118V40"/><circle cx="445" cy="40" r="3" fill="currentColor"/><text x="457" y="85" text-anchor="start" font-size="11.5" fill="currentColor" stroke="none">Pr ≈ −s·Ps</text></svg><div class="cap">Wound-rotor induction machine: the stator is connected directly to the grid, the rotor through a back-to-back converter. The converter carries only the slip power Pr ≈ −s·Ps.</div></div>
+<p>The great economic advantage is that the converter carries only the <b>slip power</b> <i>P</i><sub>r</sub> ≈ −<i>s</i>·<i>P</i><sub>s</sub>: 25 to 30 % of the rated power, against 100 % for a full-converter wind turbine (inverter model, level 5). The power delivered to the grid is <i>P</i> = <i>P</i><sub>s</sub> − <i>P</i><sub>r</sub> (with <i>P</i><sub>r</sub> the power absorbed by the rotor):</p>
+<ul>
+<li><b>super-synchronous</b> (<i>s</i> &lt; 0, strong wind): the rotor <b>delivers</b> power to the grid in addition to the stator;</li>
+<li><b>sub-synchronous</b> (<i>s</i> &gt; 0, light wind): the rotor <b>absorbs</b> power, taken from the grid by the converter;</li>
+<li><b>synchronous</b> (<i>s</i> = 0): the rotor is supplied with direct current, the converter carries only the losses.</li>
+</ul>
+<p>The equivalent circuit is that of the induction machine (<i>R</i><sub>s</sub>, <i>X</i><sub>s</sub>, <i>X</i><sub>m</sub>, <i>R</i><sub>r</sub>, <i>X</i><sub>r</sub>) with, in addition, a <b>rotor voltage</b> <i>V</i><sub>r</sub> imposed by the converter: <i>V</i> = (<i>R</i><sub>s</sub> + j<i>X</i><sub>s</sub>)·<i>I</i><sub>s</sub> + j<i>X</i><sub>m</sub>·(<i>I</i><sub>s</sub> + <i>I</i><sub>r</sub>) and <i>V</i><sub>r</sub> = (<i>R</i><sub>r</sub> + j<i>s</i>(<i>X</i><sub>r</sub> + <i>X</i><sub>m</sub>))·<i>I</i><sub>r</sub> + j<i>s</i>·<i>X</i><sub>m</sub>·<i>I</i><sub>s</sub>. In steady state the rotor-side converter <b>controls the stator reactive power</b> (<i>Q</i><sub>s</sub>) and the torque, and the grid-side converter can supply or absorb additional reactive power within its apparent power, reduced by the slip active power it carries. The limits are therefore: rotor current (≈ 1.1 pu), stator current (≈ 1 pu), <b>rotor voltage</b> (proportional to <i>s</i>, hence more binding at high speed) and the rating of the grid-side converter.</p>
+<p><b>In NRJXpert</b> (type “Wind (DFIG)” of the generator bus, Distributed resources dialog): the load flow is the ordinary load flow (<i>P</i>, <i>Q</i> at the terminals); afterwards the program solves the equivalent circuit and displays slip, speed, <i>P</i><sub>s</sub>, <i>P</i><sub>r</sub>, <i>Q</i><sub>s</sub>, the grid converter's <i>Q</i>, the currents <i>I</i><sub>s</sub>, <i>I</i><sub>r</sub> and the voltage <i>V</i><sub>r</sub>, with a warning if a limit is exceeded. For a voltage-controlled generator (PVbus) the reactive limits of the load flow are deduced from the machine and its converters (PV ↔ PQ switching, as for a synchronous machine). The speed follows the maximum-power law, or the slip can be imposed.</p>
+<h3>DFIG and short circuit: the crowbar</h3>
+<p>During a deep voltage dip the machine's EMF drives very high rotor currents that would destroy the rotor-side converter. The latter is then <b>blocked</b> and the rotor is short-circuited by a <b>crowbar</b> (resistors): for a few tens of milliseconds the machine behaves like an ordinary induction machine, with a short-circuit current of 3 to 6 times rated current, <b>much higher</b> than that of a full-converter wind turbine (1.1 to 1.5 <i>I</i><sub>n</sub>). If the crowbar does not operate (shallow dip, or crowbar active for only a few cycles) the converter limits the current. NRJXpert offers both models: <b>crowbar</b> (impedance 1/<i>I</i><sub>sc</sub> in positive and negative sequences, <i>R</i>/<i>X</i> = 0.1; no zero-sequence path) and <b>converter limiting the current</b> (current source <i>I</i><sub>max</sub>·<i>I</i><sub>n</sub> in the positive network, like any inverter). The DFIG contribution towards the end of the fault depends on its control: IEC 60909 refers to the manufacturer's values.</p>
+<div class="ex"><h4>Example 2.20 — A 2 MVA, 690 V DFIG wind turbine (<code>exemples/dfig_eolien.xml</code>)</h4>
+<p>A 2 MVA DFIG wind turbine (<i>R</i><sub>s</sub> = <i>R</i><sub>r</sub> = 0.006; <i>X</i><sub>s</sub> = 0.12; <i>X</i><sub>m</sub> = 3.5; <i>X</i><sub>r</sub> = 0.15 pu) delivers 1.8 MW at 690 V (PVbus at 1 pu) to a 690 V grid through a short line. Calculate the internal operating point. What happens to the stator / rotor split at 0.8 MW? Then calculate the contribution to the short-circuit current of a three-phase fault at its terminals in both models (crowbar with <i>I</i><sub>sc</sub> = 5 <i>I</i><sub>n</sub>, converter limited to 1.1 <i>I</i><sub>n</sub>).</p>
+<details class="sol"><summary>Show solution</summary>
+<p><b>1.8 MW</b> (0.9 pu): the tracking law gives ω<sub>r</sub> = 1.2 × 0.9<sup>1/3</sup> = 1.159 pu, i.e. <i>s</i> = <span class="result">−0.159</span> (super-synchronous, about 1,738 rpm for 4 poles at 50 Hz). The stator delivers <i>P</i><sub>s</sub> = <span class="result">1.56 MW</span> and the rotor, through the converters, <i>P</i><sub>r</sub> = <span class="result">0.24 MW</span> (13 % of the delivered power: <i>P</i><sub>r</sub> ≈ −<i>s</i>·<i>P</i><sub>s</sub> is recovered within 0.2 %). The stator absorbs <i>Q</i><sub>s</sub> = 0.11 Mvar to hold 1 pu; <i>I</i><sub>s</sub> = 0.78 pu, <i>I</i><sub>r</sub> = 0.84 pu, <i>V</i><sub>r</sub> = 0.16 pu (far from the 0.4 limit). Copper losses: 15.8 kW, i.e. a mechanical power of 1.816 MW. The reactive range at the terminals is −1.79 to +1.43 Mvar.</p>
+<p><b>0.8 MW</b>: ω<sub>r</sub> = 1.2 × 0.4<sup>1/3</sup> = 0.884 pu, <i>s</i> = <span class="result">+0.116</span>: <b>sub-synchronous</b> operation, <i>P</i><sub>r</sub> = <span class="result">−0.109 MW</span>: the rotor absorbs power from the grid, and the stator delivers 0.909 MW, more than the delivered power.</p>
+<p><b>Three-phase short circuit at the terminals (max Icc, <i>c</i> = 1.1)</b>, <i>I</i><sub>n</sub> = 2 MVA/(√3 × 690 V) = 1,673 A. Grid alone: I"k = 8,324 A (ip = 20.6 kA). With crowbar (5 <i>I</i><sub>n</sub>): I"k = <span class="result">17,110 A</span> (ip = 42.2 kA): the turbine almost doubles the current and the breaking capacity must account for it. With the converter limited to 1.1 <i>I</i><sub>n</sub>: I"k = <span class="result">10,165 A</span>, i.e. +1,841 A (1.1 × 1,673 A): the contribution is five times smaller.</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n2-8">
+            <h2><span class="section-icon">⚡</span>2.8 Protection: what short-circuit currents are used for</h2>
+<ul>
+<li><b>Breaking capacity</b> of the device ≥ maximum I"k (and ip ≤ making capacity) at the point of installation.</li>
+<li><b>Sensitivity</b>: the <b>minimum</b> short-circuit current (c<sub>min</sub>, furthest fault, often phase-to-earth or phase-to-phase) must trip the
+protection within the required time: this is the « minimum Isc » calculation of NRJXpert.</li>
+<li><b>Thermal withstand of cables</b>: I²·t ≤ k²·S² (k ≈ 143 for XLPE-insulated copper).</li>
+<li><b>Selectivity</b>: only the protection immediately upstream of the fault must trip (current, time or logic selectivity).</li>
+<li><b>Inverters</b>: their contribution is limited to 1.1 to 1.5 times their rated current; a network supplied mainly by inverters has low fault
+currents, which makes detection harder (level 5).</li>
+</ul>
+<h3>The protection chain: measure, decide, interrupt</h3>
+<p>A protection is always a chain of three functions. The <b>sensors</b> (current transformers CT and voltage transformers VT) scale network quantities down to values that can be measured safely (1 or 5 A, 100 V). The <b>relay</b> compares these measurements with its settings and decides. The <b>interrupting device</b> carries out the order.</p>
+<div class="fig" id="fig-chaine-prot"><svg viewBox="0 0 560 150" width="560" role="img" aria-label="Protection chain: CT and VT, relay, breaker" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" font-family="inherit"><path d="M20 100 L540 100"/><circle cx="110" cy="100" r="9"/><circle cx="122" cy="100" r="9"/><text x="116" y="124" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">TC</text><path d="M200 100 L200 118"/><rect x="186" y="118" width="28" height="14" rx="2"/><text x="200" y="146" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">TT</text><rect x="400" y="88" width="30" height="24" rx="2"/><text x="415" y="130" text-anchor="middle" font-size="12" fill="currentColor" stroke="none">Breaker</text><rect x="240" y="20" width="130" height="40" rx="6"/><text x="305" y="45" text-anchor="middle" font-size="13" fill="currentColor" stroke="none">Relay 50/51, 21, 87</text><path d="M116 91 L116 40 L240 40"/><path d="M200 118 L200 110"/><path d="M200 100 L200 70 L240 52"/><path d="M370 40 L415 40 L415 88"/><text x="150" y="34" font-size="11.5" fill="currentColor" stroke="none">I</text><text x="206" y="82" font-size="11.5" fill="currentColor" stroke="none">U</text><text x="420" y="66" font-size="11.5" fill="currentColor" stroke="none">trip order</text><text x="40" y="92" font-size="11.5" fill="currentColor" stroke="none">source</text><text x="480" y="92" font-size="11.5" fill="currentColor" stroke="none">line</text></svg><div class="cap">Protection chain: instrument transformers (CT, VT) scale current and voltage down to values the relay can read; the relay decides; the breaker interrupts. A fuse combines the three functions in a single device.</div></div>
+<ul>
+<li>The <b>circuit breaker</b> interrupts any current up to its breaking capacity and can be closed again; the relay gives it the order.</li>
+<li>The <b>fuse</b> combines sensor, relay and interruption: the element melts when the <i>I</i>²·<i>t</i> energy exceeds its pre-arcing value. At short-circuit currents it clears in less than half a cycle, before the peak (it “limits” the current), but must be replaced after each operation. Practical rule: two gG fuses in series are selective if the upstream rating is at least 1.6 times the downstream rating.</li>
+<li>The <b>recloser</b> is a circuit breaker with a relay that closes again automatically: on an overhead line, 70 to 80 % of faults are transient (arc in air, tree branch) and disappear after a few hundred ms without voltage.</li>
+</ul>
+<h4>Why inverse-time curves?</h4>
+<p>The heating of a cable or transformer is proportional to <i>I</i>²·<i>t</i>: doubling the current divides the permissible time by four. An inverse-time protection follows this law: it tolerates a moderate overload for a long time (motor start, energisation) but trips quickly on a short circuit. The three families of IEC 60255-151 (SI, VI, EI) differ in steepness. The threshold <i>I</i><sub>s</sub> fixes the asymptote, the TMS multiplier shifts the curve vertically. A fault current flows through every device in series between the source and the fault; for only the device closest to the fault to trip, its curve must lie <b>below</b> that of the upstream device, with at least 0.3 s between them. Two curves that cross are not selective.</p>
+<h4>Distance protection (21)</h4>
+<p>The relay divides voltage by current: <i>Z</i> = <i>V</i>/<i>I</i>. Since the impedance of a line is proportional to its length, <i>Z</i> measures the <b>distance to the fault</b> independently of current magnitude, which suits networks whose short-circuit power varies. Three zones (circular “mho” characteristics through the origin) are set on the line impedance: zone 1 at 80 % (instantaneous: 100 % is not used because of measurement and data errors, otherwise it would trip for a fault on the next line), zone 2 at 120 % with 0.3 s (covers the end of the line and acts as back-up), zone 3 at 200 % with 1 s. For an earth fault the loop impedance involves <i>Z</i><sub>0</sub>; the relay corrects it with the factor <i>k</i><sub>0</sub> = (<i>Z</i><sub>0</sub> − <i>Z</i><sub>1</sub>)/(3<i>Z</i><sub>1</sub>), which the mutual coupling of a parallel line distorts (the relay then underestimates the distance: “under-reach”).</p>
+<h4>Differential protection (87)</h4>
+<p>It applies Kirchhoff's current law to the protected element (line, transformer, busbar): with no internal fault the sum of the incoming currents is zero; if it is not (allowing for a restraint proportional to through current, to cover CT errors) the fault is <b>inside</b> the zone and tripping is immediate. Selectivity is absolute, with no time delay: in return, a line needs a communication link between its two ends, and a transformer needs inrush restraint (not modelled in NRJXpert).</p>
+<h4>Common mistakes</h4>
+<ul>
+<li>Setting the threshold <i>I</i><sub>s</sub> below the maximum load current: nuisance trips. It must sit above it (margin of 1.2 to 1.5) and well below the <b>minimum</b> short-circuit current (furthest fault, phase-to-phase or single-phase): otherwise the protection does not see the fault.</li>
+<li>Checking selectivity with the maximum <i>I</i>″<sub>k</sub> only: trip time changes with current, so the curves must be examined at both extremes.</li>
+<li>Forgetting CT saturation: beyond its accuracy limit factor it distorts the current and the relay trips too late (see below).</li>
+<li>Relying on an ordinary earth-fault protection in an isolated or compensated network: the residual current is only a few amperes, a wattmetric or directional earth-fault protection is needed.</li>
+<li>Confusing breaking capacity (the maximum current the device can interrupt) with the trip threshold (the current above which the relay orders the interruption).</li>
+</ul>
+<h3>Protection plan and selectivity in NRJXpert</h3>
+<p>A switching device of breaker or recloser type receives a protection (<b>Protection</b> section of its dialog); a fuse has its rating. Available
+protections: <b>overcurrent</b> 50/51 (IEC 60255-151 inverse curves: <i>t</i> = TMS·<i>k</i>/((<i>I</i>/<i>I</i><sub>s</sub>)<sup>α</sup> − 1),
+SI: <i>k</i> = 0.14, α = 0.02; VI: 13.5 and 1; EI: 80 and 2; IEEE and definite-time curves), with high-set I&gt;&gt; and earth protection
+50N/51N on 3·<i>I</i><sub>0</sub>; LV breaker <b>electronic trip unit</b> (long time <i>I</i><sup>2</sup><i>t</i>, short time, instantaneous);
+<b>distance</b> 21 (apparent impedance <i>V</i>/<i>I</i>, three mho zones, typically 80 % instantaneous, 120 % at 0.3 s, 200 % at 1 s);
+<b>line differential</b> 87L. In the short-circuit calculation the server gives the operating time of each device and the device that clears the
+fault; two devices are deemed selective if their times differ by at least 0.3 s (breaker opening time, relay overshoot and safety margin). The
+<b>Selectivity…</b> button plots the time-current curves.</p>
+<div class="fig" id="fig-selectivite"><svg viewBox="0 0 560 245" width="560" role="img" aria-label="Time-current curves of two protections in series" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" font-family="inherit"><path d="M70 30V200 H520"/><path d="M70 200v5"/><text x="70" y="218" text-anchor="middle" font-size="10.5" fill="currentColor" stroke="none">200</text><path d="M191.231 200v5"/><text x="191.231" y="218" text-anchor="middle" font-size="10.5" fill="currentColor" stroke="none">500</text><path d="M282.939 200v5"/><text x="282.939" y="218" text-anchor="middle" font-size="10.5" fill="currentColor" stroke="none">1000</text><path d="M374.647 200v5"/><text x="374.647" y="218" text-anchor="middle" font-size="10.5" fill="currentColor" stroke="none">2000</text><path d="M495.878 200v5"/><text x="495.878" y="218" text-anchor="middle" font-size="10.5" fill="currentColor" stroke="none">5000</text><path d="M70 200h-5"/><text x="62" y="204" text-anchor="end" font-size="10.5" fill="currentColor" stroke="none">0.1</text><path d="M70 200H520" stroke-opacity=".15"/><path d="M70 143.333h-5"/><text x="62" y="147.333" text-anchor="end" font-size="10.5" fill="currentColor" stroke="none">1</text><path d="M70 143.333H520" stroke-opacity=".15"/><path d="M70 86.6667h-5"/><text x="62" y="90.6667" text-anchor="end" font-size="10.5" fill="currentColor" stroke="none">10</text><path d="M70 86.6667H520" stroke-opacity=".15"/><path d="M70 30h-5"/><text x="62" y="34" text-anchor="end" font-size="10.5" fill="currentColor" stroke="none">100</text><path d="M70 30H520" stroke-opacity=".15"/><text x="295" y="238" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">current (A, log scale)</text><text x="74" y="22" text-anchor="start" font-size="11.5" fill="currentColor" stroke="none">time (s)</text><path d="M168.2 50.7L175.9 70.0L183.6 80.7L191.3 88.1L199.0 93.8L206.7 98.4L214.4 102.3L222.1 105.6L229.8 108.6L237.5 111.2L245.3 113.5L253.0 115.7L260.7 117.7L268.4 119.5L276.1 121.2L283.8 122.8L291.5 124.3L299.2 125.7L306.9 127.0L314.6 128.2L322.3 129.4L330.1 130.6L337.8 131.7L345.5 132.7L353.2 133.7L360.9 134.6L368.6 135.5L376.3 136.4L384.0 137.3L391.7 138.1L399.4 138.9L407.2 139.7L414.9 140.4L422.6 141.1L430.3 141.8L438.0 142.5L445.7 143.1L453.4 143.8L461.1 144.4L468.8 145.0L476.5 145.6L484.2 146.2L492.0 146.7L499.7 147.3L507.4 147.8L515.1 148.4" stroke-width="2.2"/><path d="M76.5 77.7L84.2 97.0L91.9 107.6L99.6 114.9L107.3 120.5L115.0 125.1L122.7 128.9L130.4 132.1L138.1 135.0L145.8 137.6L153.5 139.9L161.3 141.9L169.0 143.9L176.7 145.6L184.4 147.3L192.1 148.8L199.8 150.2L207.5 151.5L215.2 152.8L222.9 154.0L230.6 155.1L238.4 156.2L246.1 157.2L253.8 158.2L261.5 159.1L269.2 160.0L276.9 160.9L284.6 161.7L292.3 162.5L300.0 163.2L307.7 164.0L315.4 164.7L323.2 165.3L330.9 166.0L338.6 166.6L346.3 167.3L354.0 167.9L361.7 168.4L369.4 169.0L377.1 169.6L384.8 170.1L392.5 170.6L400.2 171.1L408.0 171.6L415.7 172.1L423.4 172.5L431.1 173.0L438.8 173.4L446.5 173.9L454.2 174.3L461.9 174.7L469.6 175.1L477.3 175.5L485.1 175.9L492.8 176.3L500.5 176.7L508.2 177.0L515.9 177.4" stroke-width="2.2" stroke-dasharray="7 3"/><path d="M327.456 200V38" stroke-dasharray="2 3"/><text x="332.456" y="46" text-anchor="start" font-size="11" fill="currentColor" stroke="none">I″k = 1,400 A</text><circle cx="327.456" cy="130.202" r="3.5" fill="currentColor"/><circle cx="327.456" cy="165.699" r="3.5" fill="currentColor"/><path d="M341.456 165.699L341.456 132.202"/><path d="M344.182 138.65L341.456 132.202L338.73 138.65" fill="currentColor"/><path d="M341.456 130.202L341.456 163.699"/><path d="M338.73 157.252L341.456 163.699L344.182 157.252" fill="currentColor"/><text x="349.456" y="151.951" text-anchor="start" font-size="11" fill="currentColor" stroke="none">margin ≥ 0.3 s</text><text x="520" y="119.818" text-anchor="end" font-size="11.5" fill="currentColor" stroke="none">S1 upstream (Is = 400 A, TMS = 0.3)</text><text x="520" y="194.963" text-anchor="end" font-size="11.5" fill="currentColor" stroke="none">S2 downstream (Is = 200 A, TMS = 0.1)</text></svg><div class="cap">Time selectivity of example 2.15 (SI curves, 50 ms breaker opening time). For every possible fault current the upstream curve S1 must stay at least 0.3 s above S2: if the curves cross, beyond the crossing S1 trips before S2 and needlessly cuts the whole feeder. Check at both extremes: Imin and Imax.</div></div>
+<div class="ex"><h4>Example 2.15 — Time selectivity of two feeders (<code>exemples/selectivite_depart.xml</code>)</h4>
+<p>The network of example 2.4 supplies a line LA (3 + j3.5 Ω) protected by breaker S1, then a line LB (2 + j2 Ω) protected by S2. SI relays:
+S1 <i>I</i><sub>s</sub> = 400 A, TMS = 0.3; S2 <i>I</i><sub>s</sub> = 200 A, TMS = 0.1; breaker opening 50 ms. Three-phase fault at the end of
+LB. Compute the times, then find the TMS of S1 that keeps a 0.3 s margin as fast as possible.</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>I"k = 1 400 A, seen by S1 and S2. S2: <i>I</i>/<i>I</i><sub>s</sub> = 7.0, <i>t</i> = 0.1 × 0.14/(7.0<sup>0.02</sup> − 1) + 0.05 =
+<span class="result">0.403 s</span>: S2 clears the fault. S1: <i>I</i>/<i>I</i><sub>s</sub> = 3.5, <i>t</i> = 0.3 × 0.14/(3.5<sup>0.02</sup> − 1)
++ 0.05 = 1.705 s: selective, but slow for a fault on LA (1.33 s for a fault at the end of LA, I"k = 2 012 A). With TMS = 0.12:
+<span class="result">0.712 s</span>, i.e. 0.31 s after S2; below that the calculation reports insufficient selectivity. The phase-to-earth fault
+(949 A) gives 0.49 s and 2.46 s: the earth protection (lower pickup on 3·<i>I</i><sub>0</sub>) speeds up the clearing of earth faults.</p>
+</details></div>
+<h3>Instrument transformers and surge arresters</h3>
+<p>A relay sees the network only through its <b>current</b> (CT) and <b>voltage transformers</b> (VT). A 5P20 protection CT keeps a composite
+error below 5 % up to 20 times its rated current, under its rated burden; with a different actual burden <i>S</i><sub>b</sub>, the actual
+accuracy limit factor is ALF′ = ALF·(<i>R</i><sub>ct</sub>·<i>I</i><sub>sn</sub>² + <i>S</i><sub>n</sub>)/(<i>R</i><sub>ct</sub>·<i>I</i><sub>sn</sub>² +
+<i>S</i><sub>b</sub>). Beyond it the CT saturates: the relay sees less current and trips later. A metal-oxide <b>surge arrester</b> limits
+lightning and switching overvoltages: the voltage at the equipment is <i>U</i><sub>eq</sub> = <i>U</i><sub>pl</sub> + 2·<i>S</i>·<i>L</i>/<i>v</i>
+(steepness <i>S</i>, distance <i>L</i>, <i>v</i> = 300 m/µs) and must stay at least 20 % below the lightning impulse withstand (BIL) of the
+equipment (IEC 60071-2). It must also withstand the <b>temporary overvoltages</b> of earth faults: with isolated or compensated neutral, the
+sound phases rise to √3 times the phase voltage, hence a higher rated voltage <i>U</i><sub>r</sub> than with an earthed neutral.</p>
+<div class="ex"><h4>Example 2.16 — Arrester in an isolated-neutral network (<code>exemples/parafoudre_neutre_isole.xml</code>)</h4>
+<p>20 kV network (<i>U</i><sub>m</sub> = 24 kV) with isolated neutral, zero-sequence capacitance 1 µF; arrester PF1 (<i>U</i><sub>c</sub> = 15.3 kV,
+<i>U</i><sub>r</sub> = 21 kV, <i>U</i><sub>pl</sub> = 70 kV, T = 1.0) 5 m from a transformer with a 125 kV BIL, 1 000 kV/µs wave. Phase-to-earth
+fault at the customer. Check the coordination, then repeat with an earthed neutral.</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>Lightning: <i>U</i><sub>eq</sub> = 70 + 2 × 1 000 × 5/300 = 103.3 kV, margin 125/103.3 = <span class="result">1.21</span> ≥ 1.2: satisfied
+(at 6 m it falls below 1.2). Isolated neutral: capacitive fault current of only 12 A, but <span class="result">k = 1.74</span> at the arrester:
+temporary overvoltage 1.74 × 24/√3 = 24.1 kV &gt; T·<i>U</i><sub>r</sub> = 21 kV; the calculation asks for <i>U</i><sub>r</sub> ≥ 24.1 kV (a 24 kV
+arrester with T = 1.05 is suitable). Earthed neutral: fault current 1 169 A, k = 1.18, overvoltage 16.4 kV: the 21 kV arrester is suitable.</p>
+</details></div>
+<h3>Neutral earthing system: isolated, resistance, compensated or solid</h3>
+<p>The current of an earth fault depends mainly on how the network neutral is earthed. With an <b>isolated neutral</b>, it returns only through the
+zero-sequence capacitances of lines and cables: <i>I</i><sub>c</sub> = 3·ω·<i>C</i><sub>0</sub>·<i>U</i><sub>n</sub>/√3 (a few amperes to a few hundred
+amperes); operation can continue, but the sound phases rise to √3·<i>V</i>. A <b>neutral resistor</b> limits the current (typically 300 to 1 000 A in
+MV) while allowing a simple earth protection. The <b>Petersen coil</b> compensates the capacitive current: tuned (ω·<i>L</i> = 1/(3·ω·<i>C</i><sub>0</sub>)),
+it leaves only a small residual current ≈ <i>I</i><sub>c</sub>·√(<i>v</i>² + <i>r</i>²) (detuning <i>v</i>, active current <i>r</i> of the parallel resistor),
+which extinguishes most transient faults; detection then requires wattmetric protections. With a <b>solidly earthed neutral</b>, the current is
+high and the overvoltages low (<i>k</i> ≤ 1.4).</p>
+<div class="fig" id="fig-neutre"><svg viewBox="0 0 560 250" width="560" role="img" aria-label="Earth-fault current and Petersen coil" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" font-family="inherit"><path d="M20 190H540"/><path d="M110 40H480"/><text x="492" y="44" text-anchor="start" font-size="12" fill="currentColor" stroke="none">a</text><path d="M110 80H480"/><text x="492" y="84" text-anchor="start" font-size="12" fill="currentColor" stroke="none">b</text><path d="M110 120H480"/><text x="492" y="124" text-anchor="start" font-size="12" fill="currentColor" stroke="none">c</text><path d="M60 80L110 40M60 80H110M60 80L110 120"/><circle cx="60" cy="80" r="3" fill="currentColor"/><path d="M60 80V104"/><rect x="48" y="104" width="24" height="34" rx="5"/><text x="60" y="124.5" text-anchor="middle" font-size="10" fill="currentColor" stroke="none"></text><path d="M60 138V190"/><text x="40" y="126" text-anchor="end" font-size="12" fill="currentColor" stroke="none">Zn</text><path d="M300 40V140 M291 140H309 M291 146H309 M300 146V190"/><path d="M300 80V140 M291 140H309 M291 146H309 M300 146V190"/><path d="M300 120V140 M291 140H309 M291 146H309 M300 146V190"/><text x="340" y="142" text-anchor="start" font-size="11" fill="currentColor" stroke="none">C0: capacitance of each phase</text><path d="M440 40L432 62L448 76L440 100"/><path d="M440 100L440 118"/><path d="M437.274 111.553L440 118L442.726 111.553" fill="currentColor"/><path d="M440 118V190"/><text x="428" y="104" text-anchor="end" font-size="11.5" fill="currentColor" stroke="none">fault</text><path d="M190 30L235 30"/><path d="M228.553 32.7259L235 30L228.553 27.2741" fill="currentColor"/><text x="212" y="22" text-anchor="middle" font-size="11.5" fill="currentColor" stroke="none">If</text><path d="M318 160L318 178" stroke-dasharray="5 4"/><path d="M315.274 171.553L318 178L320.726 171.553" fill="currentColor"/><text x="352" y="172" text-anchor="start" font-size="11" fill="currentColor" stroke="none">Ic = 3·ω·C0·V</text><path d="M86 160L86 142" stroke-dasharray="5 4"/><path d="M88.7259 148.447L86 142L83.2741 148.447" fill="currentColor"/><text x="118" y="160" text-anchor="start" font-size="11" fill="currentColor" stroke="none">IL = V/(ω·L')</text><text x="280" y="218" text-anchor="middle" font-size="11" fill="currentColor" stroke="none">Zn = ∞: isolated; Zn = R: resistor; Zn = jω·L: Petersen coil (tuned: 3·ω²·L·C0 = 1) ; Zn = 0: solidly earthed</text><text x="280" y="234" text-anchor="middle" font-size="11" fill="currentColor" stroke="none"></text></svg><div class="cap">The single-phase fault can only close through the capacitances C0 of the other two phases (current Ic, a few amperes to a few hundred amperes) and through the neutral impedance Zn. With an isolated neutral there is only Ic; with a Petersen coil IL opposes Ic: the two currents subtract and only a residual current of a few amperes remains, which extinguishes most transient faults. In every system except solid earthing the healthy phases rise to √3 times the phase voltage.</div></div>
+<div class="ex"><h4>Example 2.17 — The four neutral earthing systems of a 20 kV network (<code>exemples/reseau_compense.xml</code>)</h4>
+<p>20 kV substation with isolated neutral (alternator), lines 1 + j1.5 Ω and 0.5 + j0.5 Ω, cables with a total zero-sequence capacitance of 10 µF,
+24 kV arrester; earthing device « Bobine » at the substation: Petersen coil with automatic tuning, detuning +5 %, active current 3 %. Phase-to-earth
+fault at the customer. Compare with the isolated neutral, a resistor limiting to 300 A and the solidly earthed neutral.</p>
+<details class="sol"><summary>Show the solution</summary>
+<p><i>I</i><sub>c</sub> = 3 × 314 × 10 µF × 20 000/√3 = <span class="result">108.8 A</span>; tuned coil: <i>L</i> = 1/(3 × 314² × 10 µF × 1.05) = 0.322 H.</p>
+<table>
+<tr><th>Earthing</th><th>Fault current</th><th>Neutral current</th><th>k at the arrester</th></tr>
+<tr><td>Isolated neutral</td><td class="num">124 A (capacitive)</td><td class="num">—</td><td class="num">1.78</td></tr>
+<tr><td>Petersen coil</td><td class="num"><span class="result">5.8 A</span></td><td class="num">123 A (coil)</td><td class="num">1.73</td></tr>
+<tr><td>Resistor 300 A</td><td class="num">337 A</td><td class="num">320 A</td><td class="num">1.78</td></tr>
+<tr><td>Solidly earthed</td><td class="num">2 335 A</td><td class="num">2 372 A</td><td class="num">1.08</td></tr>
+</table>
+<p>The currents are calculated with c = 1.1 (maximum Icc). The coil reduces the fault current by a factor of 20: √(0.05² + 0.03²) = 5.8 % of
+<i>I</i><sub>c</sub>, up to the reactance of the lines. With isolated, compensated or resistance-earthed neutral, the sound phases rise to √3 times the
+phase voltage: the 24 kV arrester is slightly short (the calculation asks for <i>U</i><sub>r</sub> ≥ 24.7 kV with isolated or resistance-earthed
+neutral); with a solidly earthed neutral, an 18 kV arrester would be enough.</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <h3>Earth-fault protection in isolated or compensated networks</h3>
+<p>In a network earthed through a resistor or solidly, an earth fault drives a large current in the faulted feeder: an earth overcurrent protection (50N/51N) is enough. With an isolated or compensated neutral the fault current is only a few amperes to a few tens of amperes, the same order as the capacitive current <i>I</i><sub>c</sub> of each healthy feeder: a current threshold can no longer tell the faulted feeder from the others. One must look at <b>the direction</b> of the zero-sequence power.</p>
+<p>The fault is the only “generator” of the zero-sequence network: the residual voltage <i>V</i><sub>0</sub> appears on the whole busbar and every feeder sees the same <i>V</i><sub>0</sub>. Each healthy feeder absorbs its own capacitive current 3·<i>I</i><sub>0</sub> = 3·<i>V</i><sub>0</sub>·j<i>C</i><sub>0</sub>·ω, 90° ahead of <i>V</i><sub>0</sub>; the faulted feeder sends back toward the busbar the sum of the capacitive currents of the other feeders (and, with a Petersen coil, the coil current). The zero-sequence power <i>S</i><sub>0</sub> = 3·<i>V</i><sub>0</sub>·<i>I</i><sub>0</sub>* seen from the line side therefore has a different sign in the faulted feeder and in the healthy ones:</p>
+<ul>
+<li><b>Isolated network: varmetric protection</b> (−90° characteristic). The faulted feeder has a negative (capacitive) reactive power <i>Q</i><sub>0</sub>, the healthy feeders a positive one.</li>
+<li><b>Compensated network: wattmetric protection</b> (0° characteristic). The coil cancels almost all the reactive power, so it no longer tells anything; what remains is the <b>active</b> power <i>P</i><sub>0</sub>, which comes from the losses of the coil and of the parallel resistor. It is positive and large in the faulted feeder, almost zero in the healthy ones.</li>
+</ul>
+<p>The protection trips if the residual voltage exceeds a threshold (typically 10 to 30 % of the phase voltage, so as not to react to the normal unbalance), if the power projected on the characteristic exceeds its threshold, and after its time delay. In NRJXpert: protection type “Directional earth fault 67N / wattmetric 32N” of a switching device; the short-circuit summary gives <i>V</i><sub>0</sub>, <i>P</i><sub>0</sub> and <i>Q</i><sub>0</sub> seen by each device.</p>
+<div class="ex"><h4>Example 2.18 — Two feeders in an isolated, then compensated network (<code>exemples/terre_directionnelle.xml</code>)</h4>
+<p>A 20 kV substation supplies two feeders: feeder 1 (breaker S1, zero-sequence capacitance 6 µF) and feeder 2 (S2, 4 µF). A solid single-phase fault occurs at the end of feeder 1. Each breaker carries a directional earth-fault protection. The file is set for a compensated network (Petersen coil with +5 % detuning and 3 % active current, wattmetric protection with <i>V</i><sub>0</sub> ≥ 10 %, <i>P</i><sub>s</sub> = 5 kW, 1 s). Compare with the same network with an isolated neutral (remove the earthing section, varmetric protection −90°, 0.5 s).</p>
+<details class="sol"><summary>Show solution</summary>
+<p><b>Isolated neutral.</b> The fault current is capacitive: <i>I</i>″<sub>k1</sub> = 124 A; the residual voltage reaches 104 % of the phase voltage (<i>c</i> = 1.1: 100 %, up to the factor <i>c</i>). S1 sees <i>Q</i><sub>0</sub> = −652 kvar (faulted-feeder direction), S2 sees +652 kvar: only S1 trips, at 0.5 + 0.05 = <span class="result">0.55 s</span>. The two feeders have the same absolute power because the current through S1 is that of the capacitance of feeder 2, which closes through S2; the capacitance of feeder 1 is downstream of S1 (on the other side of the relay).</p>
+<p><b>Compensated network.</b> The fault current drops to 6.6 A, a current that neither 50N nor an ordinary CT would see. S1 measures <i>P</i><sub>0</sub> = <span class="result">+45.7 kW</span>, S2 ≈ 0: the wattmetric criterion singles out the faulted feeder, which trips at 1 + 0.05 = 1.05 s. The reactive power of S1 (+979 kvar) has changed sign compared with the isolated neutral: the varmetric criterion would give a wrong decision. That is why the characteristic is chosen according to the earthing system, and changed with it.</p>
+</details></div>
+<h3>Transformer differential protection (87T)</h3>
+<p>A transformer is an expensive device whose internal faults (turn-to-turn, winding-to-winding, bushing failure) must be cleared within a few tens of milliseconds. The differential protection compares the currents entering and leaving the zone delimited by its two CTs: without an internal fault the primary and secondary ampere-turns balance and the differential current <i>I</i><sub>d</sub> = |<i>I</i><sub>1</sub> + <i>I</i><sub>2</sub>| is zero. But three effects make it more delicate than a line differential:</p>
+<ul>
+<li>the <b>transformation ratio</b> and the <b>phase shift</b> of the vector group (Dyn11, YNd1…): the relay corrects the currents (CT ratios, software vector-group compensation, filtering of the zero-sequence current on the star side);</li>
+<li>the <b>tap position</b>: an on-load tap changer changes the ratio by ± 10 % without the relay knowing it, hence a differential current of ± 10 % of the through current even without a fault;</li>
+<li><b>CT saturation</b> and the <b>magnetising inrush</b> at energisation (up to 10 times rated current, rich in 2nd harmonic), which create a differential current without any fault.</li>
+</ul>
+<p>The remedy is the <b>percentage restraint</b>: the operating threshold grows with the through current (the bias <i>I</i><sub>b</sub> = (|<i>I</i><sub>1</sub>| + |<i>I</i><sub>2</sub>|)/2): the relay trips if <i>I</i><sub>d</sub> &gt; max(<i>I</i><sub>d,min</sub>, <i>k</i><sub>1</sub>·<i>I</i><sub>b</sub>), with a slope <i>k</i><sub>1</sub> of 20 to 30 % and a second slope <i>k</i><sub>2</sub> (50 to 70 %) beyond a break point to account for CT saturation at high currents. An unrestrained instantaneous threshold <i>I</i><sub>u</sub> (8 to 10 times <i>I</i><sub>n</sub>) clears large internal faults at once, even if a CT saturates. 2nd-harmonic restraint blocks tripping at energisation.</p>
+<p>In NRJXpert (type “Transformer differential 87T”): the vector group is assumed compensated and the zero-sequence current filtered. The differential current comes from the ratio mismatch (tap ≠ ratio the relay is set for) and from the saturation of the input-side CT; an option “fault inside the zone” places the fault between the transformer and its CT. Magnetising inrush is not simulated.</p>
+<div class="ex"><h4>Example 2.19 — Stability and sensitivity of a differential protection (<code>exemples/differentielle_transfo.xml</code>)</h4>
+<p>A 20 kV transformer is protected by an 87T differential: <i>I</i><sub>d,min</sub> = 100 A, <i>k</i><sub>1</sub> = 25 %, the relay being set for the nominal ratio. The tap changer is at +10 % (<code>tapRatio</code> = 1.10). Calculate the differential current for a three-phase fault downstream (outside the zone), then with <i>k</i><sub>1</sub> = 5 % and <i>I</i><sub>d,min</sub> = 10 A, then for an internal fault between the transformer and its CT.</p>
+<details class="sol"><summary>Show solution</summary>
+<p><b>External fault, <i>k</i><sub>1</sub> = 25 %.</b> <i>I</i>″<sub>k</sub> = 2,183 A flows through the transformer. The 10 % tap mismatch creates <i>I</i><sub>d</sub> = <span class="result">218 A</span> for a bias of 2,073 A; the threshold is 0.25 × 2,073 = 518 A: <i>I</i><sub>d</sub> &lt; threshold, the protection is <b>stable</b>.</p>
+<p><b>Slope too low (5 %, 10 A).</b> The threshold drops to 104 A: 218 A &gt; 104 A, the protection trips at 0.03 + 0.05 = <span class="result">0.08 s</span> for an external fault: this is a <b>spurious trip</b>, the classic result of an over-sensitive setting. The differential current due to the tap (10 %) sets the minimum slope: take <i>k</i><sub>1</sub> ≥ 15 to 25 %.</p>
+<p><b>Internal fault.</b> Between the transformer and its CT the other side sees no current: <i>I</i><sub>d</sub> = 2,532 A, bias 1,266 A (the ratio <i>I</i><sub>d</sub>/<i>I</i><sub>b</sub> is always 2 for a single-ended infeed), threshold 317 A: trip at <span class="result">0.08 s</span>.</p>
+</details></div>
+<h3>Limits of the NRJXpert models</h3>
+<p>A model simplifies: you must know what it does not represent so as not to make it say what it cannot say.</p>
+<ul>
+<li><b>Mutual coupling</b>: zero sequence only; taken into account in the short circuit, not in the distribution sweep.</li>
+<li><b>Induction machine</b>: a single rotor cage. <b>DFIG</b>: steady-state model (equivalent circuit, lossless converters); the dynamic simulation represents it by an inverter (current source with ride-through), without rotor-flux, crowbar or vector-control dynamics; the crowbar is a choice of the short-circuit model, not a time-based logic; no double-cage machine.</li>
+<li><b>Generator</b>: the capability curve acts in the classic load flow; the PSS tuning must be checked for each configuration.</li>
+<li><b>Protection</b>: it does not trip in dynamic simulations; transformer differential without magnetising inrush nor 2nd-harmonic restraint; time grading only; CT saturation by simple clipping.</li>
+<li><b>Surge arresters</b>: coordination by a static formula (<i>U</i><sub>pl</sub> + 2·<i>S</i>·<i>L</i>/<i>v</i>); lightning and switching overvoltages are not simulated.</li>
+<li><b>Neutral earthing</b>: steady state (no arc transient); the zero-sequence capacitance <i>C</i><sub>0</sub> is that of the whole network, which is wrong if transformers separate several zones.</li>
+</ul>
+<a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n2-ex">
+            <h2><span class="section-icon">🎯</span>Exercises</h2>
+<div class="ex"><h4>Exercise 1 — Short circuit at the secondary of a transformer</h4>
+<p>The transformer of example 2.1 is supplied by a network of infinite short-circuit power. Calculate the three-phase I"k at the secondary
+(c = 1.05), κ and ip.</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>I"k = 1.05 × 400/(√3 × 0.0256) = <span class="result">9.47 kA</span>; R/X = 0.344; κ = 1.02 + 0.98·e<sup>−1.031</sup> = 1.370;
+ip = 1.370 × √2 × 9.47 = <span class="result">18.3 kA</span>. The LV main breaker must have a breaking capacity of at least 10 kA (15 or 25 kA is
+chosen to account for the actual short-circuit power of the upstream network).</p>
+</details></div>
+<div class="ex"><h4>Exercise 2 — Change of base</h4>
+<p>A 2 MVA, 30/0.4 kV transformer has <i>u</i><sub>sc</sub> = 6 %. Express its impedance in pu on a 100 MVA base, then in ohms on the 30 kV side.</p>
+<details class="sol"><summary>Show the solution</summary>
+<p><i>z</i> = 0.06 × 100/2 = <span class="result">3 pu</span>; <i>Z</i><sub>b</sub> = 30²/100 = 9 Ω; <i>Z</i> = <span class="result">27 Ω</span>
+(= 0.06 × 30²/2).</p>
+</details></div>
+<div class="ex"><h4>Exercise 3 — Voltage profile</h4>
+<p>In lab 3, the load becomes 8 MW, 4 Mvar. Without detailed calculation, what will happen to V3, to Qgen of G2 and to the losses? Check with
+NRJXpert.</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>Forecast: V3 decreases (≈ (R·P + X·Q)/U² increases); G2, which holds its voltage, supplies more reactive power; losses grow roughly as the
+square of the flows. Calculation (Newton-Raphson, 3 iterations): V3 = <span class="result">30.629 kV</span> (−1.23°) instead of 30.937 kV; Qgen of
+G2 = <span class="result">3.71 Mvar</span> instead of 1.16; the substation supplies 5.17 MW and 0.53 Mvar; losses = 5.172 + 3 − 8 =
+<span class="result">172 kW</span>, i.e. 2.9 times more for a load 1.6 times larger.</p>
+</details></div>
+<div class="ex"><h4>Exercise 4 — Iterative methods</h4>
+<p>Explain why Newton-Raphson converges in 3 iterations from any reasonable initialisation (« flat » voltages 1∠0°), while Gauss-Seidel needs 20.
+What happens if the load becomes too large (beyond the maximum transmissible power)?</p>
+<details class="sol"><summary>Show the solution</summary>
+<p>NR uses the derivatives (tangent): near the solution the error is squared at each iteration. GS corrects each node separately, with linear
+convergence. Beyond the voltage collapse point (nose of the P-V curve) there is no solution any more: no method converges and the server returns
+a non-convergence message.</p>
+</details></div>
+<div class="ex"><h4>Exercise 5 — Compensating an MV feeder</h4>
+<p>A 20 kV source supplies, through a feeder of impedance 2 + j6 Ω, a 5 MW and 3 Mvar load. Draw the network (20 kV slack bus,
+impedance, load bus) and answer:</p>
+<ol>
+<li>Voltage drop and losses with the approximate formulas, then with the load flow (Newton-Raphson).</li>
+<li>Reactive power to supply at the load bus to limit the voltage drop to 3 % (approximate formula).</li>
+<li>Place a 4 × 1 Mvar switched shunt compensator (palette <b>Power system (load flow)</b>): how many steps should be switched on?
+Check with the load flow; why is the reactive power supplied lower than <i>n</i> × 1 Mvar?</li>
+<li>Set the compensator to automatic control (setpoint 0.98 pu, dead band 2 %): what does the calculation choose?</li>
+<li>Replace the compensator by a ± 4 Mvar STATCOM holding the voltage at 1.00 pu (zero slope). What happens? What rating is needed, and
+is it desirable as far as losses are concerned?</li>
+</ol>
+<details class="sol"><summary>Show the solution</summary>
+<p>1. ΔU/U ≈ (R·P + X·Q)/U² = (2 × 5 + 6 × 3)/20² = 7 %, losses ≈ R·(P² + Q²)/U² = 2 × 34/400 = 0.17 MW. Load flow:
+<span class="result">0.922 pu</span> (7.8 % drop) and <span class="result">0.200 MW</span>: the approximate formulas assume the rated voltage
+at the load bus, whereas the current there is higher because the voltage is lower.</p>
+<p>2. (10 + 6·(3 − <i>Q</i><sub>c</sub>))/400 ≤ 0.03 ⇒ <i>Q</i><sub>c</sub> ≥ <span class="result">2.67 Mvar</span>.</p>
+<p>3. Three steps: <span class="result">0.968 pu</span>, losses 0.134 MW (−33 %), reactive power supplied only 2.81 Mvar, since a capacitor
+supplies <i>Q</i> = <i>n</i>·<i>Q</i><sub>step</sub>·<i>V</i>² (3 × 0.968² = 2.81). Two steps are not enough (0.952 pu).</p>
+<p>4. The band is [0.97; 0.99] pu: the calculation switches on <span class="result">4 steps</span> (0.985 pu), three giving 0.968 pu,
+below the band.</p>
+<p>5. The STATCOM reaches its <b>capacitive limit</b>: 3.94 Mvar (= 4 × 0.986), voltage 0.986 pu, warning from the calculation. To hold
+1.00 pu it needs <span class="result">4.9 Mvar</span>, and the losses rise again (0.143 MW against 0.133 MW): beyond the reactive power
+consumed by the load, the feeder carries reactive power back to the substation. A slope of a few % avoids this over-compensation.</p>
+</details></div>
+<div class="ex"><h4>Exercise 6 — Tap changer at the head of the feeder</h4>
+<p>Take the feeder of exercise 5 (20 kV source, impedance 2 + j6 Ω, load 5 MW and 3 Mvar, voltage 0.922 pu at the load bus). A tapped 20 kV / 20 kV transformer
+(1.25 % step, ± 8 positions; short-circuit impedance neglected) is placed between the source and the feeder.</p>
+<ol>
+<li>Estimate the position needed to bring the load voltage back to at least 0.98 pu. Check with the load flow with a fixed tap, for positions −2, −3, −4 and −5.</li>
+<li>Switch to automatic control (regulated voltage: secondary side of the transformer, setpoint 1.00 pu, dead band 2 %). What does the calculation choose?</li>
+<li>Reduce the dead band to 0.5 %. What does the calculation report, and why?</li>
+</ol>
+<details class="sol"><summary>Show the solution</summary>
+<p>1. Each position raises the voltage by about 1.25 % (slightly more at the load bus, because the current decreases): from 0.922 to 0.98 pu takes a little more than 4 positions.
+Load flow: <span class="result">0.950; 0.965; 0.979; 0.995 pu</span> for −2; −3; −4; −5. Position −4 is just below 0.98 pu: <span class="result">−5</span> is needed.</p>
+<p>2. The band is [0.99; 1.01] pu: the calculation stops at <span class="result">position −5</span> (0.995 pu); −4 gives 0.979 pu, below the band.</p>
+<p>3. A <b>hunting</b> warning: one position changes the voltage by 1.5 %, more than the width of the band (0.5 %); no position falls inside the band and the calculation
+oscillates between two positions. The dead band must be wider than the effect of one position.</p>
+</details></div>
+<div class="ex"><h4>Exercise 7 — Inverse-time curves</h4>
+<p>An overcurrent relay has a threshold <i>I</i><sub>s</sub> = 200 A and TMS = 0.2. Compute its trip time (excluding breaker opening time) for a current of 1,000 A, then 2,000 A, with the SI (<i>k</i> = 0.14, α = 0.02), VI (13.5 and 1) and EI (80 and 2) curves. Which curve should you choose for a line where the fault current varies widely with fault location?</p>
+<details class="sol"><summary>See the solution</summary>
+<p><i>t</i> = TMS·<i>k</i>/((<i>I</i>/<i>I</i><sub>s</sub>)<sup>α</sup> − 1). At 1,000 A (<i>I</i>/<i>I</i><sub>s</sub> = 5): SI <span class="result">0.856 s</span>, VI <span class="result">0.675 s</span>, EI <span class="result">0.667 s</span>. At 2,000 A (ratio 10): SI 0.594 s, VI 0.300 s, EI 0.162 s. The SI curve is almost flat (0.86 s → 0.59 s); the EI curve collapses when the current doubles (0.67 s → 0.16 s). It therefore suits cases where the fault current varies widely with position (fast for a close fault, slow for a remote one, which makes grading easier) and where the protection must tolerate load energisation (downstream fuses); SI suits cases where the fault current varies little (strong network).</p>
+</details></div>
+<div class="ex"><h4>Exercise 8 — Compensated network</h4>
+<p>A 20 kV, 50 Hz network has a total zero-sequence capacitance <i>C</i><sub>0</sub> = 8 µF. Compute the capacitive current <i>I</i><sub>c</sub> of a single-phase fault with isolated neutral and the voltage of the healthy phases. Compute the inductance of the tuned Petersen coil, then with a detuning <i>v</i> = +5 % and an active current of 3 % of <i>I</i><sub>c</sub>, and the residual fault current.</p>
+<details class="sol"><summary>See the solution</summary>
+<p><i>I</i><sub>c</sub> = 3·ω·<i>C</i><sub>0</sub>·<i>U</i><sub>n</sub>/√3 = 3 × 314.16 × 8·10⁻⁶ × 20,000/√3 = <span class="result">87.1 A</span>; the healthy phases rise to √3 × 11.55 kV = 20 kV (line-to-line voltage). Tuned coil: <i>L</i> = 1/(3·ω²·<i>C</i><sub>0</sub>) = <span class="result">0.422 H</span>. With <i>v</i> = +5 % (over-compensation): <i>L</i> = 1/(3·ω²·<i>C</i><sub>0</sub>·1.05) = <span class="result">0.402 H</span>; residual current ≈ <i>I</i><sub>c</sub>·√(<i>v</i>² + <i>r</i>²) = 87.1 × √(0.05² + 0.03²) = <span class="result">5.1 A</span>, 17 times less than with isolated neutral: the arc of a transient fault extinguishes by itself. Detuning avoids exact resonance (which would make the neutral voltage rise sharply); exact tuning is done by varying <i>L</i> until the neutral voltage peaks.</p>
+</details></div>
+<div class="ex"><h4>Exercise 9 — Current transformer saturation</h4>
+<p>A 200/5 A, class 5P20, 15 VA CT has a secondary resistance <i>R</i><sub>ct</sub> = 0.3 Ω. It feeds a relay and leads with a total burden of 30 VA (at 5 A). Compute its actual accuracy limit factor ALF′. Does the CT remain accurate for a 3 kA fault? What should be done?</p>
+<details class="sol"><summary>See the solution</summary>
+<p>ALF′ = ALF·(<i>R</i><sub>ct</sub>·<i>I</i><sub>sn</sub>² + <i>S</i><sub>n</sub>)/(<i>R</i><sub>ct</sub>·<i>I</i><sub>sn</sub>² + <i>S</i><sub>b</sub>) = 20 × (0.3 × 25 + 15)/(0.3 × 25 + 30) = 20 × 22.5/37.5 = <span class="result">12</span>. The CT keeps its composite error up to 12 × 200 = 2,400 A. A 3,000 A fault, 15 times the rated current, exceeds this limit: the CT saturates, the relay sees a lower current and trips later. Solutions: reduce the burden (larger lead cross-section, low-burden relay) to restore ALF′ ≥ 15, or choose a CT with a higher rated burden (30 VA) or a higher ratio.</p>
+</details></div>
+<div class="ex"><h4>Exercise 10 — Motor start and voltage dip</h4>
+<p>A 2 MVA motor starts direct-on-line with a starting current of 6 times its rated current, on a network with a short-circuit power of 40 MVA. Its starting torque is 1.2 pu (at rated voltage) and the pump it drives opposes a load torque of 0.5 pu at standstill. Estimate the voltage dip, then the accelerating torque at start. Does the motor start? What happens if the network is only 25 MVA?</p>
+<details class="sol"><summary>See the solution</summary>
+<p>Power drawn at start: <i>S</i><sub>d</sub> = 6 × 2 = 12 MVA; dip ≈ <i>S</i><sub>d</sub>/<i>S</i><sub>sc</sub> = 12/40 = <span class="result">30 %</span> (first order: refine it with a load flow, see example 5.5). Voltage falls to 0.70 pu; torque is 1.2 × 0.70² = <span class="result">0.59 pu</span>, an accelerating torque of 0.59 − 0.50 = 0.09 pu: the motor starts, but very slowly (current stays high for a long time and heats the motor). With 25 MVA: dip ≈ 48 %, voltage 0.52 pu, torque 1.2 × 0.52² = 0.32 pu &lt; 0.50: the motor <b>does not start</b>. Remedies: star-delta starter, soft starter, variable-speed drive, network reinforcement or reactive compensation.</p>
+</details></div>
+<div class="ex"><h4>Exercise 11 — Generator capability curve</h4>
+<p>A 10 MVA generator (<i>X</i><sub>d</sub> = 1.8 pu, maximum excitation <i>E</i><sub>fd max</sub> = 2.5 pu) produces 8 MW. For a voltage of 1.00 pu and then 0.95 pu, compute the maximum reactive power it can supply, with the stator limit <i>p</i>² + <i>q</i>² ≤ <i>v</i>² and the excitation limit <i>p</i>² + (<i>q</i> + <i>v</i>²/<i>X</i><sub>d</sub>)² ≤ (<i>v</i>·<i>E</i><sub>fd max</sub>/<i>X</i><sub>d</sub>)². Which limit is reached first?</p>
+<details class="sol"><summary>See the solution</summary>
+<p><i>p</i> = 0.8 pu. At <i>v</i> = 1.00: stator <i>q</i> ≤ √(1 − 0.64) = 0.600 pu (6.0 Mvar); excitation <i>q</i> ≤ −1/1.8 + √((2.5/1.8)² − 0.64) = −0.556 + 1.136 = 0.580 pu (<span class="result">5.80 Mvar</span>): <b>excitation</b> is the limit. At <i>v</i> = 0.95: stator <i>q</i> ≤ √(0.9025 − 0.64) = 0.512 pu (<span class="result">5.12 Mvar</span>); excitation <i>q</i> ≤ −0.9025/1.8 + √((0.95 × 2.5/1.8)² − 0.64) = 0.548 pu: now the <b>stator current</b> is the limit. A low voltage therefore reduces reactive capability just when the network needs it most; in the load flow, the PV bus becomes PQ as soon as the requested reactive power exceeds this limit and the voltage is no longer held (example 2.14).</p>
+</details></div>
+<div class="ex"><h4>Exercise 12 — Distance protection of a line</h4>
+<p>A 10 km line has an impedance of 0.3 + j0.4 Ω/km. A distance relay is set with the standard zones (80 % instantaneous, 120 % at 0.3 s, 200 % at 1 s). Compute the reaches in ohms. Which zone sees a solid fault at 6 km, 9 km, 11 km (on the next line)? What is the effect, on an earth fault, of a parallel line coupled in zero sequence?</p>
+<details class="sol"><summary>See the solution</summary>
+<p><i>Z</i><sub>line</sub> = 10 × (0.3 + j0.4) = 3 + j4 Ω, |<i>Z</i>| = 5 Ω. Reaches: zone 1 = <span class="result">4 Ω</span>, zone 2 = <span class="result">6 Ω</span>, zone 3 = <span class="result">10 Ω</span>. Fault at 6 km: <i>Z</i> = 3 Ω &lt; 4 Ω, zone 1, instantaneous trip. At 9 km: 4.5 Ω, between 4 and 6 Ω, zone 2, trip at 0.3 s (the end of the line is not cleared instantly; a teleprotection scheme or a differential protection would fill this gap). At 11 km (beyond the line): 5.5 Ω, seen in zone 2: the relay is then back-up for the next line, delayed by 0.3 s: its own protection must act first. A parallel line coupled in zero sequence drives an extra residual current in the protected line which distorts the earth-fault impedance measurement: the relay under- or over-estimates the distance depending on current direction, which requires reducing zone 1 (70 % instead of 80 %) or compensating with the parallel line current.</p>
+</details></div>
+<div class="ex"><h4>Exercise 13 — Mutual coupling of two parallel lines</h4>
+<p>Two identical lines connect a source substation to a 20 kV delivery substation in parallel (<i>U</i><sub>n</sub> = 20 kV, <i>c</i> = 1.1). Each has a zero-sequence impedance <i>Z</i><sub>0</sub> = 6 + j18 Ω and a zero-sequence mutual impedance <i>Z</i><sub>0m</sub> = 2 + j8 Ω (currents in the same direction). Seen from the delivery substation, the positive-sequence impedance (upstream network and the lines in parallel) is <i>Z</i><sub>1</sub> = <i>Z</i><sub>2</sub> = 2 + j6 Ω. Calculate the single-phase earth-fault current <i>I</i>″<sub>k1</sub> at the delivery substation, without then with the coupling. Does the three-phase fault change?</p>
+<details class="sol"><summary>Show solution</summary>
+<p>Without coupling, the two lines in parallel give <i>Z</i><sub>0</sub>/2 = 3 + j9 Ω; <i>Z</i><sub>1</sub> + <i>Z</i><sub>2</sub> + <i>Z</i><sub>0</sub> = 7 + j21 Ω, modulus 22.1 Ω: <i>I</i>″<sub>k1</sub> = √3 × 1.1 × 20,000/22.1 = <span class="result">1,721 A</span>. With coupling: <i>Z</i><sub>0,eq</sub> = (<i>Z</i><sub>0</sub> + <i>Z</i><sub>0m</sub>)/2 = 4 + j13 Ω; sum 8 + j25 Ω, modulus 26.2 Ω: <i>I</i>″<sub>k1</sub> = <span class="result">1,452 A</span>, i.e. −16 %. The three-phase fault, <i>I</i>″<sub>k3</sub> = 1.1 × 20,000/(√3 × 6.32) = 2,008 A, does not change: in positive sequence the three currents cancel and the mutual has no effect. Practical consequence: a distance relay that neglects the mutual misjudges the distance of an earth fault, hence the earth compensation factor.</p>
+</details></div>
+<div class="ex"><h4>Exercise 14 — Choosing and placing a surge arrester</h4>
+<p>A 20 kV network (<i>U</i><sub>m</sub> = 24 kV) supplies a transformer with a lightning impulse withstand BIL = 125 kV. The chosen arrester has a residual voltage <i>U</i><sub>pl</sub> = 65 kV; the lightning wave has a steepness <i>S</i> = 1,000 kV/µs and a margin of 1.2 on the BIL is required. (1) What is the maximum distance between arrester and transformer? (2) Which rated voltage <i>U</i><sub>r</sub> should be chosen (among 18, 21, 24, 27 kV, with a temporary overvoltage withstand factor <i>T</i> = 1.05) with an isolated neutral (<i>k</i> = √3), then with a solidly earthed neutral (<i>k</i> = 1.4)?</p>
+<details class="sol"><summary>Show solution</summary>
+<p>(1) The voltage at the transformer is <i>U</i><sub>eq</sub> = <i>U</i><sub>pl</sub> + 2·<i>S</i>·<i>L</i>/<i>v</i> (<i>v</i> = 300 m/µs) and must stay ≤ 125/1.2 = 104.2 kV. So 2 × 1,000 × <i>L</i>/300 ≤ 39.2, i.e. <i>L</i> ≤ <span class="result">5.9 m</span>: the arrester must be as close as possible to the transformer. (2) Temporary overvoltage <i>k</i>·<i>U</i><sub>m</sub>/√3. Isolated neutral: √3 × 24/√3 = 24 kV, so <i>U</i><sub>r</sub> ≥ 24/1.05 = 22.9 kV: <span class="result">24 kV</span>. Solidly earthed: 1.4 × 24/√3 = 19.4 kV, so <i>U</i><sub>r</sub> ≥ 18.5 kV: <span class="result">21 kV</span> (18 kV is not enough). An arrester with a higher rated voltage has a higher residual voltage: re-check the margin of question (1) with the <i>U</i><sub>pl</sub> of the chosen model.</p>
+</details></div>
+
+<!-- ================================================================== -->
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="n2-qcm">
+            <h2><span class="section-icon">📋</span>Level 2 quiz</h2>
+<div class="qcm" data-answer="b"><p class="q">1. In the π model of a line, the total capacitance C is distributed:</p>
+<ol><li data-k="a">entirely at the sending end</li><li data-k="b">C/2 at each end</li><li data-k="c">in series with R</li><li data-k="d">C at each end</li></ol>
+<div class="fb">C/2 on each side: this is what NRJXpert does (corrected in October 2026: each side used to be C·l).</div></div>
+<div class="qcm" data-answer="c"><p class="q">2. A transformer has u<sub>sc</sub> = 4 %. Its impedance on its own base is:</p>
+<ol><li data-k="a">4 Ω</li><li data-k="b">0.4 pu</li><li data-k="c">0.04 pu</li><li data-k="d">25 pu</li></ol>
+<div class="fb">u<sub>sc</sub> is the impedance in pu on the base (S<sub>n</sub>, U<sub>n</sub>).</div></div>
+<div class="qcm" data-answer="a"><p class="q">3. On a highly resistive low-voltage network, the voltage drop depends mainly on:</p>
+<ol><li data-k="a">the active power</li><li data-k="b">the reactive power</li><li data-k="c">the frequency</li><li data-k="d">the cable capacitance</li></ol>
+<div class="fb">ΔU/U ≈ (RP + XQ)/U² with R ≫ X.</div></div>
+<div class="qcm" data-answer="d"><p class="q">4. In a load flow, the unknowns of a PV node are:</p>
+<ol><li data-k="a">P and Q</li><li data-k="b">|V| and θ</li><li data-k="c">P and θ</li><li data-k="d">Q and θ</li></ol>
+<div class="fb">P and |V| are imposed; Q and the angle are calculated.</div></div>
+<div class="qcm" data-answer="b"><p class="q">5. The slack node is used to:</p>
+<ol><li data-k="a">set the frequency</li><li data-k="b">provide the angle reference and cover the unknown losses</li><li data-k="c">represent the loads</li><li data-k="d">control the reactive power of the PV nodes</li></ol>
+<div class="fb">Since losses are known only after the calculation, one node must balance the power.</div></div>
+<div class="qcm" data-answer="c"><p class="q">6. The fast decoupled method is poorly suited to:</p>
+<ol><li data-k="a">large transmission networks</li><li data-k="b">meshed networks</li><li data-k="c">distribution networks with high R/X</li><li data-k="d">networks without a PV node</li></ol>
+<div class="fb">It assumes R ≪ X; in distribution the backward/forward sweep is preferred (level 5).</div></div>
+<div class="qcm" data-answer="a"><p class="q">7. To size the breaking capacity of a circuit breaker, one uses:</p>
+<ol><li data-k="a">the maximum I"k (c<sub>max</sub>)</li><li data-k="b">the minimum I"k (c<sub>min</sub>)</li><li data-k="c">the rated current</li><li data-k="d">the overload current</li></ol>
+<div class="fb">The minimum current is used for the setting (sensitivity) of the protection.</div></div>
+<div class="qcm" data-answer="d"><p class="q">8. A phase-to-earth fault connects the sequence networks:</p>
+<ol><li data-k="a">positive only</li><li data-k="b">positive and negative in opposition</li><li data-k="c">negative and zero in parallel</li><li data-k="d">positive, negative and zero in series</li></ol>
+<div class="fb">I"k1 = √3·c·Un/|Z1 + Z2 + Z0|.</div></div>
+<div class="qcm" data-answer="b"><p class="q">9. A delta winding:</p>
+<ol><li data-k="a">lets zero-sequence current through to the upstream network</li><li data-k="b">blocks the zero-sequence current</li><li data-k="c">doubles the positive-sequence impedance</li><li data-k="d">suppresses the three-phase fault current</li></ol>
+<div class="fb">The zero-sequence current circulates in the delta without leaving on the lines.</div></div>
+<div class="qcm" data-answer="c"><p class="q">10. For R/X = 0.1, the factor κ is about:</p>
+<ol><li data-k="a">1.02</li><li data-k="b">1.30</li><li data-k="c">1.75</li><li data-k="d">2.00</li></ol>
+<div class="fb">κ = 1.02 + 0.98·e<sup>−0.3</sup> = 1.746: highly inductive network, large DC component.</div></div>
+<div class="qcm" data-answer="a"><p class="q">11. Why are the curves of overcurrent protections inverse-time?</p>
+<ol><li data-k="a">so that trip time decreases as current increases, like the <i>I</i>²·<i>t</i> heating that must be limited</li><li data-k="b">to trip faster the lower the current is</li><li data-k="c">so that time is the same whatever the current</li><li data-k="d">to avoid needing a circuit breaker</li></ol>
+<div class="fb">Heating is proportional to I²·t: a moderate overload is tolerated for a long time, a short circuit is cleared quickly.</div></div>
+<div class="qcm" data-answer="c"><p class="q">12. Two overcurrent protections in series are selective (time grading) if:</p>
+<ol><li data-k="a">their curves cross</li><li data-k="b">they have the same TMS</li><li data-k="c">their trip times differ by at least the margin (≈ 0.3 s) for every possible fault current</li><li data-k="d">the upstream protection is instantaneous</li></ol>
+<div class="fb">Curves that cross mean that above some current the upstream device trips before the downstream one: selectivity is lost.</div></div>
+<div class="qcm" data-answer="d"><p class="q">13. The threshold <i>I</i><sub>s</sub> of an overcurrent protection must be:</p>
+<ol><li data-k="a">below the load current, to miss nothing</li><li data-k="b">equal to the maximum short-circuit current</li><li data-k="c">independent of the load current</li><li data-k="d">above the maximum load current and well below the minimum short-circuit current</li></ol>
+<div class="fb">Too low: nuisance trips; too high: the furthest fault (Isc min) is not seen.</div></div>
+<div class="qcm" data-answer="b"><p class="q">14. A distance relay measures:</p>
+<ol><li data-k="a">current only</li><li data-k="b">the impedance V/I, proportional to the distance to the fault</li><li data-k="c">voltage only</li><li data-k="d">the network frequency</li></ol>
+<div class="fb">A line's impedance is proportional to its length: V/I gives the distance whatever the current magnitude.</div></div>
+<div class="qcm" data-answer="c"><p class="q">15. Compared with a circuit breaker with a relay, a fuse:</p>
+<ol><li data-k="a">can be reclosed automatically</li><li data-k="b">only protects against overloads</li><li data-k="c">clears before the short-circuit peak but must be replaced after operating</li><li data-k="d">needs a CT to work</li></ol>
+<div class="fb">The fuse combines sensor, relay and interruption; it limits the peak current but is single-use.</div></div>
+<div class="qcm" data-answer="a"><p class="q">16. A 5P20 protection CT is loaded more heavily than its rated burden. Its actual limit factor:</p>
+<ol><li data-k="a">decreases: it saturates at a lower current and the relay trips later</li><li data-k="b">stays equal to 20</li><li data-k="c">increases, because the secondary voltage rises</li><li data-k="d">no longer matters</li></ol>
+<div class="fb">ALF′ = ALF·(R<sub>ct</sub>·I<sub>sn</sub>² + S<sub>n</sub>)/(R<sub>ct</sub>·I<sub>sn</sub>² + S<sub>b</sub>): the larger S<sub>b</sub>, the smaller ALF′.</div></div>
+<div class="qcm" data-answer="d"><p class="q">17. With an isolated neutral, a single-phase fault:</p>
+<ol><li data-k="a">gives a current of several kA, as with solid earthing</li><li data-k="b">leaves the healthy-phase voltage unchanged</li><li data-k="c">requires instantaneous tripping</li><li data-k="d">closes only through the zero-sequence capacitances; healthy phases rise to √3 times the phase voltage</li></ol>
+<div class="fb">I<sub>c</sub> = 3·ω·C<sub>0</sub>·U<sub>n</sub>/√3: a few amperes to a few hundred amperes; operation may continue.</div></div>
+<div class="qcm" data-answer="b"><p class="q">18. A tuned Petersen coil:</p>
+<ol><li data-k="a">increases the fault current</li><li data-k="b">compensates the capacitive fault current (L = 1/(3·ω²·C<sub>0</sub>)): only a small residual current remains</li><li data-k="c">connects the neutral solidly to earth</li><li data-k="d">replaces the substation transformer</li></ol>
+<div class="fb">The residual current ≈ I<sub>c</sub>·√(v² + r²) is a few percent of I<sub>c</sub>: the transient arc extinguishes by itself.</div></div>
+<div class="qcm" data-answer="a"><p class="q">19. An arrester is properly coordinated with a transformer if:</p>
+<ol><li data-k="a">its equivalent voltage Ueq stays at least 20 % below the lightning impulse withstand (BIL) and its Ur covers the temporary overvoltage</li><li data-k="b">its residual voltage equals the BIL</li><li data-k="c">its Ur is as low as possible</li><li data-k="d">the distance to the transformer has no effect</li></ol>
+<div class="fb">Ueq = Upl + 2·S·L/v increases with distance L: a too-distant arrester no longer protects.</div></div>
+<div class="qcm" data-answer="c"><p class="q">20. At direct-on-line start, an induction motor:</p>
+<ol><li data-k="a">draws its rated current at a good power factor</li><li data-k="b">develops a torque independent of voltage</li><li data-k="c">draws 5 to 7 times its rated current at a low power factor, and its torque varies as V²</li><li data-k="d">supplies reactive power to the network</li></ol>
+<div class="fb">The voltage dip reduces torque (80 % V → 64 % torque): if the load torque is larger, the motor does not start or stalls.</div></div>
+<div class="qcm" data-answer="d"><p class="q">21. The mutual coupling of two parallel lines acts:</p>
+<ol><li data-k="a">in all three sequence networks</li><li data-k="b">only in the negative-sequence network</li><li data-k="c">only for three-phase faults</li><li data-k="d">only in the zero-sequence network (currents in phase, return through earth)</li></ol>
+<div class="fb">In positive and negative sequence the three phases cancel; in zero sequence, Z<sub>0m</sub> reaches 40 to 70 % of Z<sub>0</sub>.</div></div>
+<div class="qcm" data-answer="b"><p class="q">22. In the load flow, a generator whose requested reactive power exceeds its excitation limit:</p>
+<ol><li data-k="a">stays a PV bus and supplies more reactive power</li><li data-k="b">becomes a PQ bus with Q equal to the limit, and its voltage is no longer held</li><li data-k="c">always makes the calculation diverge</li><li data-k="d">becomes the slack bus</li></ol>
+<div class="fb">The capability curve bounds Q; the bus returns to PV if the voltage crosses back to the right side of the set-point.</div></div>
+<div class="qcm" data-answer="c"><p class="q">23. In a network compensated by a Petersen coil, which quantity identifies the faulted feeder?</p>
+<ol><li data-k="a">the zero-sequence reactive power</li><li data-k="b">the phase current</li><li data-k="c">the zero-sequence active power (wattmetric protection)</li><li data-k="d">the phase-to-phase voltage</li></ol>
+<div class="fb">The coil compensates the capacitive reactive power: only the active power remains (coil losses and parallel resistor), positive and large in the faulted feeder only.</div></div>
+<div class="qcm" data-answer="d"><p class="q">24. A tap changer is at +10 % while the transformer differential is set for the nominal ratio. To avoid a false trip on an external fault, the restraint slope must be:</p>
+<ol><li data-k="a">zero</li><li data-k="b">5 %</li><li data-k="c">exactly 10 %</li><li data-k="d">clearly above 10 % (typically 20 to 30 %)</li></ol>
+<div class="fb">The tap mismatch creates a differential current of 10 % of the through current; the threshold must stay above it with a margin for CT errors.</div></div>
+<div class="qcm" data-answer="b"><p class="q">25. A DFIG wind turbine turns at 1.15 times synchronous speed. The rotor:</p>
+<ol><li data-k="a">absorbs power from the grid</li><li data-k="b">delivers power to the grid in addition to the stator (about 13 % of Ps)</li><li data-k="c">carries no power</li><li data-k="d">is at standstill</li></ol>
+<div class="fb">Super-synchronous (s = −0.15): Pr ≈ −s·Ps &gt; 0, the rotor delivers power through the converter.</div></div>
+<div class="qcm" data-answer="c"><p class="q">26. Why does a DFIG with crowbar deliver more short-circuit current than a full-converter wind turbine?</p>
+<ol><li data-k="a">its transformer is bigger</li><li data-k="b">the converter is oversized</li><li data-k="c">the crowbar short-circuits the rotor: the machine behaves like an induction machine (3 to 6 times In)</li><li data-k="d">there is no difference</li></ol>
+<div class="fb">An inverter limits its current to 1.1–1.5 In; a short-circuited rotor lets the induction-machine current flow.</div></div>
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="page-nav"><a href="niveau1-en.html">← Level 1 — Fundamentals</a><a href="niveau3-en.html">Level 3 — Renewable energy →</a></div>
+
+        <div class="section" id="auteur">
+            <h2><span class="section-icon">👤</span>Author</h2>
+            <div class="author-card">
+                <div class="author-avatar">LT</div>
+                <div class="author-info">
+                    <div class="name">Prof. Lamine THIAW</div>
+                    <div class="role">Department of Electrical Engineering<br>École Supérieure Polytechnique<br>Cheikh Anta Diop University, Dakar</div>
+                    <a href="mailto:nrjxpert@niitan.com">nrjxpert@niitan.com</a>
+                </div>
+            </div>
+            <p class="small" style="margin-top:14px">November 2026</p>
+        </div>
+    </main>
+</div>
+
+<script>
+    // défilement doux vers les ancres de la page
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){
+        a.addEventListener('click', function(e){
+            var t = document.querySelector(this.getAttribute('href'));
+            if(t){ e.preventDefault(); t.scrollIntoView({behavior: 'smooth', block: 'start'}); }
+        });
+    });
+    // rubrique active dans le menu latéral
+    var navLinks = document.querySelectorAll('#sidebar nav a');
+    if('IntersectionObserver' in window){
+        var obs = new IntersectionObserver(function(entries){
+            entries.forEach(function(en){
+                if(en.isIntersecting) navLinks.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#' + en.target.id); });
+            });
+        }, {rootMargin: '-20% 0px -70% 0px'});
+        document.querySelectorAll('.section[id]').forEach(function(s){ obs.observe(s); });
+    }
+</script>
+</body>
+</html>

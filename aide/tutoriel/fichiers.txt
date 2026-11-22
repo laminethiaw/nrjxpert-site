@@ -19,6 +19,16 @@ tutoriel.js
 glossaire.js
 economie.js
 exemples/courtcircuit_20kV_monophase.xml
+exemples/courtcircuit_lignes_paralleles.xml
+exemples/demarrage_moteur.xml
+exemples/capacite_generateur.xml
+exemples/pss_generateur.xml
+exemples/selectivite_depart.xml
+exemples/parafoudre_neutre_isole.xml
+exemples/reseau_compense.xml
+exemples/terre_directionnelle.xml
+exemples/differentielle_transfo.xml
+exemples/dfig_eolien.xml
 exemples/dispatch_microreseau_ilote.xml
 exemples/dynamics_microreseau.xml
 exemples/hostingCapacity_ieee33.xml
@@ -32,6 +42,7 @@ exemples/timeSeries_ieee33.xml
 exemples/flisr_deux_departs.xml
 exemples/ivvc_ieee33.xml
 exemples/compensation_ieee33.xml
+exemples/prises_ieee33.xml
 exemples/statcom_ieee33.xml
 exemples/statcom_dynamique.xml
 exemples/vpp_ve_batterie.xml
@@ -52,8 +63,6 @@ annexes-en.html
 smartgrid-en.js
 exemples/distributionLoadFlow_ieee33.xml
 exemples/emt_onduleur.xml
-exemples/Dakar-Yoff-1.EOL
-exemples/Dakar-Yoff-2.EOL
 exemples/System3ph-1.nxp
 exemples/System3ph.nxp
 exemples/c_unifilaire_1.nxp

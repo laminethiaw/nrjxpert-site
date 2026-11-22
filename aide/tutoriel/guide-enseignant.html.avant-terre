@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide de l'enseignant — Tutoriel NRJXpert</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tutoriel.css">
+<script src="tutoriel.js"></script>
+<script src="glossaire.js" defer></script>
+</head>
+<body>
+<div id="top"></div>
+
+<!-- ════════════════ MENU LATÉRAL ════════════════ -->
+<aside id="sidebar">
+    <div id="sidebar-header">
+        <div class="app-name">NRJXpert</div>
+        <div class="app-version">Version 2.0.0 · Tutoriel › Guide de l&#x27;enseignant</div>
+    </div>
+    <nav>
+        <a href="#ge-1"><span class="nav-icon">📘</span>Mise en place de la salle</a>
+        <a href="#ge-2"><span class="nav-icon">👩‍🏫</span>Progressions</a>
+        <a href="#ge-3"><span class="nav-icon">👩‍🏫</span>Séances de travaux pratiques</a>
+        <a href="#ge-4"><span class="nav-icon">👩‍🏫</span>Évaluation et barèmes</a>
+        <a href="#ge-5"><span class="nav-icon">📐</span>Sujets d&#x27;examen (2 h, documents autorisés : formulaire des annexes)</a>
+        <a href="#ge-6"><span class="nav-icon">🗂️</span>Projets de fin d&#x27;études</a>
+        <a href="#ge-7"><span class="nav-icon">📘</span>Conseils pédagogiques</a>
+        <a href="#auteur"><span class="nav-icon">👤</span>Auteur</a>
+    </nav>
+    <div class="side-links"><a href="index.html">🏠 Accueil du tutoriel</a><a href="../aide-fr.html">📖 Guide de l'utilisateur</a></div>
+</aside>
+
+<!-- ════════════════ ZONE PRINCIPALE ════════════════ -->
+<div id="main">
+    <div id="hero">
+        <h1>Guide de l'enseignant</h1>
+        <div class="tagline">Utiliser NRJXpert pour former des techniciens et des ingénieurs : organisation, progressions, séances, évaluations.</div>
+        <div class="badges">
+            <span class="hero-badge">Tutoriel</span>
+            <span class="hero-badge">Version 2.0.0</span>
+            <span class="hero-badge">Novembre 2026</span>
+            <a class="hero-badge language-link" href="guide-enseignant-en.html" lang="en" aria-label="Cliquer pour afficher la version anglaise">
+                FR / EN
+                <small>Cliquer pour la version anglaise</small>
+            </a>
+        </div>
+    </div>
+
+    <div id="topbar">
+        <div class="title">Guide de l&#x27;enseignant</div>
+        <span class="meta">NRJXpert 2.0.0 · Novembre 2026</span>
+    </div>
+
+    <main id="content">
+        <div id="toc-section">
+            <h2>Table des matières</h2>
+            <div class="toc-grid">
+                <a href="#ge-1"><span class="toc-num">1</span>Mise en place de la salle</a>
+                <a href="#ge-2"><span class="toc-num">2</span>Progressions</a>
+                <a href="#ge-3"><span class="toc-num">3</span>Séances de travaux pratiques</a>
+                <a href="#ge-4"><span class="toc-num">4</span>Évaluation et barèmes</a>
+                <a href="#ge-5"><span class="toc-num">5</span>Sujets d&#x27;examen (2 h, documents autorisés : formulaire des annexes)</a>
+                <a href="#ge-6"><span class="toc-num">6</span>Projets de fin d&#x27;études</a>
+                <a href="#ge-7"><span class="toc-num">7</span>Conseils pédagogiques</a>
+            </div>
+        </div>
+
+        <div class="section" id="ge-1">
+            <h2><span class="section-icon">📘</span>1. Mise en place de la salle</h2>
+<ul>
+<li><b>Logiciel</b> : installateur NRJXpert (macOS ou Windows) ; il contient le serveur de calcul, rien d'autre à installer sur les postes.
+Le serveur local est le réglage par défaut : rien à configurer sur les postes.</li>
+<li><b>Licence</b> : saisir la clé d'activation de l'établissement (Aide › Licence…) puis « Activer ». L'activation exige
+Internet une fois par poste ; le nombre de postes dépend de la licence. Ne pas afficher la clé en séance ni la diffuser aux étudiants : la communiquer uniquement aux personnes qui installent les postes. Signaler au fournisseur toute clé diffusée hors de l'établissement.
+Vérifier avant la séance que le pare-feu de l'établissement autorise l'accès à <code>activation.nrjxpert.com</code> (HTTPS) et que la fenêtre Licence affiche « Active ».
+Une classe entière qui calcule en même temps ne pose pas de problème : chaque calcul se fait sur le poste et dure moins d'une
+seconde (quelques secondes pour les études DER du niveau 5).</li>
+<li><b>Connexion instable</b> : une fois les postes activés, toutes les séances se font hors ligne ; seules les vérifications périodiques de la licence
+et la récupération de données météo en ligne demandent Internet. Les résultats de référence du tutoriel permettent de corriger même sans connexion.</li>
+<li><b>Exemples</b> : à la première ouverture du tutoriel, ils sont copiés dans <code>~/.nrjxpert/aide/tutoriel/exemples/</code> ; un étudiant
+qui les modifie garde sa version.</li>
+<li><b>Données météo</b> : leur téléchargement demande aussi Internet ; préparer les fichiers CSV à l'avance pour une séance hors ligne.</li>
+</ul>
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="ge-2">
+            <h2><span class="section-icon">👩‍🏫</span>2. Progressions</h2>
+<table>
+<tr><th>Formation</th><th>Volume</th><th>Contenu</th><th>Évaluation</th></tr>
+<tr><td>BTS / DUT électrotechnique, licence pro énergies renouvelables</td><td>40 h (12 h cours, 28 h TP)</td>
+<td>Niveau 1 ; niveau 3 § 3.1 à 3.4 ; niveau 4 § 4.1 à 4.3 ; étude de cas 1 (partie décentralisée)</td><td>2 TP notés + 1 dossier de dimensionnement</td></tr>
+<tr><td>Licence génie électrique (L3)</td><td>60 h</td><td>Niveaux 1 et 2 ; niveau 3 complet ; niveau 4</td><td>Examen écrit + TP notés</td></tr>
+<tr><td>Cycle ingénieur / master (M1)</td><td>60 h</td><td>Niveau 2 approfondi (load flow, court-circuit) ; niveaux 3 et 4 ; études de cas 1 à 3</td><td>Projet en binôme + examen</td></tr>
+<tr><td>Master énergies renouvelables / réseaux (M2)</td><td>40 h</td><td>Niveau 5 ; études de cas 2 et 4 ; projets A à C du niveau 5</td><td>Projet + soutenance</td></tr>
+<tr><td>Spécialisation Smart Grids (M2, mastère spécialisé, ingénieurs de gestionnaires de réseau)</td><td>38 h + projet</td><td>Niveau 6 complet : SGAM et atelier SGAM de NRJXpert, FLISR et fiabilité, IVVC/r, VPP, micro-réseaux, VE, CIM et IEC 61850, AMOA ; projet de synthèse</td><td>Rapport de mission AMOA + soutenance</td></tr>
+<tr><td>Expert Smart Grids (après la spécialisation)</td><td>24 à 30 h + mission</td><td>Niveau 7 : essais IEEE 2030.8, comptage évolué et pertes non techniques, télérelève DLMS/COSEM, effacement OpenADR 2.0b, cybersécurité IEC 62443 ; mission d'expertise § 7.6</td><td>Procès-verbal d'essais + audit des pertes + analyse de risque, soutenance</td></tr>
+<tr><td>Formation continue consultants / chefs de projet Smart Grid</td><td>3 jours</td><td>Niveau 6 § 6.1, 6.2, 6.8, 6.9, 6.10 ; TP 6.3 et 6.9 ; fiches de cas d'usage sur un projet réel</td><td>Fiche de cas d'usage + grille d'analyse d'offres</td></tr>
+<tr><td>Formation continue (bureaux d'études, installateurs)</td><td>3 à 5 jours</td><td>Niveau 3, câblage, niveau 4, étude de cas adaptée au métier</td><td>Étude de cas réelle</td></tr>
+</table>
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="ge-3">
+            <h2><span class="section-icon">👩‍🏫</span>3. Séances de travaux pratiques</h2>
+<table>
+<tr><th>Séance</th><th>Durée</th><th>Contenu (renvois au tutoriel)</th><th>Livrable</th></tr>
+<tr><td>1. Prise en main</td><td>2 h</td><td>TP 1 (charge et ligne RL), exemples 1.1 et 1.2 dessinés</td><td>Tableau calcul à la main / logiciel</td></tr>
+<tr><td>2. Méthodes de calcul des réseaux</td><td>3 h</td><td>TP « Les deux méthodes vérifiées par NRJXpert » (§ 1.2), exemples 1.4 et 1.5, exercice 6 du niveau 1</td><td>Comparaison mailles / nœuds, bilan de puissances</td></tr>
+<tr><td>3. Triphasé, compensation et déséquilibre</td><td>4 h</td><td>TP 2 et TP « Déséquilibre et rupture du neutre » (§ 1.6), exemples 1.8 et 1.12, exercices 7, 9 et 10 du niveau 1</td><td>Compte rendu, mesure par deux wattmètres</td></tr>
+<tr><td>4. Transformateur et chute de tension</td><td>3 h</td><td>Exemples 2.1 et 2.2 ; transformateur triphasé de la palette</td><td>Compte rendu</td></tr>
+<tr><td>5. Load flow</td><td>4 h</td><td>Exemple 2.3 à la main, TP 3, exercice 3 du niveau 2, exemple 2.14 (limites de réactif) ; exemples 5.5 et 5.6 (démarrage de moteur, PSS) pour aller plus loin</td><td>Comparaison des 3 méthodes, plan de tension</td></tr>
+<tr><td>5 bis. Compensation de la puissance réactive</td><td>2 h</td><td>§ 2.4, exemples 2.9 (gradins, IEEE 33), 2.10 (STATCOM) et 2.11 (prises de réglage du transformateur), exercices 8 et 9 du niveau 2 ; exemple 5.4 (STATCOM et SVC en dynamique) pour aller plus loin</td><td>Dimensionnement d'une batterie de gradins, réglage de la bande morte (gradins et prises), butées STATCOM / SVC, choix du cran d'un régleur</td></tr>
+<tr><td>6. Court-circuit</td><td>4 h</td><td>Exemple 2.4, TP 4, exemple 2.15 (sélectivité), exemple 2.16 (parafoudre, neutre isolé), exemple 2.12 (lignes parallèles couplées), exemple 2.13 (apport des moteurs), exercice 1 du niveau 2, étude de cas 3</td><td>Choix des protections</td></tr>
+<tr><td>7. Répartition économique de la production</td><td>2 h</td><td>§ 2.9, exemple 2.8, exercices 6 et 7 du niveau 2, calculatrice « Répartition économique »</td><td>Coûts marginaux, limites, pertes ; comparaison avec l'OPF du niveau 5</td></tr>
+<tr><td>8. Gisement solaire et météo</td><td>2 h</td><td>TP 5, exemple 3.1</td><td>Fiche site</td></tr>
+<tr><td>9. Système PV autonome</td><td>4 h</td><td>Exemple 3.3, TP 6, exercice 1 du niveau 3</td><td>Dossier de dimensionnement</td></tr>
+<tr><td>10. Câblage et coûts</td><td>3 h</td><td>Exemple 3.4, TP 7, exercice 2 du niveau 3</td><td>Tableau des liaisons, devis</td></tr>
+<tr><td>11. Éolien</td><td>3 h</td><td>Exemples 3.6 et 3.7, TP 8, étude de cas 4</td><td>Note de production</td></tr>
+<tr><td>12. Pompage solaire</td><td>2 h</td><td>Exemple 3.8, TP 8 bis, exercice 4 du niveau 3, étude de cas 5</td><td>Note de dimensionnement de la pompe et du champ</td></tr>
+<tr><td>13. Économie et viabilité</td><td>4 h</td><td>Exemples 4.1 à 4.4, TP 9, étude de cas 2</td><td>VAN, TRI, LCOE, sensibilité</td></tr>
+</table>
+<p>Pour le niveau 5, prévoir 3 séances de 4 h (TP 10 et projets A à C).</p>
+<p>Pour le niveau 6, prévoir 7 séances de 4 h et une demi-séance : (1) SGAM et protocoles (outils 6.1 et 6.8, TP 6.1) ; (2) FLISR et fiabilité (exemple 6.3,
+TP 6.3, calculatrice de fiabilité) ; (3) IVVC/r et CVR (exemple 6.4) ; (4) VPP, VE et micro-réseaux (exemples 6.5 et 6.6, TP 6.7) ;
+(5) AMOA : fiche IEC 62559, CCTP, TCO, plan de recette (TP 6.9) ; (6) atelier SGAM, cours 6.11 et TP 6.11-A et B ;
+(7) TP 6.11-C, D et E (logique / technique, analyse d'écart et sécurité, échange CIM) ; (7 bis, 2 h) TP 6.11-F et exercices 6.11.
+Les résultats attendus des TP 6.11 (nombre d'éléments, cases, protocoles, constats) sont donnés dans les corrigés repliables : ils
+permettent de vérifier rapidement qu'un étudiant a suivi la démarche. Faire rendre le rapport HTML de l'atelier et le modèle SGAM (XML). Les outils interactifs (cartographie SGAM, fiche de cas d'usage,
+auto-évaluation) gardent les saisies dans le navigateur de l'étudiant : faire exporter le travail (Markdown ou texte) pour le rendre.</p>
+<h3>Barème du projet de synthèse du niveau 6 (sur 20)</h3>
+<table>
+<tr><th>Critère</th><th>Points</th></tr>
+<tr><td>Diagnostic et modèle NRJXpert du départ (load flow, capacité d'accueil)</td><td>3</td></tr>
+<tr><td>Fiches de cas d'usage IEC 62559 et architecture SGAM (atelier NRJXpert : traçabilité complète, vérification sans erreur ni avertissement)</td><td>4</td></tr>
+<tr><td>Études : fiabilité (2, 4, 6 organes), IVVC, VPP, îlotage — interprétation des résultats</td><td>5</td></tr>
+<tr><td>Spécification : interopérabilité (CIM, IEC 61850, liste des points), cybersécurité</td><td>3</td></tr>
+<tr><td>Analyse des offres (TCO, grille) et plan de recette FAT/SAT</td><td>3</td></tr>
+<tr><td>Qualité du rapport et de la soutenance</td><td>2</td></tr>
+</table>
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="ge-4">
+            <h2><span class="section-icon">👩‍🏫</span>4. Évaluation et barèmes</h2>
+<h3>Compte rendu de TP (sur 20)</h3>
+<table>
+<tr><th>Critère</th><th>Points</th></tr>
+<tr><td>Données et hypothèses clairement énoncées (unités, sources)</td><td class="num">3</td></tr>
+<tr><td>Calcul à la main d'au moins un résultat, détaillé</td><td class="num">5</td></tr>
+<tr><td>Résultats du logiciel correctement relevés (captures, tableaux)</td><td class="num">4</td></tr>
+<tr><td>Comparaison et explication des écarts</td><td class="num">4</td></tr>
+<tr><td>Interprétation physique, réponse aux questions « que se passe-t-il si… »</td><td class="num">3</td></tr>
+<tr><td>Présentation</td><td class="num">1</td></tr>
+</table>
+<h3>Dossier de dimensionnement (sur 20)</h3>
+<table>
+<tr><th>Critère</th><th>Points</th></tr>
+<tr><td>Bilan des besoins réaliste et justifié</td><td class="num">3</td></tr>
+<tr><td>Dimensionnement du générateur, du stockage et de l'électronique (méthode et arrondis)</td><td class="num">5</td></tr>
+<tr><td>Câblage : sections, protections, chutes de tension, coûts</td><td class="num">4</td></tr>
+<tr><td>Étude économique (coût actualisé, LCOE, comparaison de variantes)</td><td class="num">4</td></tr>
+<tr><td>Sensibilité et recommandation argumentée</td><td class="num">3</td></tr>
+<tr><td>Note de calcul conforme au modèle (études de cas)</td><td class="num">1</td></tr>
+</table>
+<p>Les QCM de fin de niveau (8 à 10 questions) se prêtent à une évaluation formative : l'étudiant les fait seul, le score s'affiche ; on
+peut les reprendre en évaluation sommative sur papier.</p>
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="ge-5">
+            <h2><span class="section-icon">📐</span>5. Sujets d'examen (2 h, documents autorisés : formulaire des annexes)</h2>
+<div class="ex"><h4>Sujet A — Électrification d'un poste de santé (technicien)</h4>
+<ol>
+<li>Établir le bilan énergétique d'un poste de santé (liste de récepteurs fournie).</li>
+<li>Dimensionner champ, batterie, régulateur et onduleur en 24 V pour un mois défavorable de 4,8 kWh/m²/j.</li>
+<li>Choisir la section du câble champ → régulateur (12 m, ΔU ≤ 3 %) et sa protection.</li>
+<li>Calculer l'annuité et le coût du kWh sur 15 ans à 8 %.</li>
+</ol>
+<p class="small">Corrigé : suivre l'exemple 3.3 et l'exemple 3.4 ; barème 5 + 7 + 4 + 4.</p></div>
+<div class="ex"><h4>Sujet B — Réseau de distribution (ingénieur)</h4>
+<ol>
+<li>Réseau à 3 nœuds (données du TP 3) : écrire <b>Y</b><sub>bus</sub> en pu (base 10 MVA, 30 kV) ; faire une itération de Gauss-Seidel.</li>
+<li>Commenter les résultats de NRJXpert fournis (Newton-Raphson) : pertes, réactif du nœud PV.</li>
+<li>Court-circuit triphasé et monophasé au nœud 3 (données fournies), choix du pouvoir de coupure.</li>
+<li>Une centrale PV de 2 MW est ajoutée au nœud 3 : effets attendus sur la tension et les pertes ; loi de commande à proposer.</li>
+</ol>
+<p class="small">Corrigé : exemples 2.3, 2.4 ; TP 3 ; § 5.2. Barème 6 + 4 + 6 + 4.</p></div>
+<div class="ex"><h4>Sujet C — Projet hybride (master)</h4>
+<p>Comparer pour un site de 100 kW de pointe : groupe seul, PV + batteries, hybride optimisé (résultats du niveau 5 fournis). Discuter le
+taux d'actualisation, le prix du gasoil et la part renouvelable ; conclure par une recommandation chiffrée.</p></div>
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="ge-6">
+            <h2><span class="section-icon">🗂️</span>6. Projets de fin d'études</h2>
+<ul>
+<li>Plan d'électrification d'une commune : centralisé, décentralisé, extension de réseau (études de cas 1 et 2, niveau 5).</li>
+<li>Capacité d'accueil PV d'un départ HTA réel (données de l'exploitant) et règles de raccordement.</li>
+<li>Stabilité d'un micro-réseau insulaire (îles du Saloum) avec batteries formant le réseau.</li>
+<li>Mise à jour de la base d'équipements avec des prix de marché et étude de sensibilité du LCOE.</li>
+<li>Comparaison mesures / simulation sur une installation PV existante de l'école.</li>
+</ul>
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="ge-7">
+            <h2><span class="section-icon">📘</span>7. Conseils pédagogiques</h2>
+<ul>
+<li>Exiger le calcul à la main <b>avant</b> l'utilisation du logiciel ; noter l'explication des écarts plus que la valeur obtenue.</li>
+<li>Faire varier une donnée à la fois et demander une prévision qualitative avant de relancer le calcul.</li>
+<li>Utiliser des données locales (météo du site, prix de fournisseurs, profils de consommation mesurés) : la motivation et la qualité des
+discussions s'en trouvent nettement améliorées.</li>
+<li>Rappeler les limites des modèles : rapport des transformateurs non représenté par le serveur, prix indicatifs, journées types.</li>
+<li>Les erreurs de saisie d'unités (mH/H, kV/V, kW/W) sont la première cause de résultats aberrants : faire vérifier les ordres de grandeur.</li>
+</ul>
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="page-nav"><a href="etudes-de-cas.html">← Études de cas</a><a href="annexes.html">Annexes →</a></div>
+
+        <div class="section" id="auteur">
+            <h2><span class="section-icon">👤</span>Auteur</h2>
+            <div class="author-card">
+                <div class="author-avatar">LT</div>
+                <div class="author-info">
+                    <div class="name">Prof. Lamine THIAW</div>
+                    <div class="role">Département de Génie Électrique<br>École Supérieure Polytechnique<br>Université Cheikh Anta Diop, Dakar</div>
+                    <a href="mailto:nrjxpert@niitan.com">nrjxpert@niitan.com</a>
+                </div>
+            </div>
+            <p class="small" style="margin-top:14px">Novembre 2026</p>
+        </div>
+    </main>
+</div>
+
+<script>
+    // défilement doux vers les ancres de la page
+    document.querySelectorAll('a[href^="#"]').forEach(function(a){
+        a.addEventListener('click', function(e){
+            var t = document.querySelector(this.getAttribute('href'));
+            if(t){ e.preventDefault(); t.scrollIntoView({behavior: 'smooth', block: 'start'}); }
+        });
+    });
+    // rubrique active dans le menu latéral
+    var navLinks = document.querySelectorAll('#sidebar nav a');
+    if('IntersectionObserver' in window){
+        var obs = new IntersectionObserver(function(entries){
+            entries.forEach(function(en){
+                if(en.isIntersecting) navLinks.forEach(function(l){ l.classList.toggle('active', l.getAttribute('href') === '#' + en.target.id); });
+            });
+        }, {rootMargin: '-20% 0px -70% 0px'});
+        document.querySelectorAll('.section[id]').forEach(function(s){ obs.observe(s); });
+    }
+</script>
+</body>
+</html>

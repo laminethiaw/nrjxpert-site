@@ -75,7 +75,7 @@ Le serveur local est le réglage par défaut : rien à configurer sur les postes
 Internet une fois par poste ; le nombre de postes dépend de la licence. Ne pas afficher la clé en séance ni la diffuser aux étudiants : la communiquer uniquement aux personnes qui installent les postes. Signaler au fournisseur toute clé diffusée hors de l'établissement.
 Vérifier avant la séance que le pare-feu de l'établissement autorise l'accès à <code>activation.nrjxpert.com</code> (HTTPS) et que la fenêtre Licence affiche « Active ».
 Une classe entière qui calcule en même temps ne pose pas de problème : chaque calcul se fait sur le poste et dure moins d'une
-seconde (quelques secondes pour les études DER du niveau 5).</li>
+seconde (quelques secondes pour les études DER du niveau 5, une quinzaine de secondes au plus pour le banc d'essai du niveau 7).</li>
 <li><b>Connexion instable</b> : une fois les postes activés, toutes les séances se font hors ligne ; seules les vérifications périodiques de la licence
 et la récupération de données météo en ligne demandent Internet. Les résultats de référence du tutoriel permettent de corriger même sans connexion.</li>
 <li><b>Exemples</b> : à la première ouverture du tutoriel, ils sont copiés dans <code>~/.nrjxpert/aide/tutoriel/exemples/</code> ; un étudiant
@@ -108,9 +108,14 @@ qui les modifie garde sa version.</li>
 <tr><td>2. Méthodes de calcul des réseaux</td><td>3 h</td><td>TP « Les deux méthodes vérifiées par NRJXpert » (§ 1.2), exemples 1.4 et 1.5, exercice 6 du niveau 1</td><td>Comparaison mailles / nœuds, bilan de puissances</td></tr>
 <tr><td>3. Triphasé, compensation et déséquilibre</td><td>4 h</td><td>TP 2 et TP « Déséquilibre et rupture du neutre » (§ 1.6), exemples 1.8 et 1.12, exercices 7, 9 et 10 du niveau 1</td><td>Compte rendu, mesure par deux wattmètres</td></tr>
 <tr><td>4. Transformateur et chute de tension</td><td>3 h</td><td>Exemples 2.1 et 2.2 ; transformateur triphasé de la palette</td><td>Compte rendu</td></tr>
-<tr><td>5. Load flow</td><td>4 h</td><td>Exemple 2.3 à la main, TP 3, exercice 3 du niveau 2</td><td>Comparaison des 3 méthodes, plan de tension</td></tr>
-<tr><td>5 bis. Compensation de la puissance réactive</td><td>2 h</td><td>§ 2.4, exemples 2.9 (gradins, IEEE 33) et 2.10 (STATCOM), exercice 8 du niveau 2 ; exemple 5.4 (STATCOM et SVC en dynamique) pour aller plus loin</td><td>Dimensionnement d'une batterie de gradins, réglage de la bande morte, butées STATCOM / SVC</td></tr>
-<tr><td>6. Court-circuit</td><td>4 h</td><td>Exemple 2.4, TP 4, exercice 1 du niveau 2, étude de cas 3</td><td>Choix des protections</td></tr>
+<tr><td>5. Load flow</td><td>4 h</td><td>Exemple 2.3 à la main, TP 3, exercice 3 du niveau 2, exemple 2.14 (limites de réactif) ; exemples 5.5 et 5.6 (démarrage de moteur, PSS) pour aller plus loin</td><td>Comparaison des 3 méthodes, plan de tension</td></tr>
+<tr><td>5 bis. Compensation de la puissance réactive</td><td>2 h</td><td>§ 2.4, exemples 2.9 (gradins, IEEE 33), 2.10 (STATCOM) et 2.11 (prises de réglage du transformateur), exercices 8 et 9 du niveau 2 ; exemple 5.4 (STATCOM et SVC en dynamique) pour aller plus loin</td><td>Dimensionnement d'une batterie de gradins, réglage de la bande morte (gradins et prises), butées STATCOM / SVC, choix du cran d'un régleur</td></tr>
+<tr><td>5 ter. Machines tournantes</td><td>3 h</td><td>§ 2.6 (machine synchrone : Xd, X′d, X″d, courbe de capacité), § 2.7 (machine asynchrone : glissement, couple) ; exemples 2.14 (capacité), 2.13 (apport au court-circuit), 5.5 (démarrage de moteur) et 5.6 (PSS) ; exercices 13 et 14 du niveau 2</td><td>Courbe de capacité tracée à la main et vérifiée, creux de tension d'un démarrage, effet du PSS</td></tr>
+<tr><td>6. Court-circuit</td><td>4 h</td><td>Exemple 2.4, TP 4, exemple 2.12 (lignes parallèles couplées), exemple 2.13 (apport des moteurs), exercices 1 et 16 du niveau 2, étude de cas 3</td><td>Pouvoir de coupure et courant minimal</td></tr>
+<tr><td>6 bis. Protection et sélectivité</td><td>3 h</td><td>§ 2.8 (« chaîne de protection »), exemple 2.15 (sélectivité chronométrique), exercices 10 et 15 du niveau 2 ; QCM 16 à 20. Faire tracer les courbes (bouton Sélectivité…) avant et après correction du TMS</td><td>Plan de protection d'un départ : seuils, TMS, marges, courbes</td></tr>
+<tr><td>6 quater. Protection de terre directionnelle et différentielle de transformateur</td><td>3 h</td><td>§ 2 (« Protection de terre en réseau à neutre isolé ou compensé », « Protection différentielle de transformateur »), exemples 2.18 et 2.19 ; QCM 28 et 29. Faire rejouer l'exemple 2.18 en neutre isolé puis compensé, en changeant la caractéristique (varmétrique/wattmétrique) pour voir la décision devenir fausse ; faire varier la pente k1 de l'exemple 2.19</td><td>Tableau des réglages 67N / 32N par régime de neutre ; courbe de retenue d'une différentielle avec le point de fonctionnement</td></tr>
+<tr><td>6 quinquies. Éolienne à double alimentation (DFIG)</td><td>2 h</td><td>§ 2 (« Génératrice asynchrone à double alimentation », « DFIG et court-circuit : le crowbar »), exemple 2.20 ; QCM 30 et 31. Faire varier la puissance (0,3 à 2 MW) pour passer de sous-synchrone à hypersynchrone, puis comparer crowbar et convertisseur au court-circuit</td><td>Tracé de Ps, Pr et du glissement en fonction de la puissance ; comparaison des courants de court-circuit : réseau seul, crowbar, convertisseur</td></tr>
+<tr><td>6 ter. Régime de neutre et coordination d'isolement</td><td>3 h</td><td>Exemples 2.16 (parafoudre, neutre isolé) et 2.17 (quatre régimes de neutre, bobine de Petersen), exercices 11, 12 et 17 du niveau 2 ; QCM 21 à 27</td><td>Tableau comparatif des régimes de neutre ; choix de Ur et de la distance d'un parafoudre</td></tr>
 <tr><td>7. Répartition économique de la production</td><td>2 h</td><td>§ 2.9, exemple 2.8, exercices 6 et 7 du niveau 2, calculatrice « Répartition économique »</td><td>Coûts marginaux, limites, pertes ; comparaison avec l'OPF du niveau 5</td></tr>
 <tr><td>8. Gisement solaire et météo</td><td>2 h</td><td>TP 5, exemple 3.1</td><td>Fiche site</td></tr>
 <tr><td>9. Système PV autonome</td><td>4 h</td><td>Exemple 3.3, TP 6, exercice 1 du niveau 3</td><td>Dossier de dimensionnement</td></tr>
@@ -127,6 +132,9 @@ TP 6.3, calculatrice de fiabilité) ; (3) IVVC/r et CVR (exemple 6.4) ; (4) VPP,
 Les résultats attendus des TP 6.11 (nombre d'éléments, cases, protocoles, constats) sont donnés dans les corrigés repliables : ils
 permettent de vérifier rapidement qu'un étudiant a suivi la démarche. Faire rendre le rapport HTML de l'atelier et le modèle SGAM (XML). Les outils interactifs (cartographie SGAM, fiche de cas d'usage,
 auto-évaluation) gardent les saisies dans le navigateur de l'étudiant : faire exporter le travail (Markdown ou texte) pour le rendre.</p>
+<p>Pour le niveau 7, prévoir 4 séances de 4 h et la mission : (1) banc d'essai de micro-réseau (exemple 7.1, TP 7.1) ; (2) comptage évolué et pertes (exemples 7.2,
+TP 7.2) ; (3) effacement OpenADR (exemple 7.3, TP 7.3) ; (4) analyse de risque IEC 62443 (TP 7.4). Les rapports HTML produits par NRJXpert
+(bouton Rapport…) sont les livrables.</p>
 <h3>Barème du projet de synthèse du niveau 6 (sur 20)</h3>
 <table>
 <tr><th>Critère</th><th>Points</th></tr>
@@ -186,6 +194,14 @@ peut les reprendre en évaluation sommative sur papier.</p>
 <div class="ex"><h4>Sujet C — Projet hybride (master)</h4>
 <p>Comparer pour un site de 100 kW de pointe : groupe seul, PV + batteries, hybride optimisé (résultats du niveau 5 fournis). Discuter le
 taux d'actualisation, le prix du gasoil et la part renouvelable ; conclure par une recommandation chiffrée.</p></div>
+<div class="ex"><h4>Sujet D — Protection, neutre et machines d'un départ HTA (ingénieur)</h4>
+<ol>
+<li>Départ 20 kV (données de l'exemple 2.15) : calculer à la main les temps de déclenchement de deux relais SI en série pour un défaut triphasé en bout de ligne ; vérifier la marge de 0,3 s et proposer un nouveau TMS.</li>
+<li>Le réseau a une capacité homopolaire de 6 µF : calculer le courant capacitif d'un défaut monophasé et l'inductance de la bobine de Petersen accordée ; comparer avec une résistance limitant le courant à 300 A (surtension des phases saines, détection).</li>
+<li>Un TC 200/5 A, 5P20, 15 VA est chargé par 30 VA : est-il sûr pour un défaut de 3 kA ?</li>
+<li>Un moteur de 1 MVA démarre en direct sur ce départ : estimer le creux de tension et dire si le démarrage est possible ; proposer une solution.</li>
+</ol>
+<p>Corrigé : exemples 2.15, 2.17, 5.5 ; exercices 10 à 13 du niveau 2. Barème 6 + 5 + 3 + 6.</p></div>
             <a href="#top" class="back-to-top">↑ Retour en haut</a>
         </div>
         <div class="section" id="ge-6">
@@ -196,6 +212,7 @@ taux d'actualisation, le prix du gasoil et la part renouvelable ; conclure par u
 <li>Stabilité d'un micro-réseau insulaire (îles du Saloum) avec batteries formant le réseau.</li>
 <li>Mise à jour de la base d'équipements avec des prix de marché et étude de sensibilité du LCOE.</li>
 <li>Comparaison mesures / simulation sur une installation PV existante de l'école.</li>
+<li>Audit des pertes d'un départ réel avec des données de compteurs communicants (niveau 7) et dossier économique AMI.</li>
 </ul>
             <a href="#top" class="back-to-top">↑ Retour en haut</a>
         </div>
@@ -206,8 +223,11 @@ taux d'actualisation, le prix du gasoil et la part renouvelable ; conclure par u
 <li>Faire varier une donnée à la fois et demander une prévision qualitative avant de relancer le calcul.</li>
 <li>Utiliser des données locales (météo du site, prix de fournisseurs, profils de consommation mesurés) : la motivation et la qualité des
 discussions s'en trouvent nettement améliorées.</li>
-<li>Rappeler les limites des modèles : rapport des transformateurs non représenté par le serveur, prix indicatifs, journées types.</li>
+<li>Rappeler les limites des modèles : prix indicatifs, journées types ; pour les prises de réglage, le régleur n'agit que sur le rapport (pas de modèle de déphasage) ; voir aussi les limites des composants de réseau ci-dessous.</li>
 <li>Les erreurs de saisie d'unités (mH/H, kV/V, kW/W) sont la première cause de résultats aberrants : faire vérifier les ordres de grandeur.</li>
+<li>Idées reçues à corriger : « un nœud PV fournit autant de réactif qu'il faut » (non : courbe de capacité) ; « un fusible est plus lent qu'un disjoncteur » (aux forts courants, c'est l'inverse) ; « le neutre isolé supprime le défaut » (il supprime le courant, pas la surtension des phases saines) ; « la bobine de Petersen supprime tout courant » (il reste un résiduel actif) ; « un moteur consomme du réactif seulement au démarrage » (il en consomme en permanence) ; « une protection plus rapide est toujours meilleure » (elle perd la sélectivité).</li>
+<li>Faire d'abord dessiner, avant de lancer le calcul, la courbe temps-courant attendue, puis la comparer au tracé du bouton Sélectivité… : c'est le meilleur moyen de faire comprendre la sélectivité.</li>
+<li>Limites des modèles à rappeler : la protection ne déclenche pas dans la simulation dynamique ; différentielle de transformateur sans appel de magnétisation ni retenue à l'harmonique 2 ; sélectivité chronométrique seulement ; TC saturé par simple écrêtage ; pas de simulation des surtensions de foudre (le parafoudre est vérifié par formule) ; couplage mutuel limité au réseau homopolaire ; asynchrone à cage simple (pas de double cage) ; DFIG en régime permanent, dynamique par le modèle onduleur (pas de flux rotorique ni de logique temporelle du crowbar) ; limites de capacité prises en compte au load flow classique seulement ; capacité homopolaire C0 de tout le réseau pour la bobine de Petersen.</li>
 </ul>
             <a href="#top" class="back-to-top">↑ Retour en haut</a>
         </div>
