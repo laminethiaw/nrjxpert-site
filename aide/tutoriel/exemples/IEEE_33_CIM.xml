@@ -1,0 +1,1322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:cim="http://iec.ch/TC57/CIM100#">
+
+  <!-- Réseau de distribution IEEE 33 nœuds (Baran & Wu) au format CIM : 12,66 kV, 32 branches (R, X en ohms), 32 charges (P en W, Q en var) -->
+  <cim:BaseVoltage rdf:ID="_bv_12_66kV">
+    <cim:IdentifiedObject.name>BV_12.66kV</cim:IdentifiedObject.name>
+    <cim:BaseVoltage.nominalVoltage>12660</cim:BaseVoltage.nominalVoltage>
+  </cim:BaseVoltage>
+
+  <cim:Substation rdf:ID="_sub_33bus">
+    <cim:IdentifiedObject.name>Substation_33Bus</cim:IdentifiedObject.name>
+  </cim:Substation>
+
+  <cim:VoltageLevel rdf:ID="_vl_12_66kV">
+    <cim:IdentifiedObject.name>VL_12.66kV</cim:IdentifiedObject.name>
+    <cim:VoltageLevel.Substation rdf:resource="#_sub_33bus"/>
+    <cim:VoltageLevel.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+  </cim:VoltageLevel>
+
+  <cim:ConnectivityNode rdf:ID="_cn_1">
+    <cim:IdentifiedObject.name>Bus_1</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <cim:ConnectivityNode rdf:ID="_cn_2">
+    <cim:IdentifiedObject.name>Bus_2</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <cim:ConnectivityNode rdf:ID="_cn_3">
+    <cim:IdentifiedObject.name>Bus_3</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <cim:ConnectivityNode rdf:ID="_cn_4">
+    <cim:IdentifiedObject.name>Bus_4</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <cim:ConnectivityNode rdf:ID="_cn_5">
+    <cim:IdentifiedObject.name>Bus_5</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <cim:ConnectivityNode rdf:ID="_cn_6">
+    <cim:IdentifiedObject.name>Bus_6</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <cim:ConnectivityNode rdf:ID="_cn_7">
+    <cim:IdentifiedObject.name>Bus_7</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <cim:ConnectivityNode rdf:ID="_cn_8">
+    <cim:IdentifiedObject.name>Bus_8</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <cim:ConnectivityNode rdf:ID="_cn_9">
+    <cim:IdentifiedObject.name>Bus_9</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <cim:ConnectivityNode rdf:ID="_cn_10">
+    <cim:IdentifiedObject.name>Bus_10</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <cim:ConnectivityNode rdf:ID="_cn_11">
+    <cim:IdentifiedObject.name>Bus_11</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <cim:ConnectivityNode rdf:ID="_cn_12">
+    <cim:IdentifiedObject.name>Bus_12</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <cim:ConnectivityNode rdf:ID="_cn_13">
+    <cim:IdentifiedObject.name>Bus_13</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <cim:ConnectivityNode rdf:ID="_cn_14">
+    <cim:IdentifiedObject.name>Bus_14</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <cim:ConnectivityNode rdf:ID="_cn_15">
+    <cim:IdentifiedObject.name>Bus_15</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <cim:ConnectivityNode rdf:ID="_cn_16">
+    <cim:IdentifiedObject.name>Bus_16</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <cim:ConnectivityNode rdf:ID="_cn_17">
+    <cim:IdentifiedObject.name>Bus_17</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <cim:ConnectivityNode rdf:ID="_cn_18">
+    <cim:IdentifiedObject.name>Bus_18</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <cim:ConnectivityNode rdf:ID="_cn_19">
+    <cim:IdentifiedObject.name>Bus_19</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <cim:ConnectivityNode rdf:ID="_cn_20">
+    <cim:IdentifiedObject.name>Bus_20</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <cim:ConnectivityNode rdf:ID="_cn_21">
+    <cim:IdentifiedObject.name>Bus_21</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <cim:ConnectivityNode rdf:ID="_cn_22">
+    <cim:IdentifiedObject.name>Bus_22</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <cim:ConnectivityNode rdf:ID="_cn_23">
+    <cim:IdentifiedObject.name>Bus_23</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <cim:ConnectivityNode rdf:ID="_cn_24">
+    <cim:IdentifiedObject.name>Bus_24</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <cim:ConnectivityNode rdf:ID="_cn_25">
+    <cim:IdentifiedObject.name>Bus_25</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <cim:ConnectivityNode rdf:ID="_cn_26">
+    <cim:IdentifiedObject.name>Bus_26</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <cim:ConnectivityNode rdf:ID="_cn_27">
+    <cim:IdentifiedObject.name>Bus_27</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <cim:ConnectivityNode rdf:ID="_cn_28">
+    <cim:IdentifiedObject.name>Bus_28</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <cim:ConnectivityNode rdf:ID="_cn_29">
+    <cim:IdentifiedObject.name>Bus_29</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <cim:ConnectivityNode rdf:ID="_cn_30">
+    <cim:IdentifiedObject.name>Bus_30</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <cim:ConnectivityNode rdf:ID="_cn_31">
+    <cim:IdentifiedObject.name>Bus_31</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <cim:ConnectivityNode rdf:ID="_cn_32">
+    <cim:IdentifiedObject.name>Bus_32</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <cim:ConnectivityNode rdf:ID="_cn_33">
+    <cim:IdentifiedObject.name>Bus_33</cim:IdentifiedObject.name>
+    <cim:ConnectivityNode.ConnectivityNodeContainer rdf:resource="#_vl_12_66kV"/>
+  </cim:ConnectivityNode>
+
+  <!-- Source (poste HTA/HTB) au nœud 1 : nœud de référence -->
+  <cim:EnergySource rdf:ID="_src_1">
+    <cim:IdentifiedObject.name>Source_1</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergySource.nominalVoltage>12660</cim:EnergySource.nominalVoltage>
+    <cim:EnergySource.voltageMagnitude>12660</cim:EnergySource.voltageMagnitude>
+    <cim:EnergySource.voltageAngle>0</cim:EnergySource.voltageAngle>
+  </cim:EnergySource>
+
+  <cim:Terminal rdf:ID="_term_src_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_src_1"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_1"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <!-- Branche 1 : nœud 1 - nœud 2 -->
+  <cim:ACLineSegment rdf:ID="_line_1_2">
+    <cim:IdentifiedObject.name>Line_1_2</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:ACLineSegment.r>0.0922</cim:ACLineSegment.r>
+    <cim:ACLineSegment.x>0.047</cim:ACLineSegment.x>
+  </cim:ACLineSegment>
+
+  <cim:Terminal rdf:ID="_term_line_1_2_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_1_2"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_1"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:Terminal rdf:ID="_term_line_1_2_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_1_2"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_2"/>
+    <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <!-- Branche 2 : nœud 2 - nœud 3 -->
+  <cim:ACLineSegment rdf:ID="_line_2_3">
+    <cim:IdentifiedObject.name>Line_2_3</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:ACLineSegment.r>0.493</cim:ACLineSegment.r>
+    <cim:ACLineSegment.x>0.2511</cim:ACLineSegment.x>
+  </cim:ACLineSegment>
+
+  <cim:Terminal rdf:ID="_term_line_2_3_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_2_3"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_2"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:Terminal rdf:ID="_term_line_2_3_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_2_3"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_3"/>
+    <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <!-- Branche 3 : nœud 3 - nœud 4 -->
+  <cim:ACLineSegment rdf:ID="_line_3_4">
+    <cim:IdentifiedObject.name>Line_3_4</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:ACLineSegment.r>0.366</cim:ACLineSegment.r>
+    <cim:ACLineSegment.x>0.1864</cim:ACLineSegment.x>
+  </cim:ACLineSegment>
+
+  <cim:Terminal rdf:ID="_term_line_3_4_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_3_4"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_3"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:Terminal rdf:ID="_term_line_3_4_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_3_4"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_4"/>
+    <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <!-- Branche 4 : nœud 4 - nœud 5 -->
+  <cim:ACLineSegment rdf:ID="_line_4_5">
+    <cim:IdentifiedObject.name>Line_4_5</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:ACLineSegment.r>0.3811</cim:ACLineSegment.r>
+    <cim:ACLineSegment.x>0.1941</cim:ACLineSegment.x>
+  </cim:ACLineSegment>
+
+  <cim:Terminal rdf:ID="_term_line_4_5_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_4_5"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_4"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:Terminal rdf:ID="_term_line_4_5_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_4_5"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_5"/>
+    <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <!-- Branche 5 : nœud 5 - nœud 6 -->
+  <cim:ACLineSegment rdf:ID="_line_5_6">
+    <cim:IdentifiedObject.name>Line_5_6</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:ACLineSegment.r>0.819</cim:ACLineSegment.r>
+    <cim:ACLineSegment.x>0.707</cim:ACLineSegment.x>
+  </cim:ACLineSegment>
+
+  <cim:Terminal rdf:ID="_term_line_5_6_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_5_6"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_5"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:Terminal rdf:ID="_term_line_5_6_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_5_6"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_6"/>
+    <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <!-- Branche 6 : nœud 6 - nœud 7 -->
+  <cim:ACLineSegment rdf:ID="_line_6_7">
+    <cim:IdentifiedObject.name>Line_6_7</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:ACLineSegment.r>0.1872</cim:ACLineSegment.r>
+    <cim:ACLineSegment.x>0.6188</cim:ACLineSegment.x>
+  </cim:ACLineSegment>
+
+  <cim:Terminal rdf:ID="_term_line_6_7_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_6_7"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_6"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:Terminal rdf:ID="_term_line_6_7_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_6_7"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_7"/>
+    <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <!-- Branche 7 : nœud 7 - nœud 8 -->
+  <cim:ACLineSegment rdf:ID="_line_7_8">
+    <cim:IdentifiedObject.name>Line_7_8</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:ACLineSegment.r>0.7114</cim:ACLineSegment.r>
+    <cim:ACLineSegment.x>0.2351</cim:ACLineSegment.x>
+  </cim:ACLineSegment>
+
+  <cim:Terminal rdf:ID="_term_line_7_8_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_7_8"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_7"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:Terminal rdf:ID="_term_line_7_8_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_7_8"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_8"/>
+    <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <!-- Branche 8 : nœud 8 - nœud 9 -->
+  <cim:ACLineSegment rdf:ID="_line_8_9">
+    <cim:IdentifiedObject.name>Line_8_9</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:ACLineSegment.r>1.03</cim:ACLineSegment.r>
+    <cim:ACLineSegment.x>0.74</cim:ACLineSegment.x>
+  </cim:ACLineSegment>
+
+  <cim:Terminal rdf:ID="_term_line_8_9_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_8_9"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_8"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:Terminal rdf:ID="_term_line_8_9_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_8_9"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_9"/>
+    <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <!-- Branche 9 : nœud 9 - nœud 10 -->
+  <cim:ACLineSegment rdf:ID="_line_9_10">
+    <cim:IdentifiedObject.name>Line_9_10</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:ACLineSegment.r>1.044</cim:ACLineSegment.r>
+    <cim:ACLineSegment.x>0.74</cim:ACLineSegment.x>
+  </cim:ACLineSegment>
+
+  <cim:Terminal rdf:ID="_term_line_9_10_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_9_10"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_9"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:Terminal rdf:ID="_term_line_9_10_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_9_10"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_10"/>
+    <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <!-- Branche 10 : nœud 10 - nœud 11 -->
+  <cim:ACLineSegment rdf:ID="_line_10_11">
+    <cim:IdentifiedObject.name>Line_10_11</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:ACLineSegment.r>0.1966</cim:ACLineSegment.r>
+    <cim:ACLineSegment.x>0.065</cim:ACLineSegment.x>
+  </cim:ACLineSegment>
+
+  <cim:Terminal rdf:ID="_term_line_10_11_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_10_11"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_10"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:Terminal rdf:ID="_term_line_10_11_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_10_11"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_11"/>
+    <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <!-- Branche 11 : nœud 11 - nœud 12 -->
+  <cim:ACLineSegment rdf:ID="_line_11_12">
+    <cim:IdentifiedObject.name>Line_11_12</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:ACLineSegment.r>0.3744</cim:ACLineSegment.r>
+    <cim:ACLineSegment.x>0.1238</cim:ACLineSegment.x>
+  </cim:ACLineSegment>
+
+  <cim:Terminal rdf:ID="_term_line_11_12_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_11_12"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_11"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:Terminal rdf:ID="_term_line_11_12_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_11_12"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_12"/>
+    <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <!-- Branche 12 : nœud 12 - nœud 13 -->
+  <cim:ACLineSegment rdf:ID="_line_12_13">
+    <cim:IdentifiedObject.name>Line_12_13</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:ACLineSegment.r>1.468</cim:ACLineSegment.r>
+    <cim:ACLineSegment.x>1.155</cim:ACLineSegment.x>
+  </cim:ACLineSegment>
+
+  <cim:Terminal rdf:ID="_term_line_12_13_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_12_13"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_12"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:Terminal rdf:ID="_term_line_12_13_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_12_13"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_13"/>
+    <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <!-- Branche 13 : nœud 13 - nœud 14 -->
+  <cim:ACLineSegment rdf:ID="_line_13_14">
+    <cim:IdentifiedObject.name>Line_13_14</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:ACLineSegment.r>0.5416</cim:ACLineSegment.r>
+    <cim:ACLineSegment.x>0.7129</cim:ACLineSegment.x>
+  </cim:ACLineSegment>
+
+  <cim:Terminal rdf:ID="_term_line_13_14_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_13_14"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_13"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:Terminal rdf:ID="_term_line_13_14_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_13_14"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_14"/>
+    <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <!-- Branche 14 : nœud 14 - nœud 15 -->
+  <cim:ACLineSegment rdf:ID="_line_14_15">
+    <cim:IdentifiedObject.name>Line_14_15</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:ACLineSegment.r>0.591</cim:ACLineSegment.r>
+    <cim:ACLineSegment.x>0.526</cim:ACLineSegment.x>
+  </cim:ACLineSegment>
+
+  <cim:Terminal rdf:ID="_term_line_14_15_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_14_15"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_14"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:Terminal rdf:ID="_term_line_14_15_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_14_15"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_15"/>
+    <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <!-- Branche 15 : nœud 15 - nœud 16 -->
+  <cim:ACLineSegment rdf:ID="_line_15_16">
+    <cim:IdentifiedObject.name>Line_15_16</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:ACLineSegment.r>0.7463</cim:ACLineSegment.r>
+    <cim:ACLineSegment.x>0.545</cim:ACLineSegment.x>
+  </cim:ACLineSegment>
+
+  <cim:Terminal rdf:ID="_term_line_15_16_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_15_16"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_15"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:Terminal rdf:ID="_term_line_15_16_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_15_16"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_16"/>
+    <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <!-- Branche 16 : nœud 16 - nœud 17 -->
+  <cim:ACLineSegment rdf:ID="_line_16_17">
+    <cim:IdentifiedObject.name>Line_16_17</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:ACLineSegment.r>1.289</cim:ACLineSegment.r>
+    <cim:ACLineSegment.x>1.721</cim:ACLineSegment.x>
+  </cim:ACLineSegment>
+
+  <cim:Terminal rdf:ID="_term_line_16_17_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_16_17"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_16"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:Terminal rdf:ID="_term_line_16_17_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_16_17"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_17"/>
+    <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <!-- Branche 17 : nœud 17 - nœud 18 -->
+  <cim:ACLineSegment rdf:ID="_line_17_18">
+    <cim:IdentifiedObject.name>Line_17_18</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:ACLineSegment.r>0.732</cim:ACLineSegment.r>
+    <cim:ACLineSegment.x>0.574</cim:ACLineSegment.x>
+  </cim:ACLineSegment>
+
+  <cim:Terminal rdf:ID="_term_line_17_18_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_17_18"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_17"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:Terminal rdf:ID="_term_line_17_18_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_17_18"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_18"/>
+    <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <!-- Branche 18 : nœud 2 - nœud 19 -->
+  <cim:ACLineSegment rdf:ID="_line_2_19">
+    <cim:IdentifiedObject.name>Line_2_19</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:ACLineSegment.r>0.164</cim:ACLineSegment.r>
+    <cim:ACLineSegment.x>0.1565</cim:ACLineSegment.x>
+  </cim:ACLineSegment>
+
+  <cim:Terminal rdf:ID="_term_line_2_19_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_2_19"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_2"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:Terminal rdf:ID="_term_line_2_19_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_2_19"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_19"/>
+    <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <!-- Branche 19 : nœud 19 - nœud 20 -->
+  <cim:ACLineSegment rdf:ID="_line_19_20">
+    <cim:IdentifiedObject.name>Line_19_20</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:ACLineSegment.r>1.5042</cim:ACLineSegment.r>
+    <cim:ACLineSegment.x>1.3554</cim:ACLineSegment.x>
+  </cim:ACLineSegment>
+
+  <cim:Terminal rdf:ID="_term_line_19_20_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_19_20"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_19"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:Terminal rdf:ID="_term_line_19_20_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_19_20"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_20"/>
+    <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <!-- Branche 20 : nœud 20 - nœud 21 -->
+  <cim:ACLineSegment rdf:ID="_line_20_21">
+    <cim:IdentifiedObject.name>Line_20_21</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:ACLineSegment.r>0.4095</cim:ACLineSegment.r>
+    <cim:ACLineSegment.x>0.4784</cim:ACLineSegment.x>
+  </cim:ACLineSegment>
+
+  <cim:Terminal rdf:ID="_term_line_20_21_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_20_21"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_20"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:Terminal rdf:ID="_term_line_20_21_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_20_21"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_21"/>
+    <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <!-- Branche 21 : nœud 21 - nœud 22 -->
+  <cim:ACLineSegment rdf:ID="_line_21_22">
+    <cim:IdentifiedObject.name>Line_21_22</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:ACLineSegment.r>0.7089</cim:ACLineSegment.r>
+    <cim:ACLineSegment.x>0.9373</cim:ACLineSegment.x>
+  </cim:ACLineSegment>
+
+  <cim:Terminal rdf:ID="_term_line_21_22_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_21_22"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_21"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:Terminal rdf:ID="_term_line_21_22_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_21_22"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_22"/>
+    <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <!-- Branche 22 : nœud 3 - nœud 23 -->
+  <cim:ACLineSegment rdf:ID="_line_3_23">
+    <cim:IdentifiedObject.name>Line_3_23</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:ACLineSegment.r>0.4512</cim:ACLineSegment.r>
+    <cim:ACLineSegment.x>0.3083</cim:ACLineSegment.x>
+  </cim:ACLineSegment>
+
+  <cim:Terminal rdf:ID="_term_line_3_23_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_3_23"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_3"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:Terminal rdf:ID="_term_line_3_23_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_3_23"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_23"/>
+    <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <!-- Branche 23 : nœud 23 - nœud 24 -->
+  <cim:ACLineSegment rdf:ID="_line_23_24">
+    <cim:IdentifiedObject.name>Line_23_24</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:ACLineSegment.r>0.898</cim:ACLineSegment.r>
+    <cim:ACLineSegment.x>0.7091</cim:ACLineSegment.x>
+  </cim:ACLineSegment>
+
+  <cim:Terminal rdf:ID="_term_line_23_24_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_23_24"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_23"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:Terminal rdf:ID="_term_line_23_24_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_23_24"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_24"/>
+    <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <!-- Branche 24 : nœud 24 - nœud 25 -->
+  <cim:ACLineSegment rdf:ID="_line_24_25">
+    <cim:IdentifiedObject.name>Line_24_25</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:ACLineSegment.r>0.896</cim:ACLineSegment.r>
+    <cim:ACLineSegment.x>0.7011</cim:ACLineSegment.x>
+  </cim:ACLineSegment>
+
+  <cim:Terminal rdf:ID="_term_line_24_25_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_24_25"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_24"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:Terminal rdf:ID="_term_line_24_25_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_24_25"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_25"/>
+    <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <!-- Branche 25 : nœud 6 - nœud 26 -->
+  <cim:ACLineSegment rdf:ID="_line_6_26">
+    <cim:IdentifiedObject.name>Line_6_26</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:ACLineSegment.r>0.203</cim:ACLineSegment.r>
+    <cim:ACLineSegment.x>0.1034</cim:ACLineSegment.x>
+  </cim:ACLineSegment>
+
+  <cim:Terminal rdf:ID="_term_line_6_26_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_6_26"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_6"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:Terminal rdf:ID="_term_line_6_26_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_6_26"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_26"/>
+    <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <!-- Branche 26 : nœud 26 - nœud 27 -->
+  <cim:ACLineSegment rdf:ID="_line_26_27">
+    <cim:IdentifiedObject.name>Line_26_27</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:ACLineSegment.r>0.2842</cim:ACLineSegment.r>
+    <cim:ACLineSegment.x>0.1447</cim:ACLineSegment.x>
+  </cim:ACLineSegment>
+
+  <cim:Terminal rdf:ID="_term_line_26_27_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_26_27"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_26"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:Terminal rdf:ID="_term_line_26_27_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_26_27"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_27"/>
+    <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <!-- Branche 27 : nœud 27 - nœud 28 -->
+  <cim:ACLineSegment rdf:ID="_line_27_28">
+    <cim:IdentifiedObject.name>Line_27_28</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:ACLineSegment.r>1.059</cim:ACLineSegment.r>
+    <cim:ACLineSegment.x>0.9337</cim:ACLineSegment.x>
+  </cim:ACLineSegment>
+
+  <cim:Terminal rdf:ID="_term_line_27_28_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_27_28"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_27"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:Terminal rdf:ID="_term_line_27_28_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_27_28"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_28"/>
+    <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <!-- Branche 28 : nœud 28 - nœud 29 -->
+  <cim:ACLineSegment rdf:ID="_line_28_29">
+    <cim:IdentifiedObject.name>Line_28_29</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:ACLineSegment.r>0.8042</cim:ACLineSegment.r>
+    <cim:ACLineSegment.x>0.7006</cim:ACLineSegment.x>
+  </cim:ACLineSegment>
+
+  <cim:Terminal rdf:ID="_term_line_28_29_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_28_29"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_28"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:Terminal rdf:ID="_term_line_28_29_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_28_29"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_29"/>
+    <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <!-- Branche 29 : nœud 29 - nœud 30 -->
+  <cim:ACLineSegment rdf:ID="_line_29_30">
+    <cim:IdentifiedObject.name>Line_29_30</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:ACLineSegment.r>0.5075</cim:ACLineSegment.r>
+    <cim:ACLineSegment.x>0.2585</cim:ACLineSegment.x>
+  </cim:ACLineSegment>
+
+  <cim:Terminal rdf:ID="_term_line_29_30_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_29_30"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_29"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:Terminal rdf:ID="_term_line_29_30_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_29_30"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_30"/>
+    <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <!-- Branche 30 : nœud 30 - nœud 31 -->
+  <cim:ACLineSegment rdf:ID="_line_30_31">
+    <cim:IdentifiedObject.name>Line_30_31</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:ACLineSegment.r>0.9744</cim:ACLineSegment.r>
+    <cim:ACLineSegment.x>0.963</cim:ACLineSegment.x>
+  </cim:ACLineSegment>
+
+  <cim:Terminal rdf:ID="_term_line_30_31_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_30_31"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_30"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:Terminal rdf:ID="_term_line_30_31_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_30_31"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_31"/>
+    <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <!-- Branche 31 : nœud 31 - nœud 32 -->
+  <cim:ACLineSegment rdf:ID="_line_31_32">
+    <cim:IdentifiedObject.name>Line_31_32</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:ACLineSegment.r>0.3105</cim:ACLineSegment.r>
+    <cim:ACLineSegment.x>0.3619</cim:ACLineSegment.x>
+  </cim:ACLineSegment>
+
+  <cim:Terminal rdf:ID="_term_line_31_32_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_31_32"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_31"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:Terminal rdf:ID="_term_line_31_32_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_31_32"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_32"/>
+    <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <!-- Branche 32 : nœud 32 - nœud 33 -->
+  <cim:ACLineSegment rdf:ID="_line_32_33">
+    <cim:IdentifiedObject.name>Line_32_33</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:ACLineSegment.r>0.341</cim:ACLineSegment.r>
+    <cim:ACLineSegment.x>0.5302</cim:ACLineSegment.x>
+  </cim:ACLineSegment>
+
+  <cim:Terminal rdf:ID="_term_line_32_33_1">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_32_33"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_32"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:Terminal rdf:ID="_term_line_32_33_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_line_32_33"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_33"/>
+    <cim:ACDCTerminal.sequenceNumber>2</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:EnergyConsumer rdf:ID="_load_2">
+    <cim:IdentifiedObject.name>Load_2</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergyConsumer.p>100000</cim:EnergyConsumer.p>
+    <cim:EnergyConsumer.q>60000</cim:EnergyConsumer.q>
+  </cim:EnergyConsumer>
+
+  <cim:Terminal rdf:ID="_term_load_2">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_load_2"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_2"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:EnergyConsumer rdf:ID="_load_3">
+    <cim:IdentifiedObject.name>Load_3</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergyConsumer.p>90000</cim:EnergyConsumer.p>
+    <cim:EnergyConsumer.q>40000</cim:EnergyConsumer.q>
+  </cim:EnergyConsumer>
+
+  <cim:Terminal rdf:ID="_term_load_3">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_load_3"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_3"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:EnergyConsumer rdf:ID="_load_4">
+    <cim:IdentifiedObject.name>Load_4</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergyConsumer.p>120000</cim:EnergyConsumer.p>
+    <cim:EnergyConsumer.q>80000</cim:EnergyConsumer.q>
+  </cim:EnergyConsumer>
+
+  <cim:Terminal rdf:ID="_term_load_4">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_load_4"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_4"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:EnergyConsumer rdf:ID="_load_5">
+    <cim:IdentifiedObject.name>Load_5</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergyConsumer.p>60000</cim:EnergyConsumer.p>
+    <cim:EnergyConsumer.q>30000</cim:EnergyConsumer.q>
+  </cim:EnergyConsumer>
+
+  <cim:Terminal rdf:ID="_term_load_5">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_load_5"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_5"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:EnergyConsumer rdf:ID="_load_6">
+    <cim:IdentifiedObject.name>Load_6</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergyConsumer.p>60000</cim:EnergyConsumer.p>
+    <cim:EnergyConsumer.q>20000</cim:EnergyConsumer.q>
+  </cim:EnergyConsumer>
+
+  <cim:Terminal rdf:ID="_term_load_6">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_load_6"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_6"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:EnergyConsumer rdf:ID="_load_7">
+    <cim:IdentifiedObject.name>Load_7</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergyConsumer.p>200000</cim:EnergyConsumer.p>
+    <cim:EnergyConsumer.q>100000</cim:EnergyConsumer.q>
+  </cim:EnergyConsumer>
+
+  <cim:Terminal rdf:ID="_term_load_7">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_load_7"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_7"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:EnergyConsumer rdf:ID="_load_8">
+    <cim:IdentifiedObject.name>Load_8</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergyConsumer.p>200000</cim:EnergyConsumer.p>
+    <cim:EnergyConsumer.q>100000</cim:EnergyConsumer.q>
+  </cim:EnergyConsumer>
+
+  <cim:Terminal rdf:ID="_term_load_8">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_load_8"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_8"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:EnergyConsumer rdf:ID="_load_9">
+    <cim:IdentifiedObject.name>Load_9</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergyConsumer.p>60000</cim:EnergyConsumer.p>
+    <cim:EnergyConsumer.q>20000</cim:EnergyConsumer.q>
+  </cim:EnergyConsumer>
+
+  <cim:Terminal rdf:ID="_term_load_9">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_load_9"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_9"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:EnergyConsumer rdf:ID="_load_10">
+    <cim:IdentifiedObject.name>Load_10</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergyConsumer.p>60000</cim:EnergyConsumer.p>
+    <cim:EnergyConsumer.q>20000</cim:EnergyConsumer.q>
+  </cim:EnergyConsumer>
+
+  <cim:Terminal rdf:ID="_term_load_10">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_load_10"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_10"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:EnergyConsumer rdf:ID="_load_11">
+    <cim:IdentifiedObject.name>Load_11</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergyConsumer.p>45000</cim:EnergyConsumer.p>
+    <cim:EnergyConsumer.q>30000</cim:EnergyConsumer.q>
+  </cim:EnergyConsumer>
+
+  <cim:Terminal rdf:ID="_term_load_11">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_load_11"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_11"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:EnergyConsumer rdf:ID="_load_12">
+    <cim:IdentifiedObject.name>Load_12</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergyConsumer.p>60000</cim:EnergyConsumer.p>
+    <cim:EnergyConsumer.q>35000</cim:EnergyConsumer.q>
+  </cim:EnergyConsumer>
+
+  <cim:Terminal rdf:ID="_term_load_12">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_load_12"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_12"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:EnergyConsumer rdf:ID="_load_13">
+    <cim:IdentifiedObject.name>Load_13</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergyConsumer.p>60000</cim:EnergyConsumer.p>
+    <cim:EnergyConsumer.q>35000</cim:EnergyConsumer.q>
+  </cim:EnergyConsumer>
+
+  <cim:Terminal rdf:ID="_term_load_13">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_load_13"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_13"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:EnergyConsumer rdf:ID="_load_14">
+    <cim:IdentifiedObject.name>Load_14</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergyConsumer.p>120000</cim:EnergyConsumer.p>
+    <cim:EnergyConsumer.q>80000</cim:EnergyConsumer.q>
+  </cim:EnergyConsumer>
+
+  <cim:Terminal rdf:ID="_term_load_14">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_load_14"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_14"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:EnergyConsumer rdf:ID="_load_15">
+    <cim:IdentifiedObject.name>Load_15</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergyConsumer.p>60000</cim:EnergyConsumer.p>
+    <cim:EnergyConsumer.q>10000</cim:EnergyConsumer.q>
+  </cim:EnergyConsumer>
+
+  <cim:Terminal rdf:ID="_term_load_15">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_load_15"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_15"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:EnergyConsumer rdf:ID="_load_16">
+    <cim:IdentifiedObject.name>Load_16</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergyConsumer.p>60000</cim:EnergyConsumer.p>
+    <cim:EnergyConsumer.q>20000</cim:EnergyConsumer.q>
+  </cim:EnergyConsumer>
+
+  <cim:Terminal rdf:ID="_term_load_16">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_load_16"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_16"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:EnergyConsumer rdf:ID="_load_17">
+    <cim:IdentifiedObject.name>Load_17</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergyConsumer.p>60000</cim:EnergyConsumer.p>
+    <cim:EnergyConsumer.q>20000</cim:EnergyConsumer.q>
+  </cim:EnergyConsumer>
+
+  <cim:Terminal rdf:ID="_term_load_17">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_load_17"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_17"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:EnergyConsumer rdf:ID="_load_18">
+    <cim:IdentifiedObject.name>Load_18</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergyConsumer.p>90000</cim:EnergyConsumer.p>
+    <cim:EnergyConsumer.q>40000</cim:EnergyConsumer.q>
+  </cim:EnergyConsumer>
+
+  <cim:Terminal rdf:ID="_term_load_18">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_load_18"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_18"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:EnergyConsumer rdf:ID="_load_19">
+    <cim:IdentifiedObject.name>Load_19</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergyConsumer.p>90000</cim:EnergyConsumer.p>
+    <cim:EnergyConsumer.q>40000</cim:EnergyConsumer.q>
+  </cim:EnergyConsumer>
+
+  <cim:Terminal rdf:ID="_term_load_19">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_load_19"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_19"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:EnergyConsumer rdf:ID="_load_20">
+    <cim:IdentifiedObject.name>Load_20</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergyConsumer.p>90000</cim:EnergyConsumer.p>
+    <cim:EnergyConsumer.q>40000</cim:EnergyConsumer.q>
+  </cim:EnergyConsumer>
+
+  <cim:Terminal rdf:ID="_term_load_20">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_load_20"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_20"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:EnergyConsumer rdf:ID="_load_21">
+    <cim:IdentifiedObject.name>Load_21</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergyConsumer.p>90000</cim:EnergyConsumer.p>
+    <cim:EnergyConsumer.q>40000</cim:EnergyConsumer.q>
+  </cim:EnergyConsumer>
+
+  <cim:Terminal rdf:ID="_term_load_21">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_load_21"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_21"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:EnergyConsumer rdf:ID="_load_22">
+    <cim:IdentifiedObject.name>Load_22</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergyConsumer.p>90000</cim:EnergyConsumer.p>
+    <cim:EnergyConsumer.q>40000</cim:EnergyConsumer.q>
+  </cim:EnergyConsumer>
+
+  <cim:Terminal rdf:ID="_term_load_22">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_load_22"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_22"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:EnergyConsumer rdf:ID="_load_23">
+    <cim:IdentifiedObject.name>Load_23</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergyConsumer.p>90000</cim:EnergyConsumer.p>
+    <cim:EnergyConsumer.q>50000</cim:EnergyConsumer.q>
+  </cim:EnergyConsumer>
+
+  <cim:Terminal rdf:ID="_term_load_23">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_load_23"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_23"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:EnergyConsumer rdf:ID="_load_24">
+    <cim:IdentifiedObject.name>Load_24</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergyConsumer.p>420000</cim:EnergyConsumer.p>
+    <cim:EnergyConsumer.q>200000</cim:EnergyConsumer.q>
+  </cim:EnergyConsumer>
+
+  <cim:Terminal rdf:ID="_term_load_24">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_load_24"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_24"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:EnergyConsumer rdf:ID="_load_25">
+    <cim:IdentifiedObject.name>Load_25</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergyConsumer.p>420000</cim:EnergyConsumer.p>
+    <cim:EnergyConsumer.q>200000</cim:EnergyConsumer.q>
+  </cim:EnergyConsumer>
+
+  <cim:Terminal rdf:ID="_term_load_25">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_load_25"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_25"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:EnergyConsumer rdf:ID="_load_26">
+    <cim:IdentifiedObject.name>Load_26</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergyConsumer.p>60000</cim:EnergyConsumer.p>
+    <cim:EnergyConsumer.q>25000</cim:EnergyConsumer.q>
+  </cim:EnergyConsumer>
+
+  <cim:Terminal rdf:ID="_term_load_26">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_load_26"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_26"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:EnergyConsumer rdf:ID="_load_27">
+    <cim:IdentifiedObject.name>Load_27</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergyConsumer.p>60000</cim:EnergyConsumer.p>
+    <cim:EnergyConsumer.q>25000</cim:EnergyConsumer.q>
+  </cim:EnergyConsumer>
+
+  <cim:Terminal rdf:ID="_term_load_27">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_load_27"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_27"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:EnergyConsumer rdf:ID="_load_28">
+    <cim:IdentifiedObject.name>Load_28</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergyConsumer.p>60000</cim:EnergyConsumer.p>
+    <cim:EnergyConsumer.q>20000</cim:EnergyConsumer.q>
+  </cim:EnergyConsumer>
+
+  <cim:Terminal rdf:ID="_term_load_28">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_load_28"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_28"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:EnergyConsumer rdf:ID="_load_29">
+    <cim:IdentifiedObject.name>Load_29</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergyConsumer.p>120000</cim:EnergyConsumer.p>
+    <cim:EnergyConsumer.q>70000</cim:EnergyConsumer.q>
+  </cim:EnergyConsumer>
+
+  <cim:Terminal rdf:ID="_term_load_29">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_load_29"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_29"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:EnergyConsumer rdf:ID="_load_30">
+    <cim:IdentifiedObject.name>Load_30</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergyConsumer.p>200000</cim:EnergyConsumer.p>
+    <cim:EnergyConsumer.q>600000</cim:EnergyConsumer.q>
+  </cim:EnergyConsumer>
+
+  <cim:Terminal rdf:ID="_term_load_30">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_load_30"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_30"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:EnergyConsumer rdf:ID="_load_31">
+    <cim:IdentifiedObject.name>Load_31</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergyConsumer.p>150000</cim:EnergyConsumer.p>
+    <cim:EnergyConsumer.q>70000</cim:EnergyConsumer.q>
+  </cim:EnergyConsumer>
+
+  <cim:Terminal rdf:ID="_term_load_31">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_load_31"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_31"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:EnergyConsumer rdf:ID="_load_32">
+    <cim:IdentifiedObject.name>Load_32</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergyConsumer.p>210000</cim:EnergyConsumer.p>
+    <cim:EnergyConsumer.q>100000</cim:EnergyConsumer.q>
+  </cim:EnergyConsumer>
+
+  <cim:Terminal rdf:ID="_term_load_32">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_load_32"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_32"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+  <cim:EnergyConsumer rdf:ID="_load_33">
+    <cim:IdentifiedObject.name>Load_33</cim:IdentifiedObject.name>
+    <cim:Equipment.EquipmentContainer rdf:resource="#_vl_12_66kV"/>
+    <cim:ConductingEquipment.BaseVoltage rdf:resource="#_bv_12_66kV"/>
+    <cim:EnergyConsumer.p>60000</cim:EnergyConsumer.p>
+    <cim:EnergyConsumer.q>40000</cim:EnergyConsumer.q>
+  </cim:EnergyConsumer>
+
+  <cim:Terminal rdf:ID="_term_load_33">
+    <cim:Terminal.ConductingEquipment rdf:resource="#_load_33"/>
+    <cim:Terminal.ConnectivityNode rdf:resource="#_cn_33"/>
+    <cim:ACDCTerminal.sequenceNumber>1</cim:ACDCTerminal.sequenceNumber>
+  </cim:Terminal>
+
+</rdf:RDF>

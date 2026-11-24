@@ -33,6 +33,7 @@ exemples/dispatch_microreseau_ilote.xml
 exemples/dynamics_microreseau.xml
 exemples/hostingCapacity_ieee33.xml
 exemples/ieee33_distribution.xml
+exemples/IEEE_33_CIM.xml
 exemples/loadflow_30kV_3noeuds.xml
 exemples/opf_microreseau.xml
 exemples/pv_case_de_sante.nxpv

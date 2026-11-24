@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<grid-voltage>20000.0</grid-voltage><grid-frequency>50.0</grid-frequency><solve>shortCircuit</solve>
+<method>nodeVoltage</method><neutral-port-Id>1</neutral-port-Id>
+<fault-port-Id>4</fault-port-Id><cc-type>1ph</cc-type><Icc-type>max</Icc-type>
+<cc-tolerance>0.1</cc-tolerance><cc-location>general</cc-location>
+<dipoles>
+<dipole><type>PVbus</type><Id>1</Id><name>Poste</name>
+<Pgen>0</Pgen>
+<Qgen>0</Qgen>
+<Pload>0</Pload>
+<Qload>0</Qload>
+<V>20</V>
+<phase>0</phase>
+<Rd>0.1</Rd>
+<Xd>2.0</Xd>
+<Ri>0.1</Ri>
+<Xi>2.0</Xi>
+<R0>0.05</R0>
+<X0>1.0</X0>
+<IdPorts>[1, 2]</IdPorts>
+<port><Id>1</Id><ownerId>1</ownerId><sign>0</sign><IdConnectedPorts>[]</IdConnectedPorts></port>
+<port><Id>2</Id><ownerId>1</ownerId><sign>0</sign><IdConnectedPorts>[3, 5]</IdConnectedPorts></port>
+</dipole>
+<dipole><type>Impedance</type><Id>2</Id><name>L1</name>
+<R_X>[3.0, 3.5]</R_X>
+<R0>4.5</R0>
+<X0>12.0</X0>
+<lengthKm>10</lengthKm>
+<lineId>L1</lineId>
+<mutual0>L2;1.5;7.0;auto</mutual0>
+<IdPorts>[3, 4]</IdPorts>
+<port><Id>3</Id><ownerId>2</ownerId><sign>0</sign><IdConnectedPorts>[2, 5]</IdConnectedPorts></port>
+<port><Id>4</Id><ownerId>2</ownerId><sign>0</sign><IdConnectedPorts>[6]</IdConnectedPorts></port>
+</dipole>
+<dipole><type>Impedance</type><Id>3</Id><name>L2</name>
+<R_X>[3.0, 3.5]</R_X>
+<R0>4.5</R0>
+<X0>12.0</X0>
+<lengthKm>10</lengthKm>
+<lineId>L2</lineId>
+<IdPorts>[5, 6]</IdPorts>
+<port><Id>5</Id><ownerId>3</ownerId><sign>0</sign><IdConnectedPorts>[2, 3]</IdConnectedPorts></port>
+<port><Id>6</Id><ownerId>3</ownerId><sign>0</sign><IdConnectedPorts>[4]</IdConnectedPorts></port>
+</dipole>
+</dipoles>
