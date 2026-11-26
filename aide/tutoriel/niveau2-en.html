@@ -95,6 +95,57 @@
 <p class="prereq">Prerequisites: level 1, elementary matrix calculus. Duration: 24 to 30 h.</p>
 </div>
 
+<details class="notations"><summary>📐 Level 2 notation: every quantity used in the formulas (click to show or hide)</summary>
+<table class="notations">
+<tr><th>Symbol</th><th>Quantity</th><th>Unit</th></tr>
+<tr><th colspan="3">2.1 Lines and cables</th></tr>
+<tr><td>V<sub>S</sub>, I<sub>S</sub>, V<sub>R</sub>, I<sub>R</sub></td><td>Phase voltage and current at the sending (S) and receiving (R) ends</td><td>V, A</td></tr>
+<tr><td>A, B, C, D</td><td>Constants of the two-port equivalent to the line (AD − BC = 1)</td><td>—, Ω, S, —</td></tr>
+<tr><td>r, L, g, C</td><td>Per-unit-length resistance, inductance, conductance and capacitance</td><td>Ω/km, H/km, S/km, F/km</td></tr>
+<tr><td>z, y</td><td>Series impedance and shunt admittance per unit length: z = r + jLω, y = g + jCω</td><td>Ω/km, S/km</td></tr>
+<tr><td>γ = α + jβ</td><td>Propagation constant: attenuation α and phase constant β</td><td>1/km</td></tr>
+<tr><td>Z<sub>c</sub></td><td>Characteristic (surge) impedance √(z/y)</td><td>Ω</td></tr>
+<tr><td>x</td><td>Distance measured from the receiving end</td><td>km</td></tr>
+<tr><td>SIL</td><td>Surge impedance loading: power carried with no net reactive power, U<sub>n</sub>²/Z<sub>c</sub></td><td>W</td></tr>
+<tr><td>U<sub>n</sub></td><td>Nominal line-to-line voltage of the network</td><td>V</td></tr>
+<tr><td>vR %</td><td>Voltage regulation: relative difference between no-load and full-load receiving voltage</td><td>%</td></tr>
+<tr><td>S<sub>S</sub>, S<sub>R</sub>, S<sub>L</sub>, η</td><td>Complex power at the sending and receiving ends; losses S<sub>L</sub> = S<sub>S</sub> − S<sub>R</sub>; efficiency P<sub>R</sub>/P<sub>S</sub></td><td>VA, —</td></tr>
+<tr><th colspan="3">2.2 Transformers</th></tr>
+<tr><td>S<sub>n</sub></td><td>Rated apparent power</td><td>VA</td></tr>
+<tr><td>u<sub>cc</sub></td><td>Short-circuit voltage (in p.u. or %): voltage driving rated current with the secondary short-circuited</td><td>p.u., %</td></tr>
+<tr><td>P<sub>cc</sub></td><td>Short-circuit losses (copper losses at rated current)</td><td>W</td></tr>
+<tr><td>Z<sub>cc</sub>, R<sub>cc</sub>, X<sub>cc</sub></td><td>Short-circuit impedance, resistance and reactance referred to the side of voltage U</td><td>Ω</td></tr>
+<tr><th colspan="3">2.3 Per-unit system</th></tr>
+<tr><td>S<sub>b</sub>, U<sub>b</sub></td><td>Base power and base (line-to-line) voltage chosen</td><td>VA, V</td></tr>
+<tr><td>Z<sub>b</sub>, I<sub>b</sub>, V<sub>b</sub></td><td>Derived base impedance, current and phase voltage</td><td>Ω, A, V</td></tr>
+<tr><td>z<sub>pu</sub>, %z</td><td>Per-unit impedance Z/Z<sub>b</sub>; the same in percent</td><td>p.u., %</td></tr>
+<tr><th colspan="3">2.4 Voltage drop and losses</th></tr>
+<tr><td>R, X</td><td>Resistance and reactance of the link</td><td>Ω</td></tr>
+<tr><td>P, Q</td><td>Active and reactive power carried</td><td>W, var</td></tr>
+<tr><td>ΔU/U, ΔP</td><td>Relative voltage drop; active losses of the link</td><td>—, W</td></tr>
+<tr><th colspan="3">2.5 and 2.6 Load flow</th></tr>
+<tr><td>S<sub>i</sub> = P<sub>i</sub> + jQ<sub>i</sub></td><td>Complex power injected at bus i (generation − load)</td><td>VA</td></tr>
+<tr><td>V<sub>i</sub>, |V<sub>i</sub>|, δ<sub>i</sub></td><td>Complex voltage of bus i, its magnitude and angle</td><td>V or p.u., rad</td></tr>
+<tr><td>Y<sub>ik</sub>, |Y<sub>ik</sub>|, θ<sub>ik</sub></td><td>Element of the bus admittance matrix, its magnitude and argument</td><td>S, rad</td></tr>
+<tr><td>Y<sub>bus</sub>, Z<sub>bus</sub></td><td>Bus admittance and impedance matrices</td><td>S, Ω</td></tr>
+<tr><td>y<sub>ij</sub>, y<sub>i0</sub></td><td>Series admittance of line i-j; shunt admittance at bus i (half line charging)</td><td>S</td></tr>
+<tr><td>I<sub>ij</sub>, S<sub>ij</sub>, S<sub>L,ij</sub></td><td>Current and power flowing from i to j; line losses</td><td>A, VA</td></tr>
+<tr><td>n, ΔP, ΔQ</td><td>Iteration number; power mismatches (specified − computed)</td><td>—, W, var</td></tr>
+<tr><td>J, Δδ, Δ|V|</td><td>Jacobian (partial derivatives of P and Q); corrections of angles and magnitudes</td><td>—</td></tr>
+<tr><td>E, X<sub>d</sub>, δ</td><td>Internal EMF of a synchronous machine; synchronous reactance; load angle</td><td>V, Ω, rad</td></tr>
+<tr><th colspan="3">2.7 Short circuit</th></tr>
+<tr><td>V<sub>0</sub>, V<sub>1</sub>, V<sub>2</sub></td><td>Zero, positive and negative-sequence components</td><td>V</td></tr>
+<tr><td>Z<sub>A</sub>, Z<sub>B</sub>, Z<sub>0m</sub></td><td>Zero-sequence impedances of two parallel lines; mutual zero-sequence impedance between them</td><td>Ω</td></tr>
+<tr><th colspan="3">2.9 Economic dispatch</th></tr>
+<tr><td>C<sub>i</sub> = α<sub>i</sub> + β<sub>i</sub>P<sub>i</sub> + γ<sub>i</sub>P<sub>i</sub>²</td><td>Hourly cost of unit i and coefficients of its cost curve</td><td>F/h</td></tr>
+<tr><td>P<sub>i</sub>, P<sub>i,min</sub>, P<sub>i,max</sub></td><td>Output of unit i and its limits</td><td>MW</td></tr>
+<tr><td>λ</td><td>System marginal cost (Lagrange multiplier)</td><td>F/MWh</td></tr>
+<tr><td>P<sub>D</sub>, P<sub>L</sub></td><td>Total demand; transmission losses</td><td>MW</td></tr>
+<tr><td>B<sub>ij</sub>, B<sub>0i</sub>, B<sub>00</sub></td><td>Loss coefficients (Kron's formula)</td><td>1/MW, —, MW</td></tr>
+<tr><td>L<sub>i</sub></td><td>Penalty factor of unit i: 1/(1 − ∂P<sub>L</sub>/∂P<sub>i</sub>)</td><td>—</td></tr>
+</table>
+</details>
+
 <!-- ================================================================== -->
             <a href="#top" class="back-to-top">↑ Back to top</a>
         </div>

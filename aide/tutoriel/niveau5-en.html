@@ -87,6 +87,25 @@ optimised operation.</div>
 <p class="prereq">Prerequisites: levels 2 to 4; notions of linear optimisation. Calculations made by the local calculation server. Duration: 20 h and a project.</p>
 </div>
 
+<details class="notations"><summary>📐 Level 5 notation: every quantity used in the formulas (click to show or hide)</summary>
+<table class="notations">
+<tr><th>Symbol</th><th>Quantity</th><th>Unit</th></tr>
+<tr><td>f, f<sub>0</sub>, Δf</td><td>Frequency; nominal frequency (50 Hz); frequency deviation</td><td>Hz</td></tr>
+<tr><td>RoCoF</td><td>Rate of change of frequency (df/dt), measured over 100 ms</td><td>Hz/s</td></tr>
+<tr><td>Nadir</td><td>Lowest frequency reached after an imbalance</td><td>Hz</td></tr>
+<tr><td>R</td><td>Droop of a generator or inverter: Δf = −R·ΔP</td><td>%, p.u.</td></tr>
+<tr><td>ΔP</td><td>Power change (loss of a unit, load switching)</td><td>W, p.u.</td></tr>
+<tr><td>I″<sub>k3</sub>, i<sub>p</sub></td><td>Initial symmetrical three-phase short-circuit current; peak current</td><td>kA</td></tr>
+<tr><td>c, U<sub>n</sub></td><td>Voltage factor (1.1 for maximum current); nominal line-to-line voltage</td><td>—, kV</td></tr>
+<tr><td>Z<sub>1</sub>, Z<sub>1</sub>(f,j)</td><td>Positive-sequence impedance at the fault; transfer impedance between inverter j and the fault</td><td>Ω</td></tr>
+<tr><td>I<sub>skPF,j</sub></td><td>Maximum short-circuit current supplied by inverter j (manufacturer data, ≈ 1.1 to 1.5 times rated current)</td><td>kA</td></tr>
+<tr><td>P<sub>min</sub>, P<sub>n</sub>, u</td><td>Minimum and rated power of a unit; commitment status u (0 off, 1 on)</td><td>kW, —</td></tr>
+<tr><td>SOC<sub>t</sub></td><td>State of charge of the battery at hour t</td><td>kWh, %</td></tr>
+<tr><td>P<sub>c</sub>, P<sub>d</sub>, η<sub>c</sub>, η<sub>d</sub></td><td>Charge and discharge power and efficiencies</td><td>kW, —</td></tr>
+<tr><td>Δt</td><td>Time step of the optimisation</td><td>h</td></tr>
+</table>
+</details>
+
 <!-- ================================================================== -->
             <a href="#top" class="back-to-top">↑ Back to top</a>
         </div>

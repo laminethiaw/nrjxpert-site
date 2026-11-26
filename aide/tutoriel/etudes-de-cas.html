@@ -88,31 +88,34 @@ avec NRJXpert ; les prix sont indicatifs (2026) et doivent être remplacés par 
 <tr><th>Usagers</th><th>Nombre</th><th>Besoins par usager</th><th>Wh/j</th></tr>
 <tr><td>Ménages</td><td class="num">150</td><td>3 lampes 7 W (5 h), télévision 50 W (4 h), ventilateur 40 W (6 h), chargeur 10 W (2 h)</td><td class="num">565</td></tr>
 <tr><td>École</td><td class="num">1</td><td>6 lampes 15 W et 2 ordinateurs 60 W (4 h, le matin)</td><td class="num">840</td></tr>
-<tr><td>Case de santé</td><td class="num">1</td><td>comme l'exemple 3.3 du niveau 3</td><td class="num">3 390</td></tr>
+<tr><td>Case de santé</td><td class="num">1</td><td>version simplifiée de l'exemple 3.3 du niveau 3 (4 récepteurs)</td><td class="num">3 390</td></tr>
 <tr><td>Moulin à mil</td><td class="num">1</td><td>moteur 3 kW, cos φ 0,8 (3 h, le matin)</td><td class="num">9 000</td></tr>
 </table>
 <p>Site : Dakar (base des localités). Réseau BT du système centralisé : 30 m par abonné, 6 000 kF/km, entretien 60 kF/km/an.
-Équipements actuels imposés (module 400 Wc, batterie AGM 12 V 200 Ah, régulateur MPPT 60 A, onduleur 1,5 kVA ; prix du niveau 3).
+Équipements imposés de la base de novembre 2026 : module 410 Wc, batterie plomb AGM 12 V 200 Ah, régulateur MPPT 60 A ; onduleur hybride 48 V de 8 kVA pour le système centralisé, onduleur sinus 12 V de 1 kVA pour les kits (prix du niveau 3).
 Centralisé : bus 48 V ; kits individuels : bus 12 V. Actualisation 8 %, inflation 3 %, 20 ans.
 Fichier : <code>exemples/pv_village.nxpv</code>.</p>
 <h3>Résultats de référence</h3>
 <table>
 <tr><th></th><th>Centralisé (48 V + réseau BT)</th><th>Décentralisé (153 systèmes)</th></tr>
 <tr><td>Besoins</td><td colspan="2">98,0 kWh/j ; pointe 13,7 kVA</td></tr>
-<tr><td>Champ PV</td><td>84 modules, 33,6 kWc</td><td>400 Wc par ménage ; 3,2 kWc pour le moulin</td></tr>
-<tr><td>Batteries</td><td>260 (4 × 65)</td><td>2 par ménage ; 24 pour le moulin</td></tr>
+<tr><td>Champ PV</td><td>81 modules (27 chaînes de 3), 33,2 kWc</td><td>410 Wc par ménage ; 3,3 kWc (8 modules) pour le moulin</td></tr>
+<tr><td>Batteries</td><td>312 (4 × 78)</td><td>2 par ménage ; 29 pour le moulin</td></tr>
+<tr><td>Régulateurs, onduleurs</td><td>27 régulateurs ; 3 onduleurs de 8 kVA</td><td>1 régulateur et 1 onduleur par ménage ; 5 onduleurs pour le moulin</td></tr>
 <tr><td>Réseau BT</td><td>4,59 km, 27,5 MF</td><td>—</td></tr>
-<tr><td>Investissement</td><td class="num">95,2 MF</td><td class="num">204,2 MF</td></tr>
-<tr><td>Coût actualisé (20 ans)</td><td class="num">192,6 MF</td><td class="num">368,0 MF</td></tr>
-<tr><td>Coût actualisé du kWh</td><td class="num result">549 F/kWh</td><td class="num">1 048 F/kWh</td></tr>
+<tr><td>Investissement</td><td class="num">103,7 MF</td><td class="num">161,7 MF</td></tr>
+<tr><td>Coût actualisé (20 ans)</td><td class="num">254,9 MF</td><td class="num">344,1 MF</td></tr>
+<tr><td>Coût actualisé du kWh</td><td class="num result">726 F/kWh</td><td class="num">980 F/kWh</td></tr>
 </table>
 <h3>Analyse</h3>
 <ul>
-<li>Le système centralisé coûte deux fois moins cher par kWh malgré le réseau BT : un seul onduleur et un seul parc de batteries
+<li>Le système centralisé coûte environ 25 % de moins par kWh malgré le réseau BT : un seul parc de batteries et des onduleurs communs
 mutualisent les pointes (foisonnement), et le moulin, très mal servi par un kit 12 V, profite du parc commun.</li>
-<li>Le câblage du système centralisé à 48 V révèle sa limite : le champ de 28 chaînes débite 380 A sous 93 V ; une liaison unique
-de 30 m demanderait 2 × 300 mm². Dans la pratique, on répartit le champ entre plusieurs régulateurs placés près des boîtes de jonction,
-ou l'on choisit un bus à plus haute tension : c'est un point à traiter dans la note de calcul.</li>
+<li>Le câblage du système centralisé à 48 V montre ses limites : avec des régulateurs de 60 A, NRJXpert répartit le champ en 27 chaînes de 3 modules,
+une par régulateur (27 liaisons de 2 × 10 mm²), et met 3 onduleurs de 8 kVA en parallèle ; le câblage coûte 4,2 MF. Des régulateurs plus gros
+(100 A, 250 V : chaînes plus longues) ou des onduleurs hybrides à MPPT intégré réduisent ce nombre : c'est un point à traiter dans la note de calcul.</li>
+<li>Les kits 12 V de la case de santé (1,2 kWc) et du moulin (3,3 kWc) dépassent ce que permet le 12 V : NRJXpert signale des courants très élevés et
+une liaison batterie → onduleur de 120 mm². Passer ces deux infrastructures en 24 ou 48 V.</li>
 <li>Les kits individuels restent pertinents pour des habitats très dispersés (réseau &gt; 100 m par abonné) : refaire l'étude avec
 0,1 km par abonné.</li>
 <li>Prolongement : remplacer une partie des batteries par un groupe électrogène (gestion économique, niveau 5) et comparer.</li>
@@ -187,9 +190,9 @@ moyeu à 24 m, pertes 6 %. Besoin : pompage de 60 kWh/j en moyenne pour l'irriga
 <h3>Résultats</h3>
 <p>Vent au moyeu : <i>c</i> = 6,90 m/s, moyenne 6,12 m/s, densité de puissance 220 W/m². Puissance moyenne 3,11 kW ; production nette
 <span class="result">25,6 MWh/an, soit 70 kWh/j en moyenne</span> ; facteur de charge 29 %. Une machine couvre le besoin en bilan annuel
-(0,85 machine). Mais le vent faiblit en saison des pluies : il faut vérifier mois par mois (onglet 4 de la fenêtre éolienne) et
+(0,85 machine). Mais le vent faiblit en saison des pluies : il faut vérifier mois par mois (onglet 5 « Production et dimensionnement » de la fenêtre éolienne) et
 <b>stocker l'eau plutôt que l'électricité</b> (réservoir de 2 à 3 jours de consommation, bien moins cher qu'un parc de batteries).</p>
-<p><b>À compléter</b> : câblage de la machine (onglet 5, 24 m de mât + 30 m), étude économique comparée à une motopompe diesel, et
+<p><b>À compléter</b> : câblage de la machine (onglet 6, 24 m de mât + 30 m), étude économique comparée à une motopompe diesel, et
 variante PV + éolien (complémentarité saisonnière).</p>
 
 <!-- ================================================================== -->

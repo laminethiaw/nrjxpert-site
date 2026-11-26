@@ -88,6 +88,72 @@
 <p class="prereq">Prerequisites: complex-number algebra (rectangular and polar form), trigonometry. Duration: 14 to 18 h.</p>
 </div>
 
+<details class="notations"><summary>📐 Level 1 notation: every quantity used in the formulas (click to show or hide)</summary>
+<table class="notations">
+<tr><th>Symbol</th><th>Quantity</th><th>Unit</th></tr>
+<tr><th colspan="3">1.1 Basic quantities and laws</th></tr>
+<tr><td>U, I</td><td>Voltage across a two-terminal element; current through it</td><td>V, A</td></tr>
+<tr><td>R, P</td><td>Resistance; dissipated power (P = R·I²)</td><td>Ω, W</td></tr>
+<tr><td>R<sub>éq</sub></td><td>Equivalent resistance of a series or parallel combination</td><td>Ω</td></tr>
+<tr><td>E, R<sub>i</sub></td><td>Electromotive force (open-circuit voltage) and internal resistance of a voltage source</td><td>V, Ω</td></tr>
+<tr><td>J</td><td>Current of a current source (Norton model of a generator)</td><td>A</td></tr>
+<tr><td>V<sub>a</sub>, U<sub>ab</sub></td><td>Potential of node a; voltage between a and b, U<sub>ab</sub> = V<sub>a</sub> − V<sub>b</sub></td><td>V</td></tr>
+<tr><td>R<sub>ab</sub>, E<sub>ab</sub></td><td>Sum of the resistances and algebraic sum of the EMFs of a branch ab</td><td>Ω, V</td></tr>
+<tr><td>P<sub>gén</sub>, P<sub>reçue</sub></td><td>Power supplied by the sources; power received by the resistors (power balance)</td><td>W</td></tr>
+<tr><td>ρ, L, S</td><td>Resistivity of the material; length and cross-section of the conductor (R = ρL/S)</td><td>Ω·m, m, m²</td></tr>
+<tr><td>G</td><td>Conductance G = 1/R</td><td>S (siemens)</td></tr>
+<tr><td>α<sub>θ</sub>, R<sub>θ</sub>, R<sub>x</sub></td><td>Temperature coefficient of resistance at θ; resistances at temperatures θ and T<sub>x</sub></td><td>1/°C, Ω</td></tr>
+<tr><th colspan="3">1.2 Methods for linear circuits</th></tr>
+<tr><td>[R], [I], [E]</td><td>Mesh method: mesh resistance matrix, vector of mesh currents, vector of mesh EMFs</td><td>Ω, A, V</td></tr>
+<tr><td>R<sub>11</sub>, R<sub>12</sub></td><td>Self-resistance of mesh 1 (sum of its resistances); resistance shared by meshes 1 and 2</td><td>Ω</td></tr>
+<tr><td>[G], [V], [J]</td><td>Nodal method: conductance matrix, node potentials, currents injected at the nodes</td><td>S, V, A</td></tr>
+<tr><td>G<sub>aa</sub>, G<sub>ab</sub></td><td>Self-conductance of node a; mutual conductance between a and b</td><td>S</td></tr>
+<tr><td>U<sub>O′O</sub>, G<sub>k</sub></td><td>Voltage between two nodes (Millman's theorem); conductance of branch k</td><td>V, S</td></tr>
+<tr><td>E<sub>th</sub>, R<sub>th</sub></td><td>Thévenin generator: open-circuit voltage and resistance seen from the terminals</td><td>V, Ω</td></tr>
+<tr><td>J<sub>N</sub>, R<sub>N</sub></td><td>Norton generator: short-circuit current and resistance (R<sub>N</sub> = R<sub>th</sub>)</td><td>A, Ω</td></tr>
+<tr><td>R<sub>a</sub>…, R<sub>ab</sub>…</td><td>Resistances of a star (wye) network; resistances of the equivalent delta</td><td>Ω</td></tr>
+<tr><th colspan="3">1.3 Sinusoidal steady state</th></tr>
+<tr><td>u(t), i(t)</td><td>Instantaneous values of voltage and current</td><td>V, A</td></tr>
+<tr><td>U, I</td><td>RMS values; U<sub>avg</sub>: mean value over a period</td><td>V, A</td></tr>
+<tr><td>T, f, ω</td><td>Period; frequency f = 1/T; angular frequency ω = 2πf</td><td>s, Hz, rad/s</td></tr>
+<tr><td>Ψ<sub>u</sub>, Ψ<sub>i</sub></td><td>Initial phases of voltage and current</td><td>rad or °</td></tr>
+<tr><td><u>U</u>, <u>I</u>, <u>E</u></td><td>Complex amplitudes (phasors): magnitude = RMS value, argument = phase</td><td>V, A</td></tr>
+<tr><td>j</td><td>Imaginary unit (j² = −1)</td><td>—</td></tr>
+<tr><td>Z = R + jX</td><td>Complex impedance: resistance R and reactance X (X = Lω or −1/(Cω))</td><td>Ω</td></tr>
+<tr><td>φ</td><td>Phase shift between voltage and current, φ = arg Z</td><td>rad or °</td></tr>
+<tr><td>Y = G + jB</td><td>Admittance Y = 1/Z: conductance G and susceptance B</td><td>S</td></tr>
+<tr><th colspan="3">1.4 Power and reactive compensation</th></tr>
+<tr><td><u>S</u>, <u>I</u>*</td><td>Complex apparent power <u>S</u> = <u>U</u>·<u>I</u>*; <u>I</u>*: conjugate of the current</td><td>VA</td></tr>
+<tr><td>P, Q, S</td><td>Active, reactive and apparent power</td><td>W, var, VA</td></tr>
+<tr><td>cos φ</td><td>Power factor P/S</td><td>—</td></tr>
+<tr><td>p(t)</td><td>Instantaneous power u(t)·i(t); its mean is P</td><td>W</td></tr>
+<tr><td>Q<sub>C</sub>, C</td><td>Reactive power of the compensation capacitors; their capacitance</td><td>var, F</td></tr>
+<tr><td>φ<sub>1</sub>, φ<sub>2</sub></td><td>Phase shifts before and after compensation</td><td>°</td></tr>
+<tr><th colspan="3">1.5 Resonance</th></tr>
+<tr><td>L, C</td><td>Inductance; capacitance</td><td>H, F</td></tr>
+<tr><td>ω<sub>0</sub>, f<sub>0</sub></td><td>Resonant angular frequency and frequency (LCω<sub>0</sub>² = 1)</td><td>rad/s, Hz</td></tr>
+<tr><td>ρ = √(L/C)</td><td>Characteristic impedance of the resonant circuit (not to be confused with resistivity)</td><td>Ω</td></tr>
+<tr><td>q<sub>u</sub></td><td>Quality (overvoltage) factor: U<sub>L</sub>/U = U<sub>C</sub>/U = ρ/R</td><td>—</td></tr>
+<tr><td>U<sub>L</sub>, U<sub>C</sub></td><td>Voltages across the inductor and the capacitor</td><td>V</td></tr>
+<tr><td>g, b, R<sub>1</sub>, R<sub>2</sub></td><td>Conductance and susceptance of a real parallel circuit; resistances of its two branches</td><td>S, Ω</td></tr>
+<tr><td>ω′<sub>0</sub></td><td>Resonant angular frequency of the real parallel circuit</td><td>rad/s</td></tr>
+<tr><th colspan="3">1.6 Three-phase systems</th></tr>
+<tr><td>e<sub>A</sub>, E<sub>m</sub></td><td>Instantaneous EMF of phase A; its amplitude</td><td>V</td></tr>
+<tr><td>V, U</td><td>Phase-to-neutral voltage; line-to-line voltage, U = √3·V</td><td>V</td></tr>
+<tr><td>I, J</td><td>Line current; current in a delta branch (I = √3·J)</td><td>A</td></tr>
+<tr><td>Y<sub>A</sub>, Y<sub>N</sub></td><td>Admittance of phase A (source + line + load); neutral admittance</td><td>S</td></tr>
+<tr><td>Z<sub>L</sub>, Z<sub>N</sub></td><td>Impedance of a line; impedance of the neutral conductor</td><td>Ω</td></tr>
+<tr><td>U<sub>O′O</sub>, I<sub>N</sub></td><td>Neutral displacement voltage; neutral current</td><td>V, A</td></tr>
+<tr><td>P<sub>W1</sub>, P<sub>W2</sub></td><td>Readings of the two wattmeters (two-wattmeter method)</td><td>W</td></tr>
+<tr><th colspan="3">1.7 Symmetrical components</th></tr>
+<tr><td>a</td><td>120° rotation operator: a = e<sup>j2π/3</sup></td><td>—</td></tr>
+<tr><td>K<sub>d</sub>, K<sub>i</sub>, K<sub>0</sub></td><td>Positive, negative and zero-sequence components of a set of quantities A, B, C</td><td>—</td></tr>
+<tr><td>Z<sub>1eq</sub>, Z<sub>2eq</sub>, Z<sub>0eq</sub></td><td>Thévenin impedances of the positive, negative and zero-sequence networks at the fault</td><td>Ω</td></tr>
+<tr><td>E<sub>1eq</sub></td><td>Thévenin EMF of the positive-sequence network at the fault</td><td>V</td></tr>
+<tr><td>I<sub>1</sub>, I<sub>2</sub>, I<sub>0</sub></td><td>Symmetrical components of the fault current; I<sub>A</sub> = 3·I<sub>1</sub> for a phase-to-earth fault</td><td>A</td></tr>
+</table>
+</details>
+
 <!-- ================================================================== -->
             <a href="#top" class="back-to-top">↑ Back to top</a>
         </div>

@@ -88,6 +88,29 @@ besoin, ou si elle est rentable. Ce niveau donne les outils pour le démontrer.<
 <p class="prereq">Prérequis : niveau 3. Durée : 10 à 12 h.</p>
 </div>
 
+<details class="notations"><summary>📐 Notations du niveau 4 : toutes les grandeurs utilisées dans les formules (cliquer pour afficher ou masquer)</summary>
+<table class="notations">
+<tr><th>Symbole</th><th>Grandeur</th><th>Unité</th></tr>
+<tr><td>C<sub>0</sub>, C<sub>n</sub></td><td>Coût d'un bien aujourd'hui ; son coût l'année n</td><td>F</td></tr>
+<tr><td>i</td><td>Taux d'inflation annuel</td><td>%/an</td></tr>
+<tr><td>a</td><td>Taux d'actualisation (coût du capital ; taux d'intérêt du projet)</td><td>%/an</td></tr>
+<tr><td>n, N</td><td>Année (0 = mise en service) ; durée d'étude (durée de vie du projet)</td><td>an</td></tr>
+<tr><td>F<sub>n</sub></td><td>Flux net de l'année n : recettes − dépenses (F<sub>0</sub> = −I<sub>0</sub>)</td><td>F</td></tr>
+<tr><td>VA, FA<sub>n</sub></td><td>Valeur actuelle d'un montant futur ; facteur d'actualisation 1/(1 + a)<sup>n</sup></td><td>F, —</td></tr>
+<tr><td>I<sub>0</sub></td><td>Investissement initial (net de subvention)</td><td>F</td></tr>
+<tr><td>s</td><td>Subvention : part de l'investissement prise en charge</td><td>%</td></tr>
+<tr><td>E&amp;M<sub>n</sub>, R<sub>n</sub></td><td>Dépenses d'exploitation-maintenance et de remplacement de l'année n</td><td>F</td></tr>
+<tr><td>V<sub>rés</sub></td><td>Valeur résiduelle des équipements en fin d'étude (part de durée de vie restante)</td><td>F</td></tr>
+<tr><td>C<sub>act</sub></td><td>Coût actualisé : somme actualisée de toutes les dépenses, valeur résiduelle déduite</td><td>F</td></tr>
+<tr><td>E<sub>n</sub></td><td>Énergie utile (vendue ou consommée) l'année n</td><td>kWh</td></tr>
+<tr><td>LCOE</td><td>Coût actualisé du kWh : C<sub>act</sub> / Σ E<sub>n</sub>/(1 + a)<sup>n</sup></td><td>F/kWh</td></tr>
+<tr><td>VAN</td><td>Valeur actuelle nette : somme des flux actualisés ; projet rentable si VAN ≥ 0</td><td>F</td></tr>
+<tr><td>TRI</td><td>Taux de rentabilité interne : taux a qui annule la VAN ; rentable si TRI ≥ a</td><td>%</td></tr>
+<tr><td>t, g</td><td>Tarif de l'énergie (prix de vente ou coût évité) ; évolution annuelle du tarif</td><td>F/kWh, %/an</td></tr>
+<tr><td>CRF, A</td><td>Facteur de récupération du capital ; annuité constante A = I·CRF</td><td>—, F/an</td></tr>
+</table>
+</details>
+
 <!-- ================================================================== -->
             <a href="#top" class="back-to-top">↑ Retour en haut</a>
         </div>
@@ -348,7 +371,8 @@ crédit), contrairement au groupe électrogène, dont le coût dépend surtout d
 <tr><th>Solution (ordres de grandeur, 20 ans, 8 %)</th><th>Coût du kWh</th><th>Poste dominant</th></tr>
 <tr><td>Centrale PV raccordée (exemple 4.2)</td><td class="num">≈ 50 F/kWh</td><td>investissement</td></tr>
 <tr><td>Groupe électrogène 5 kVA, 0,35 l/kWh, gasoil 750 F/l</td><td class="num">≈ 385 F/kWh</td><td>carburant (262 F/kWh)</td></tr>
-<tr><td>PV autonome avec batteries (case de santé, exemple 3.3)</td><td class="num">≈ 580 F/kWh</td><td>batteries (77 %)</td></tr>
+<tr><td>PV autonome avec batteries plomb (case de santé, exemple 3.3)</td><td class="num">≈ 730 F/kWh</td><td>batteries (87 %)</td></tr>
+<tr><td>Même case de santé, équipements au coût global minimal (batteries LFP)</td><td class="num">≈ 335 F/kWh</td><td>batteries (73 %)</td></tr>
 </table>
 <p>Le PV autonome paraît cher, mais il faut le comparer à la vraie alternative du site (groupe électrogène, extension de réseau sur
 plusieurs kilomètres) et à la valeur du service (chaîne du froid des vaccins). Une solution <b>hybride</b> PV-batterie-groupe, optimisée
@@ -359,7 +383,7 @@ au niveau 5, est souvent la moins chère.</p>
 <li><div class="step-content">Saisir les coûts de l'exemple 4.2 (installation 500 kF/kW, exploitation 15 kF/kW/an), tarif 60 F/kWh, 20 ans, inflation 3 %, actualisation 8 %.</div></li>
 <li><div class="step-content">Comparer VAN, TRI, temps de retour et LCOE à l'exemple 4.3. Les écarts viennent du calcul horaire (modèle I-V, température,
 écrêtage, pertes système) : les identifier dans le rapport.</div></li>
-<li><div class="step-content">Boutons <b>Tarif minimal</b> et <b>Subvention minimale</b> ; sous-onglet <b>Sensibilité</b> : exporter le tableau VAN = f(tarif, puissance).</div></li>
+<li><div class="step-content">Boutons <b>Minimum pour la rentabilité</b> placés sous les champs « Tarif de l'énergie PV » (tarif minimal) et « Subvention » (subvention minimale) ; sous-onglet <b>Sensibilité</b> : exporter le tableau VAN = f(tarif, puissance).</div></li>
 <li><div class="step-content">Refaire l'étude en <b>autonome</b> : comment évoluent le LCOE et la part des batteries ?</div></li>
 </ol>
 </div>

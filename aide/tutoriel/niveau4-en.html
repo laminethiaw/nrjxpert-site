@@ -88,6 +88,29 @@ profitable. This level gives the tools to demonstrate it.</div>
 <p class="prereq">Prerequisites: level 3. Duration: 10 to 12 h.</p>
 </div>
 
+<details class="notations"><summary>📐 Level 4 notation: every quantity used in the formulas (click to show or hide)</summary>
+<table class="notations">
+<tr><th>Symbol</th><th>Quantity</th><th>Unit</th></tr>
+<tr><td>C<sub>0</sub>, C<sub>n</sub></td><td>Cost of an item today; its cost in year n</td><td>F</td></tr>
+<tr><td>i</td><td>Annual inflation rate</td><td>%/yr</td></tr>
+<tr><td>a</td><td>Discount rate (cost of capital; interest rate of the project)</td><td>%/yr</td></tr>
+<tr><td>n, N</td><td>Year (0 = commissioning); study period (project lifetime)</td><td>yr</td></tr>
+<tr><td>F<sub>n</sub></td><td>Net cash flow of year n: revenue − expenditure (F<sub>0</sub> = −I<sub>0</sub>)</td><td>F</td></tr>
+<tr><td>VA, FA<sub>n</sub></td><td>Present value of a future amount; discount factor 1/(1 + a)<sup>n</sup></td><td>F, —</td></tr>
+<tr><td>I<sub>0</sub></td><td>Initial investment (net of subsidy)</td><td>F</td></tr>
+<tr><td>s</td><td>Subsidy: share of the investment covered</td><td>%</td></tr>
+<tr><td>E&amp;M<sub>n</sub>, R<sub>n</sub></td><td>Operation and maintenance, and replacement expenditure of year n</td><td>F</td></tr>
+<tr><td>V<sub>rés</sub></td><td>Residual value of the equipment at the end of the study (remaining life share)</td><td>F</td></tr>
+<tr><td>C<sub>act</sub></td><td>Discounted cost: discounted sum of all expenditure, residual value deducted</td><td>F</td></tr>
+<tr><td>E<sub>n</sub></td><td>Useful energy (sold or consumed) in year n</td><td>kWh</td></tr>
+<tr><td>LCOE</td><td>Levelised cost of energy: C<sub>act</sub> / Σ E<sub>n</sub>/(1 + a)<sup>n</sup></td><td>F/kWh</td></tr>
+<tr><td>VAN</td><td>Net present value (NPV): sum of the discounted cash flows; profitable if NPV ≥ 0</td><td>F</td></tr>
+<tr><td>TRI</td><td>Internal rate of return (IRR): rate a giving NPV = 0; profitable if IRR ≥ a</td><td>%</td></tr>
+<tr><td>t, g</td><td>Energy tariff (selling price or avoided cost); annual change of the tariff</td><td>F/kWh, %/yr</td></tr>
+<tr><td>CRF, A</td><td>Capital recovery factor; constant annuity A = I·CRF</td><td>—, F/yr</td></tr>
+</table>
+</details>
+
 <!-- ================================================================== -->
             <a href="#top" class="back-to-top">↑ Back to top</a>
         </div>
@@ -342,7 +365,8 @@ depends mainly on the price of diesel.</p>
 <tr><th>Solution (orders of magnitude, 20 years, 8 %)</th><th>Cost of the kWh</th><th>Dominant item</th></tr>
 <tr><td>Grid-connected PV plant (example 4.2)</td><td class="num">≈ 50 F/kWh</td><td>investment</td></tr>
 <tr><td>5 kVA genset, 0.35 l/kWh, diesel 750 F/l</td><td class="num">≈ 385 F/kWh</td><td>fuel (262 F/kWh)</td></tr>
-<tr><td>Stand-alone PV with batteries (health post, example 3.3)</td><td class="num">≈ 580 F/kWh</td><td>batteries (77 %)</td></tr>
+<tr><td>Stand-alone PV with lead-acid batteries (health post, example 3.3)</td><td class="num">≈ 730 F/kWh</td><td>batteries (87 %)</td></tr>
+<tr><td>Same health post, equipment at lowest life-cycle cost (LFP batteries)</td><td class="num">≈ 335 F/kWh</td><td>batteries (73 %)</td></tr>
 </table>
 <p>Stand-alone PV looks expensive, but it must be compared with the real alternative on the site (genset, grid extension over several
 kilometres) and with the value of the service (vaccine cold chain). A <b>hybrid</b> PV-battery-genset solution, optimised at level 5, is often the
@@ -353,7 +377,7 @@ cheapest.</p>
 <li><div class="step-content">Enter the costs of example 4.2 (installation 500 kF/kW, operation 15 kF/kW/yr), tariff 60 F/kWh, 20 years, inflation 3 %, discount rate 8 %.</div></li>
 <li><div class="step-content">Compare NPV, IRR, payback and LCOE with example 4.3. The differences come from the hourly calculation (I-V model, temperature, clipping,
 system losses): identify them in the report.</div></li>
-<li><div class="step-content"><b>Minimum tariff</b> and <b>Minimum subsidy</b> buttons; <b>Sensitivity</b> sub-tab: export the table NPV = f(tariff, power).</div></li>
+<li><div class="step-content"><b>Minimum for profitability</b> buttons placed below the “PV energy tariff” field (minimum tariff) and the “Subsidy” field (minimum subsidy); <b>Sensitivity</b> sub-tab: export the table NPV = f(tariff, power).</div></li>
 <li><div class="step-content">Repeat the study as <b>stand-alone</b>: how do the LCOE and the share of the batteries change?</div></li>
 </ol>
 </div>

@@ -95,6 +95,57 @@
 <p class="prereq">Prérequis : niveau 1, calcul matriciel élémentaire. Durée : 24 à 30 h.</p>
 </div>
 
+<details class="notations"><summary>📐 Notations du niveau 2 : toutes les grandeurs utilisées dans les formules (cliquer pour afficher ou masquer)</summary>
+<table class="notations">
+<tr><th>Symbole</th><th>Grandeur</th><th>Unité</th></tr>
+<tr><th colspan="3">2.1 Lignes et câbles</th></tr>
+<tr><td>V<sub>S</sub>, I<sub>S</sub>, V<sub>R</sub>, I<sub>R</sub></td><td>Tension simple et courant au départ (S) et à l'arrivée (R) de la ligne</td><td>V, A</td></tr>
+<tr><td>A, B, C, D</td><td>Constantes du quadripôle équivalent à la ligne (AD − BC = 1)</td><td>—, Ω, S, —</td></tr>
+<tr><td>r, L, g, C</td><td>Résistance, inductance, conductance et capacité linéiques</td><td>Ω/km, H/km, S/km, F/km</td></tr>
+<tr><td>z, y</td><td>Impédance série et admittance shunt linéiques : z = r + jLω, y = g + jCω</td><td>Ω/km, S/km</td></tr>
+<tr><td>γ = α + jβ</td><td>Constante de propagation : affaiblissement α et déphasage β</td><td>1/km</td></tr>
+<tr><td>Z<sub>c</sub></td><td>Impédance caractéristique (d'onde) √(z/y)</td><td>Ω</td></tr>
+<tr><td>x</td><td>Distance comptée depuis l'arrivée de la ligne</td><td>km</td></tr>
+<tr><td>SIL</td><td>Puissance naturelle : puissance transportée sans échange de réactif, U<sub>n</sub>²/Z<sub>c</sub></td><td>W</td></tr>
+<tr><td>U<sub>n</sub></td><td>Tension nominale composée du réseau</td><td>V</td></tr>
+<tr><td>vR %</td><td>Régulation de tension : écart relatif entre la tension d'arrivée à vide et en charge</td><td>%</td></tr>
+<tr><td>S<sub>S</sub>, S<sub>R</sub>, S<sub>L</sub>, η</td><td>Puissances complexes au départ et à l'arrivée ; pertes S<sub>L</sub> = S<sub>S</sub> − S<sub>R</sub> ; rendement P<sub>R</sub>/P<sub>S</sub></td><td>VA, —</td></tr>
+<tr><th colspan="3">2.2 Transformateurs</th></tr>
+<tr><td>S<sub>n</sub></td><td>Puissance apparente nominale</td><td>VA</td></tr>
+<tr><td>u<sub>cc</sub></td><td>Tension de court-circuit (en p.u. ou en %) : tension qui fait circuler le courant nominal secondaire en court-circuit</td><td>p.u., %</td></tr>
+<tr><td>P<sub>cc</sub></td><td>Pertes en court-circuit (pertes cuivre au courant nominal)</td><td>W</td></tr>
+<tr><td>Z<sub>cc</sub>, R<sub>cc</sub>, X<sub>cc</sub></td><td>Impédance, résistance et réactance de court-circuit ramenées au côté de tension U</td><td>Ω</td></tr>
+<tr><th colspan="3">2.3 Système per-unit</th></tr>
+<tr><td>S<sub>b</sub>, U<sub>b</sub></td><td>Puissance et tension (composée) de base choisies</td><td>VA, V</td></tr>
+<tr><td>Z<sub>b</sub>, I<sub>b</sub>, V<sub>b</sub></td><td>Impédance, courant et tension simple de base qui s'en déduisent</td><td>Ω, A, V</td></tr>
+<tr><td>z<sub>pu</sub>, %z</td><td>Impédance réduite Z/Z<sub>b</sub> ; même grandeur en pourcentage</td><td>p.u., %</td></tr>
+<tr><th colspan="3">2.4 Chute de tension et pertes</th></tr>
+<tr><td>R, X</td><td>Résistance et réactance de la liaison</td><td>Ω</td></tr>
+<tr><td>P, Q</td><td>Puissances active et réactive transportées</td><td>W, var</td></tr>
+<tr><td>ΔU/U, ΔP</td><td>Chute de tension relative ; pertes actives de la liaison</td><td>—, W</td></tr>
+<tr><th colspan="3">2.5 et 2.6 Load flow</th></tr>
+<tr><td>S<sub>i</sub> = P<sub>i</sub> + jQ<sub>i</sub></td><td>Puissance complexe injectée au nœud i (production − consommation)</td><td>VA</td></tr>
+<tr><td>V<sub>i</sub>, |V<sub>i</sub>|, δ<sub>i</sub></td><td>Tension complexe du nœud i, son module et son angle</td><td>V ou p.u., rad</td></tr>
+<tr><td>Y<sub>ik</sub>, |Y<sub>ik</sub>|, θ<sub>ik</sub></td><td>Terme de la matrice d'admittance nodale, son module et son argument</td><td>S, rad</td></tr>
+<tr><td>Y<sub>bus</sub>, Z<sub>bus</sub></td><td>Matrices d'admittance et d'impédance nodales</td><td>S, Ω</td></tr>
+<tr><td>y<sub>ij</sub>, y<sub>i0</sub></td><td>Admittance série de la ligne i-j ; admittance shunt au nœud i (demi-capacité de ligne)</td><td>S</td></tr>
+<tr><td>I<sub>ij</sub>, S<sub>ij</sub>, S<sub>L,ij</sub></td><td>Courant et puissance transitant de i vers j ; pertes de la ligne</td><td>A, VA</td></tr>
+<tr><td>n, ΔP, ΔQ</td><td>Numéro d'itération ; écarts de puissance (spécifiée − calculée)</td><td>—, W, var</td></tr>
+<tr><td>J, Δδ, Δ|V|</td><td>Jacobien (dérivées partielles de P et Q) ; corrections des angles et des modules</td><td>—</td></tr>
+<tr><td>E, X<sub>d</sub>, δ</td><td>F.é.m. interne d'une machine synchrone ; réactance synchrone ; angle de charge</td><td>V, Ω, rad</td></tr>
+<tr><th colspan="3">2.7 Court-circuit</th></tr>
+<tr><td>V<sub>0</sub>, V<sub>1</sub>, V<sub>2</sub></td><td>Composantes homopolaire, directe et inverse</td><td>V</td></tr>
+<tr><td>Z<sub>A</sub>, Z<sub>B</sub>, Z<sub>0m</sub></td><td>Impédances homopolaires de deux lignes parallèles ; impédance mutuelle homopolaire entre elles</td><td>Ω</td></tr>
+<tr><th colspan="3">2.9 Répartition économique</th></tr>
+<tr><td>C<sub>i</sub> = α<sub>i</sub> + β<sub>i</sub>P<sub>i</sub> + γ<sub>i</sub>P<sub>i</sub>²</td><td>Coût horaire du groupe i et coefficients de sa courbe de coût</td><td>F/h</td></tr>
+<tr><td>P<sub>i</sub>, P<sub>i,min</sub>, P<sub>i,max</sub></td><td>Puissance produite par le groupe i et ses limites</td><td>MW</td></tr>
+<tr><td>λ</td><td>Coût marginal du système (multiplicateur de Lagrange)</td><td>F/MWh</td></tr>
+<tr><td>P<sub>D</sub>, P<sub>L</sub></td><td>Demande totale ; pertes de transport</td><td>MW</td></tr>
+<tr><td>B<sub>ij</sub>, B<sub>0i</sub>, B<sub>00</sub></td><td>Coefficients de pertes (formule de Kron)</td><td>1/MW, —, MW</td></tr>
+<tr><td>L<sub>i</sub></td><td>Facteur de pénalité du groupe i : 1/(1 − ∂P<sub>L</sub>/∂P<sub>i</sub>)</td><td>—</td></tr>
+</table>
+</details>
+
 <!-- ================================================================== -->
             <a href="#top" class="back-to-top">↑ Retour en haut</a>
         </div>

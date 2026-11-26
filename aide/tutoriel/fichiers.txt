@@ -39,6 +39,7 @@ exemples/opf_microreseau.xml
 exemples/pv_case_de_sante.nxpv
 exemples/pv_village.nxpv
 exemples/pompage_village.nxpomp
+exemples/eol_saint_louis.nxeol
 exemples/timeSeries_ieee33.xml
 exemples/flisr_deux_departs.xml
 exemples/ivvc_ieee33.xml

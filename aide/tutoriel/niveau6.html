@@ -101,6 +101,21 @@ comprendre les fonctions avancées du centre de conduite, les simuler avec NRJXp
 octobre 2026). Les calculs sont faits par le serveur NRJXpert. Durée : 38 h et un projet.</p>
 </div>
 
+<details class="notations"><summary>📐 Notations du niveau 6 : toutes les grandeurs utilisées dans les formules (cliquer pour afficher ou masquer)</summary>
+<table class="notations">
+<tr><th>Symbole</th><th>Grandeur</th><th>Unité</th></tr>
+<tr><td>SAIDI</td><td>Durée moyenne de coupure par client desservi : Σ(N<sub>i</sub>·t<sub>i</sub>)/N<sub>T</sub></td><td>min/an</td></tr>
+<tr><td>SAIFI</td><td>Nombre moyen de coupures par client desservi : ΣN<sub>i</sub>/N<sub>T</sub></td><td>/an</td></tr>
+<tr><td>MAIFI</td><td>Fréquence moyenne des coupures brèves (≤ 3 min CEI, ≤ 5 min IEEE)</td><td>/an</td></tr>
+<tr><td>ASAI</td><td>Disponibilité moyenne du service : 1 − SAIDI/525 600</td><td>—</td></tr>
+<tr><td>END</td><td>Énergie non distribuée : Σ puissance coupée × durée</td><td>kWh</td></tr>
+<tr><td>N<sub>i</sub>, t<sub>i</sub>, N<sub>T</sub></td><td>Clients coupés par l'incident i ; durée de la coupure ; clients desservis</td><td>—, min, —</td></tr>
+<tr><td>P(V), P<sub>0</sub>, v</td><td>Puissance d'une charge sous la tension V ; puissance à la tension nominale ; tension réduite v = V/V<sub>n</sub></td><td>W, W, p.u.</td></tr>
+<tr><td>Z, I, P (modèle ZIP)</td><td>Parts de la charge à impédance, à courant et à puissance constants (Z + I + P = 1)</td><td>—</td></tr>
+<tr><td>CVRf</td><td>Facteur de réduction de consommation par baisse de tension : ΔP/P = CVRf × ΔV/V ≈ 2Z + I</td><td>—</td></tr>
+</table>
+</details>
+
 <!-- ================================================================== -->
             <a href="#top" class="back-to-top">↑ Retour en haut</a>
         </div>

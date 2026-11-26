@@ -261,7 +261,18 @@ essais IEEE 2030.8, AMI, OpenADR, IEC 62443), Ouvrir un exemple du tutoriel, Gui
 <tr><td><kbd>Cmd/Ctrl+,</kbd></td><td>Paramètres du calcul et du serveur</td><td></td><td></td></tr>
 </table>
 <h3 id="langues">3.3 Langues</h3>
-<p>Options › Langue ou le bouton à globe de la barre d'outils : français ou anglais (le pulaar sera ajouté plus tard). La fenêtre principale change de langue immédiatement ; la langue est mémorisée. Ce guide s'ouvre en anglais si l'anglais est choisi, en français sinon. Les fenêtres PV et éolien sont en français.</p>
+<p>Options › Langue ou le bouton à globe de la barre d'outils : français ou anglais (le pulaar sera ajouté plus tard). La fenêtre principale change de langue immédiatement ; la langue est mémorisée. Ce guide s'ouvre en anglais si l'anglais est choisi, en français sinon. Les fenêtres PV, éolien et pompage solaire suivent la langue choisie (bouton à globe de leur barre d'outils).</p>
+<h3 id="fenetres-calcul">3.4 Fenêtres de calcul : zones redimensionnables, exporter et copier</h3>
+<ul>
+<li><b>Zones redimensionnables</b> : dans les fenêtres Systèmes photovoltaïques, Systèmes éoliens, Pompage solaire, Données météo du site et
+Aérogénérateurs, les différentes parties d'un onglet (saisies, résultats, tableaux, graphiques) sont séparées par des lignes que l'on fait glisser à
+la souris pour agrandir l'une ou l'autre ; chaque partie a son ascenseur si son contenu dépasse.</li>
+<li><b>Exporter ▾ / Copier ▾</b> : au-dessus de chaque figure et de chaque tableau de ces fenêtres, à droite. Figure : <i>Exporter</i> l'image (PNG) ou
+les données (CSV) ; <i>Copier</i> l'image ou les données (à coller dans Excel ou un traitement de texte). Tableau : <i>Exporter</i> en CSV ou <i>Copier</i>
+vers Excel. Les figures et tableaux créés après un calcul ont aussi leurs boutons. Le clic droit sur une figure ou un tableau propose les mêmes actions.</li>
+<li><b>Fenêtre au premier plan</b> : une fenêtre de calcul ouverte depuis le menu Renouvelables passe devant la fenêtre principale.</li>
+<li><b>Calculer</b> (<kbd>F5</kbd>) affiche l'onglet des résultats.</li>
+</ul>
 
 <!-- ====================================================================== -->
             <a href="#top" class="back-to-top">↑ Retour en haut</a>
@@ -513,7 +524,7 @@ complète.</p>
 <li><div class="step-content"><b>Source</b> et <b>période</b> (voir tableau). La période est limitée à 20 ans pour les séries horaires.</div></li>
 <li><div class="step-content"><b>Calcul</b> : inclinaison des modules (fixe, optimale sur l'année, optimale pour le mois le plus défavorable), albédo, hauteur du moyeu, méthode d'extrapolation du vent (automatique, cisaillement mesuré, loi logarithmique, loi en puissance α = 1/7), nature du terrain (rugosité z₀), seuil des calmes.</div></li>
 <li><div class="step-content"><b>Télécharger et calculer</b> : la tâche tourne en arrière-plan (bouton Annuler). Les réponses sont gardées 90 jours dans <code>~/.nrjxpert/meteo/cache</code> : un second calcul sur le même site est immédiat.</div></li>
-<li><div class="step-content">Consultez les onglets Solaire, Vent, Température et air, Source et remarques ; « Exporter (CSV) » ; « Utiliser pour le PV » / « Utiliser pour l'éolien ».</div></li>
+<li><div class="step-content">Consultez les onglets Solaire, Vent, Température et air, Source et remarques ; « Exporter (CSV) ». « Utiliser pour le PV » / « Utiliser pour l'éolien » demande confirmation, transmet les données à la fenêtre concernée puis ferme la fenêtre météo ; le bouton <b>Fermer</b> la ferme sans rien transmettre.</div></li>
 </ol>
 <table>
 <tr><th>Jeu de données</th><th>Contenu</th><th>Remarques</th></tr>
@@ -586,7 +597,7 @@ facteur de groupement, cos φ, prix des conducteurs, de la pose et des protectio
 section la plus grande entre celle imposée par l'échauffement (<i>I</i><sub>z0</sub>·<i>k</i><sub>θ</sub>·<i>k</i><sub>g</sub> ≥ <i>I</i><sub>n</sub>, CEI 60364-5-52) et celle
 imposée par la chute de tension au courant nominal (NF C 15-100, UTE C15-712-1). Le coût (câbles, pose, protections) entre dans
 l'investissement, le coût global, le coût actualisé et le LCOE ; l'onglet 4 en donne le détail liaison par liaison. Le module éolien
-(onglet 5) fait de même pour les liaisons machine → électronique et électronique → raccordement ou batterie.</p>
+(onglet 6) fait de même pour les liaisons machine → électronique et électronique → raccordement ou batterie.</p>
 <p>Paramètres économiques : durée d'exploitation, durée d'amortissement, inflation, taux d'intérêt (aussi utilisé comme taux d'actualisation du LCOE).</p>
 
 <h3 id="pv-resultats">7.4 Onglet 4 — Résultats</h3>
@@ -603,7 +614,7 @@ l'investissement, le coût global, le coût actualisé et le LCOE ; l'onglet 4 e
 <li><div class="step-content"><b>Équipements</b> : module (Pc, Vmp, Imp, Voc, Isc, coût), onduleur (tension DC, kVA, coût), batterie et régulateur (autonome), autonomie en heures de production journalière moyenne. Équipements choisis dans les bases d'équipements (leurs valeurs ne sont pas modifiables ici).</div></li>
 <li><div class="step-content"><b>Données économiques</b> : exploitation-maintenance, installation, assurance (par kW), subvention, tarif et son évolution, durée de vie, inflation, taux d'actualisation.</div></li>
 <li><div class="step-content"><b>Paramètres du modèle…</b>  (barre d'outils de la fenêtre, à côté de « Bases d'équipements… » ; les <b>pertes du système, la NOCT et le coefficient de température</b> servent aussi au dimensionnement : facteur de pertes = 1 − pertes, température des cellules Ta + (NOCT − 20) à 800 W/m², correction de puissance par le coefficient) : cellules, conditions de référence, NOCT, coefficient de température de Pmax, pertes du système, dégradation, écrêtage, rendement et facteur de puissance de l'onduleur, profondeur de décharge, rendement et part stockée des batteries, durées de vie.</div></li>
-<li><div class="step-content"><b>Calculer</b> ; <b>Analyse de sensibilité</b> (VAN, TRI, tarif minimal en fonction de la puissance et du tarif ; export CSV) ; <b>Subvention minimale</b>, <b>Tarif minimal</b> ; <b>Rapport</b> (texte enregistrable).</div></li>
+<li><div class="step-content"><b>Calculer</b> (barre de l'onglet) ; dans les données économiques, sous le champ « Tarif de l'énergie PV » et sous le champ « Subvention », un bouton <b>Minimum pour la rentabilité</b> calcule le tarif minimal ou la subvention minimale (VAN = 0) et propose de l'appliquer ; <b>Analyse de sensibilité</b> (VAN, TRI, tarif minimal en fonction de la puissance et du tarif ; export CSV) ; <b>Valeurs par défaut</b> en bas du formulaire ; <b>Rapport</b> (texte enregistrable).</div></li>
 </ol>
 <p>Résultats : puissance installée, nombre de modules, onduleurs, batteries, régulateurs, énergie annuelle, productible (kWh/kWc/an) et indice de performance PR, investissement, VAN, TRI, temps de retour simple et actualisé, LCOE, tarif minimal, subvention minimale, graphiques (météo, production horaire et mensuelle, flux de trésorerie, sensibilité).</p>
 
@@ -619,36 +630,96 @@ réseau ne servent qu'à l'onglet 6). Une base personnelle antérieure à cette 
 <div class="warn">Les prix sont des ordres de grandeur : remplacez-les par des devis de vos fournisseurs avant une étude économique.</div>
 
 <h3 id="pv-methodes">7.8 Méthodes de calcul PV</h3>
+<p>La démarche complète, étape par étape, avec un exemple chiffré, est expliquée dans le tutoriel (niveau 3, § 3.3 et 3.4).</p>
+<details class="notations" open><summary>Notations</summary>
+<table class="notations">
+<tr><th>Symbole</th><th>Grandeur</th><th>Unité</th></tr>
+<tr><td>n, P, K<sub>u</sub>, K<sub>s</sub>, η</td><td>Nombre d'appareils, puissance d'un appareil, facteurs d'utilisation et de simultanéité, rendement de l'appareil</td><td>—, W, —, —, —</td></tr>
+<tr><td>h, j</td><td>Heures de marche par jour ; jours d'utilisation par semaine</td><td>h/j, j/sem.</td></tr>
+<tr><td>E<sub>j</sub>, S<sub>max</sub></td><td>Énergie journalière des récepteurs ; puissance apparente de l'heure la plus chargée</td><td>Wh/j, VA</td></tr>
+<tr><td>U</td><td>Tension du bus continu (batterie, régulateur, entrée de l'onduleur)</td><td>V</td></tr>
+<tr><td>η<sub>conv</sub>, η<sub>câbles</sub>, η<sub>bat</sub></td><td>Rendements du convertisseur du récepteur (0,9 ; 1 en continu à la tension U), des câbles (0,98), de la batterie (0,9)</td><td>—</td></tr>
+<tr><td>Q<sub>j</sub>, m, Q′<sub>j</sub></td><td>Charge journalière demandée au bus ; marge de dimensionnement ; charge de dimensionnement Q<sub>j</sub>(1 + m)</td><td>Ah/j, %, Ah/j</td></tr>
+<tr><td>H, H<sub>dim</sub></td><td>Irradiation journalière sur le plan des modules (= heures de plein soleil) ; valeur de dimensionnement (mois le plus faible ou moyenne)</td><td>kWh/m²/j</td></tr>
+<tr><td>T<sub>a</sub>, T<sub>c</sub>, NOCT, γ</td><td>Températures ambiante et des cellules ; température nominale des cellules ; coefficient de température de P<sub>max</sub></td><td>°C, °C, °C, %/°C</td></tr>
+<tr><td>f<sub>T</sub></td><td>Facteur de température 1 + γ(T<sub>c</sub> − 25), T<sub>c</sub> = T<sub>a</sub> + (NOCT − 20)</td><td>—</td></tr>
+<tr><td>p, k<sub>p</sub></td><td>Pertes du système (« Paramètres du modèle », 8 % par défaut) ; facteur 1 − p</td><td>%, —</td></tr>
+<tr><td>η<sub>MPPT</sub></td><td>Rendement du convertisseur MPPT (0,96)</td><td>—</td></tr>
+<tr><td>P<sub>mod</sub>, V<sub>mp</sub>, I<sub>mp</sub>, V<sub>oc</sub>, I<sub>sc</sub></td><td>Puissance crête d'un module ; tension et courant au point de puissance maximale ; tension de circuit ouvert ; courant de court-circuit (STC)</td><td>Wc, V, A, V, A</td></tr>
+<tr><td>N<sub>s</sub>, N<sub>p</sub>, P<sub>c</sub></td><td>Modules en série par chaîne ; chaînes en parallèle ; puissance crête du champ</td><td>—, —, Wc</td></tr>
+<tr><td>I<sub>champ</sub>, P<sub>c,req</sub></td><td>Courant demandé au champ (PWM) ; puissance crête demandée (MPPT)</td><td>A, Wc</td></tr>
+<tr><td>Aut, C, C<sub>bat</sub>, U<sub>bat</sub>, DoD</td><td>Autonomie ; capacité à prélever ; capacité et tension d'une batterie ; profondeur de décharge</td><td>h, Ah, Ah, V, %</td></tr>
+<tr><td>I<sub>reg</sub>, I<sub>e,max</sub>, V<sub>e,max</sub>, k</td><td>Courant nominal d'un régulateur ; courant et tension d'entrée maximaux ; chaînes par régulateur</td><td>A, A, V, —</td></tr>
+<tr><td>S<sub>ond</sub></td><td>Puissance nominale d'un onduleur</td><td>VA</td></tr>
+<tr><td>E<sub>prod,m</sub>, E<sub>bes,m</sub>, d<sub>m</sub>, τ</td><td>Production et besoins du mois m sur le bus ; jours du mois ; taux de couverture</td><td>kWh, kWh, j, %</td></tr>
+</table>
+</details>
 <h4>Conversion horizontal → plan des modules (jour moyen du mois, Klein)</h4>
 <div class="eq">H<sub>β</sub> = H·[(1 − H<sub>d</sub>/H)·R<sub>b</sub> + (H<sub>d</sub>/H)·(1 + cos β)/2 + ρ<sub>sol</sub>·(1 − cos β)/2]</div>
-<p>H<sub>d</sub>/H : corrélation d'Erbs en fonction de K<sub>t</sub> = H/H<sub>0</sub> ; R<sub>b</sub> : rapport moyen du rayonnement direct incliné/horizontal (Liu-Jordan) ; albédo 0,2.</p>
+<p>H<sub>d</sub>/H : fraction diffuse (corrélation d'Erbs en fonction de l'indice de clarté K<sub>t</sub> = H/H<sub>0</sub>, H<sub>0</sub> : irradiation hors
+atmosphère) ; R<sub>b</sub> : rapport moyen du rayonnement direct incliné/horizontal (Liu-Jordan) ; β : inclinaison ; ρ<sub>sol</sub> : albédo (0,2).</p>
 <h4>Besoins et charge de la batterie</h4>
-<div class="eq">E<sub>j</sub> = Σ n·P·K<sub>u</sub>·K<sub>s</sub>/η · h · (jours/7) &nbsp;&nbsp; Q<sub>j</sub> (Ah/j) = E<sub>j</sub> / (U<sub>bus</sub>·η<sub>conv</sub>·η<sub>câbles</sub>·η<sub>bat</sub>)</div>
-<h4>Champ PV — régulateur PWM (modèle d'origine)</h4>
-<div class="eq">I<sub>champ</sub> = Q<sub>j</sub> / H<sub>dim</sub> ; N<sub>p</sub> = ⌈I<sub>champ</sub> / (0,9·I<sub>mp</sub>)⌉ ; N<sub>s</sub> = ⌈1,2·U<sub>bus</sub> / (0,9·V<sub>mp</sub>)⌉ ; E<sub>mois</sub> = U<sub>bus</sub>·N<sub>p</sub>·I<sub>mp</sub>·0,9·H·jours</div>
+<div class="eq">E<sub>j</sub> = Σ n·P·K<sub>u</sub>·K<sub>s</sub>/η · h · (j/7) &nbsp;&nbsp; Q<sub>j</sub> (Ah/j) = Σ E<sub>j,i</sub> / (U·η<sub>conv,i</sub>·η<sub>câbles</sub>·η<sub>bat</sub>) &nbsp;&nbsp; Q′<sub>j</sub> = Q<sub>j</sub>·(1 + m)</div>
+<h4>Champ PV — régulateur PWM</h4>
+<p>Le champ est relié directement à la batterie : il travaille à la tension de la batterie et fournit un courant. On le dimensionne en courant.</p>
+<div class="eq">I<sub>champ</sub> = Q′<sub>j</sub> / H<sub>dim</sub> ; N<sub>p</sub> = ⌈I<sub>champ</sub> / (k<sub>p</sub>·I<sub>mp</sub>)⌉ ; N<sub>s</sub> = ⌈1,2·U / (0,9·V<sub>mp</sub>)⌉ ; E<sub>prod,m</sub> = U·N<sub>p</sub>·I<sub>mp</sub>·k<sub>p</sub>·H<sub>m</sub>·d<sub>m</sub></div>
 <h4>Champ PV — régulateur MPPT</h4>
-<div class="eq">P<sub>c</sub> = Q<sub>j</sub>·U<sub>bus</sub> / (H<sub>dim</sub>·0,9·f<sub>T</sub>·η<sub>MPPT</sub>) ; f<sub>T</sub> = 1 − 0,004·(T<sub>c</sub> − 25), T<sub>c</sub> = T<sub>a</sub> + 25 °C ; η<sub>MPPT</sub> = 0,96 ; E<sub>mois</sub> = P<sub>c</sub>·H·0,9·f<sub>T</sub>·η<sub>MPPT</sub>·jours</div>
-<p>Chaîne de N<sub>s</sub> modules telle que V<sub>mp</sub> à chaud (cellules à 70 °C) dépasse 1,3·U<sub>bus</sub>. Le facteur 0,9 regroupe câbles, poussière, dispersion et vieillissement.</p>
-<h4>Batterie, régulateur, onduleur</h4>
-<div class="eq">C (Ah) = autonomie(h)·Q<sub>j</sub>/24 / DoD ; N<sub>s,bat</sub> = U<sub>bus</sub>/U<sub>bat</sub> ; régulateurs : 1,25·N<sub>p</sub>·I<sub>sc</sub> (PWM) ou 1,25·P<sub>c</sub>/U<sub>bus</sub> (MPPT) ; onduleurs : 1,25·S<sub>max</sub></div>
-<p>Toutes les quantités sont arrondies à l'entier supérieur. Le bilan est fait <b>mois par mois</b> sur le bus continu (production du champ ; besoins pertes de conversion, de câbles et de stockage comprises, le rendement de la batterie étant appliqué à toute l'énergie consommée, y compris celle que le champ fournit directement à l'onduleur : hypothèse prudente) : excès = Σ max(0, E<sub>prod</sub> − E<sub>besoin</sub>), déficit = Σ max(0, E<sub>besoin</sub> − E<sub>prod</sub>), taux de couverture = Σ min(E<sub>prod</sub>, E<sub>besoin</sub>) / Σ E<sub>besoin</sub>.</p>
+<p>Le convertisseur fait travailler le champ à sa puissance maximale quelle que soit la tension de la batterie. On le dimensionne en puissance.</p>
+<div class="eq">P<sub>c,req</sub> = Q′<sub>j</sub>·U / (H<sub>dim</sub>·k<sub>p</sub>·f<sub>T</sub>·η<sub>MPPT</sub>) ; N<sub>s</sub> = ⌈1,3·U / (V<sub>mp</sub>·(1 + 45γ))⌉ ; N<sub>p</sub> = ⌈P<sub>c,req</sub> / (N<sub>s</sub>·P<sub>mod</sub>)⌉ ; E<sub>prod,m</sub> = P<sub>c</sub>·H<sub>m</sub>·k<sub>p</sub>·f<sub>T,m</sub>·η<sub>MPPT</sub>·d<sub>m</sub></div>
+<p>La chaîne reste au-dessus de 1,3·U même avec des cellules à 70 °C (facteur 1 + 45γ = 0,82) ; sa tension de circuit ouvert à froid 1,1·N<sub>s</sub>·V<sub>oc</sub>
+doit rester inférieure à V<sub>e,max</sub> du régulateur.</p>
+<h4>Batterie, régulateurs, onduleur</h4>
+<div class="eq">C = Q′<sub>bat</sub>·Aut/24 ; N<sub>bs</sub> = U/U<sub>bat</sub> ; N<sub>bp</sub> = ⌈C/(C<sub>bat</sub>·DoD)⌉ &nbsp;&nbsp; (DoD recommandée par la base si elle en donne une)<br>
+régulateurs : k = ⌊min(I<sub>e,max</sub>/(1,25·I<sub>sc</sub>) ; I<sub>reg</sub>/I<sub>sortie,chaîne</sub>)⌋, I<sub>sortie,chaîne</sub> = 1,25·N<sub>s</sub>·P<sub>mod</sub>/U (MPPT) ou 1,25·I<sub>sc</sub> (PWM) ; N<sub>reg</sub> = ⌈N<sub>p</sub>/k⌉<br>
+onduleurs : N<sub>ond</sub> = ⌈1,25·S<sub>max</sub>/S<sub>ond</sub>⌉ (onduleurs autonomes dont la tension continue est U)</div>
+<p>Toutes les quantités sont arrondies à l'entier supérieur. Le bilan est fait <b>mois par mois</b> sur le bus continu (besoins E<sub>bes,m</sub> = Q<sub>j</sub>·U·d<sub>m</sub>,
+pertes de conversion, de câbles et de stockage comprises, le rendement de la batterie étant appliqué à toute l'énergie consommée : hypothèse prudente) :
+excès = Σ max(0, E<sub>prod,m</sub> − E<sub>bes,m</sub>), déficit = Σ max(0, E<sub>bes,m</sub> − E<sub>prod,m</sub>), taux de couverture
+τ = Σ min(E<sub>prod,m</sub>, E<sub>bes,m</sub>) / Σ E<sub>bes,m</sub>.</p>
 <h4>Coûts</h4>
 <p><b>Coût global</b> (méthode d'origine) = annuités d'amortissement de l'investissement sur la durée d'amortissement + entretien et remplacements sur la durée d'exploitation (avec inflation) ; coût du kWh = coût global / énergie utile annuelle / durée. <b>Coût actualisé</b> et <b>LCOE</b> : voir <a href="#economie">méthodes économiques</a>.</p>
 <h4>Viabilité : modèle du module</h4>
-<p>Modèle à une diode : I = I<sub>sc</sub>·(1 − exp((V − V<sub>oc</sub> + I·R<sub>s</sub>)/(N<sub>s</sub>·n·V<sub>t</sub>))), n = 1,5 ; R<sub>s</sub> déduit du facteur de forme ; courant résolu par dichotomie, point de puissance maximale par section dorée ; puissance calée sur V<sub>mp</sub>·I<sub>mp</sub> aux conditions de référence ; dV<sub>oc</sub>/dT calé sur le coefficient de température de P<sub>max</sub>.</p>
-<div class="eq">T<sub>c</sub> = T<sub>a</sub> + (NOCT − 20)/800·S ; P<sub>AC</sub> = min(η<sub>ond</sub>·(1 − pertes)·N<sub>s</sub>·N<sub>p</sub>·P<sub>mod</sub>(S, T<sub>c</sub>), P<sub>ond</sub>)</div>
-<p>Énergie de l'année y : E<sub>1</sub>·(1 − d)<sup>y−1</sup> ; en autonome, × [(1 − f) + f·η<sub>bat</sub>] (f : part stockée). Stockage d'un groupe : énergie journalière moyenne × autonomie/24 / (DoD·η<sub>bat</sub>).</p>
+<p>Modèle à une diode : I = I<sub>sc</sub>·(1 − exp((V − V<sub>oc</sub> + I·R<sub>s</sub>)/(N<sub>cell</sub>·n·V<sub>t</sub>))), n = 1,5 (facteur d'idéalité) ; V<sub>t</sub> : tension thermique kT/q ;
+N<sub>cell</sub> : cellules en série ; R<sub>s</sub> : résistance série déduite du facteur de forme ; courant résolu par dichotomie, point de puissance maximale par section dorée ;
+puissance calée sur V<sub>mp</sub>·I<sub>mp</sub> aux conditions de référence ; dV<sub>oc</sub>/dT calé sur le coefficient de température de P<sub>max</sub>.</p>
+<div class="eq">T<sub>c</sub> = T<sub>a</sub> + (NOCT − 20)/800·G ; P<sub>AC</sub> = min(η<sub>ond</sub>·(1 − p)·N<sub>s</sub>·N<sub>p</sub>·P<sub>mod</sub>(G, T<sub>c</sub>), P<sub>ond</sub>)</div>
+<p>G : éclairement horaire (W/m²) ; η<sub>ond</sub>, P<sub>ond</sub> : rendement et puissance nominale de l'onduleur (écrêtage). Énergie de l'année y : E<sub>1</sub>·(1 − d)<sup>y−1</sup> (d : dégradation annuelle) ;
+en autonome, × [(1 − f) + f·η<sub>bat</sub>] (f : part de l'énergie qui passe par la batterie). Stockage d'un groupe : énergie journalière moyenne × autonomie/24 / (DoD·η<sub>bat</sub>).</p>
 
 <h3 id="pv-pompage">7.9 Pompage solaire</h3>
 <p>Bouton <b>Pompage solaire…</b> de la fenêtre Systèmes photovoltaïques (ou menu <b>Renouvelables</b> › Pompage solaire). La fenêtre dimensionne et simule un système de pompage photovoltaïque <b>au fil du soleil</b> (stockage de l'eau dans un réservoir) ou <b>avec batterie</b>. Les projets s'enregistrent au format <code>.nxpomp</code>. L'exemple du cours « Le pompage photovoltaïque » (village de 500 habitants, 25 m³/j, HMT 15 m, ensoleillement 5 h, marge 0 %) s'ouvre par <b>Aide › Ouvrir un exemple du tutoriel…</b> › <code>pompage_village.nxpomp</code> (§ 3.8 du tutoriel, niveau 3).</p>
 <ul>
 <li><b>1. Site et mesures</b> : ensoleillement et température mensuels (données en ligne, fichier, collage depuis Excel ou saisie), conversion sur le plan des modules.</li>
-<li><b>2. Besoins en eau</b> : population (l/hab/j), bétail en UBT (bovin 1, ovin ou caprin 0,2, âne 0,3, cheval 1,2, dromadaire 1,5 ; l/UBT/j), irrigation (surface × besoin net / efficience), autres besoins, pertes de distribution, coefficient de chaque mois et profil horaire de consommation.</li>
+<li><b>2. Besoins en eau</b> : population (l/hab/j), bétail en <b>UBT</b> (unité de bétail tropical, animal de référence de 250 kg ; la légende de l'onglet rappelle les équivalences : bovin 1, ovin ou caprin 0,2, âne 0,3, cheval 1,2, dromadaire 1,5 ; l/UBT/j), irrigation (surface × besoin net / efficience), autres besoins, pertes de distribution, coefficient de chaque mois et <b>profil horaire de consommation</b> : profils types (village, uniforme, irrigation, journée) ou <b>personnalisé</b> (ligne « Profil personnalisé », bouton <b>Modifier les 24 valeurs…</b> : 24 valeurs saisies en <i>part du volume journalier (%)</i> ou en <i>volume d'eau par heure (m³)</i>, collage depuis Excel, modèle de départ au choix ; la répartition est ramenée à 100 %).</li>
 <li><b>3. Puits et conduite</b> : HMT saisie, ou calculée à partir du niveau statique, du rabattement (fixe ou débit/débit spécifique), de la hauteur d'arrivée dans le réservoir et du dénivelé ; pertes de charge forfaitaires (% de HG) ou par Darcy-Weisbach. Courbe HMT(Q) du réseau.</li>
 <li><b>4. Pompe et dimensionnement</b> : type de pompe (conseil de choix d'après le cours), pompe choisie dans la base (onglet « Pompes » de la base d'équipements : 26 pompes centrifuges, volumétriques et flottantes avec leur plage de HMT et de débit) ou caractéristiques saisies, configuration, rendements, <b>marge de dimensionnement</b> (10 % par défaut : majore les besoins avant le calcul du débit, du champ, du réservoir et de la simulation), seuil de démarrage, durée de pompage, méthode de calcul de la puissance crête, module, tension, batterie et réservoir. Résultats mois par mois.</li>
-<li><b>5. Simulation</b> : simulation heure par heure sur les journées types du site ; bilan mensuel, journée type, niveau du réservoir, point de fonctionnement, rapport.</li>
+<li><b>5. Simulation</b> : simulation heure par heure sur les journées types du site ; bilan mensuel, journée type (quatre graphiques séparés par des lignes déplaçables), niveau du réservoir, point de fonctionnement, rapport.</li>
 <li><b>6. Viabilité économique</b> : investissement, coût actualisé du m³, comparaison avec une motopompe diesel.</li>
 </ul>
+<p><b>Calculer</b> (<kbd>F5</kbd>) dimensionne, simule et affiche les résultats de l'onglet 4.</p>
+<details class="notations" open><summary>Notations du pompage</summary>
+<table class="notations">
+<tr><th>Symbole</th><th>Grandeur</th><th>Unité</th></tr>
+<tr><td>ΔQ (ou V)</td><td>Volume d'eau journalier à pomper (besoins + pertes de distribution, marge comprise)</td><td>m³/j</td></tr>
+<tr><td>UBT</td><td>Unité de bétail tropical (bovin 1, ovin ou caprin 0,2, âne 0,3, cheval 1,2, dromadaire 1,5)</td><td>—</td></tr>
+<tr><td>HG, N<sub>s</sub>, R, h<sub>réservoir</sub></td><td>Hauteur géométrique ; niveau statique ; rabattement ; hauteur d'arrivée dans le réservoir</td><td>m</td></tr>
+<tr><td>P<sub>C</sub>, HMT</td><td>Pertes de charge (m de colonne d'eau) ; hauteur manométrique totale HG + P<sub>C</sub></td><td>m</td></tr>
+<tr><td>Q, q<sub>s</sub></td><td>Débit ; débit spécifique du forage (débit par mètre de rabattement)</td><td>m³/h, m³/h/m</td></tr>
+<tr><td>λ, L, D, v, ε, Re, k<sub>sing</sub></td><td>Coefficient de frottement ; longueur, diamètre de la conduite ; vitesse de l'eau ; rugosité ; nombre de Reynolds ; pertes singulières (fraction des pertes linéaires)</td><td>—, m, m, m/s, m, —, —</td></tr>
+<tr><td>C<sub>H</sub></td><td>Constante hydraulique gρ/3 600 = 2,725 Wh/(m³·m)</td><td>Wh/(m³·m)</td></tr>
+<tr><td>η<sub>p</sub>, η<sub>m</sub>, η<sub>conv</sub>, R<sub>p</sub></td><td>Rendements de la pompe, du moteur, du convertisseur ; R<sub>p</sub> = η<sub>p</sub>η<sub>m</sub>η<sub>conv</sub></td><td>—</td></tr>
+<tr><td>E<sub>el</sub>, Ens</td><td>Énergie électrique journalière ; ensoleillement en heures de plein soleil</td><td>Wh/j, h/j</td></tr>
+<tr><td>η<sub>c</sub>, γ, T<sub>c</sub></td><td>Rendement du champ par rapport à sa puissance crête ; coefficient de température ; température des cellules</td><td>—, %/°C, °C</td></tr>
+<tr><td>P<sub>c</sub>, G</td><td>Puissance crête du champ ; éclairement de référence (800 W/m²)</td><td>Wc, W/m²</td></tr>
+<tr><td>ΔT, Q<sub>max</sub></td><td>Durée de pompage ; débit maximal à midi</td><td>h, m³/h</td></tr>
+<tr><td>P<sub>H</sub>, P<sub>m</sub>, P<sub>el</sub>, P<sub>g</sub>, P<sub>n</sub></td><td>Puissances hydraulique, mécanique, électrique, du générateur PV ; puissance nominale de la motopompe</td><td>kW</td></tr>
+<tr><td>s, x</td><td>Seuil de démarrage (fraction de P<sub>n</sub>) ; puissance disponible rapportée à P<sub>n</sub></td><td>—</td></tr>
+<tr><td>U, U<sub>B</sub>, η<sub>B</sub>, DOD, Aut</td><td>Tension du système ; tension d'une batterie ; rendement ; profondeur de décharge ; autonomie (j)</td><td>V, V, —, —, j</td></tr>
+<tr><td>E<sub>Ah</sub>, C<sub>Bt</sub>, N<sub>Bs</sub></td><td>Charge journalière ; capacité de la batterie ; batteries en série</td><td>Ah/j, Ah, —</td></tr>
+<tr><td>LWSP</td><td>Probabilité de manque d'eau = déficit / besoins</td><td>—</td></tr>
+<tr><td>a, i, t</td><td>Taux d'actualisation ; inflation ; année</td><td>%, %, an</td></tr>
+</table>
+</details>
 <h4>Hauteur manométrique totale</h4>
 <div class="eq">HMT = HG + P<sub>C</sub> ; HG = N<sub>s</sub> + R + h<sub>réservoir</sub> + dénivelé ; R = Q / q<sub>s</sub> (q<sub>s</sub> : débit spécifique) ou fixe</div>
 <div class="eq">P<sub>C</sub> = λ·(L/D)·v²/2g·(1 + k<sub>sing</sub>) ; 1/√λ par Swamee-Jain : λ = 0,25 / [log<sub>10</sub>(ε/3,7D + 5,74/Re<sup>0,9</sup>)]² ; λ = 64/Re si Re &lt; 2000</div>
@@ -679,42 +750,122 @@ réseau ne servent qu'à l'onglet 6). Une base personnelle antérieure à cette 
         </div>
         <div class="section" id="wind">
             <h2><span class="section-icon">🌬️</span>8. Systèmes éoliens</h2>
-<p>Fenêtre à cinq onglets ; barre d'outils : Nouveau, Ouvrir, Enregistrer (<code>.nxeol</code>), Importer un projet EolXpert (<code>.EOL</code>), Aérogénérateurs (base), Aide, Calculer (<kbd>F5</kbd>).</p>
+<p>Menu <b>Renouvelables › Systèmes éoliens…</b>. Fenêtre à six onglets ; barre d'outils : Nouveau, Ouvrir, Enregistrer, Enregistrer sous
+(<code>.nxeol</code>), Bases d'équipements (aérogénérateurs, batteries, régulateurs, onduleurs), langue, Aide, <b>Calculer</b> (<kbd>F5</kbd>).
+Un projet EolXpert (<code>.EOL</code>) s'ouvre par <b>Aide › Ouvrir un exemple du tutoriel…</b> (type de fichier .eol). <b>Calculer</b> fait l'analyse du vent, la production, le dimensionnement et
+la viabilité, puis affiche l'onglet 5 où se trouvent les résultats. L'exemple du tutoriel (école de Saint-Louis, vent NASA POWER 2023) s'ouvre
+par <b>Aide › Ouvrir un exemple du tutoriel…</b> › <code>eol_saint_louis.nxeol</code> (§ 3.7 du tutoriel, niveau 3).</p>
 
 <h3 id="wind-site">8.1 Onglet 1 — Site et mesures</h3>
 <ul>
-<li><b>Nature du terrain</b> (rugosité z₀) : grande étendue d'eau (0,005 m), prairie rase (0,02), rase campagne (0,07), cultures et habitat dispersé (0,25), bocage, banlieue (0,40), zones urbaines et forêts (1,00).</li>
-<li><b>Hauteur des mesures</b> (anémomètre, souvent 10 m), <b>hauteur du moyeu</b>, <b>densité de l'air</b> (1,225 kg/m³ au niveau de la mer à 15 °C ; ≈ 1,17 à Dakar). Le rapport des vitesses et l'intensité de turbulence sont affichés.</li>
-<li><b>Données de vent</b> : <i>mesures</i> (une colonne de vitesses en m/s par mois, janvier en premier ; cellules vides = mesures absentes) importées d'Excel (.xls, .xlsx), d'un fichier .csv/.txt, collées depuis Excel, <b>Données en ligne…</b> ; ou <i>paramètres de Weibull mensuels</i> (c, k, % de calmes) à la hauteur des mesures.</li>
+<li><b>Nature du terrain</b> (rugosité z₀) : grande étendue d'eau (0,005 m), prairie rase (0,02), rase campagne (0,07), cultures et habitat
+dispersé (0,25), bocage, banlieue (0,40), zones urbaines et forêts (1,00).</li>
+<li><b>Hauteur des mesures</b> (anémomètre, généralement 10 m) et <b>hauteur du moyeu</b>. Dans un nouveau projet, la hauteur du moyeu est la
+<b>hauteur usuelle de l'aérogénérateur choisi</b> (base d'équipements : 12 m pour 1 kW, 15 m pour 3 kW, 18 m pour 5 kW, 24 m pour 10 et 20 kW,
+30 m pour 50 kW, 36 m pour 100 kW, 40 m pour 250 kW ; 24 m si la base n'en donne pas). Elle suit le changement d'aérogénérateur tant que vous ne
+la modifiez pas ; une valeur saisie est conservée. Le rapport des vitesses (moyeu / mesures) et l'intensité de turbulence sont affichés.</li>
+<li><b>Densité de l'air</b> (1,225 kg/m³ au niveau de la mer à 15 °C ; ≈ 1,17 à Dakar).</li>
+<li><b>Données de vent</b> : <i>mesures</i> (une colonne de vitesses en m/s par mois, janvier en premier ; cellules vides = mesures absentes)
+importées d'Excel (.xls, .xlsx), d'un fichier .csv/.txt, collées depuis Excel, ou <b>Données en ligne…</b> (fenêtre « Données météo du site ») ;
+ou <i>paramètres de Weibull mensuels</i> (c, k, % de calmes) à la hauteur des mesures. Seules des mesures chronologiques permettent la simulation
+horaire du stockage et l'optimisation (§ 8.5).</li>
 <li><b>Ajustement de Weibull</b> : maximum de vraisemblance (recommandé) ou régression sur la fréquence cumulée (méthode EolXpert).</li>
 </ul>
-<h3 id="wind-analyse">8.2 Onglet 2 — Analyse du vent</h3>
-<p>Pour l'année et chaque mois, à la hauteur du moyeu : nombre de mesures, calmes, vitesses moyenne et maximale, c, k, densité de puissance (W/m²), énergie récupérable (limite de Betz, kWh/m²). Graphiques : histogramme et loi de Weibull, grandeurs mensuelles.</p>
-<h3 id="wind-aero">8.3 Onglet 3 — Aérogénérateur</h3>
-<p>Choix dans la base ; caractéristiques (Pn, vitesses de démarrage, nominale et d'arrêt, diamètre, rendement moyen) ; courbe de puissance P = f(v) ; méthode : <b>courbe du constructeur</b> (recommandée) ou <b>rendement moyen</b>. La base (bouton « Aérogénérateurs… ») permet d'ajouter, dupliquer, supprimer des machines et de saisir ou coller la courbe point par point.</p>
-<p><b>Base fournie (novembre 2026)</b> : huit machines génériques de 1 à 250 kW (aimants permanents jusqu'à 20 kW, pas variable au-delà),
-avec courbe de puissance à ρ = 1,225 kg/m³, diamètre, hauteur de moyeu usuelle et prix indicatifs de la machine et du mât (en milliers de F CFA TTC à
-Dakar, à remplacer par des devis). Le bouton <b>Prix de la base</b> de l'onglet 5 reprend ces prix. Les machines d'EolXpert (2002) sont
-supprimées ; une base personnelle plus ancienne est renommée <code>aerogenerateurs.avant-2026-11.csv</code>.</p>
-<h3 id="wind-production">8.4 Onglet 4 — Production et dimensionnement</h3>
-<ul>
-<li><b>Marge de dimensionnement</b> (%) : majore les besoins utilisés pour le nombre de machines et le stockage (10 % par défaut pour les nouveaux projets, 0 % pour les anciens).</li>
-<li><b>Pertes de production</b> (%) : indisponibilité, pertes électriques, encrassement des pales (6 % par défaut) — production nette = brute × (1 − pertes).</li>
-<li><b>Besoins</b> (kWh/j) et <b>pertes jusqu'aux récepteurs</b> (stockage, conversion, câbles : 15 à 25 %).</li>
-<li>Résultats : énergie nette par mois et par an (brute rappelée), puissance moyenne, facteur de charge, couverture des besoins, production par classe de vent, nombre d'aérogénérateurs (mois le plus défavorable et bilan annuel), comparaison des machines de la base, contrôle sur la série de mesures.</li>
-</ul>
-<h3 id="wind-economics">8.5 Onglet 5 — Viabilité économique</h3>
-<ol class="steps">
-<li><div class="step-content"><b>Système</b> : raccordé au réseau (toute l'énergie nette est vendue, × rendement de conversion) ou autonome (énergie utile = min(production disponible, besoins) chaque mois ; batteries pour N jours d'autonomie). Nombre de machines : saisi, ou 0 pour reprendre le nombre de l'onglet 4.</div></li>
-<li><div class="step-content"><b>Investissement</b> : aérogénérateur (kF/kW), mât et fondations (kF/machine), électronique (kF/kW), batteries (kF/kWh), installation (% du matériel).</div></li>
-<li><div class="step-content"><b>Exploitation</b> : exploitation-maintenance et assurance (kF/kW/an), révision majeure (% du prix de la machine, année), durées de vie de l'électronique et des batteries.</div></li>
-<li><div class="step-content"><b>Données économiques</b> : tarif (prix de vente ou coût évité) et évolution, durée, inflation, actualisation, subvention, perte de production annuelle ; plage de tarifs de la sensibilité.</div></li>
-<li><div class="step-content"><b>Calculer</b>, <b>Tarif minimal</b>, <b>Subvention minimale</b>, <b>Valeurs par défaut</b>.</div></li>
-</ol>
-<p>Résultats : énergie vendue ou utile, facteur de charge, couverture, investissement, VAN, TRI, temps de retour simple et actualisé, LCOE, tarif minimal, subvention minimale ; graphiques des flux cumulés (simple et actualisé) et de l'énergie mensuelle ; <b>sensibilité</b> : VAN en fonction du tarif pour un vent de 80 à 120 % et LCOE en fonction du vent ; rapport enregistrable ; export CSV.</p>
-<div class="note">L'énergie éolienne varie très vite avec la vitesse du vent : un vent 10 % plus faible fait souvent perdre 15 à 25 % de l'énergie. La qualité des données de vent (mesures sur site d'au moins un an, à la hauteur du moyeu) compte plus que la précision des coûts.</div>
 
-<h3 id="wind-methodes">8.6 Méthodes de calcul éolien</h3>
+<h3 id="wind-besoins">8.2 Onglet 2 — Besoins</h3>
+<p>Mêmes infrastructures et récepteurs que dans la fenêtre PV (§ 7.2) : nombre, puissance, facteur de puissance, priorité, heures de marche,
+jours par semaine. Le besoin total (kWh/j), la part prioritaire et la pointe (kW) sont repris dans l'onglet 5 ; le <b>profil horaire</b> sert à la
+simulation du stockage. Le graphique « Profil journalier de puissance du site » affiche par défaut <b>toutes les charges</b> (liste « Afficher » :
+toutes les charges, charges prioritaires, ou une infrastructure). Sans infrastructure, le besoin journalier se saisit dans l'onglet 5 (profil
+uniforme).</p>
+
+<h3 id="wind-analyse">8.3 Onglet 3 — Analyse du vent</h3>
+<p>Pour l'année et chaque mois, à la hauteur du moyeu : nombre de mesures, calmes, vitesses moyenne et maximale, c, k, densité de puissance
+(W/m²), énergie récupérable (limite de Betz, kWh/m²). Graphiques : histogramme et loi de Weibull, grandeurs mensuelles. Bouton <b>Rose des vents
+et rose d'énergie…</b> quand les mesures comportent les directions.</p>
+
+<h3 id="wind-aero">8.4 Onglet 4 — Aérogénérateur</h3>
+<p>Choix dans la base ; caractéristiques (P<sub>n</sub>, vitesses de démarrage, nominale et d'arrêt, diamètre, surface balayée, rendement moyen) ;
+courbe de puissance P = f(v) ; méthode : <b>courbe du constructeur</b> (recommandée) ou <b>rendement moyen</b>. <b>Modifier la base…</b> permet
+d'ajouter, dupliquer ou supprimer des machines et de saisir ou coller la courbe point par point.</p>
+<p><b>Base fournie (novembre 2026)</b> : huit machines génériques de 1 à 250 kW (aimants permanents jusqu'à 20 kW, pas variable au-delà), avec
+courbe de puissance à ρ = 1,225 kg/m³, diamètre, hauteur de moyeu usuelle et prix indicatifs de la machine et du mât (en milliers de F CFA TTC à
+Dakar, à remplacer par des devis). Le bouton <b>Prix de la base</b> de l'onglet 6 reprend ces prix. Une base personnelle plus ancienne est
+renommée <code>aerogenerateurs.avant-2026-11.csv</code>.</p>
+
+<h3 id="wind-production">8.5 Onglet 5 — Production et dimensionnement</h3>
+<ul>
+<li><b>Besoins</b> (kWh/j ; calculés à partir de l'onglet 2 s'il y a des infrastructures), <b>marge de dimensionnement</b> (10 % par défaut :
+majore les besoins pris pour le nombre de machines et le stockage), <b>pertes de production</b> (6 % par défaut ; bouton <b>Estimer…</b> poste par
+poste) et <b>pertes jusqu'aux récepteurs</b> (conversion, câbles ; bouton <b>Estimer…</b>).</li>
+<li><b>Système raccordé au réseau</b> (choisi dans l'onglet 6) : le nombre de machines est dimensionné sur le <b>bilan annuel</b> ; le réseau
+fournit les déficits et reçoit les excédents, il ne faut donc pas couvrir le mois le plus défavorable.</li>
+<li><b>Système autonome</b> : <b>critère de dimensionnement</b> au choix :
+<ul>
+<li><b>Optimisation coût / fiabilité (LPSP)</b> — recommandé, par défaut : nombre de machines et capacité de la batterie optimisés ensemble ;
+le champ « Autonomie de la batterie » se grise et affiche l'autonomie optimale ;</li>
+<li><b>Simulation avec la batterie saisie</b> : batterie de l'autonomie saisie, plus petit nombre de machines atteignant la couverture cible ;</li>
+<li><b>Mois le plus défavorable</b> (bilan mensuel) ;</li>
+<li><b>Bilan annuel</b> (suppose un stockage saisonnier : déficits les mois peu ventés).</li>
+</ul></li>
+<li><b>Couverture cible (%)</b> (99 % par défaut), <b>autonomie</b> (h), <b>profondeur de décharge</b>, <b>rendement de la batterie</b>, <b>tension du bus
+continu</b>, <b>charges alimentées par la batterie</b> (toutes, ou prioritaires seulement avec délestage), <b>batterie</b> (coût minimal dans la base
+d'équipements, ou modèle imposé).</li>
+<li><b>Résultats</b> : production nette par mois et par an (brute rappelée), puissance moyenne, facteur de charge, couverture du parc, production par
+classe de vent, nombre d'aérogénérateurs avec le critère retenu et, pour comparaison, ceux du mois le plus défavorable et du bilan annuel ; en autonome,
+stockage retenu (éléments, montage série × parallèle, capacité nominale et utile, coût), simulation (couverture, déficit, excédent, énergie minimale
+atteinte, cycles), <b>courbe de dimensionnement</b> (autonomie → nombre de machines, coût global) et <b>sensibilité</b> à la couverture cible (90, 95, 98
+et 99 %) ; contrôle de la production sur la série de mesures. Graphiques : production et besoins mensuels du parc, production par classe de vent,
+énergie dans la batterie jour par jour.</li>
+<li><b>Comparaison des aérogénérateurs de la base</b> : énergie annuelle, kWh/an/kW, facteur de charge, <b>N recommandé</b> (bilan annuel en réseau,
+critère choisi en autonome), N du mois le plus défavorable, du bilan annuel et avec stockage. Un double-clic sur une ligne choisit la machine ; ⚠ signale
+des données incohérentes.</li>
+</ul>
+
+<h3 id="wind-economics">8.6 Onglet 6 — Viabilité économique</h3>
+<ol class="steps">
+<li><div class="step-content"><b>Système</b> : raccordé au réseau (toute l'énergie nette est vendue, × rendement de conversion) ou autonome (énergie
+utile = énergie fournie aux récepteurs d'après la simulation ; type de système et stockage définis dans l'onglet 5). <b>Nombre d'aérogénérateurs</b> :
+saisi, ou 0 pour reprendre le nombre recommandé de l'onglet 5.</div></li>
+<li><div class="step-content"><b>Investissement</b> : aérogénérateur (kF/kW), mât et fondations (kF/machine), électronique (kF/kW), batteries (kF/kWh),
+installation (% du matériel) ; bouton <b>Prix de la base</b>.</div></li>
+<li><div class="step-content"><b>Exploitation</b> : exploitation-maintenance et assurance (kF/kW/an), révision majeure (% du prix de la machine, année),
+durées de vie de l'électronique et des batteries.</div></li>
+<li><div class="step-content"><b>Câblage</b> : longueurs machine → électronique, électronique → batterie, électronique → raccordement ; tension de l'alternateur.</div></li>
+<li><div class="step-content"><b>Données économiques</b> : tarif de l'énergie (prix de vente ou coût évité) avec, juste en dessous, le bouton <b>Minimum
+pour la rentabilité</b> (tarif minimal) ; évolution du tarif, durée, inflation, taux d'actualisation ; subvention avec, en dessous, le bouton
+<b>Minimum pour la rentabilité</b> (subvention minimale) ; perte de production annuelle ; plage de tarifs de la sensibilité. <b>Valeurs par défaut</b>
+en bas du formulaire.</div></li>
+</ol>
+<p>Résultats : énergie vendue ou utile, facteur de charge, couverture, investissement, VAN, TRI, temps de retour simple et actualisé, LCOE, tarif minimal,
+subvention minimale ; graphiques des flux cumulés (simple et actualisé), de l'énergie mensuelle et de la <b>sensibilité</b> (VAN en fonction du tarif pour un
+vent de 80 à 120 %, LCOE en fonction du vent) ; rapport enregistrable.</p>
+<div class="note">L'énergie éolienne varie très vite avec la vitesse du vent : un vent 10 % plus faible fait souvent perdre 15 à 25 % de l'énergie. La
+qualité des données de vent (mesures sur site d'au moins un an, à la hauteur du moyeu) compte plus que la précision des coûts.</div>
+
+<h3 id="wind-methodes">8.7 Méthodes de calcul éolien</h3>
+<details class="notations" open><summary>Notations</summary>
+<table class="notations">
+<tr><th>Symbole</th><th>Grandeur</th><th>Unité</th></tr>
+<tr><td>v, v̄</td><td>Vitesse du vent ; vitesse moyenne</td><td>m/s</td></tr>
+<tr><td>f(v), c, k</td><td>Densité de probabilité de Weibull ; paramètres d'échelle et de forme</td><td>(m/s)<sup>−1</sup>, m/s, —</td></tr>
+<tr><td>F</td><td>Fraction ventée = 1 − part des calmes</td><td>—</td></tr>
+<tr><td>H<sub>mes</sub>, H, z₀</td><td>Hauteur des mesures ; hauteur du moyeu ; longueur de rugosité du terrain</td><td>m</td></tr>
+<tr><td>I</td><td>Intensité de turbulence au moyeu</td><td>—</td></tr>
+<tr><td>ρ, A, D</td><td>Densité de l'air ; surface balayée πD²/4 ; diamètre du rotor</td><td>kg/m³, m², m</td></tr>
+<tr><td>P(v), P<sub>n</sub>, η</td><td>Courbe de puissance ; puissance nominale ; rendement moyen (méthode du rendement)</td><td>kW, kW, —</td></tr>
+<tr><td>v<sub>i</sub>, v<sub>max</sub></td><td>Vitesses de démarrage et d'arrêt</td><td>m/s</td></tr>
+<tr><td>p<sub>prod</sub>, p<sub>r</sub></td><td>Pertes de production ; pertes jusqu'aux récepteurs (η<sub>r</sub> = 1 − p<sub>r</sub>)</td><td>%</td></tr>
+<tr><td>E<sub>m</sub>, E<sub>an</sub>, d<sub>m</sub></td><td>Énergie nette d'une machine pendant le mois m, pendant l'année ; jours du mois</td><td>kWh, kWh, j</td></tr>
+<tr><td>B<sub>j</sub>, m, B′<sub>j</sub></td><td>Besoins journaliers ; marge de dimensionnement ; besoins de dimensionnement B<sub>j</sub>(1 + m)</td><td>kWh/j, %, kWh/j</td></tr>
+<tr><td>N</td><td>Nombre d'aérogénérateurs</td><td>—</td></tr>
+<tr><td>Aut, DoD, η<sub>bat</sub>, U</td><td>Autonomie ; profondeur de décharge ; rendement de la batterie ; tension du bus</td><td>h, —, —, V</td></tr>
+<tr><td>C<sub>req</sub>, C<sub>nom</sub></td><td>Capacité nécessaire ; capacité nominale retenue (éléments entiers)</td><td>kWh</td></tr>
+<tr><td>E(t), E<sub>min</sub>, E<sub>max</sub></td><td>Énergie dans la batterie ; minimum C<sub>nom</sub>(1 − DoD) ; maximum C<sub>nom</sub></td><td>kWh</td></tr>
+<tr><td>LPSP, τ, τ<sub>cible</sub></td><td>Énergie non fournie / énergie demandée ; couverture 1 − LPSP ; couverture visée</td><td>—, %, %</td></tr>
+<tr><td>CG</td><td>Coût global actualisé (investissement net + valeur actuelle de l'exploitation et des remplacements − valeur résiduelle)</td><td>kF</td></tr>
+</table>
+</details>
 <h4>Loi de Weibull</h4>
 <div class="eq">f(v) = (k/c)·(v/c)<sup>k−1</sup>·exp(−(v/c)<sup>k</sup>) ; v̄ = c·Γ(1 + 1/k) ; ⟨v³⟩ = c³·Γ(1 + 3/k)</div>
 <p>Maximum de vraisemblance sur les vents non nuls : 1/k = Σv<sup>k</sup>ln v / Σv<sup>k</sup> − ⟨ln v⟩, c = (⟨v<sup>k</sup>⟩)<sup>1/k</sup> ; fraction ventée F = 1 − calmes.</p>
@@ -722,9 +873,24 @@ supprimées ; une base personnelle plus ancienne est renommée <code>aerogenerat
 <div class="eq">v(H) = v(H<sub>mes</sub>)·ln(H/z₀) / ln(H<sub>mes</sub>/z₀) ; I = 1/ln(H/z₀) (z₀ ≤ 0,2 m)</div>
 <h4>Densité de puissance et énergie récupérable</h4>
 <div class="eq">P/A = ½·ρ·(1 + 3I²)·F·⟨v³⟩ ; récupérable = 16/27·P/A (limite de Betz)</div>
-<h4>Production</h4>
-<div class="eq">E<sub>mois</sub> = (1 − pertes)·F·∫<sub>v<sub>i</sub></sub><sup>v<sub>max</sub></sup> P(v)·f(v) dv · 24 · jours</div>
-<p>Courbe du constructeur lue à la vitesse équivalente v·(ρ/1,225)<sup>1/3</sup> (CEI 61400-12-1). Méthode du rendement : P = η·½ρ(1 + 3I²)·πD²/4·v³, limitée à Pn. Nombre de machines = ⌈besoin / (E<sub>nette</sub>·(1 − pertes jusqu'aux récepteurs))⌉ pour le mois le plus défavorable.</p>
+<h4>Production d'une machine</h4>
+<div class="eq">E<sub>m</sub> = (1 − p<sub>prod</sub>)·F·∫<sub>v<sub>i</sub></sub><sup>v<sub>max</sub></sup> P(v)·f(v) dv · 24 · d<sub>m</sub> ; facteur de charge FC = E/(P<sub>n</sub>·heures)</div>
+<p>Courbe du constructeur lue à la vitesse équivalente v·(ρ/1,225)<sup>1/3</sup> (CEI 61400-12-1). Méthode du rendement : P = η·½ρ(1 + 3I²)·πD²/4·v³,
+limitée à P<sub>n</sub>. Avec des mesures, la production est aussi calculée directement sur la série ; un écart de plus de 10 % avec Weibull est signalé.</p>
+<h4>Nombre d'aérogénérateurs</h4>
+<div class="eq">bilan annuel (réseau) : N = ⌈365·B′<sub>j</sub> / (E<sub>an</sub>·η<sub>r</sub>)⌉ &nbsp;&nbsp; mois le plus défavorable : N = max<sub>m</sub> ⌈d<sub>m</sub>·B′<sub>j</sub> / (E<sub>m</sub>·η<sub>r</sub>)⌉</div>
+<h4>Stockage et simulation (système autonome)</h4>
+<div class="eq">C<sub>req</sub> = B′<sub>bat</sub>·(Aut/24) / (DoD·η<sub>bat</sub>) ; N<sub>bs</sub> = U/U<sub>bat</sub> ; N<sub>bp</sub> = ⌈C<sub>req</sub>/(U·C<sub>bat</sub>)⌉</div>
+<p>Simulation chronologique sur la série de mesures (vitesses au moyeu, profil horaire des besoins de l'onglet 2), batterie pleine au départ : l'excédent
+de production charge la batterie (rendement √η<sub>bat</sub>) jusqu'à E<sub>max</sub>, le surplus est perdu ; le manque est pris dans la batterie
+(√η<sub>bat</sub>) jusqu'à E<sub>min</sub>, le reste est un déficit. LPSP = Σ déficits / Σ besoins ; couverture τ = 1 − LPSP. Avec « charges prioritaires
+seulement », les charges non prioritaires sont délestées quand la batterie descend sous la moitié de son énergie utile et que le vent ne suffit pas.</p>
+<h4>Optimisation coût / fiabilité (LPSP)</h4>
+<p>Pour chaque autonomie de 6 h à 20 jours (6, 12, 18, 24, 36, 48, 72, 96, 120, 168, 240, 336 et 480 h) : plus petit N tel que LPSP ≤ 1 − τ<sub>cible</sub>,
+puis coût global actualisé CG(N, batterie) avec les prix de l'onglet 6 ; le couple de CG minimal est retenu. L'optimum est recalculé pour des couvertures
+cibles de 90, 95, 98 et 99 % (sensibilité). Références : Borowy et Salameh (1996), Kaldellis (2002), Diaf et al. (2007), Yang et al. (2008).</p>
+<div class="warn">Un système éolien seul et autonome produit toujours beaucoup plus que les besoins pendant les mois ventés : il est dimensionné pour
+les périodes de calme. Au-delà de 95 % de couverture, une source d'appoint (PV, groupe électrogène) est souvent plus économique.</div>
 
 <!-- ====================================================================== -->
             <a href="#top" class="back-to-top">↑ Retour en haut</a>
@@ -733,6 +899,18 @@ supprimées ; une base personnelle plus ancienne est renommée <code>aerogenerat
             <h2><span class="section-icon">💰</span>9. Méthodes économiques</h2>
 <p>Les études de viabilité PV et éolienne utilisent les mêmes définitions. Année 0 : investissement ; années 1 à N : flux annuels ; taux d'actualisation a, inflation i, évolution du tarif g.</p>
 <div class="eq">F<sub>0</sub> = −I·(1 − s) ; F<sub>y</sub> = t·(1+g)<sup>y</sup>·E<sub>y</sub> − (C<sub>an</sub> + R<sub>y</sub>)·(1+i)<sup>y</sup> (+ V<sub>rés</sub>·(1+i)<sup>N</sup> en année N)</div>
+<table class="notations">
+<tr><th>Symbole</th><th>Grandeur</th><th>Unité</th></tr>
+<tr><td>y, N</td><td>Année (0 = mise en service) ; durée de l'étude</td><td>an</td></tr>
+<tr><td>I, s</td><td>Investissement brut (matériel, installation, câblage) ; subvention (part de I)</td><td>kF, %</td></tr>
+<tr><td>F<sub>y</sub></td><td>Flux net de trésorerie de l'année y (recettes − dépenses)</td><td>kF</td></tr>
+<tr><td>t, g</td><td>Tarif de l'énergie (prix de vente ou coût évité) ; évolution annuelle du tarif</td><td>F/kWh, %/an</td></tr>
+<tr><td>E<sub>y</sub></td><td>Énergie vendue ou utile de l'année y (dégradation déduite)</td><td>kWh</td></tr>
+<tr><td>C<sub>an</sub></td><td>Coûts annuels d'exploitation-maintenance et d'assurance (prix de l'année 0)</td><td>kF/an</td></tr>
+<tr><td>R<sub>y</sub></td><td>Remplacements de l'année y (batteries, onduleurs, électronique) et révision majeure</td><td>kF</td></tr>
+<tr><td>V<sub>rés</sub></td><td>Valeur résiduelle des équipements en fin d'étude</td><td>kF</td></tr>
+<tr><td>a, i</td><td>Taux d'actualisation ; inflation</td><td>%/an</td></tr>
+</table>
 <table>
 <tr><th>Indicateur</th><th>Définition</th></tr>
 <tr><td>VAN</td><td>Σ F<sub>y</sub>/(1+a)<sup>y</sup>. Projet rentable si VAN ≥ 0.</td></tr>
@@ -767,6 +945,10 @@ supprimées ; une base personnelle plus ancienne est renommée <code>aerogenerat
 <tr><td>Onduleur — courant limite Imax</td><td class="num">1,1 pu (PV, éolien) ; 1,2 pu (batterie)</td><td>1,0 à 1,5 pu (I_skPF du constructeur si connu)</td></tr>
 <tr><td>Groupe électrogène — X'd, Rd</td><td class="num">0,25 pu ; 0,1·Xd</td><td>X'd 0,15 à 0,35 pu</td></tr>
 <tr><td>Inflation / actualisation</td><td class="num">3 % / 8 %</td><td>selon le pays et le financement</td></tr>
+<tr><td>PV, éolien, pompage — marge de dimensionnement</td><td class="num">10 %</td><td>5 à 20 % selon l'incertitude sur les besoins</td></tr>
+<tr><td>Éolien — couverture cible (système autonome)</td><td class="num">99 %</td><td>90 à 99 % ; au-delà de 95 %, étudier un appoint (PV, groupe)</td></tr>
+<tr><td>Éolien — hauteur des mesures / du moyeu</td><td class="num">10 m / hauteur usuelle de la machine</td><td>moyeu : 12 m (1 kW) à 40 m (250 kW)</td></tr>
+<tr><td>Éolien — batterie : tension du bus, rendement</td><td class="num">48 V ; 0,8</td><td>rendement 0,75 à 0,85 (plomb), 0,9 à 0,95 (lithium)</td></tr>
 </table>
 
 <!-- ====================================================================== -->

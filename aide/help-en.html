@@ -262,7 +262,18 @@ language and the server settings. On macOS, the menus are in the system menu bar
 <tr><td><kbd>Cmd/Ctrl+,</kbd></td><td>Calculation and server settings</td><td></td><td></td></tr>
 </table>
 <h3 id="langues">3.3 Languages</h3>
-<p>Options › Language or the globe button of the toolbar: French or English (Pulaar will be added later). The main window switches language immediately; the choice is remembered. This guide opens in English when English is selected, otherwise in French. The PV and wind windows are in French.</p>
+<p>Options › Language or the globe button of the toolbar: French or English (Pulaar will be added later). The main window switches language immediately; the choice is remembered. This guide opens in English when English is selected, otherwise in French. The PV, wind and solar pumping windows follow the selected language (globe button of their toolbar).</p>
+<h3 id="fenetres-calcul">3.4 Calculation windows: resizable areas, export and copy</h3>
+<ul>
+<li><b>Resizable areas</b>: in the PV systems, Wind systems, Solar water pumping, Site weather data and Wind turbines windows, the parts of a tab
+(inputs, results, tables, charts) are separated by lines that you drag with the mouse to enlarge one or the other; each part has its own scroll bar
+when its content overflows.</li>
+<li><b>Export ▾ / Copy ▾</b>: above each chart and each table of these windows, on the right. Chart: <i>Export</i> the image (PNG) or the data (CSV);
+<i>Copy</i> the image or the data (to paste into Excel or a word processor). Table: <i>Export</i> as CSV or <i>Copy</i> to Excel. Charts and tables created
+after a calculation also get their buttons. Right-clicking a chart or a table offers the same actions.</li>
+<li><b>Window in front</b>: a calculation window opened from the Renewables menu comes in front of the main window.</li>
+<li><b>Compute</b> (<kbd>F5</kbd>) shows the results tab.</li>
+</ul>
 
 <!-- ====================================================================== -->
             <a href="#top" class="back-to-top">↑ Back to top</a>
@@ -534,7 +545,7 @@ server, editable before sending; the window shows a summary (global sections, bu
 <li><div class="step-content"><b>Source</b> and <b>period</b> (see table). The period is limited to 20 years for hourly series.</div></li>
 <li><div class="step-content"><b>Calculation</b>: module tilt (fixed, optimal over the year, optimal for the worst month), albedo, hub height, wind extrapolation method (automatic, measured shear, logarithmic law, power law α = 1/7), terrain (roughness z₀), calm threshold.</div></li>
 <li><div class="step-content"><b>Download and compute</b>: the task runs in the background (Cancel button). Answers are cached for 90 days in <code>~/.nrjxpert/meteo/cache</code>: a second calculation on the same site is immediate.</div></li>
-<li><div class="step-content">Browse the Solar, Wind, Temperature &amp; air, Source &amp; notes tabs; “Export CSV”; “Use for PV sizing” / “Use for wind sizing”.</div></li>
+<li><div class="step-content">Browse the Solar, Wind, Temperature &amp; air, Source &amp; notes tabs; “Export CSV”. “Use for PV sizing” / “Use for wind sizing” asks for confirmation, sends the data to the window concerned and closes the weather window; the <b>Close</b> button closes it without sending anything.</div></li>
 </ol>
 <table>
 <tr><th>Dataset</th><th>Content</th><th>Notes</th></tr>
@@ -605,7 +616,7 @@ conductors, installation and protection, lifetime, maintenance).</li>
 <p>Wiring: for each link, design current <i>I</i><sub>b</sub> = 1.25 × rated current, standard protection <i>I</i><sub>n</sub> ≥ <i>I</i><sub>b</sub>,
 cross-section the largest of the one imposed by heating (<i>I</i><sub>z0</sub>·<i>k</i><sub>θ</sub>·<i>k</i><sub>g</sub> ≥ <i>I</i><sub>n</sub>, IEC 60364-5-52)
 and the one imposed by the voltage drop at rated current (NF C 15-100, UTE C15-712-1). The cost (cables, installation, protection) is included in the
-investment, the life-cycle cost, the discounted cost and the LCOE; tab 4 gives the details link by link. The wind module (tab 5) does the same for the
+investment, the life-cycle cost, the discounted cost and the LCOE; tab 4 gives the details link by link. The wind module (tab 6) does the same for the
 links machine → electronics and electronics → connection or battery.</p>
 <p>Economic parameters: operating period, depreciation period, inflation, interest rate (also used as discount rate of the LCOE).</p>
 
@@ -623,7 +634,7 @@ links machine → electronics and electronics → connection or battery.</p>
 <li><div class="step-content"><b>Equipment</b>: module (Pp, Vmp, Imp, Voc, Isc, cost), inverter (DC voltage, kVA, cost), battery and controller (stand-alone), autonomy in hours of average daily production. Equipment chosen from the equipment databases (their values cannot be edited here).</div></li>
 <li><div class="step-content"><b>Economic data</b>: O&amp;M, installation, insurance (per kW), subsidy, tariff and its growth, lifetime, inflation, discount rate.</div></li>
 <li><div class="step-content"><b>Model parameters…</b>  (window toolbar, next to “Equipment databases…”; the <b>system losses, NOCT and temperature coefficient</b> are also used by the sizing: loss factor = 1 − losses, cell temperature Ta + (NOCT − 20) at 800 W/m², power correction by the coefficient): cells, reference conditions, NOCT, Pmax temperature coefficient, system losses, degradation, clipping, inverter efficiency and power factor, depth of discharge, battery efficiency and stored share, lifetimes.</div></li>
-<li><div class="step-content"><b>Compute</b>; <b>Sensitivity analysis</b> (NPV, IRR, break-even tariff versus power and tariff; CSV export); <b>Minimum subsidy</b>, <b>Minimum tariff</b>; <b>Report</b> (savable text).</div></li>
+<li><div class="step-content"><b>Compute</b> (tab toolbar); in the economic data, below the “PV energy tariff” field and below the “Subsidy” field, a <b>Minimum for profitability</b> button computes the minimum tariff or the minimum subsidy (NPV = 0) and offers to apply it; <b>Sensitivity analysis</b> (NPV, IRR, break-even tariff versus power and tariff; CSV export); <b>Default values</b> at the bottom of the form; <b>Report</b> (savable text).</div></li>
 </ol>
 <p>Results: installed power, number of modules, inverters, batteries, controllers, annual energy, specific yield (kWh/kWp/yr) and performance ratio PR, investment, NPV, IRR, simple and discounted payback, LCOE, minimum tariff, minimum subsidy, charts (weather, hourly and monthly production, cash flows, sensitivity).</p>
 
@@ -641,19 +652,51 @@ stand-alone inverters at the bus voltage (grid inverters are used only in tab 6)
 <div class="warn">Prices are orders of magnitude: replace them by quotations from your suppliers before an economic study.</div>
 
 <h3 id="pv-methodes">7.8 PV calculation methods</h3>
-<h4>Horizontal → module plane (monthly mean day, Klein)</h4>
+<p>The complete step-by-step procedure, with a worked example, is explained in the tutorial (level 3, § 3.3 and 3.4).</p>
+<details class="notations" open><summary>Notation</summary>
+<table class="notations">
+<tr><th>Symbol</th><th>Quantity</th><th>Unit</th></tr>
+<tr><td>n, P, K<sub>u</sub>, K<sub>s</sub>, η</td><td>Number of appliances, power of one appliance, utilisation and diversity factors, appliance efficiency</td><td>—, W, —, —, —</td></tr>
+<tr><td>h, j</td><td>Operating hours per day; days of use per week</td><td>h/d, d/wk</td></tr>
+<tr><td>E<sub>d</sub>, S<sub>max</sub></td><td>Daily energy of the loads; apparent power of the most loaded hour</td><td>Wh/d, VA</td></tr>
+<tr><td>U</td><td>DC bus voltage (battery, controller, inverter input)</td><td>V</td></tr>
+<tr><td>η<sub>conv</sub>, η<sub>cables</sub>, η<sub>bat</sub></td><td>Efficiencies of the load converter (0.9; 1 for DC at voltage U), of the cables (0.98), of the battery (0.9)</td><td>—</td></tr>
+<tr><td>Q<sub>d</sub>, m, Q′<sub>d</sub></td><td>Daily charge demanded from the bus; design margin; design charge Q<sub>d</sub>(1 + m)</td><td>Ah/d, %, Ah/d</td></tr>
+<tr><td>H, H<sub>des</sub></td><td>Daily irradiation on the module plane (= peak-sun hours); design value (weakest month or mean)</td><td>kWh/m²/d</td></tr>
+<tr><td>T<sub>a</sub>, T<sub>c</sub>, NOCT, γ</td><td>Ambient and cell temperatures; nominal operating cell temperature; temperature coefficient of P<sub>max</sub></td><td>°C, °C, °C, %/°C</td></tr>
+<tr><td>f<sub>T</sub></td><td>Temperature factor 1 + γ(T<sub>c</sub> − 25), T<sub>c</sub> = T<sub>a</sub> + (NOCT − 20)</td><td>—</td></tr>
+<tr><td>p, k<sub>p</sub></td><td>System losses (“Model parameters”, 8 % by default); factor 1 − p</td><td>%, —</td></tr>
+<tr><td>η<sub>MPPT</sub></td><td>Efficiency of the MPPT converter (0.96)</td><td>—</td></tr>
+<tr><td>P<sub>mod</sub>, V<sub>mp</sub>, I<sub>mp</sub>, V<sub>oc</sub>, I<sub>sc</sub></td><td>Peak power of a module; voltage and current at the maximum power point; open-circuit voltage; short-circuit current (STC)</td><td>Wp, V, A, V, A</td></tr>
+<tr><td>N<sub>s</sub>, N<sub>p</sub>, P<sub>p</sub></td><td>Modules in series per string; strings in parallel; array peak power</td><td>—, —, Wp</td></tr>
+<tr><td>I<sub>array</sub>, P<sub>p,req</sub></td><td>Current required from the array (PWM); required peak power (MPPT)</td><td>A, Wp</td></tr>
+<tr><td>Aut, C, C<sub>bat</sub>, U<sub>bat</sub>, DoD</td><td>Autonomy; capacity to draw; capacity and voltage of one battery; depth of discharge</td><td>h, Ah, Ah, V, %</td></tr>
+<tr><td>I<sub>reg</sub>, I<sub>in,max</sub>, V<sub>in,max</sub>, k</td><td>Rated current of a controller; maximum input current and voltage; strings per controller</td><td>A, A, V, —</td></tr>
+<tr><td>S<sub>inv</sub></td><td>Rated power of an inverter</td><td>VA</td></tr>
+<tr><td>E<sub>prod,m</sub>, E<sub>dem,m</sub>, d<sub>m</sub>, τ</td><td>Production and demand of month m on the bus; days of the month; coverage</td><td>kWh, kWh, d, %</td></tr>
+</table>
+</details>
+<h4>Horizontal → module plane conversion (mean day of the month, Klein)</h4>
 <div class="eq">H<sub>β</sub> = H·[(1 − H<sub>d</sub>/H)·R<sub>b</sub> + (H<sub>d</sub>/H)·(1 + cos β)/2 + ρ<sub>g</sub>·(1 − cos β)/2]</div>
-<p>H<sub>d</sub>/H: Erbs correlation as a function of K<sub>t</sub> = H/H<sub>0</sub>; R<sub>b</sub>: mean beam tilt factor (Liu-Jordan); albedo 0.2.</p>
-<h4>Demand and battery load</h4>
-<div class="eq">E<sub>d</sub> = Σ n·P·K<sub>u</sub>·K<sub>s</sub>/η · h · (days/7) &nbsp;&nbsp; Q<sub>d</sub> (Ah/day) = E<sub>d</sub> / (U<sub>bus</sub>·η<sub>conv</sub>·η<sub>cables</sub>·η<sub>bat</sub>)</div>
-<h4>PV array — PWM controller (original model)</h4>
-<div class="eq">I<sub>array</sub> = Q<sub>d</sub> / H<sub>design</sub> ; N<sub>p</sub> = ⌈I<sub>array</sub> / (0.9·I<sub>mp</sub>)⌉ ; N<sub>s</sub> = ⌈1.2·U<sub>bus</sub> / (0.9·V<sub>mp</sub>)⌉ ; E<sub>month</sub> = U<sub>bus</sub>·N<sub>p</sub>·I<sub>mp</sub>·0.9·H·days</div>
+<p>H<sub>d</sub>/H: diffuse fraction (Erbs correlation as a function of the clearness index K<sub>t</sub> = H/H<sub>0</sub>, H<sub>0</sub>: extraterrestrial
+irradiation); R<sub>b</sub>: mean ratio of tilted to horizontal beam radiation (Liu-Jordan); β: tilt; ρ<sub>g</sub>: albedo (0.2).</p>
+<h4>Demand and battery charge</h4>
+<div class="eq">E<sub>d</sub> = Σ n·P·K<sub>u</sub>·K<sub>s</sub>/η · h · (j/7) &nbsp;&nbsp; Q<sub>d</sub> (Ah/d) = Σ E<sub>d,i</sub> / (U·η<sub>conv,i</sub>·η<sub>cables</sub>·η<sub>bat</sub>) &nbsp;&nbsp; Q′<sub>d</sub> = Q<sub>d</sub>·(1 + m)</div>
+<h4>PV array — PWM controller</h4>
+<p>The array is connected directly to the battery: it operates at the battery voltage and supplies a current. It is sized in current.</p>
+<div class="eq">I<sub>array</sub> = Q′<sub>d</sub> / H<sub>des</sub>; N<sub>p</sub> = ⌈I<sub>array</sub> / (k<sub>p</sub>·I<sub>mp</sub>)⌉; N<sub>s</sub> = ⌈1.2·U / (0.9·V<sub>mp</sub>)⌉; E<sub>prod,m</sub> = U·N<sub>p</sub>·I<sub>mp</sub>·k<sub>p</sub>·H<sub>m</sub>·d<sub>m</sub></div>
 <h4>PV array — MPPT controller</h4>
-<div class="eq">P<sub>p</sub> = Q<sub>d</sub>·U<sub>bus</sub> / (H<sub>design</sub>·0.9·f<sub>T</sub>·η<sub>MPPT</sub>) ; f<sub>T</sub> = 1 − 0.004·(T<sub>c</sub> − 25), T<sub>c</sub> = T<sub>a</sub> + 25 °C ; η<sub>MPPT</sub> = 0.96 ; E<sub>month</sub> = P<sub>p</sub>·H·0.9·f<sub>T</sub>·η<sub>MPPT</sub>·days</div>
-<p>String of N<sub>s</sub> modules such that the hot V<sub>mp</sub> (cells at 70 °C) exceeds 1.3·U<sub>bus</sub>. The 0.9 factor groups cables, dust, mismatch and ageing.</p>
-<h4>Battery, controller, inverter</h4>
-<div class="eq">C (Ah) = autonomy(h)·Q<sub>d</sub>/24 / DoD ; N<sub>s,bat</sub> = U<sub>bus</sub>/U<sub>bat</sub> ; controllers: 1.25·N<sub>p</sub>·I<sub>sc</sub> (PWM) or 1.25·P<sub>p</sub>/U<sub>bus</sub> (MPPT) ; inverters: 1.25·S<sub>max</sub></div>
-<p>All quantities are rounded up. The balance is made <b>month by month</b> on the DC bus (array production; demand including conversion, cable and storage losses, the battery efficiency being applied to all the energy consumed, including what the array supplies directly to the inverter: a conservative assumption): surplus = Σ max(0, E<sub>prod</sub> − E<sub>dem</sub>), deficit = Σ max(0, E<sub>dem</sub> − E<sub>prod</sub>), coverage = Σ min(E<sub>prod</sub>, E<sub>dem</sub>) / Σ E<sub>dem</sub>.</p>
+<p>The converter keeps the array at its maximum power whatever the battery voltage. It is sized in power.</p>
+<div class="eq">P<sub>p,req</sub> = Q′<sub>d</sub>·U / (H<sub>des</sub>·k<sub>p</sub>·f<sub>T</sub>·η<sub>MPPT</sub>); N<sub>s</sub> = ⌈1.3·U / (V<sub>mp</sub>·(1 + 45γ))⌉; N<sub>p</sub> = ⌈P<sub>p,req</sub> / (N<sub>s</sub>·P<sub>mod</sub>)⌉; E<sub>prod,m</sub> = P<sub>p</sub>·H<sub>m</sub>·k<sub>p</sub>·f<sub>T,m</sub>·η<sub>MPPT</sub>·d<sub>m</sub></div>
+<p>The string stays above 1.3·U even with cells at 70 °C (factor 1 + 45γ = 0.82); its cold open-circuit voltage 1.1·N<sub>s</sub>·V<sub>oc</sub> must stay below the
+controller's V<sub>in,max</sub>.</p>
+<h4>Battery, controllers, inverter</h4>
+<div class="eq">C = Q′<sub>bat</sub>·Aut/24; N<sub>bs</sub> = U/U<sub>bat</sub>; N<sub>bp</sub> = ⌈C/(C<sub>bat</sub>·DoD)⌉ &nbsp;&nbsp; (DoD recommended by the database when given)<br>
+controllers: k = ⌊min(I<sub>in,max</sub>/(1.25·I<sub>sc</sub>); I<sub>reg</sub>/I<sub>out,string</sub>)⌋, I<sub>out,string</sub> = 1.25·N<sub>s</sub>·P<sub>mod</sub>/U (MPPT) or 1.25·I<sub>sc</sub> (PWM); N<sub>reg</sub> = ⌈N<sub>p</sub>/k⌉<br>
+inverters: N<sub>inv</sub> = ⌈1.25·S<sub>max</sub>/S<sub>inv</sub>⌉ (stand-alone inverters whose DC voltage is U)</div>
+<p>All quantities are rounded up. The balance is made <b>month by month</b> on the DC bus (demand E<sub>dem,m</sub> = Q<sub>d</sub>·U·d<sub>m</sub>, including
+conversion, cable and storage losses, the battery efficiency being applied to all the energy consumed: conservative assumption): surplus = Σ max(0,
+E<sub>prod,m</sub> − E<sub>dem,m</sub>), deficit = Σ max(0, E<sub>dem,m</sub> − E<sub>prod,m</sub>), coverage τ = Σ min(E<sub>prod,m</sub>, E<sub>dem,m</sub>) / Σ E<sub>dem,m</sub>.</p>
 <h4>Costs</h4>
 <p><b>Life-cycle cost</b> (original method) = depreciation annuities of the investment over the depreciation period + maintenance and replacements over the operating period (with inflation); cost per kWh = life-cycle cost / annual useful energy / period. <b>Present cost</b> and <b>LCOE</b>: see <a href="#economie">economic methods</a>.</p>
 <h4>Viability: module model</h4>
@@ -665,12 +708,36 @@ stand-alone inverters at the bus voltage (grid inverters are used only in tab 6)
 <p><b>Solar water pumping…</b> button of the Photovoltaic systems window (or <b>Renewables</b> menu › Solar water pumping). The window sizes and simulates a photovoltaic pumping system, either <b>direct solar</b> (water stored in a tank) or <b>with battery</b>. Projects are saved as <code>.nxpomp</code>. The example of the course “Le pompage photovoltaïque” (village of 500 inhabitants, 25 m³/d, TDH 15 m, irradiation 5 h, margin 0 %) opens with <b>Help › Open a tutorial example…</b> › <code>pompage_village.nxpomp</code> (§ 3.8 of the tutorial, level 3).</p>
 <ul>
 <li><b>1. Site and measurements</b>: monthly irradiation and temperature (online data, file, paste from Excel or entry), conversion to the module plane.</li>
-<li><b>2. Water demand</b>: population (l/inh/d), livestock in TLU (cattle 1, sheep or goat 0.2, donkey 0.3, horse 1.2, camel 1.5; l/TLU/d), irrigation (area × net requirement / efficiency), other needs, distribution losses, monthly coefficients and hourly consumption profile.</li>
+<li><b>2. Water demand</b>: population (l/inh/d), livestock in <b>TLU</b> (tropical livestock unit, reference animal of 250 kg; the tab legend recalls the equivalences: cattle 1, sheep or goat 0.2, donkey 0.3, horse 1.2, camel 1.5; l/TLU/d), irrigation (area × net requirement / efficiency), other needs, distribution losses, monthly coefficients and <b>hourly consumption profile</b>: standard profiles (village, uniform, irrigation, daytime) or <b>custom</b> (“Custom profile” line, <b>Edit the 24 values…</b> button: 24 values entered as a <i>share of daily volume (%)</i> or as a <i>water volume per hour (m³)</i>, paste from Excel, starting model to choose; the distribution is scaled to 100 %).</li>
 <li><b>3. Well and pipe</b>: TDH entered, or calculated from the static level, the drawdown (fixed or flow/specific capacity), the tank inlet height and the elevation; head losses as a lump sum (% of static head) or by Darcy-Weisbach. System curve TDH(Q).</li>
 <li><b>4. Pump and sizing</b>: pump type (selection advice from the course), pump chosen from the database (“Pumps” tab of the equipment database: 26 centrifugal, positive-displacement and floating pumps with their head and flow range) or entered characteristics, configuration, efficiencies, <b>design margin</b> (10 % by default: increases the needs before the flow, array, tank and simulation are calculated), starting threshold, pumping duration, peak power method, module, voltage, battery and tank. Month-by-month results.</li>
-<li><b>5. Simulation</b>: hour-by-hour simulation over the site's typical days; monthly balance, typical day, tank level, operating point, report.</li>
+<li><b>5. Simulation</b>: hour-by-hour simulation over the site's typical days; monthly balance, typical day (four charts separated by movable lines), tank level, operating point, report.</li>
 <li><b>6. Economic viability</b>: investment, levelised cost per m³, comparison with a diesel motor-pump.</li>
 </ul>
+<p><b>Compute</b> (<kbd>F5</kbd>) sizes, simulates and shows the results of tab 4.</p>
+<details class="notations" open><summary>Pumping notation</summary>
+<table class="notations">
+<tr><th>Symbol</th><th>Quantity</th><th>Unit</th></tr>
+<tr><td>ΔQ (or V)</td><td>Daily volume of water to pump (demand + distribution losses, margin included)</td><td>m³/d</td></tr>
+<tr><td>TLU</td><td>Tropical livestock unit (cattle 1, sheep or goat 0.2, donkey 0.3, horse 1.2, camel 1.5)</td><td>—</td></tr>
+<tr><td>HG, N<sub>s</sub>, R, h<sub>tank</sub></td><td>Static head; static water level; drawdown; inlet height in the tank</td><td>m</td></tr>
+<tr><td>P<sub>C</sub>, TDH</td><td>Head losses (m of water column); total dynamic head HG + P<sub>C</sub></td><td>m</td></tr>
+<tr><td>Q, q<sub>s</sub></td><td>Flow rate; specific capacity of the borehole (flow per metre of drawdown)</td><td>m³/h, m³/h/m</td></tr>
+<tr><td>λ, L, D, v, ε, Re, k<sub>sing</sub></td><td>Friction factor; pipe length and diameter; water velocity; roughness; Reynolds number; minor losses (fraction of friction losses)</td><td>—, m, m, m/s, m, —, —</td></tr>
+<tr><td>C<sub>H</sub></td><td>Hydraulic constant gρ/3 600 = 2.725 Wh/(m³·m)</td><td>Wh/(m³·m)</td></tr>
+<tr><td>η<sub>p</sub>, η<sub>m</sub>, η<sub>conv</sub>, R<sub>p</sub></td><td>Efficiencies of the pump, the motor, the converter; R<sub>p</sub> = η<sub>p</sub>η<sub>m</sub>η<sub>conv</sub></td><td>—</td></tr>
+<tr><td>E<sub>el</sub>, Ens</td><td>Daily electrical energy; irradiation in peak-sun hours</td><td>Wh/d, h/d</td></tr>
+<tr><td>η<sub>c</sub>, γ, T<sub>c</sub></td><td>Array efficiency relative to its peak power; temperature coefficient; cell temperature</td><td>—, %/°C, °C</td></tr>
+<tr><td>P<sub>c</sub>, G</td><td>Array peak power; reference irradiance (800 W/m²)</td><td>Wp, W/m²</td></tr>
+<tr><td>ΔT, Q<sub>max</sub></td><td>Pumping duration; maximum flow at noon</td><td>h, m³/h</td></tr>
+<tr><td>P<sub>H</sub>, P<sub>m</sub>, P<sub>el</sub>, P<sub>g</sub>, P<sub>n</sub></td><td>Hydraulic, mechanical, electrical and PV generator power; rated power of the motor-pump</td><td>kW</td></tr>
+<tr><td>s, x</td><td>Starting threshold (fraction of P<sub>n</sub>); available power relative to P<sub>n</sub></td><td>—</td></tr>
+<tr><td>U, U<sub>B</sub>, η<sub>B</sub>, DOD, Aut</td><td>System voltage; voltage of one battery; efficiency; depth of discharge; autonomy (d)</td><td>V, V, —, —, d</td></tr>
+<tr><td>E<sub>Ah</sub>, C<sub>Bt</sub>, N<sub>Bs</sub></td><td>Daily charge; battery capacity; batteries in series</td><td>Ah/d, Ah, —</td></tr>
+<tr><td>LWSP</td><td>Loss of water supply probability = deficit / demand</td><td>—</td></tr>
+<tr><td>a, i, t</td><td>Discount rate; inflation; year</td><td>%, %, yr</td></tr>
+</table>
+</details>
 <h4>Total dynamic head</h4>
 <div class="eq">TDH = HG + H<sub>L</sub>; HG = N<sub>s</sub> + R + h<sub>tank</sub> + elevation; R = Q / q<sub>s</sub> (q<sub>s</sub>: specific capacity) or fixed</div>
 <div class="eq">H<sub>L</sub> = λ·(L/D)·v²/2g·(1 + k<sub>minor</sub>); Swamee-Jain: λ = 0.25 / [log<sub>10</sub>(ε/3.7D + 5.74/Re<sup>0.9</sup>)]²; λ = 64/Re if Re &lt; 2000</div>
@@ -701,55 +768,143 @@ stand-alone inverters at the bus voltage (grid inverters are used only in tab 6)
         </div>
         <div class="section" id="wind">
             <h2><span class="section-icon">🌬️</span>8. Wind systems</h2>
-<p>Five-tab window; toolbar: New, Open, Save (<code>.nxeol</code>), Import an EolXpert project (<code>.EOL</code>), Wind turbines (database), Help, Compute (<kbd>F5</kbd>).</p>
+<p>Menu <b>Renewables › Wind systems…</b>. Window with six tabs; toolbar: New, Open, Save, Save as (<code>.nxeol</code>), Equipment databases
+(wind turbines, batteries, charge controllers, inverters), language, Help, <b>Compute</b> (<kbd>F5</kbd>). An EolXpert project (<code>.EOL</code>) is
+opened with <b>Help › Open a tutorial example…</b> (file type .eol). <b>Compute</b> runs the wind analysis, production, sizing and viability, then shows
+tab 5 where the results are. The tutorial example (school in Saint-Louis, NASA POWER wind 2023) opens with <b>Help › Open a tutorial example…</b> ›
+<code>eol_saint_louis.nxeol</code> (tutorial level 3, § 3.7).</p>
 
 <h3 id="wind-site">8.1 Tab 1 — Site and measurements</h3>
 <ul>
-<li><b>Terrain</b> (roughness z₀): open water (0.005 m), short-grass prairie (0.02), open country (0.07), crops and scattered dwellings (0.25), hedgerows, suburbs (0.40), urban areas and forests (1.00).</li>
-<li><b>Measurement height</b> (anemometer, often 10 m), <b>hub height</b>, <b>air density</b> (1.225 kg/m³ at sea level and 15 °C; ≈ 1.17 in Dakar). The speed ratio and turbulence intensity are displayed.</li>
-<li><b>Wind data</b>: <i>measurements</i> (one column of speeds in m/s per month, January first; empty cells = missing data) imported from Excel (.xls, .xlsx), a .csv/.txt file, pasted from Excel, <b>Données en ligne…</b>; or <i>monthly Weibull parameters</i> (c, k, % calms) at measurement height.</li>
+<li><b>Terrain type</b> (roughness z₀): large water area (0.005 m), short grass (0.02), open country (0.07), crops and scattered houses (0.25),
+hedgerows, suburbs (0.40), urban areas and forests (1.00).</li>
+<li><b>Measurement height</b> (anemometer, usually 10 m) and <b>hub height</b>. In a new project, the hub height is the <b>usual hub height of the
+selected wind turbine</b> (equipment database: 12 m for 1 kW, 15 m for 3 kW, 18 m for 5 kW, 24 m for 10 and 20 kW, 30 m for 50 kW, 36 m for
+100 kW, 40 m for 250 kW; 24 m if the database gives none). It follows a change of wind turbine as long as you do not modify it; an entered value is
+kept. The speed ratio (hub / measurements) and the turbulence intensity are displayed.</li>
+<li><b>Air density</b> (1.225 kg/m³ at sea level at 15 °C; ≈ 1.17 in Dakar).</li>
+<li><b>Wind data</b>: <i>measurements</i> (one column of speeds in m/s per month, January first; empty cells = missing measurements) imported from
+Excel (.xls, .xlsx), a .csv/.txt file, pasted from Excel, or <b>Online data…</b> (“Site weather data” window); or <i>monthly Weibull parameters</i>
+(c, k, % calms) at the measurement height. Only chronological measurements allow the hourly storage simulation and the optimisation (§ 8.5).</li>
 <li><b>Weibull fit</b>: maximum likelihood (recommended) or regression on the cumulative frequency (EolXpert method).</li>
 </ul>
-<h3 id="wind-analyse">8.2 Tab 2 — Wind analysis</h3>
-<p>For the year and each month, at hub height: number of measurements, calms, mean and maximum speeds, c, k, power density (W/m²), recoverable energy (Betz limit, kWh/m²). Charts: histogram and Weibull distribution, monthly quantities.</p>
-<h3 id="wind-aero">8.3 Tab 3 — Wind turbine</h3>
-<p>Choice in the database; characteristics (Pn, cut-in, rated and cut-out speeds, diameter, average efficiency); power curve P = f(v); method:
-<b>manufacturer's curve</b> (recommended) or <b>average efficiency</b>. The database (« Wind turbines… » button) allows machines to be added, duplicated
-and deleted, and the curve to be entered or pasted point by point.</p>
-<p><b>Supplied database (November 2026)</b>: eight generic machines from 1 to 250 kW (permanent magnets up to 20 kW, variable pitch above), with power
-curve at ρ = 1.225 kg/m³, diameter, usual hub height and indicative prices of the machine and the tower (in thousands of CFA francs incl. VAT in Dakar, to be replaced by
-quotations). The <b>Database prices</b> button of tab 5 uses these prices. The EolXpert (2002) machines are removed; an older personal database is
-renamed <code>aerogenerateurs.avant-2026-11.csv</code>.</p>
 
-<h3 id="wind-production">8.4 Tab 4 — Production and sizing</h3>
+<h3 id="wind-besoins">8.2 Tab 2 — Demand</h3>
+<p>Same facilities and loads as in the PV window (§ 7.2): number, power, power factor, priority, operating hours, days per week. The total demand
+(kWh/d), the priority share and the peak (kW) are used in tab 5; the <b>hourly profile</b> is used by the storage simulation. The “Daily power profile of the
+site” chart shows <b>all loads</b> by default (“Show” list: all loads, priority loads, or one facility). Without facilities, the daily demand is entered in
+tab 5 (uniform profile).</p>
+
+<h3 id="wind-analyse">8.3 Tab 3 — Wind analysis</h3>
+<p>For the year and each month, at hub height: number of measurements, calms, mean and maximum speeds, c, k, power density (W/m²), recoverable
+energy (Betz limit, kWh/m²). Charts: histogram and Weibull distribution, monthly quantities. <b>Wind rose and energy rose…</b> button when the
+measurements include directions.</p>
+
+<h3 id="wind-aero">8.4 Tab 4 — Wind turbine</h3>
+<p>Choice in the database; characteristics (P<sub>n</sub>, cut-in, rated and cut-out speeds, diameter, swept area, mean efficiency); power curve
+P = f(v); method: <b>manufacturer's curve</b> (recommended) or <b>mean efficiency</b>. <b>Edit the database…</b> adds, duplicates or deletes machines
+and lets you enter or paste the curve point by point.</p>
+<p><b>Supplied database (November 2026)</b>: eight generic machines from 1 to 250 kW (permanent magnets up to 20 kW, variable pitch above), with
+power curve at ρ = 1.225 kg/m³, diameter, usual hub height and indicative prices of the machine and the tower (thousands of F CFA incl. VAT in
+Dakar, to be replaced by quotations). The <b>Database prices</b> button of tab 6 uses these prices. An older personal database is renamed
+<code>aerogenerateurs.avant-2026-11.csv</code>.</p>
+
+<h3 id="wind-production">8.5 Tab 5 — Production and sizing</h3>
 <ul>
-<li><b>Design margin</b> (%): increases the needs used for the number of machines and the storage (10 % by default for new projects, 0 % for old ones).</li>
-<li><b>Production losses</b> (%): unavailability, electrical losses, blade soiling (6 % by default) — net production = gross × (1 − losses).</li>
-<li><b>Demand</b> (kWh/day) and <b>losses to the loads</b> (storage, conversion, cables: 15 to 25 %).</li>
-<li>Results: net energy per month and per year (gross recalled), mean power, capacity factor, demand coverage, production per wind class, number of turbines (worst month and annual balance), comparison of all database machines, check against the measured series.</li>
+<li><b>Demand</b> (kWh/d; computed from tab 2 if there are facilities), <b>design margin</b> (10 % by default: increases the demand used for the number
+of machines and the storage), <b>production losses</b> (6 % by default; <b>Estimate…</b> button item by item) and <b>losses up to the loads</b>
+(conversion, cables; <b>Estimate…</b> button).</li>
+<li><b>Grid-connected system</b> (chosen in tab 6): the number of machines is sized on the <b>annual balance</b>; the grid supplies the deficits and
+takes the surplus, so there is no need to cover the least favourable month.</li>
+<li><b>Stand-alone system</b>: <b>sizing criterion</b> to choose:
+<ul>
+<li><b>Cost / reliability optimisation (LPSP)</b> — recommended, default: number of machines and battery capacity optimised together; the
+“Battery autonomy” field is greyed out and shows the optimal autonomy;</li>
+<li><b>Simulation with the entered battery</b>: battery of the entered autonomy, smallest number of machines reaching the target coverage;</li>
+<li><b>Least favourable month</b> (monthly balance);</li>
+<li><b>Annual balance</b> (assumes seasonal storage: deficits in low-wind months).</li>
+</ul></li>
+<li><b>Target coverage (%)</b> (99 % by default), <b>autonomy</b> (h), <b>depth of discharge</b>, <b>battery efficiency</b>, <b>DC bus voltage</b>,
+<b>loads supplied by the battery</b> (all, or priority loads only with load shedding), <b>battery</b> (lowest cost in the equipment database, or imposed model).</li>
+<li><b>Results</b>: net production per month and per year (gross recalled), mean power, capacity factor, coverage by the wind farm, production per wind
+class, number of wind turbines with the chosen criterion and, for comparison, those of the least favourable month and of the annual balance; off-grid,
+storage kept (units, series × parallel arrangement, rated and usable capacity, cost), simulation (coverage, deficit, surplus, minimum energy reached,
+cycles), <b>sizing curve</b> (autonomy → number of machines, life-cycle cost) and <b>sensitivity</b> to the target coverage (90, 95, 98 and 99 %);
+check of the production on the measurement series. Charts: monthly production and demand of the farm, production per wind class, energy in the
+battery day by day.</li>
+<li><b>Comparison of the wind turbines of the database</b>: annual energy, kWh/yr/kW, capacity factor, <b>Recommended N</b> (annual balance on grid,
+chosen criterion off-grid), N of the least favourable month, of the annual balance and with storage. Double-clicking a row selects the machine; ⚠ flags
+inconsistent data.</li>
 </ul>
-<h3 id="wind-economics">8.5 Tab 5 — Economic viability</h3>
-<ol class="steps">
-<li><div class="step-content"><b>System</b>: grid-connected (all net energy is sold, × conversion efficiency) or stand-alone (useful energy = min(available production, demand) each month; batteries for N days of autonomy). Number of machines: entered, or 0 to use the number from tab 4.</div></li>
-<li><div class="step-content"><b>Investment</b>: turbine (kF/kW), tower and foundations (kF/machine), power electronics (kF/kW), batteries (kF/kWh), installation (% of equipment).</div></li>
-<li><div class="step-content"><b>Operation</b>: O&amp;M and insurance (kF/kW/yr), major overhaul (% of turbine price, year), lifetimes of electronics and batteries.</div></li>
-<li><div class="step-content"><b>Economic data</b>: tariff (selling price or avoided cost) and growth, duration, inflation, discount rate, subsidy, yearly production loss; tariff range of the sensitivity.</div></li>
-<li><div class="step-content"><b>Compute</b>, <b>Minimum tariff</b>, <b>Minimum subsidy</b>, <b>Default values</b>.</div></li>
-</ol>
-<p>Results: energy sold or used, capacity factor, coverage, investment, NPV, IRR, simple and discounted payback, LCOE, minimum tariff, minimum subsidy; cumulative cash-flow chart (simple and discounted) and monthly energy; <b>sensitivity</b>: NPV versus tariff for wind from 80 to 120 % and LCOE versus wind; savable report; CSV export.</p>
-<div class="note">Wind energy varies very fast with wind speed: a 10 % weaker wind often costs 15 to 25 % of the energy. The quality of the wind data (on-site measurements over at least one year, at hub height) matters more than the precision of the costs.</div>
 
-<h3 id="wind-methodes">8.6 Wind calculation methods</h3>
+<h3 id="wind-economics">8.6 Tab 6 — Economic viability</h3>
+<ol class="steps">
+<li><div class="step-content"><b>System</b>: grid-connected (all the net energy is sold, × conversion efficiency) or stand-alone (useful energy = energy
+supplied to the loads according to the simulation; system type and storage defined in tab 5). <b>Number of wind turbines</b>: entered, or 0 to use the
+recommended number of tab 5.</div></li>
+<li><div class="step-content"><b>Investment</b>: wind turbine (kF/kW), tower and foundations (kF/machine), electronics (kF/kW), batteries (kF/kWh),
+installation (% of equipment); <b>Database prices</b> button.</div></li>
+<li><div class="step-content"><b>Operation</b>: operation and maintenance and insurance (kF/kW/yr), major overhaul (% of the machine price, year),
+lifetimes of the electronics and batteries.</div></li>
+<li><div class="step-content"><b>Wiring</b>: lengths machine → electronics, electronics → battery, electronics → connection; alternator voltage.</div></li>
+<li><div class="step-content"><b>Economic data</b>: energy tariff (selling price or avoided cost) with, just below, the <b>Minimum for profitability</b>
+button (minimum tariff); tariff escalation, lifetime, inflation, discount rate; subsidy with, below it, the <b>Minimum for profitability</b> button
+(minimum subsidy); annual production loss; tariff range of the sensitivity. <b>Default values</b> at the bottom of the form.</div></li>
+</ol>
+<p>Results: energy sold or useful, capacity factor, coverage, investment, NPV, IRR, simple and discounted payback, LCOE, minimum tariff, minimum subsidy;
+charts of cumulative cash flows (simple and discounted), monthly energy and <b>sensitivity</b> (NPV versus tariff for a wind of 80 to 120 %, LCOE versus wind);
+savable report.</p>
+<div class="note">Wind energy varies very quickly with wind speed: a wind 10 % weaker often loses 15 to 25 % of the energy. The quality of the wind data
+(on-site measurements over at least one year, at hub height) matters more than the accuracy of the costs.</div>
+
+<h3 id="wind-methodes">8.7 Wind calculation methods</h3>
+<details class="notations" open><summary>Notation</summary>
+<table class="notations">
+<tr><th>Symbol</th><th>Quantity</th><th>Unit</th></tr>
+<tr><td>v, v̄</td><td>Wind speed; mean speed</td><td>m/s</td></tr>
+<tr><td>f(v), c, k</td><td>Weibull probability density; scale and shape parameters</td><td>(m/s)<sup>−1</sup>, m/s, —</td></tr>
+<tr><td>F</td><td>Windy fraction = 1 − share of calms</td><td>—</td></tr>
+<tr><td>H<sub>meas</sub>, H, z₀</td><td>Measurement height; hub height; terrain roughness length</td><td>m</td></tr>
+<tr><td>I</td><td>Turbulence intensity at hub height</td><td>—</td></tr>
+<tr><td>ρ, A, D</td><td>Air density; swept area πD²/4; rotor diameter</td><td>kg/m³, m², m</td></tr>
+<tr><td>P(v), P<sub>n</sub>, η</td><td>Power curve; rated power; mean efficiency (efficiency method)</td><td>kW, kW, —</td></tr>
+<tr><td>v<sub>i</sub>, v<sub>max</sub></td><td>Cut-in and cut-out speeds</td><td>m/s</td></tr>
+<tr><td>p<sub>prod</sub>, p<sub>r</sub></td><td>Production losses; losses up to the loads (η<sub>r</sub> = 1 − p<sub>r</sub>)</td><td>%</td></tr>
+<tr><td>E<sub>m</sub>, E<sub>yr</sub>, d<sub>m</sub></td><td>Net energy of one machine in month m, in the year; days of the month</td><td>kWh, kWh, d</td></tr>
+<tr><td>B<sub>d</sub>, m, B′<sub>d</sub></td><td>Daily demand; design margin; design demand B<sub>d</sub>(1 + m)</td><td>kWh/d, %, kWh/d</td></tr>
+<tr><td>N</td><td>Number of wind turbines</td><td>—</td></tr>
+<tr><td>Aut, DoD, η<sub>bat</sub>, U</td><td>Autonomy; depth of discharge; battery efficiency; bus voltage</td><td>h, —, —, V</td></tr>
+<tr><td>C<sub>req</sub>, C<sub>nom</sub></td><td>Required capacity; rated capacity kept (whole units)</td><td>kWh</td></tr>
+<tr><td>E(t), E<sub>min</sub>, E<sub>max</sub></td><td>Energy in the battery; minimum C<sub>nom</sub>(1 − DoD); maximum C<sub>nom</sub></td><td>kWh</td></tr>
+<tr><td>LPSP, τ, τ<sub>target</sub></td><td>Energy not supplied / energy demanded; coverage 1 − LPSP; target coverage</td><td>—, %, %</td></tr>
+<tr><td>LCC</td><td>Discounted life-cycle cost (net investment + present value of operation and replacements − residual value)</td><td>kF</td></tr>
+</table>
+</details>
 <h4>Weibull distribution</h4>
-<div class="eq">f(v) = (k/c)·(v/c)<sup>k−1</sup>·exp(−(v/c)<sup>k</sup>) ; v̄ = c·Γ(1 + 1/k) ; ⟨v³⟩ = c³·Γ(1 + 3/k)</div>
+<div class="eq">f(v) = (k/c)·(v/c)<sup>k−1</sup>·exp(−(v/c)<sup>k</sup>); v̄ = c·Γ(1 + 1/k); ⟨v³⟩ = c³·Γ(1 + 3/k)</div>
 <p>Maximum likelihood on non-zero winds: 1/k = Σv<sup>k</sup>ln v / Σv<sup>k</sup> − ⟨ln v⟩, c = (⟨v<sup>k</sup>⟩)<sup>1/k</sup>; windy fraction F = 1 − calms.</p>
 <h4>Height extrapolation, turbulence</h4>
-<div class="eq">v(H) = v(H<sub>meas</sub>)·ln(H/z₀) / ln(H<sub>meas</sub>/z₀) ; I = 1/ln(H/z₀) (z₀ ≤ 0.2 m)</div>
+<div class="eq">v(H) = v(H<sub>meas</sub>)·ln(H/z₀) / ln(H<sub>meas</sub>/z₀); I = 1/ln(H/z₀) (z₀ ≤ 0.2 m)</div>
 <h4>Power density and recoverable energy</h4>
-<div class="eq">P/A = ½·ρ·(1 + 3I²)·F·⟨v³⟩ ; recoverable = 16/27·P/A (Betz limit)</div>
-<h4>Production</h4>
-<div class="eq">E<sub>month</sub> = (1 − losses)·F·∫<sub>v<sub>i</sub></sub><sup>v<sub>max</sub></sup> P(v)·f(v) dv · 24 · days</div>
-<p>Manufacturer's curve read at the equivalent speed v·(ρ/1.225)<sup>1/3</sup> (IEC 61400-12-1). Efficiency method: P = η·½ρ(1 + 3I²)·πD²/4·v³, limited to Pn. Number of machines = ⌈demand / (E<sub>net</sub>·(1 − losses to loads))⌉ for the worst month.</p>
+<div class="eq">P/A = ½·ρ·(1 + 3I²)·F·⟨v³⟩; recoverable = 16/27·P/A (Betz limit)</div>
+<h4>Production of one machine</h4>
+<div class="eq">E<sub>m</sub> = (1 − p<sub>prod</sub>)·F·∫<sub>v<sub>i</sub></sub><sup>v<sub>max</sub></sup> P(v)·f(v) dv · 24 · d<sub>m</sub>; capacity factor CF = E/(P<sub>n</sub>·hours)</div>
+<p>Manufacturer's curve read at the equivalent speed v·(ρ/1.225)<sup>1/3</sup> (IEC 61400-12-1). Efficiency method: P = η·½ρ(1 + 3I²)·πD²/4·v³, limited to
+P<sub>n</sub>. With measurements, the production is also computed directly on the series; a difference above 10 % with Weibull is reported.</p>
+<h4>Number of wind turbines</h4>
+<div class="eq">annual balance (grid): N = ⌈365·B′<sub>d</sub> / (E<sub>yr</sub>·η<sub>r</sub>)⌉ &nbsp;&nbsp; least favourable month: N = max<sub>m</sub> ⌈d<sub>m</sub>·B′<sub>d</sub> / (E<sub>m</sub>·η<sub>r</sub>)⌉</div>
+<h4>Storage and simulation (stand-alone system)</h4>
+<div class="eq">C<sub>req</sub> = B′<sub>bat</sub>·(Aut/24) / (DoD·η<sub>bat</sub>); N<sub>bs</sub> = U/U<sub>bat</sub>; N<sub>bp</sub> = ⌈C<sub>req</sub>/(U·C<sub>bat</sub>)⌉</div>
+<p>Chronological simulation on the measurement series (speeds at hub height, hourly demand profile of tab 2), battery full at the start: surplus production
+charges the battery (efficiency √η<sub>bat</sub>) up to E<sub>max</sub>, the rest is lost; the shortfall is taken from the battery (√η<sub>bat</sub>) down to
+E<sub>min</sub>, the rest is a deficit. LPSP = Σ deficits / Σ demand; coverage τ = 1 − LPSP. With “priority loads only”, non-priority loads are shed when the
+battery falls below half of its usable energy and the wind is not enough.</p>
+<h4>Cost / reliability optimisation (LPSP)</h4>
+<p>For each autonomy from 6 h to 20 days (6, 12, 18, 24, 36, 48, 72, 96, 120, 168, 240, 336 and 480 h): smallest N such that LPSP ≤ 1 − τ<sub>target</sub>,
+then discounted life-cycle cost LCC(N, battery) with the prices of tab 6; the pair with the lowest LCC is kept. The optimum is recomputed for target
+coverages of 90, 95, 98 and 99 % (sensitivity). References: Borowy and Salameh (1996), Kaldellis (2002), Diaf et al. (2007), Yang et al. (2008).</p>
+<div class="warn">A stand-alone wind-only system always produces much more than the demand in windy months: it is sized for the calm periods. Above
+95 % coverage, a back-up source (PV, generator) is often cheaper.</div>
 
 <!-- ====================================================================== -->
             <a href="#top" class="back-to-top">↑ Back to top</a>
@@ -758,6 +913,18 @@ renamed <code>aerogenerateurs.avant-2026-11.csv</code>.</p>
             <h2><span class="section-icon">💰</span>9. Economic methods</h2>
 <p>The PV and wind viability studies share the same definitions. Year 0: investment; years 1 to N: yearly flows; discount rate a, inflation i, tariff growth g.</p>
 <div class="eq">F<sub>0</sub> = −I·(1 − s) ; F<sub>y</sub> = t·(1+g)<sup>y</sup>·E<sub>y</sub> − (C<sub>yr</sub> + R<sub>y</sub>)·(1+i)<sup>y</sup> (+ V<sub>salv</sub>·(1+i)<sup>N</sup> in year N)</div>
+<table class="notations">
+<tr><th>Symbol</th><th>Quantity</th><th>Unit</th></tr>
+<tr><td>y, N</td><td>Year (0 = commissioning); study period</td><td>yr</td></tr>
+<tr><td>I, s</td><td>Gross investment (equipment, installation, wiring); subsidy (share of I)</td><td>kF, %</td></tr>
+<tr><td>F<sub>y</sub></td><td>Net cash flow of year y (revenue − expenditure)</td><td>kF</td></tr>
+<tr><td>t, g</td><td>Energy tariff (selling price or avoided cost); annual tariff escalation</td><td>F/kWh, %/yr</td></tr>
+<tr><td>E<sub>y</sub></td><td>Energy sold or useful in year y (degradation deducted)</td><td>kWh</td></tr>
+<tr><td>C<sub>yr</sub></td><td>Annual operation, maintenance and insurance costs (year-0 prices)</td><td>kF/yr</td></tr>
+<tr><td>R<sub>y</sub></td><td>Replacements of year y (batteries, inverters, electronics) and major overhaul</td><td>kF</td></tr>
+<tr><td>V<sub>salv</sub></td><td>Residual (salvage) value of the equipment at the end of the study</td><td>kF</td></tr>
+<tr><td>a, i</td><td>Discount rate; inflation</td><td>%/yr</td></tr>
+</table>
 <table>
 <tr><th>Indicator</th><th>Definition</th></tr>
 <tr><td>NPV</td><td>Σ F<sub>y</sub>/(1+a)<sup>y</sup>. Viable if NPV ≥ 0.</td></tr>
@@ -792,6 +959,10 @@ renamed <code>aerogenerateurs.avant-2026-11.csv</code>.</p>
 <tr><td>Inverter — current limit Imax</td><td class="num">1.1 pu (PV, wind); 1.2 pu (battery)</td><td>1.0 to 1.5 pu (manufacturer I_skPF when known)</td></tr>
 <tr><td>Generating set — X'd, Rd</td><td class="num">0.25 pu; 0.1·Xd</td><td>X'd 0.15 to 0.35 pu</td></tr>
 <tr><td>Inflation / discount rate</td><td class="num">3 % / 8 %</td><td>depending on country and financing</td></tr>
+<tr><td>PV, wind, pumping — design margin</td><td class="num">10 %</td><td>5 to 20 % depending on demand uncertainty</td></tr>
+<tr><td>Wind — target coverage (stand-alone system)</td><td class="num">99 %</td><td>90 to 99 %; above 95 %, consider a back-up (PV, generator)</td></tr>
+<tr><td>Wind — measurement / hub height</td><td class="num">10 m / usual height of the machine</td><td>hub: 12 m (1 kW) to 40 m (250 kW)</td></tr>
+<tr><td>Wind — battery: bus voltage, efficiency</td><td class="num">48 V; 0.8</td><td>efficiency 0.75 to 0.85 (lead-acid), 0.9 to 0.95 (lithium)</td></tr>
 </table>
 
 <!-- ====================================================================== -->

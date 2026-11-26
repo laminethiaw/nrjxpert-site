@@ -89,6 +89,7 @@ de l'électronique, du câblage et des pompes solaires.</div>
 <li>Dimensionner une pompe solaire (HMT, énergie hydraulique, puissance crête, réservoir) et vérifier le résultat par simulation horaire.</li>
 </ul>
 <p class="prereq">Prérequis : niveaux 1 et 2 (§ 2.4). Durée : 28 à 34 h.</p>
+<p>Chaque section de calcul (3.3 à 3.8) commence par le tableau de ses notations : symbole, signification, unité et valeur usuelle. Toutes sont rassemblées dans l'annexe A.7.</p>
 </div>
 
 <!-- ================================================================== -->
@@ -156,66 +157,225 @@ cellules (<i>V</i><sub>mp</sub> 30 à 40 V).</p>
         </div>
         <div class="section" id="n3-3">
             <h2><span class="section-icon">☀️</span>3.3 Dimensionnement d'un système PV autonome</h2>
-<h3>Démarche</h3>
-<ol class="steps">
-<li><div class="step-content"><b>Bilan des besoins</b> : pour chaque récepteur, puissance × nombre × heures de fonctionnement ; énergie journalière <i>E</i><sub>j</sub>
-(Wh/j) et puissance apparente maximale simultanée <i>S</i><sub>max</sub> (VA, pour l'onduleur).</div></li>
-<li><div class="step-content"><b>Besoins ramenés à la batterie</b> : <i>Q</i><sub>j</sub> = <i>E</i><sub>j</sub>/(<i>U</i>·η<sub>conv</sub>·η<sub>câbles</sub>·η<sub>bat</sub>) (Ah/j),
-avec η<sub>conv</sub> = 0,9 pour les récepteurs alternatifs, 0,98 pour les câbles, 0,9 pour la batterie.</div></li>
-<li><div class="step-content"><b>Ensoleillement de dimensionnement</b> : mois le plus défavorable sur le plan des modules (ou moyenne annuelle si l'on accepte
-un déficit saisonnier).</div></li>
-<li><div class="step-content"><b>Champ PV</b> : PWM : <i>N</i><sub>p</sub> = ⌈<i>Q</i><sub>j</sub>/(<i>H</i>·0,9·<i>I</i><sub>mp</sub>)⌉ chaînes de <i>N</i><sub>s</sub> = ⌈1,2·<i>U</i>/(0,9·<i>V</i><sub>mp</sub>)⌉ ;
-MPPT : <i>P</i><sub>c</sub> = <i>Q</i><sub>j</sub>·<i>U</i>/(<i>H</i>·0,9·<i>f</i><sub>T</sub>·0,96) avec <i>f</i><sub>T</sub> = 1 − 0,004·(<i>T</i><sub>a</sub> + 25 − 25).</div></li>
-<li><div class="step-content"><b>Batterie</b> : capacité utile <i>C</i> = <i>Q</i><sub>j</sub>·autonomie(h)/24 ; <i>N</i><sub>s</sub> = <i>U</i>/<i>U</i><sub>batt</sub>,
-<i>N</i><sub>p</sub> = ⌈<i>C</i>/(<i>C</i><sub>batt</sub>·DoD)⌉.</div></li>
-<li><div class="step-content"><b>Régulateur</b> : courant ≥ 1,25 × courant du champ (PWM : <i>N</i><sub>p</sub>·<i>I</i><sub>sc</sub> ; MPPT : <i>P</i><sub>c</sub>/<i>U</i>).</div></li>
-<li><div class="step-content"><b>Onduleur</b> : puissance ≥ 1,25 × <i>S</i><sub>max</sub>.</div></li>
-<li><div class="step-content"><b>Câblage</b> (§ 3.4), <b>coûts</b> (niveau 4), et vérification mois par mois : production, besoins, taux de couverture.</div></li>
-</ol>
-<div class="note">Les nombres sont arrondis <b>à l'entier supérieur</b> (un arrondi au plus proche sous-dimensionne : c'était une erreur
-du programme d'origine corrigée dans NRJXpert). Parmi les équipements de la base, l'option « choisir au coût global minimal »
-retient la combinaison la moins chère sur la durée d'exploitation, remplacements compris.</div>
+<p>Un système photovoltaïque <b>autonome</b> (non raccordé au réseau) comprend un <b>champ</b> de modules, un ou plusieurs
+<b>régulateurs de charge</b>, une <b>batterie</b>, un <b>onduleur</b> pour les récepteurs en courant alternatif, et le câblage qui les relie.
+Le dimensionner, c'est fixer le nombre de chaque équipement pour deux objectifs :</p>
+<ul>
+<li>le champ doit produire, <b>pendant le mois le moins ensoleillé</b>, l'énergie consommée chaque jour, pertes comprises ;</li>
+<li>la batterie doit alimenter les récepteurs <b>la nuit et pendant les jours sans soleil</b> (durée appelée <b>autonomie</b>).</li>
+</ul>
+<p>Le calcul suit l'énergie de l'utilisateur vers le soleil : besoins des récepteurs → énergie demandée à la batterie → champ PV →
+batterie → régulateur → onduleur → câbles. Toutes les grandeurs sont définies dans le tableau ci-dessous.</p>
 
-<p><b>Marge de dimensionnement.</b> Le champ « Marge de dimensionnement (%) » de l'onglet Options majore les besoins (Ah/j) avant le calcul du champ et de la batterie ; il couvre l'incertitude sur le profil de charge, la croissance de la demande et le vieillissement (10 % par défaut dans les nouveaux projets). Les exemples de ce tutoriel sont calculés avec une marge de 0 % pour pouvoir être vérifiés à la main : mettre 0 pour retrouver leurs valeurs.</p>
+<details class="notations" open><summary>Notations de la section 3.3</summary>
+<table class="notations">
+<tr><th>Symbole</th><th>Grandeur</th><th>Unité</th><th>Origine ou valeur usuelle</th></tr>
+<tr><td>n<sub>i</sub>, P<sub>i</sub></td><td>Nombre d'appareils identiques du récepteur i, puissance d'un appareil</td><td>—, W</td><td>Onglet « Besoins »</td></tr>
+<tr><td>K<sub>u</sub>, K<sub>s</sub></td><td>Facteurs d'utilisation (fonctionnement partiel) et de simultanéité (appareils non utilisés en même temps)</td><td>—</td><td>0 à 1 ; 1 par défaut</td></tr>
+<tr><td>η<sub>i</sub></td><td>Rendement propre de l'appareil (puissance absorbée = P<sub>i</sub>/η<sub>i</sub>)</td><td>—</td><td>1 par défaut</td></tr>
+<tr><td>h<sub>i</sub>, j<sub>i</sub></td><td>Heures de fonctionnement par jour (cases cochées de l'horaire), jours d'utilisation par semaine</td><td>h/j, j/sem.</td><td>Onglet « Besoins »</td></tr>
+<tr><td>cos φ<sub>i</sub></td><td>Facteur de puissance d'un récepteur alternatif (puissance apparente S = P/cos φ)</td><td>—</td><td>0,8 à 1</td></tr>
+<tr><td>E<sub>j</sub></td><td>Énergie consommée chaque jour par les récepteurs</td><td>Wh/j</td><td>Calculée</td></tr>
+<tr><td>S<sub>max</sub></td><td>Puissance apparente appelée à l'heure la plus chargée de la journée (somme des P<sub>i</sub>/cos φ<sub>i</sub> des récepteurs en marche)</td><td>VA</td><td>Calculée ; sert à l'onduleur</td></tr>
+<tr><td>U</td><td>Tension du <b>bus continu</b> = tension nominale de la batterie, du régulateur et de l'entrée de l'onduleur</td><td>V</td><td>12, 24 ou 48 V</td></tr>
+<tr><td>η<sub>conv</sub></td><td>Rendement du convertisseur qui alimente le récepteur : onduleur (récepteur alternatif) ou convertisseur continu-continu</td><td>—</td><td>0,9 ; 1 pour un récepteur continu à la tension U</td></tr>
+<tr><td>η<sub>câbles</sub></td><td>Rendement des câbles (pertes par effet Joule)</td><td>—</td><td>0,98</td></tr>
+<tr><td>η<sub>bat</sub></td><td>Rendement de la batterie (énergie restituée / énergie stockée), appliqué à toute l'énergie consommée (hypothèse prudente)</td><td>—</td><td>0,9</td></tr>
+<tr><td>Q<sub>j</sub></td><td>Charge électrique à fournir chaque jour au bus continu (en ampères-heures : à tension fixe, le courant mesure l'énergie)</td><td>Ah/j</td><td>Calculée</td></tr>
+<tr><td>m, Q′<sub>j</sub></td><td>Marge de dimensionnement ; charge de dimensionnement Q′<sub>j</sub> = Q<sub>j</sub>·(1 + m)</td><td>%, Ah/j</td><td>m = 10 % (onglet « Options et coûts »)</td></tr>
+<tr><td>H</td><td>Irradiation journalière moyenne d'un mois <b>sur le plan des modules</b>. Comme 1 kWh/m² = 1 heure à 1 000 W/m², H est aussi le nombre d'<b>heures de plein soleil</b> (HPS)</td><td>kWh/m²/j = h/j</td><td>Onglet « Site » (§ 3.1)</td></tr>
+<tr><td>H<sub>dim</sub></td><td>Irradiation de dimensionnement : H du mois le plus faible (recommandé en autonome) ou moyenne annuelle</td><td>h/j</td><td>Onglet « Site »</td></tr>
+<tr><td>β</td><td>Inclinaison des modules par rapport à l'horizontale (orientés vers l'équateur)</td><td>°</td><td>Optimale pour le mois le plus faible</td></tr>
+<tr><td>T<sub>a</sub>, T<sub>c</sub></td><td>Température ambiante moyenne du mois ; température des cellules T<sub>c</sub> = T<sub>a</sub> + (NOCT − 20) (sous 800 W/m²)</td><td>°C</td><td>Onglet « Site »</td></tr>
+<tr><td>NOCT</td><td>Température nominale de fonctionnement des cellules (fiche technique du module)</td><td>°C</td><td>45 °C</td></tr>
+<tr><td>γ</td><td>Coefficient de température de la puissance maximale du module</td><td>%/°C</td><td>−0,40 %/°C</td></tr>
+<tr><td>f<sub>T</sub></td><td>Facteur de température : f<sub>T</sub> = 1 + γ·(T<sub>c</sub> − 25), limité à 1,05</td><td>—</td><td>≈ 0,9 au Sahel</td></tr>
+<tr><td>p, k<sub>p</sub></td><td>Pertes du système (poussière, dispersion entre modules, câbles du champ, tolérance) ; facteur k<sub>p</sub> = 1 − p</td><td>%, —</td><td>p = 8 % (« Paramètres du modèle »)</td></tr>
+<tr><td>η<sub>MPPT</sub></td><td>Rendement du convertisseur d'un régulateur MPPT</td><td>—</td><td>0,96</td></tr>
+<tr><td>P<sub>mod</sub></td><td>Puissance crête d'un module : puissance maximale aux conditions standard STC (1 000 W/m², 25 °C, AM1,5)</td><td>Wc</td><td>Fiche technique</td></tr>
+<tr><td>V<sub>mp</sub>, I<sub>mp</sub></td><td>Tension et courant d'un module à son point de puissance maximale (STC) : P<sub>mod</sub> = V<sub>mp</sub>·I<sub>mp</sub></td><td>V, A</td><td>Fiche technique</td></tr>
+<tr><td>V<sub>oc</sub>, I<sub>sc</sub></td><td>Tension de circuit ouvert et courant de court-circuit d'un module (STC)</td><td>V, A</td><td>Fiche technique</td></tr>
+<tr><td>N<sub>s</sub></td><td>Nombre de modules <b>en série</b> dans une chaîne (les tensions s'ajoutent)</td><td>—</td><td>Calculé</td></tr>
+<tr><td>N<sub>p</sub></td><td>Nombre de chaînes <b>en parallèle</b> (les courants s'ajoutent)</td><td>—</td><td>Calculé</td></tr>
+<tr><td>N<sub>mod</sub>, P<sub>c</sub></td><td>Nombre de modules N<sub>mod</sub> = N<sub>s</sub>·N<sub>p</sub> ; puissance crête du champ P<sub>c</sub> = N<sub>mod</sub>·P<sub>mod</sub></td><td>—, Wc</td><td>Calculés</td></tr>
+<tr><td>I<sub>champ</sub></td><td>Courant que le champ doit débiter pendant H<sub>dim</sub> heures pour fournir Q′<sub>j</sub> (régulateur PWM)</td><td>A</td><td>Calculé</td></tr>
+<tr><td>P<sub>c,req</sub></td><td>Puissance crête nécessaire du champ (régulateur MPPT)</td><td>Wc</td><td>Calculée</td></tr>
+<tr><td>Aut</td><td>Autonomie : durée pendant laquelle la batterie seule alimente les récepteurs</td><td>h</td><td>72 h (3 jours)</td></tr>
+<tr><td>C</td><td>Capacité que l'on doit pouvoir prélever dans la batterie (capacité utile)</td><td>Ah</td><td>Calculée</td></tr>
+<tr><td>C<sub>bat</sub>, U<sub>bat</sub></td><td>Capacité nominale et tension d'une batterie (d'un élément)</td><td>Ah, V</td><td>Base d'équipements</td></tr>
+<tr><td>DoD</td><td>Profondeur de décharge admise : part de la capacité nominale que l'on s'autorise à prélever</td><td>%</td><td>Plomb 50 à 70 %, lithium LFP 90 % (base)</td></tr>
+<tr><td>N<sub>bs</sub>, N<sub>bp</sub></td><td>Batteries en série (pour obtenir U) ; branches en parallèle (pour obtenir C)</td><td>—</td><td>Calculés</td></tr>
+<tr><td>I<sub>reg</sub>, I<sub>e,max</sub>, V<sub>e,max</sub></td><td>Courant nominal (de sortie) d'un régulateur ; courant et tension d'entrée maximaux admis côté champ</td><td>A, A, V</td><td>Base d'équipements</td></tr>
+<tr><td>k, N<sub>reg</sub></td><td>Nombre de chaînes raccordées à un régulateur ; nombre de régulateurs</td><td>—</td><td>Calculés</td></tr>
+<tr><td>S<sub>ond</sub>, N<sub>ond</sub></td><td>Puissance apparente nominale d'un onduleur ; nombre d'onduleurs</td><td>VA, —</td><td>Base ; calculé</td></tr>
+<tr><td>d<sub>m</sub></td><td>Nombre de jours du mois m</td><td>j</td><td>28 à 31</td></tr>
+<tr><td>E<sub>prod,m</sub>, E<sub>bes,m</sub></td><td>Énergie fournie au bus continu par le champ et énergie demandée au bus pendant le mois m</td><td>kWh</td><td>Calculées</td></tr>
+<tr><td>τ</td><td>Taux de couverture des besoins : part des besoins annuels effectivement fournie</td><td>%</td><td>Calculé</td></tr>
+<tr><td>⌈x⌉, ⌊x⌋</td><td>Arrondi à l'entier supérieur, à l'entier inférieur</td><td>—</td><td>—</td></tr>
+</table>
+</details>
+
+<h3>Étape 1 — Bilan des besoins</h3>
+<p>Pour chaque récepteur, on note le nombre d'appareils, leur puissance et leurs heures de marche. L'énergie journalière moyenne est :</p>
+<div class="eq">E<sub>j</sub> = Σ<sub>i</sub> n<sub>i</sub>·P<sub>i</sub>·K<sub>u</sub>·K<sub>s</sub>/η<sub>i</sub> · h<sub>i</sub> · j<sub>i</sub>/7 &nbsp;&nbsp;(Wh/j)</div>
+<p>Le facteur j<sub>i</sub>/7 ramène à un jour moyen un appareil utilisé seulement certains jours (école fermée le week-end). Le profil
+horaire (somme des puissances heure par heure) donne aussi <b>S<sub>max</sub></b>, la puissance apparente de l'heure la plus chargée, qui fixe la
+taille de l'onduleur.</p>
+
+<h3>Étape 2 — Besoins ramenés au bus continu (ampères-heures)</h3>
+<p>Toute l'énergie passe par le bus continu : elle sort de la batterie ou du régulateur, traverse les câbles et, pour les récepteurs
+alternatifs, l'onduleur. Chaque traversée a un rendement inférieur à 1, donc le bus doit fournir plus que E<sub>j</sub>. Comme la tension du
+bus est fixe, on exprime ce besoin en ampères-heures (c'est l'unité des batteries et des régulateurs) :</p>
+<div class="eq">Q<sub>j</sub> = Σ<sub>i</sub> E<sub>j,i</sub> / (U·η<sub>conv,i</sub>·η<sub>câbles</sub>·η<sub>bat</sub>) &nbsp;&nbsp;(Ah/j) &nbsp;&nbsp;&nbsp;&nbsp; Q′<sub>j</sub> = Q<sub>j</sub>·(1 + m)</div>
+<p>η<sub>conv,i</sub> vaut 1 pour un récepteur continu alimenté directement à la tension U, et 0,9 sinon. La marge m couvre l'incertitude sur les
+horaires d'utilisation, la croissance de la demande et le vieillissement ; elle n'est pas une perte.</p>
+
+<h3>Étape 3 — Irradiation de dimensionnement</h3>
+<p>L'irradiation est convertie sur le plan incliné des modules (§ 3.1). Pour un système autonome, on dimensionne sur le <b>mois le plus
+faible</b> : si le champ suffit ce mois-là, il suffit toute l'année. Dimensionner sur la moyenne annuelle donne un champ plus petit mais des
+mois en déficit, à compenser par un groupe électrogène. H<sub>dim</sub> se lit en heures de plein soleil : un module de 1 Wc produit
+environ H<sub>dim</sub> Wh par jour, avant pertes.</p>
+
+<h3>Étape 4 — Choisir le type de régulateur : PWM ou MPPT ?</h3>
+<p>Le régulateur protège la batterie (il coupe la charge quand elle est pleine) ; sa technologie fixe la façon dont le champ travaille, donc la
+formule du champ.</p>
+<table>
+<tr><th></th><th>Régulateur PWM (modulation de largeur d'impulsion)</th><th>Régulateur MPPT (suivi du point de puissance maximale)</th></tr>
+<tr><td>Principe</td><td>Simple interrupteur électronique : le champ est relié directement à la batterie. Les modules travaillent donc à la
+<b>tension de la batterie</b> (≈ 1,2·U en charge), pas à leur tension V<sub>mp</sub>.</td><td>Convertisseur continu-continu : il fait travailler le
+champ à son <b>point de puissance maximale</b> (V<sub>mp</sub>, I<sub>mp</sub>) quelle que soit la tension de la batterie, et convertit
+cette puissance à la tension U (rendement η<sub>MPPT</sub> ≈ 0,96).</td></tr>
+<tr><td>Ce que fournit le champ</td><td>Un <b>courant</b> ≈ I<sub>mp</sub> par chaîne ; la puissance au-delà de U·I<sub>mp</sub> est perdue.</td><td>Une <b>puissance</b> ≈ P<sub>c</sub> corrigée de la température et des pertes.</td></tr>
+<tr><td>Grandeur de dimensionnement</td><td>Courant du champ I<sub>champ</sub> (A)</td><td>Puissance crête P<sub>c,req</sub> (Wc)</td></tr>
+<tr><td>Modules adaptés</td><td>Modules « 12 V » de 36 cellules (V<sub>mp</sub> ≈ 18 V) par tranche de 12 V de bus ; avec un module de 60 à 144 cellules,
+une grande partie de la puissance est perdue.</td><td>Tous les modules, notamment les modules actuels de 108 à 156 demi-cellules (V<sub>mp</sub> 31 à 45 V) ;
+plusieurs modules en série réduisent le courant et la section des câbles.</td></tr>
+<tr><td>Quand le choisir</td><td>Petits systèmes (jusqu'à 1 à 2 kWc), câbles courts : moins cher.</td><td>Au-delà de 2 à 3 kWc, câbles longs, modules de forte
+puissance : 15 à 30 % d'énergie en plus avec le même champ.</td></tr>
+</table>
+<p>NRJXpert peut essayer les deux types et les trois tensions de bus, puis garder la variante au coût du kWh le plus bas (case « Choisir aussi la
+tension du bus et le type de régulateur »).</p>
+
+<h3>Étape 5a — Champ PV avec un régulateur PWM</h3>
+<p>Un champ qui débite I ampères pendant H heures fournit I·H ampères-heures. Le courant à fournir est donc :</p>
+<div class="eq">I<sub>champ</sub> = Q′<sub>j</sub> / H<sub>dim</sub> &nbsp;&nbsp;(A)<br>
+N<sub>p</sub> = ⌈ I<sub>champ</sub> / (k<sub>p</sub>·I<sub>mp</sub>) ⌉ &nbsp;&nbsp; chaînes en parallèle (chaque chaîne fournit I<sub>mp</sub>, diminué des pertes)<br>
+N<sub>s</sub> = ⌈ 1,2·U / (0,9·V<sub>mp</sub>) ⌉ &nbsp;&nbsp; modules par chaîne</div>
+<p>1,2·U est la tension de fin de charge de la batterie (14,4 V pour 12 V) : la chaîne doit la dépasser même quand la chaleur fait baisser la
+tension des modules, ce que traduit le facteur 0,9. Production d'un mois : E<sub>prod,m</sub> = U·N<sub>p</sub>·I<sub>mp</sub>·k<sub>p</sub>·H<sub>m</sub>·d<sub>m</sub>.</p>
+
+<h3>Étape 5b — Champ PV avec un régulateur MPPT</h3>
+<p>Le champ est dimensionné en puissance. L'énergie à fournir au bus chaque jour vaut Q′<sub>j</sub>·U (Wh) ; un watt-crête en fournit
+H<sub>dim</sub>·k<sub>p</sub>·f<sub>T</sub>·η<sub>MPPT</sub> :</p>
+<div class="eq">P<sub>c,req</sub> = Q′<sub>j</sub>·U / (H<sub>dim</sub>·k<sub>p</sub>·f<sub>T</sub>·η<sub>MPPT</sub>) &nbsp;&nbsp;(Wc) &nbsp;&nbsp;&nbsp; f<sub>T</sub> = 1 + γ·(T<sub>a</sub> + NOCT − 20 − 25)<br>
+N<sub>s</sub> = ⌈ 1,3·U / (V<sub>mp</sub>·(1 + 45·γ)) ⌉ &nbsp;&nbsp;&nbsp; N<sub>p</sub> = ⌈ P<sub>c,req</sub> / (N<sub>s</sub>·P<sub>mod</sub>) ⌉</div>
+<p>Un régulateur MPPT ne fait qu'abaisser la tension : la chaîne doit rester au-dessus de 1,3·U même quand les cellules sont à 70 °C (45 °C au-dessus
+des 25 °C des STC, d'où le facteur 1 + 45·γ = 0,82). Vérification : la tension de circuit ouvert de la chaîne par temps froid, 1,1·N<sub>s</sub>·V<sub>oc</sub>,
+doit rester inférieure à la tension d'entrée maximale du régulateur V<sub>e,max</sub>. Production d'un mois :
+E<sub>prod,m</sub> = P<sub>c</sub>·H<sub>m</sub>·k<sub>p</sub>·f<sub>T,m</sub>·η<sub>MPPT</sub>·d<sub>m</sub>.</p>
+
+<h3>Étape 6 — Batterie</h3>
+<div class="eq">C = Q′<sub>bat</sub> · Aut / 24 &nbsp;&nbsp;(Ah) &nbsp;&nbsp;&nbsp; N<sub>bs</sub> = U / U<sub>bat</sub> &nbsp;&nbsp;&nbsp; N<sub>bp</sub> = ⌈ C / (C<sub>bat</sub>·DoD) ⌉ &nbsp;&nbsp;&nbsp; batteries = N<sub>bs</sub>·N<sub>bp</sub></div>
+<p>Q′<sub>bat</sub> est égal à Q′<sub>j</sub>, ou ne compte que les charges prioritaires si l'on choisit « Charges alimentées par la batterie : charges
+prioritaires seulement » (les autres sont délestées pendant l'autonomie). On ne prélève que DoD de la capacité nominale pour préserver la
+durée de vie : c'est pourquoi on divise par DoD. La profondeur de décharge recommandée par la base (plomb AGM 50 %, gel 60 %, OPzV 70 %,
+lithium LFP 90 %) remplace la valeur du projet. U doit être un multiple de U<sub>bat</sub> (12,8 V LFP compte pour 12 V).</p>
+
+<h3>Étape 7 — Régulateurs</h3>
+<p>Une chaîne n'est jamais partagée entre deux régulateurs. Pour chaque régulateur, NRJXpert vérifie :</p>
+<div class="eq">courant d'entrée d'une chaîne = 1,25·I<sub>sc</sub> ≤ I<sub>e,max</sub> &nbsp;&nbsp;&nbsp; courant de sortie d'une chaîne = 1,25·N<sub>s</sub>·P<sub>mod</sub>/U (MPPT) ou 1,25·I<sub>sc</sub> (PWM)<br>
+k = ⌊ min( I<sub>e,max</sub>/(1,25·I<sub>sc</sub>) ; I<sub>reg</sub>/courant de sortie d'une chaîne ) ⌋ &nbsp;&nbsp;&nbsp; N<sub>reg</sub> = ⌈ N<sub>p</sub> / k ⌉</div>
+<p>Le coefficient 1,25 (guide UTE C15-712-1) couvre un éclairement supérieur à 1 000 W/m² (bord de nuage, sol réfléchissant). En PWM, la tension
+V<sub>mp</sub> de la chaîne ne doit pas dépasser 2·U, sinon plus de la moitié de la puissance est perdue.</p>
+
+<h3>Étape 8 — Onduleur</h3>
+<div class="eq">N<sub>ond</sub> = ⌈ 1,25·S<sub>max</sub> / S<sub>ond</sub> ⌉ &nbsp;&nbsp; (onduleur autonome dont la tension continue est égale à U)</div>
+<p>La marge de 25 % absorbe les pointes de démarrage des moteurs (réfrigérateur, pompe) et évite de faire travailler l'onduleur à pleine charge.</p>
+
+<h3>Étape 9 — Vérification mois par mois et choix économique</h3>
+<p>Pour chaque mois, NRJXpert compare la production E<sub>prod,m</sub> et les besoins vus du bus E<sub>bes,m</sub> = Q<sub>j</sub>·U·d<sub>m</sub> :</p>
+<div class="eq">excédent = Σ max(0, E<sub>prod,m</sub> − E<sub>bes,m</sub>) &nbsp;&nbsp; déficit = Σ max(0, E<sub>bes,m</sub> − E<sub>prod,m</sub>) &nbsp;&nbsp;
+τ = Σ min(E<sub>prod,m</sub>, E<sub>bes,m</sub>) / Σ E<sub>bes,m</sub></div>
+<p>Avec l'option « Choisir les équipements au coût global minimal », chaque module, batterie, régulateur et onduleur de la base est essayé ; le
+module et le régulateur sont choisis ensemble (seules les combinaisons raccordables comptent) et la combinaison retenue est la moins chère
+sur toute la durée d'exploitation, remplacements compris (niveau 4). Le câblage est ensuite dimensionné (§ 3.4).</p>
+<div class="note">Tous les nombres d'équipements sont arrondis <b>à l'entier supérieur</b> (un arrondi au plus proche sous-dimensionne : c'était
+une erreur du programme d'origine corrigée dans NRJXpert). Les exemples de ce tutoriel sont calculés avec une marge de dimensionnement de 0 %
+pour pouvoir être vérifiés à la main : mettre 0 pour retrouver leurs valeurs.</div>
+
 <div class="ex"><h4>Exemple 3.3 — Case de santé rurale près de Dakar</h4>
+<p>Inventaire type d'une case de santé rurale (valeurs moyennes des plages usuelles : réfrigérateur 60 à 120 W, éclairage intérieur 4 à 6 lampes de 10 à 18 W,
+ventilateurs 2 ou 3 de 50 à 70 W…). Presque tous les récepteurs sont alternatifs (230 V, 50 Hz) et passent par l'onduleur ; seul le réfrigérateur à vaccins est
+un modèle solaire alimenté <b>directement en 24 V continu</b> : il n'a pas de pertes de conversion.</p>
 <table>
 <tr><th>Récepteur</th><th>Nombre × puissance</th><th>Heures/j</th><th>Énergie (Wh/j)</th></tr>
-<tr><td>Lampes LED (cos φ 0,9)</td><td>10 × 15 W</td><td class="num">5 (18 h – 23 h)</td><td class="num">750</td></tr>
-<tr><td>Réfrigérateur à vaccins (cos φ 0,8)</td><td>1 × 150 W</td><td class="num">12 (une heure sur deux)</td><td class="num">1 800</td></tr>
-<tr><td>Ordinateur</td><td>1 × 60 W</td><td class="num">4</td><td class="num">240</td></tr>
-<tr><td>Ventilateurs</td><td>2 × 50 W</td><td class="num">6</td><td class="num">600</td></tr>
-<tr><th colspan="3">Total</th><th class="num">3 390</th></tr>
+<tr><td>Réfrigérateur à vaccins, 24 V continu</td><td>1 × 90 W</td><td class="num">10 (8 h – 18 h)</td><td class="num">900</td></tr>
+<tr><td>Éclairage intérieur LED (cos φ 0,9)</td><td>5 × 15 W</td><td class="num">6 (18 h – 24 h)</td><td class="num">450</td></tr>
+<tr><td>Éclairage extérieur LED (cos φ 0,9)</td><td>2 × 30 W</td><td class="num">11 (19 h – 6 h)</td><td class="num">660</td></tr>
+<tr><td>Ventilateurs (cos φ 0,9)</td><td>2 × 60 W</td><td class="num">7 (11 h – 18 h)</td><td class="num">840</td></tr>
+<tr><td>Lampe d'examen LED (cos φ 0,9)</td><td>1 × 20 W</td><td class="num">2 (9 h – 11 h)</td><td class="num">40</td></tr>
+<tr><td>Tensiomètre, oxymètre, glucomètre : recharge (cos φ 0,9)</td><td>2 × 10 W</td><td class="num">1 (7 h – 8 h)</td><td class="num">20</td></tr>
+<tr><td>Poupinel, petit stérilisateur (cos φ 1)</td><td>1 × 1 000 W</td><td class="num">1 (8 h – 9 h)</td><td class="num">1 000</td></tr>
+<tr><td>Téléphones et tablette de suivi : recharge (cos φ 0,9)</td><td>2 × 20 W</td><td class="num">3 (13 h – 16 h)</td><td class="num">120</td></tr>
+<tr><th colspan="3">Total E<sub>j</sub> (dont 3 130 Wh alternatifs et 900 Wh continus)</th><th class="num">4 030</th></tr>
 </table>
-<p>Bus 24 V, régulateur MPPT, autonomie 72 h, DoD 60 %. Équipements imposés (prix indicatifs 2026) : module 400 Wc
-(<i>V</i><sub>mp</sub> 31,0 V, <i>I</i><sub>mp</sub> 12,9 A, <i>I</i><sub>sc</sub> 13,6 A ; 110 kF), batterie AGM 12 V 200 Ah (180 kF), régulateur MPPT 60 A
-(150 kF), onduleur 1,5 kVA (300 kF).</p>
+<p>Bus U = 24 V, régulateur MPPT, autonomie 72 h, marge 0 %, pertes du système p = 8 %, NOCT 45 °C, γ = −0,40 %/°C. Site : Dakar, irradiation
+horizontale de la base convertie sur le plan des modules. Équipements imposés (base de novembre 2026, prix indicatifs) : module 410 Wc
+(V<sub>mp</sub> 31,2 V, I<sub>mp</sub> 13,14 A, V<sub>oc</sub> 37,4 V, I<sub>sc</sub> 13,9 A ; 72 kF), batterie plomb AGM 12 V 200 Ah (DoD recommandée 50 % ; 180 kF),
+régulateur MPPT 60 A (entrée ≤ 150 V et ≤ 50 A ; 160 kF), onduleur 24 V de 2 kVA (220 kF).</p>
+<p class="small">Les pointes de démarrage de l'inventaire type (ventilateurs 100 à 140 W, compresseur 300 à 500 W) ne sont pas modélisées à part : NRJXpert
+dimensionne l'onduleur sur la puissance apparente de l'heure la plus chargée multipliée par 1,25, et les 2 kVA retenus ici couvrent largement ces pointes
+(le compresseur, lui, est alimenté en continu et ne passe pas par l'onduleur).</p>
 <details class="sol"><summary>Voir la solution (identique au calcul de NRJXpert)</summary>
-<p><b>Batterie</b> : <i>Q</i><sub>j</sub> = 3 390/(24 × 0,9 × 0,98 × 0,9) = <span class="result">177,9 Ah/j</span> ;
-<i>C</i> = 177,9 × 72/24 = <span class="result">533,8 Ah utiles</span> ; 2 batteries en série × ⌈533,8/(200 × 0,6)⌉ = 5 en parallèle =
-<b>10 batteries</b>.</p>
-<p><b>Champ</b> : décembre, H<sub>11°</sub> = 4,75 kWh/m²/j, <i>T</i><sub>a</sub> = 22 °C → <i>f</i><sub>T</sub> = 1 − 0,004 × 22 = 0,912.
-<i>P</i><sub>c</sub> = 177,9 × 24/(4,75 × 0,9 × 0,912 × 0,96) = <span class="result">1 141 Wc</span>. Chaîne : ⌈1,3 × 24/(31,0 × 0,82)⌉ = 2 modules ;
-⌈1 141/800⌉ = 2 chaînes → <b>4 modules, 1 600 Wc</b>.</p>
-<p><b>Régulateur</b> : 1 600/24 = 66,7 A → 2 régulateurs de 60 A. <b>Onduleur</b> : <i>S</i><sub>max</sub> = 365 VA → 1 onduleur de 1,5 kVA.</p>
-<p><b>Bilan</b> : production 2 530 kWh/an, couverture 100 %, énergie utile 1 237 kWh/an. Investissement total
-<span class="result">3 185 kF</span> dont câblage 235 kF ; coût actualisé du kWh (8 %, inflation 3 %, 20 ans) <span class="result">580 F/kWh</span>.
-Les batteries représentent 77 % du coût global (5 remplacements en 20 ans).</p>
+<p><b>Étape 1.</b> E<sub>j</sub> = 900 + 3 130 = 4 030 Wh/j. L'heure la plus chargée est 8 h : le poupinel appelle 1 000/1 = 1 000 VA et aucun autre récepteur alternatif
+ne fonctionne à ce moment (le réfrigérateur en continu ne compte pas pour l'onduleur). Les autres heures sont bien plus légères (par exemple à 13 h :
+ventilateurs 120/0,9 = 133 VA, téléphones 40/0,9 = 44 VA). Donc <span class="result">S<sub>max</sub> = 1 000 VA</span>.</p>
+<p><b>Étape 2.</b> Les récepteurs alternatifs et le réfrigérateur continu n'ont pas les mêmes pertes :
+Q<sub>j</sub> = 3 130/(24 × 0,9 × 0,98 × 0,9) + 900/(24 × 1 × 0,98 × 0,9) = 164,3 + 42,5 = <span class="result">206,8 Ah/j</span>
+(marge nulle : Q′<sub>j</sub> = Q<sub>j</sub>). Le réfrigérateur n'a pas le facteur 0,9 du convertisseur, puisqu'il est à la tension du bus.</p>
+<p><b>Étape 3.</b> Le mois le plus faible sur le plan optimal (11°) est décembre : H<sub>dim</sub> = 4,75 h/j, T<sub>a</sub> = 22 °C.</p>
+<p><b>Étape 5b (MPPT).</b> T<sub>c</sub> = 22 + 25 = 47 °C ; f<sub>T</sub> = 1 − 0,004 × (47 − 25) = 0,912.
+P<sub>c,req</sub> = 206,8 × 24/(4,75 × 0,92 × 0,912 × 0,96) = <span class="result">1 297 Wc</span>.
+N<sub>s</sub> = ⌈1,3 × 24/(31,2 × 0,82)⌉ = ⌈1,22⌉ = 2 modules par chaîne (820 Wc) ; N<sub>p</sub> = ⌈1 297/820⌉ = ⌈1,58⌉ = 2 chaînes →
+<b>4 modules, 1 640 Wc</b> (on ne peut installer que des chaînes entières de 820 Wc, d'où un champ plus grand que les 1 297 Wc demandés).
+Tension de circuit ouvert à froid : 1,1 × 2 × 37,4 = 82 V &lt; 150 V.</p>
+<p><b>Étape 6.</b> C = 206,8 × 72/24 = <span class="result">620,4 Ah</span> ; N<sub>bs</sub> = 24/12 = 2 ; N<sub>bp</sub> = ⌈620,4/(200 × 0,5)⌉ = 7 →
+<b>14 batteries</b> (33,6 kWh nominaux).</p>
+<p><b>Étape 7.</b> Une chaîne : entrée 1,25 × 13,9 = 17,4 A ; sortie 1,25 × 820/24 = 42,7 A. k = ⌊min(50/17,4 ; 60/42,7)⌋ = ⌊min(2,88 ; 1,41)⌋ = 1 →
+<b>2 régulateurs</b> de 60 A, une chaîne chacun.</p>
+<p><b>Étape 8.</b> 1,25 × 1 000 = 1 250 VA ≤ 2 000 VA → <b>1 onduleur</b>.</p>
+<p><b>Étape 9.</b> Décembre : 1 640 × 4,75 × 0,92 × 0,912 × 0,96 × 31 = 194,5 kWh pour 206,8 × 24 × 31 = 153,9 kWh de besoins.
+Production annuelle <span class="result">2 651 kWh</span>, couverture 100 %, énergie utile 1 471 kWh/an. Investissement
+<span class="result">3 766 kF</span> dont câblage 298 kF ; coût actualisé du kWh (taux 8 %, inflation 3 %, 20 ans) <span class="result">727 F/kWh</span>.
+Les batteries représentent 87 % du coût global : remplacées tous les 4 ans en climat chaud, soit 4 fois en 20 ans.</p>
+<p><b>Et avec un régulateur PWM ?</b> I<sub>champ</sub> = 206,8/4,75 = 43,5 A. Avec le même module de 410 Wc : N<sub>p</sub> = ⌈43,5/(0,92 × 13,14)⌉ = ⌈3,60⌉ = 4,
+N<sub>s</sub> = ⌈1,2 × 24/(0,9 × 31,2)⌉ = 2, soit 8 modules (3 280 Wc), le double du champ MPPT : en PWM, la chaîne de 62 V travaille à 29 V et
+perd plus de la moitié de sa puissance. Avec un module de 200 Wc à 72 cellules (V<sub>mp</sub> 37,6 V, I<sub>mp</sub> 5,32 A) :
+N<sub>p</sub> = ⌈43,5/(0,92 × 5,32)⌉ = ⌈8,90⌉ = 9, N<sub>s</sub> = ⌈28,8/33,8⌉ = 1, soit 9 modules et 1 800 Wc, contre 1 600 Wc (2 × 4) en MPPT.</p>
 </details></div>
 <div class="lab"><h4>Travail pratique 6 — Dimensionner la case de santé</h4>
 <ol class="steps">
 <li><div class="step-content"><b>Aide › Ouvrir un exemple du tutoriel…</b> › <code>pv_case_de_sante.nxpv</code>. Parcourir les onglets 1 (Site : Dakar, plan horizontal
-converti), 2 (Besoins : les 4 récepteurs et leurs horaires), 3 (Options et coûts : MPPT, 24 V, équipements imposés, câblage).</div></li>
-<li><div class="step-content"><kbd>F5</kbd> (Dimensionner) et retrouver dans l'onglet 4 les valeurs de l'exemple 3.3.</div></li>
-<li><div class="step-content">Passer le bus à <b>48 V</b> : le champ tombe à 3 modules (1 200 Wc), les batteries à 4 × 3 = 12, le régulateur à un seul appareil, et le
-câblage à 129 kF. Expliquer chaque évolution.</div></li>
-<li><div class="step-content">Décocher MPPT : un avertissement signale que les modules de 31 V sur un bus de 24 V perdent une grande part de leur puissance
-avec un régulateur PWM.</div></li>
-<li><div class="step-content">Dimensionner sur la moyenne annuelle au lieu du mois défavorable : combien de mois en déficit ?</div></li>
-<li><div class="step-content">Revenir en 24 V MPPT et cocher <b>Choisir les équipements au coût global minimal</b> : NRJXpert parcourt la base (équipements
-actuels, prix indicatifs 2026) et retient 2 modules TOPCon de 620 Wc, 6 batteries lithium LFP 25,6 V 100 Ah, 3 régulateurs MPPT
-30 A et un onduleur 24 V de 2 kVA : investissement 2 982 kF, coût actualisé du kWh <b>339 F/kWh</b> au lieu de 580. Expliquer : la
-batterie LFP est plus chère à l'achat, mais elle dure 12 ans au lieu de 4, accepte 90 % de décharge au lieu de 50 % et a un meilleur
-rendement.</div></li>
+converti), 2 (Besoins : les 8 récepteurs et leurs horaires, dont le réfrigérateur en 24 V continu), 3 (Options et coûts : MPPT, 24 V, équipements imposés, câblage).</div></li>
+<li><div class="step-content"><kbd>F5</kbd> (Dimensionner) et retrouver dans l'onglet 4 les valeurs de l'exemple 3.3, étape par étape.</div></li>
+<li><div class="step-content">Passer le bus à <b>48 V</b> : Q<sub>j</sub> tombe à 105,8 Ah/j (un peu plus que la moitié de 206,8, car le réfrigérateur de 24 V n'est plus à la
+tension du bus et passe désormais par un convertisseur de rendement 0,9). La puissance demandée monte à 1 327 Wc ; la chaîne doit compter 3 modules
+(⌈1,3 × 48/(31,2 × 0,82)⌉ = ⌈2,44⌉ = 3, soit 1 230 Wc) et, comme 1 327 Wc dépasse 1 230 Wc, il faut <b>2 chaînes, 6 modules (2 460 Wc)</b> ; les batteries passent à
+4 × 4 = 16 et les régulateurs restent au nombre de 2. NRJXpert signale que l'onduleur imposé (24 V) ne se raccorde plus : choisir l'onduleur-chargeur 48/3000.
+Le câblage passe de 298 à 223 kF, mais le coût du kWh <b>monte</b> de 727 à 846 F. Expliquer chaque évolution, et pourquoi le 48 V ne paie pas à cette taille :
+la chaîne de 3 modules impose un champ minimal de 1 230 Wc et le moindre dépassement double le champ.</div></li>
+<li><div class="step-content">Revenir à 24 V et décocher MPPT : le champ double (8 modules) et deux avertissements apparaissent (régulateur MPPT imposé dans
+un système PWM ; modules de 62 V sur un bus de 24 V). Retrouver N<sub>p</sub> = 4 et N<sub>s</sub> = 2 par les formules de l'étape 5a.</div></li>
+<li><div class="step-content">En MPPT, dimensionner sur la <b>moyenne annuelle</b> (5,55 h/j) au lieu du mois le plus faible : P<sub>c,req</sub> tombe à 1 120 Wc,
+mais l'arrondi à 2 chaînes garde 1 640 Wc. Sur quel site ou avec quel module cette option ferait-elle apparaître des mois en déficit ?</div></li>
+<li><div class="step-content">Cocher <b>Choisir les équipements au coût global minimal</b> (tension et régulateur imposés) : NRJXpert retient 3 modules bifaciaux de 550 Wc
+en parallèle (1 650 Wc ; un seul module par chaîne suffit, car sa tension est assez élevée), 7 batteries lithium LFP 25,6 V 100 Ah, 3 régulateurs MPPT 30 A et
+l'onduleur 24/2000 : investissement 3 527 kF, coût actualisé du kWh <b>334 F/kWh</b> au lieu de 727. Expliquer : la batterie LFP est plus chère à l'achat, mais
+elle dure 12 ans au lieu de 4, accepte 90 % de décharge au lieu de 50 % et a un meilleur rendement.</div></li>
+<li><div class="step-content">Cocher aussi <b>Choisir aussi la tension du bus et le type de régulateur</b> : la ligne « Choix automatique » compare les six
+variantes, avec le coût du kWh en coût global, un peu différent du coût actualisé de l'onglet 4 (12 V MPPT 415, 12 V PWM 439, 24 V MPPT 317, 24 V PWM 309, 48 V MPPT 350,
+48 V PWM 342 F/kWh, cette dernière non conforme). La variante retenue, 24 V PWM, met 9 modules de 200 Wc en parallèle (1 800 Wc) avec 7 batteries LFP et
+3 régulateurs PWM de 30 A : expliquer pourquoi le PWM l'emporte ici de justesse (régulateurs bon marché, modules à 72 cellules adaptés au 24 V).</div></li>
 </ol>
 </div>
 
@@ -226,7 +386,27 @@ rendement.</div></li>
             <h2><span class="section-icon">🧵</span>3.4 Câblage : sections, protections et coûts</h2>
 <p>Le câblage représente couramment 5 à 10 % de l'investissement d'un système PV autonome, et une erreur de section se paie en pertes
 d'énergie, en échauffement, voire en incendie. NRJXpert dimensionne chaque liaison selon la NF C 15-100 / CEI 60364-5-52 et le
-guide UTE C15-712-1 :</p>
+guide UTE C15-712-1.</p>
+<details class="notations" open><summary>Notations de la section 3.4</summary>
+<table class="notations">
+<tr><th>Symbole</th><th>Grandeur</th><th>Unité</th><th>Valeur usuelle</th></tr>
+<tr><td>I</td><td>Courant nominal de la liaison (côté PV : courant de court-circuit I<sub>sc</sub> des chaînes raccordées)</td><td>A</td><td>—</td></tr>
+<tr><td>I<sub>b</sub></td><td>Courant d'emploi : courant que la liaison doit pouvoir transporter en permanence, I<sub>b</sub> = 1,25·I</td><td>A</td><td>—</td></tr>
+<tr><td>I<sub>n</sub></td><td>Calibre normalisé de la protection (fusible gPV, disjoncteur), I<sub>n</sub> ≥ I<sub>b</sub></td><td>A</td><td>6, 10, 16, 20, 25, 32, 40, 50, 63, 80, 100, 125 A…</td></tr>
+<tr><td>I<sub>z0</sub>(S)</td><td>Courant admissible d'un câble de section S dans les conditions de référence (30 °C, câble seul) — tableaux de la CEI 60364-5-52</td><td>A</td><td>—</td></tr>
+<tr><td>k<sub>θ</sub></td><td>Facteur de correction de température : √((90 − θ<sub>a</sub>)/60) pour un isolant PR (90 °C au plus)</td><td>—</td><td>0,913 à 40 °C</td></tr>
+<tr><td>θ<sub>a</sub></td><td>Température ambiante autour du câble</td><td>°C</td><td>40 °C au Sahel</td></tr>
+<tr><td>k<sub>g</sub></td><td>Facteur de groupement (câbles voisins qui s'échauffent mutuellement)</td><td>—</td><td>0,8</td></tr>
+<tr><td>I<sub>z</sub></td><td>Courant admissible dans les conditions réelles, I<sub>z</sub> = I<sub>z0</sub>·k<sub>θ</sub>·k<sub>g</sub></td><td>A</td><td>—</td></tr>
+<tr><td>S</td><td>Section d'un conducteur</td><td>mm²</td><td>Valeurs normalisées</td></tr>
+<tr><td>L</td><td>Longueur aller de la liaison</td><td>m</td><td>Onglet « Options et coûts »</td></tr>
+<tr><td>ρ</td><td>Résistivité du conducteur à la température de service</td><td>Ω·mm²/m</td><td>Cuivre 0,0225 ; aluminium 0,036</td></tr>
+<tr><td>λ</td><td>Réactance linéique du câble</td><td>Ω/m</td><td>0,08 × 10<sup>−3</sup></td></tr>
+<tr><td>cos φ</td><td>Facteur de puissance de la charge (1 en continu)</td><td>—</td><td>0,8 à 1</td></tr>
+<tr><td>b</td><td>Facteur de longueur : 2 (aller et retour) en continu et en monophasé, 1 en triphasé (tension simple)</td><td>—</td><td>—</td></tr>
+<tr><td>ΔU, ΔU/U</td><td>Chute de tension le long de la liaison, en volts et en % de la tension U de la liaison</td><td>V, %</td><td>≤ 3 % champ, ≤ 1 % batterie, ≤ 3 % alternatif</td></tr>
+</table>
+</details>
 <ol class="steps">
 <li><div class="step-content"><b>Courant d'emploi</b> <i>I</i><sub>b</sub> = 1,25 × courant nominal (côté PV : 1,25·<i>I</i><sub>sc</sub>, car l'ensoleillement peut dépasser 1 000 W/m²).</div></li>
 <li><div class="step-content"><b>Protection</b> : calibre normalisé <i>I</i><sub>n</sub> ≥ <i>I</i><sub>b</sub> (fusible gPV, disjoncteur continu ou alternatif).</div></li>
@@ -251,8 +431,11 @@ puissance : la chute de tension relative varie comme 1/<i>U</i>². Le câblage c
 <div class="lab"><h4>Travail pratique 7 — Câblage de la case de santé</h4>
 <ol class="steps">
 <li><div class="step-content">Dans l'exemple <code>pv_case_de_sante.nxpv</code>, onglet 3, rubrique <b>Câblage</b> : longueurs 15, 3, 3 et 20 m, température 40 °C.</div></li>
-<li><div class="step-content">Après <kbd>F5</kbd>, lire le tableau des liaisons de l'onglet 4. En 24 V : champ → régulateur 2 × 10 mm² (62 V en MPPT, ΔU 2,96 %),
-régulateur → batterie et batterie → onduleur 2 × 50 mm² (protection 100 A), onduleur → tableau 2 × 1,5 mm² (protection 10 A).</div></li>
+<li><div class="step-content">Après <kbd>F5</kbd>, lire le tableau des liaisons de l'onglet 4. En 24 V, NRJXpert compte une liaison champ → régulateur et
+régulateur → batterie <b>par régulateur</b> : champ → régulateur 2 liaisons de 2 × 6 mm² (une chaîne de 62 V, 13,9 A ; protection 20 A ; ΔU 2,51 %),
+régulateur → batterie 2 liaisons de 2 × 25 mm² (protection 50 A), batterie → onduleur 2 × 70 mm² (90,6 A, dimensionnée pour les 2 kVA de
+l'onduleur ; protection 125 A), onduleur → tableau 2 × 1,5 mm² (protection 16 A) ; câblage total 298 kF. Quel critère (échauffement ou chute de
+tension) fixe chaque section ?</div></li>
 <li><div class="step-content">Porter la longueur champ → régulateur à 40 m : quelle section ? Passer en aluminium : quelle section et quel coût ?</div></li>
 <li><div class="step-content"><b>Hypothèses et prix du câblage…</b> : remplacer les prix par ceux d'un fournisseur local et observer l'effet sur le coût du kWh.</div></li>
 </ol>
@@ -265,6 +448,14 @@ régulateur → batterie et batterie → onduleur 2 × 50 mm² (protection 100 A
             <h2><span class="section-icon">🏠</span>3.5 PV raccordé au réseau</h2>
 <p>Sans batterie, toute la production est injectée (ou autoconsommée). On raisonne en <b>productible spécifique</b> (kWh/kWc/an) :</p>
 <div class="eq">E = P<sub>c</sub> · H<sub>β,an</sub> · PR &nbsp;&nbsp; PR (ratio de performance) = 0,75 à 0,85 : température, poussière, dispersion, câbles, onduleur</div>
+<table class="notations">
+<tr><th>Symbole</th><th>Grandeur</th><th>Unité</th></tr>
+<tr><td>E</td><td>Énergie alternative injectée (ou autoconsommée) en un an</td><td>kWh/an</td></tr>
+<tr><td>P<sub>c</sub></td><td>Puissance crête du champ (somme des puissances STC des modules)</td><td>kWc</td></tr>
+<tr><td>H<sub>β,an</sub></td><td>Irradiation annuelle sur le plan des modules (inclinaison β) ; 1 kWh/m² = 1 heure de plein soleil</td><td>kWh/m²/an</td></tr>
+<tr><td>PR</td><td>Ratio de performance : énergie réelle / énergie d'un champ idéal à 25 °C sans pertes ; regroupe température, poussière, dispersion, câbles, onduleur</td><td>—</td></tr>
+<tr><td>E/P<sub>c</sub></td><td>Productible spécifique : énergie par kWc installé, indicateur de comparaison des sites</td><td>kWh/kWc/an</td></tr>
+</table>
 <div class="ex"><h4>Exemple 3.5 — 10 kWc à Dakar</h4>
 <details class="sol"><summary>Voir la solution</summary>
 <p>Inclinaison 14° : H<sub>β</sub> = 2 027 kWh/m²/an ; avec PR = 0,78 : <span class="result">1 581 kWh/kWc/an</span>, soit 15,8 MWh/an.
@@ -284,8 +475,25 @@ La vitesse fluctue ; sa distribution suit en général une <b>loi de Weibull</b>
 v̄ = c·Γ(1 + 1/k) &nbsp;&nbsp; densité de puissance = ½ρc³Γ(1 + 3/k)</div>
 <p><i>c</i> (m/s) est le paramètre d'échelle, <i>k</i> le paramètre de forme (k = 2 : loi de Rayleigh ; k grand : vent régulier, ex. alizés).
 NRJXpert ajuste <i>c</i> et <i>k</i> par maximum de vraisemblance sur les mesures, en tenant compte des calmes.</p>
+<table class="notations">
+<tr><th>Symbole</th><th>Grandeur</th><th>Unité</th></tr>
+<tr><td>v</td><td>Vitesse du vent (moyenne sur 10 min ou 1 h selon les mesures)</td><td>m/s</td></tr>
+<tr><td>ρ</td><td>Masse volumique (densité) de l'air</td><td>kg/m³</td></tr>
+<tr><td>A</td><td>Surface traversée par le vent ; pour une éolienne, surface balayée par le rotor πD²/4 (D : diamètre du rotor)</td><td>m²</td></tr>
+<tr><td>f(v), F(v)</td><td>Densité de probabilité de la vitesse ; probabilité que la vitesse soit inférieure à v</td><td>(m/s)<sup>−1</sup>, —</td></tr>
+<tr><td>c, k</td><td>Paramètre d'échelle (proche de la vitesse moyenne) et paramètre de forme (régularité du vent) de la loi de Weibull</td><td>m/s, —</td></tr>
+<tr><td>v̄</td><td>Vitesse moyenne</td><td>m/s</td></tr>
+<tr><td>Γ</td><td>Fonction gamma d'Euler (Γ(1 + 1/k) ≈ 0,89 pour k = 2)</td><td>—</td></tr>
+<tr><td>P/A</td><td>Densité de puissance du vent : puissance moyenne par m² de surface traversée</td><td>W/m²</td></tr>
+<tr><td>H<sub>mes</sub>, H</td><td>Hauteur de l'anémomètre (10 m en général, norme OMM) ; hauteur du moyeu de l'aérogénérateur</td><td>m</td></tr>
+<tr><td>z₀</td><td>Longueur de rugosité du terrain (0,005 m sur l'eau, 0,03 à 0,07 m en terrain dégagé, 0,4 m en banlieue, 1 m en ville ou forêt)</td><td>m</td></tr>
+</table>
 <p><b>Extrapolation en hauteur</b> (profil logarithmique, rugosité <i>z</i>₀) : <i>v</i>(<i>H</i>) = <i>v</i>(<i>H</i><sub>mes</sub>)·ln(<i>H</i>/<i>z</i>₀)/ln(<i>H</i><sub>mes</sub>/<i>z</i>₀).
 <b>Densité de l'air</b> : ρ = 1,225 kg/m³ à 15 °C au niveau de la mer ; 1,17 à 28 °C.</p>
+<p><b>Hauteur du moyeu.</b> Le vent forcit avec la hauteur : on place le rotor nettement plus haut que l'anémomètre. Dans un nouveau projet,
+NRJXpert prend la <b>hauteur de moyeu usuelle</b> de l'aérogénérateur choisi (base d'équipements : 12 m pour 1 kW, 15 m pour 3 kW, 18 m pour
+5 kW, 24 m pour 10 et 20 kW, 30 m pour 50 kW, 36 m pour 100 kW, 40 m pour 250 kW ; 24 m si la base n'en donne pas) ; elle suit le changement
+de modèle tant qu'on ne la modifie pas.</p>
 <div class="ex"><h4>Exemple 3.6 — Site côtier : c₁₀ = 5,5 m/s, k = 2,2</h4>
 <p>Rugosité <i>z</i>₀ = 0,03 m (terrain dégagé), moyeu à 30 m, ρ = 1,17 kg/m³.</p>
 <details class="sol"><summary>Voir la solution</summary>
@@ -300,26 +508,152 @@ NRJXpert ajuste <i>c</i> et <i>k</i> par maximum de vraisemblance sur les mesure
         </div>
         <div class="section" id="n3-7">
             <h2><span class="section-icon">🌬️</span>3.7 Production et dimensionnement éolien</h2>
-<div class="eq">P̄ = ∫ P(v)·f(v) dv &nbsp;&nbsp; E = 8 760·P̄·(1 − pertes) &nbsp;&nbsp; facteur de charge FC = E/(P<sub>n</sub>·8 760)<br>
-correction de densité (CEI 61400-12-1) : P(v) lue sur la courbe à v·(ρ/1,225)<sup>1/3</sup></div>
-<p><b>Marge de dimensionnement.</b> Comme pour le PV, le champ « Marge de dimensionnement (%) » majore les besoins utilisés pour le nombre de machines et le stockage (10 % par défaut dans les nouveaux projets) ; l'exemple ci-dessous est calculé avec 0 %.</p>
+<p>Dimensionner un système éolien, c'est d'abord calculer ce que produit <b>une</b> machine sur le site (à partir de la distribution du vent,
+§ 3.6, et de la courbe de puissance de la machine), puis choisir le <b>nombre d'aérogénérateurs</b> et, pour un système autonome, la
+<b>capacité de la batterie</b>. La méthode dépend du raccordement : un système raccordé au réseau se dimensionne sur le bilan annuel, un
+système autonome doit tenir compte des périodes sans vent.</p>
+
+<details class="notations" open><summary>Notations de la section 3.7</summary>
+<table class="notations">
+<tr><th>Symbole</th><th>Grandeur</th><th>Unité</th><th>Origine ou valeur usuelle</th></tr>
+<tr><td>P(v)</td><td>Courbe de puissance de l'aérogénérateur : puissance électrique fournie à la vitesse v (constructeur, à ρ = 1,225 kg/m³)</td><td>kW</td><td>Base d'aérogénérateurs</td></tr>
+<tr><td>P<sub>n</sub></td><td>Puissance nominale de la machine</td><td>kW</td><td>Base</td></tr>
+<tr><td>v<sub>i</sub>, v<sub>n</sub>, v<sub>max</sub></td><td>Vitesses de démarrage, nominale (P = P<sub>n</sub>) et d'arrêt (mise en sécurité)</td><td>m/s</td><td>Base (ex. 3 ; 11 ; 25 m/s)</td></tr>
+<tr><td>F</td><td>Fraction ventée : part du temps où le vent n'est pas calme (1 − calmes)</td><td>—</td><td>Analyse du vent</td></tr>
+<tr><td>P̄</td><td>Puissance moyenne d'une machine sur la période</td><td>kW</td><td>Calculée</td></tr>
+<tr><td>p<sub>prod</sub></td><td>Pertes de production : indisponibilité (≈ 3 %), pertes électriques (≈ 2 %), encrassement des pales</td><td>%</td><td>6 %</td></tr>
+<tr><td>E<sub>m</sub>, E<sub>an</sub></td><td>Énergie nette produite par une machine pendant le mois m, pendant l'année</td><td>kWh</td><td>Calculées</td></tr>
+<tr><td>FC</td><td>Facteur de charge : E/(P<sub>n</sub>·durée) ; part de la puissance nominale réellement produite en moyenne</td><td>%</td><td>Petit éolien : 10 à 25 %</td></tr>
+<tr><td>d<sub>m</sub></td><td>Nombre de jours du mois m</td><td>j</td><td>28 à 31</td></tr>
+<tr><td>B<sub>j</sub></td><td>Besoins journaliers des récepteurs (onglet « Besoins »)</td><td>kWh/j</td><td>Calculés ou saisis</td></tr>
+<tr><td>m</td><td>Marge de dimensionnement (incertitude sur les besoins, croissance, variabilité du vent d'une année à l'autre)</td><td>%</td><td>10 %</td></tr>
+<tr><td>B′<sub>j</sub></td><td>Besoins de dimensionnement B′<sub>j</sub> = B<sub>j</sub>·(1 + m)</td><td>kWh/j</td><td>Calculés</td></tr>
+<tr><td>p<sub>r</sub>, η<sub>r</sub></td><td>Pertes entre le bus et les récepteurs (conversion, câbles) ; rendement η<sub>r</sub> = 1 − p<sub>r</sub></td><td>%, —</td><td>0 à 25 %</td></tr>
+<tr><td>N</td><td>Nombre d'aérogénérateurs</td><td>—</td><td>Calculé</td></tr>
+<tr><td>U</td><td>Tension du bus continu de la batterie</td><td>V</td><td>48 V</td></tr>
+<tr><td>Aut</td><td>Autonomie : nombre d'heures de besoins que la batterie peut fournir sans vent</td><td>h</td><td>72 h, ou optimisée</td></tr>
+<tr><td>DoD, η<sub>bat</sub></td><td>Profondeur de décharge admise ; rendement de la batterie (énergie restituée / stockée)</td><td>—</td><td>Plomb AGM 50 % ; 0,8</td></tr>
+<tr><td>C<sub>req</sub>, C<sub>nom</sub></td><td>Capacité nécessaire ; capacité nominale du parc de batteries retenu (arrondi à des éléments entiers)</td><td>kWh</td><td>Calculées</td></tr>
+<tr><td>E<sub>max</sub>, E<sub>min</sub></td><td>Énergie maximale (batterie pleine, C<sub>nom</sub>) et minimale (C<sub>nom</sub>·(1 − DoD)) dans la batterie</td><td>kWh</td><td>Calculées</td></tr>
+<tr><td>E(t)</td><td>Énergie contenue dans la batterie au pas de temps t (état de charge)</td><td>kWh</td><td>Simulée</td></tr>
+<tr><td>P<sub>prod</sub>(t), P<sub>ch</sub>(t)</td><td>Production des N machines et consommation des récepteurs au pas t (profil horaire de l'onglet « Besoins »)</td><td>kW</td><td>Simulées</td></tr>
+<tr><td>Δt</td><td>Pas de temps de la série de mesures</td><td>h</td><td>1 h (10 min possible)</td></tr>
+<tr><td>LPSP</td><td>Probabilité de perte d'alimentation (<i>Loss of Power Supply Probability</i>) : énergie non fournie / énergie demandée sur la période simulée</td><td>—</td><td>Calculée</td></tr>
+<tr><td>τ, τ<sub>cible</sub></td><td>Taux de couverture des besoins τ = 1 − LPSP ; couverture visée</td><td>%</td><td>τ<sub>cible</sub> = 99 %</td></tr>
+<tr><td>CG</td><td>Coût global actualisé : investissement (net de subvention) + valeur actuelle de l'exploitation, des remplacements, moins la valeur résiduelle (niveau 4)</td><td>kF</td><td>Prix de l'onglet 6</td></tr>
+</table>
+</details>
+
+<h3>Production d'une machine</h3>
+<div class="eq">P̄ = (1 − p<sub>prod</sub>)·F·∫<sub>v<sub>i</sub></sub><sup>v<sub>max</sub></sup> P(v)·f(v) dv &nbsp;&nbsp; E<sub>m</sub> = 24·d<sub>m</sub>·P̄<sub>m</sub> &nbsp;&nbsp; FC = P̄/P<sub>n</sub><br>
+correction de densité (CEI 61400-12-1) : P(v) lue sur la courbe à la vitesse équivalente v·(ρ/1,225)<sup>1/3</sup></div>
+<p>L'intégrale pondère chaque vitesse par sa probabilité : une machine produit surtout aux vitesses fréquentes <i>et</i> proches de sa vitesse
+nominale (graphique « Production par classe de vent » de l'onglet 5). Avec une série de mesures, NRJXpert calcule aussi la production
+directement sur la série et signale un écart de plus de 10 % avec la loi de Weibull.</p>
 <div class="ex"><h4>Exemple 3.7 — Machine de 10 kW sur le site de l'exemple 3.6</h4>
 <p>Courbe de puissance (kW) : 0 à 3 m/s ; 0,6 à 4 ; 1,3 à 5 ; 2,3 à 6 ; 3,6 à 7 ; 5,2 à 8 ; 7,0 à 9 ; 8,7 à 10 ; 10 de 11 à 25 m/s.
 Diamètre 7 m, pertes 6 %.</p>
 <details class="sol"><summary>Voir la solution</summary>
 <p>Intégration numérique : P̄ = <span class="result">2,79 kW</span> ; énergie brute 24,4 MWh/an, nette <span class="result">23,0 MWh/an</span> ;
 facteur de charge <span class="result">26 %</span>. Coefficient de puissance moyen : 2 787/(199 × 38,5) = 0,36. Pour couvrir 100 kWh/j
-(36,5 MWh/an), il faut ⌈36,5/23,0⌉ = 2 machines en bilan annuel — davantage pour couvrir le mois le moins venté (onglet 4 de la fenêtre
-éolienne).</p>
+(36,5 MWh/an) avec un raccordement au réseau, il faut ⌈36,5/23,0⌉ = 2 machines (bilan annuel) ; en autonome, il en faut davantage (voir ci-dessous).</p>
+</details></div>
+
+<h3>Système raccordé au réseau : bilan annuel</h3>
+<p>Le réseau fournit l'énergie manquante quand le vent est faible et reçoit l'excédent quand il est fort. Il n'y a donc pas lieu de couvrir
+le mois le moins venté ; on vise l'équilibre sur l'année :</p>
+<div class="eq">N = ⌈ 365·B′<sub>j</sub> / (E<sub>an</sub>·η<sub>r</sub>) ⌉</div>
+<p>La rentabilité (onglet 6) décide ensuite s'il vaut mieux installer plus ou moins de machines que ce nombre.</p>
+
+<h3>Système autonome : quatre critères</h3>
+<p>Sans réseau, l'énergie doit être disponible au moment où on la consomme. Or le vent peut tomber pendant plusieurs jours : la batterie doit
+« tenir » ces périodes de calme. Le nombre de machines et la taille de la batterie sont liés : une grosse batterie permet moins de machines,
+et inversement. NRJXpert propose quatre critères (onglet 5, « Critère de dimensionnement ») :</p>
+<table>
+<tr><th>Critère</th><th>Nombre de machines</th><th>Limite</th></tr>
+<tr><td><b>Bilan annuel</b></td><td>N = ⌈365·B′<sub>j</sub>/(E<sub>an</sub>·η<sub>r</sub>)⌉</td><td>Suppose un stockage saisonnier : il manque de l'énergie tous les mois peu ventés.</td></tr>
+<tr><td><b>Mois le plus défavorable</b></td><td>N = max<sub>m</sub> ⌈d<sub>m</sub>·B′<sub>j</sub>/(E<sub>m</sub>·η<sub>r</sub>)⌉</td><td>Bilan mensuel : ignore les calmes de quelques jours à l'intérieur du mois ; forte surproduction les mois ventés.</td></tr>
+<tr><td><b>Simulation avec la batterie saisie</b></td><td>Plus petit N tel que la simulation horaire atteigne τ<sub>cible</sub> avec la batterie dimensionnée pour l'autonomie saisie</td><td>Si les calmes durent plus que l'autonomie, N devient très grand : c'est ce qui donnait des centaines de petites machines.</td></tr>
+<tr><td><b>Optimisation coût / fiabilité (LPSP)</b> — recommandé</td><td>Couple (N, batterie) de coût global minimal parmi ceux qui atteignent τ<sub>cible</sub></td><td>Nécessite une série chronologique de mesures (sinon : mois le plus défavorable).</td></tr>
+</table>
+
+<h4>Batterie pour une autonomie donnée</h4>
+<div class="eq">C<sub>req</sub> = B′<sub>bat</sub>·(Aut/24) / (DoD·η<sub>bat</sub>) &nbsp;&nbsp;(kWh) &nbsp;&nbsp;&nbsp;
+N<sub>bs</sub> = U/U<sub>bat</sub> &nbsp;&nbsp; N<sub>bp</sub> = ⌈ C<sub>req</sub>·1 000 / (U·C<sub>bat</sub>) ⌉ &nbsp;&nbsp; C<sub>nom</sub> = N<sub>bs</sub>·N<sub>bp</sub>·U<sub>bat</sub>·C<sub>bat</sub>/1 000</div>
+<p>B′<sub>bat</sub> vaut B′<sub>j</sub>, ou la part prioritaire de B′<sub>j</sub> si la batterie ne secourt que les charges prioritaires. La batterie de la base au coût
+minimal (ou celle imposée) est retenue ; sa profondeur de décharge recommandée remplace celle du projet. On prélève au plus DoD de l'énergie
+nominale, et le rendement η<sub>bat</sub> couvre les pertes de charge et de décharge.</p>
+
+<h4>Simulation heure par heure</h4>
+<p>La simulation suit la série de mesures dans l'ordre chronologique (vitesses extrapolées au moyeu). À chaque pas Δt, avec
+E<sub>min</sub> = C<sub>nom</sub>·(1 − DoD), E<sub>max</sub> = C<sub>nom</sub>, et la batterie pleine au départ :</p>
+<div class="eq">si N·P<sub>prod,1</sub>(t) ≥ P<sub>ch</sub>(t)/η<sub>r</sub> : &nbsp; charge E ← min(E<sub>max</sub>, E + √η<sub>bat</sub>·surplus·Δt) ; le reste est <b>excédent</b> (perdu)<br>
+sinon : &nbsp; décharge de min(manque, √η<sub>bat</sub>·(E − E<sub>min</sub>)) ; ce qui ne peut être fourni est un <b>déficit</b><br>
+LPSP = Σ déficit / Σ besoins &nbsp;&nbsp;&nbsp; τ = 1 − LPSP</div>
+<p>Le rendement de la batterie est réparti entre la charge et la décharge (√η<sub>bat</sub> chacune). Si la batterie ne secourt que les charges
+prioritaires, les autres sont délestées dès que la batterie descend sous la moitié de son énergie utile et que le vent ne suffit pas.</p>
+
+<h4>Optimisation coût / fiabilité (méthode LPSP)</h4>
+<p>C'est la méthode de référence pour les systèmes autonomes (Borowy et Salameh, 1996 ; Kaldellis, 2002 ; Diaf et al., 2007 ;
+Yang et al., 2008). Elle cherche le système le moins cher qui respecte une fiabilité donnée :</p>
+<ol class="steps">
+<li><div class="step-content">Pour chaque autonomie de la liste 6, 12, 18, 24, 36, 48, 72, 96, 120 h, 7, 10, 14 et 20 jours : batterie correspondante, puis plus petit
+nombre N de machines tel que LPSP ≤ 1 − τ<sub>cible</sub> (simulation horaire).</div></li>
+<li><div class="step-content">Les couples (autonomie, N) obtenus forment la <b>courbe de dimensionnement</b> : N diminue quand la batterie grandit.</div></li>
+<li><div class="step-content">Pour chaque couple, coût global actualisé CG avec les prix de l'onglet 6 (machines, mâts, électronique, batteries, installation,
+exploitation, remplacements des batteries et de l'électronique, valeur résiduelle).</div></li>
+<li><div class="step-content">Le couple de CG minimal est retenu ; le champ « Autonomie » se grise et affiche l'autonomie optimale.</div></li>
+<li><div class="step-content"><b>Sensibilité</b> : l'optimum est recalculé pour τ<sub>cible</sub> = 90, 95, 98 et 99 %. Les dernières heures de calme coûtent très cher :
+au-delà de 95 %, une source d'appoint (PV, groupe électrogène) est souvent plus économique que des machines et des batteries supplémentaires.</div></li>
+</ol>
+<div class="note"><b>Surproduction.</b> Un système éolien seul et autonome produit toujours beaucoup plus que les besoins : il est dimensionné pour les
+périodes faibles et produit trop pendant les mois ventés. L'excédent est inévitable ; on le valorise par des usages différables (pompage,
+froid, dessalement) ou on le réduit par un système hybride éolien-PV, le soleil compensant souvent les mois peu ventés.</div>
+
+<div class="ex"><h4>Exemple 3.7 bis — École de Saint-Louis alimentée par l'éolien (mesures réelles)</h4>
+<p>Vent : vitesses horaires à 10 m de NASA POWER pour Saint-Louis (16,03° N, 16,50° O), année 2023 (8 760 valeurs ; 4,69 m/s en moyenne,
+3,03 m/s en septembre et octobre). Densité de l'air 1,17 kg/m³, terrain rase campagne. Besoins : 20 lampes de 40 W (7 h/j), 2 climatiseurs de 600 W
+(10 h/j), 2 réfrigérateurs de 300 W (24 h/j), soit B<sub>j</sub> = 32 kWh/j et une pointe de 2,6 kW. Marge 10 % (B′<sub>j</sub> = 35,2 kWh/j), pertes de
+production 6 %, η<sub>r</sub> = 1. Aérogénérateur de 10 kW, moyeu à 24 m. Batterie : bus 48 V, plomb AGM 12 V 200 Ah (DoD 50 %), η<sub>bat</sub> = 0,8 ;
+couverture visée 99 %. Prix de l'onglet 6 par défaut. Fichier : <code>exemples/eol_saint_louis.nxeol</code>.</p>
+<details class="sol"><summary>Voir la solution (calculée par NRJXpert)</summary>
+<p><b>Production d'une machine</b> (vent moyen au moyeu 5,52 m/s) : <span class="result">16 385 kWh/an</span>, facteur de charge 18,7 % ; de
+2 266 kWh en mai (30,5 %) à <b>322 kWh en octobre</b> (4,3 %).</p>
+<p><b>Raccordé au réseau</b> : N = ⌈365 × 35,2/16 385⌉ = ⌈0,78⌉ = <span class="result">1 machine</span>.</p>
+<p><b>Mois le plus défavorable</b> : octobre, N = ⌈31 × 35,2/322⌉ = ⌈3,39⌉ = 4. <b>Bilan annuel</b> : 1.</p>
+<p><b>Courbe de dimensionnement</b> (τ ≥ 99 % ; aucune autonomie inférieure à 24 h n'atteint la cible) :</p>
+<table>
+<tr><th>Autonomie</th><th class="num">24 h</th><th class="num">36 h</th><th class="num">48 h</th><th class="num">72 h</th><th class="num">96 h</th><th class="num">120 h</th><th class="num">7 j</th><th class="num">10 j</th><th class="num">14 j</th><th class="num">20 j</th></tr>
+<tr><td>N</td><td class="num">13</td><td class="num">7</td><td class="num">5</td><td class="num">5</td><td class="num">5</td><td class="num">4</td><td class="num">4</td><td class="num">4</td><td class="num">3</td><td class="num">3</td></tr>
+<tr><td>C<sub>nom</sub> (kWh)</td><td class="num">96</td><td class="num">134</td><td class="num">182</td><td class="num">269</td><td class="num">355</td><td class="num">442</td><td class="num">624</td><td class="num">883</td><td class="num">1 238</td><td class="num">1 766</td></tr>
+<tr><td>CG (MF)</td><td class="num">464</td><td class="num">288</td><td class="num result">245</td><td class="num">285</td><td class="num">324</td><td class="num">332</td><td class="num">415</td><td class="num">534</td><td class="num">664</td><td class="num">906</td></tr>
+</table>
+<p>Pour 48 h : C<sub>req</sub> = 35,2 × 2/(0,5 × 0,8) = 176 kWh → N<sub>bs</sub> = 48/12 = 4, N<sub>bp</sub> = ⌈176 000/(48 × 200)⌉ = 19, soit 76 batteries et
+182 kWh. <b>Optimum : 5 machines et 182 kWh</b>, couverture simulée 99,15 %, excédent 68 700 kWh/an : les 5 machines produisent 81 900 kWh/an, 6,4 fois les besoins de dimensionnement.</p>
+<p><b>Comparaison des critères</b> (simulation sur la même année) :</p>
+<table>
+<tr><th>Critère</th><th>N</th><th>Batterie</th><th>Couverture</th><th>CG</th></tr>
+<tr><td>Optimisation coût / fiabilité</td><td class="num">5</td><td class="num">182 kWh (48 h)</td><td class="num">99,2 %</td><td class="num result">245 MF</td></tr>
+<tr><td>Simulation avec la batterie saisie (72 h)</td><td class="num">5</td><td class="num">269 kWh</td><td class="num">99,8 %</td><td class="num">285 MF</td></tr>
+<tr><td>Mois le plus défavorable</td><td class="num">4</td><td class="num">269 kWh</td><td class="num">98,4 %</td><td class="num">253 MF</td></tr>
+<tr><td>Bilan annuel</td><td class="num">1</td><td class="num">269 kWh</td><td class="num">82,3 %</td><td class="num">155 MF</td></tr>
+</table>
+<p><b>Sensibilité à la couverture visée</b> : 90 % → 2 machines et 96 kWh (109 MF) ; 95 % → 4 machines et 96 kWh (173 MF) ; 98 % → 5 machines et
+134 kWh (223 MF) ; 99 % → 5 machines et 182 kWh (245 MF). Passer de 90 à 99 % multiplie le coût par 2,2 : un appoint (PV ou groupe) pour
+les dernières heures de calme est à étudier.</p>
 </details></div>
 <div class="lab"><h4>Travail pratique 8 — Fenêtre « Systèmes éoliens »</h4>
 <ol class="steps">
-<li><div class="step-content"><b>Outils › Systèmes éoliens</b>, onglet 1 : saisir le site de l'exemple 3.6 (paramètres de Weibull) ou importer vos propres mesures de vent (Excel, CSV ou données en ligne).</div></li>
-<li><div class="step-content">Onglet 2 : lire <i>c</i>, <i>k</i> et la densité de puissance mois par mois ; comparer régression et maximum de vraisemblance.</div></li>
-<li><div class="step-content">Onglet 3 : choisir un aérogénérateur, examiner sa courbe de puissance. Onglet 4 : production mensuelle, facteur de charge, nombre de
-machines pour des besoins donnés.</div></li>
-<li><div class="step-content">Onglet 5 : système raccordé, rubrique <b>Câblage</b> (40 m par machine, 50 m jusqu'au raccordement) : lire les sections et le coût
-du câblage dans les résultats et le rapport.</div></li>
+<li><div class="step-content"><b>Aide › Ouvrir un exemple du tutoriel…</b> › <code>eol_saint_louis.nxeol</code> (ou <b>Renouvelables › Systèmes éoliens</b>, puis
+<b>Ouvrir</b>). Onglet 1 « Site et mesures » : lire la hauteur des mesures (10 m), la hauteur du moyeu (24 m, hauteur usuelle de la machine
+de 10 kW) et le rapport des vitesses.</div></li>
+<li><div class="step-content">Onglet 2 « Besoins » : l'école et ses récepteurs, le profil journalier (32 kWh/j, pointe 2,6 kW).</div></li>
+<li><div class="step-content">Onglet 3 « Analyse du vent » : c, k, densité de puissance et énergie récupérable mois par mois ; repérer septembre et octobre, les mois les moins ventés.</div></li>
+<li><div class="step-content">Onglet 4 « Aérogénérateur » : courbe de puissance ; changer de machine et observer la hauteur du moyeu qui suit.</div></li>
+<li><div class="step-content">Onglet 5 « Production et dimensionnement » : <kbd>F5</kbd> (Calculer) ; retrouver l'exemple 3.7 bis (courbe de dimensionnement,
+sensibilité) ; essayer les quatre critères ; baisser la couverture visée à 95 % ; lire la colonne « N recommandé » de la comparaison des machines.</div></li>
+<li><div class="step-content">Onglet 6 « Viabilité économique » : passer en <b>raccordé au réseau</b> ; à quel tarif le projet devient-il rentable (bouton
+« Minimum pour la rentabilité ») ? Rubrique <b>Câblage</b> : sections et coût des liaisons machine → électronique → raccordement.</div></li>
 </ol>
 </div>
 
@@ -331,6 +665,35 @@ du câblage dans les résultats et le rapport.</div></li>
 <p>Dans un village sans réseau, une pompe alimentée par des modules photovoltaïques remplit un réservoir : <b>l'eau stockée remplace la batterie</b>
 (pompage « au fil du soleil »). On peut aussi ajouter une batterie pour pomper tôt le matin ou en fin de journée. Le dimensionnement part des
 <b>besoins en eau</b> (m³/j) et de la <b>hauteur manométrique totale</b> (HMT), et non d'un profil de charge électrique comme au § 3.3.</p>
+<details class="notations" open><summary>Notations de la section 3.8</summary>
+<table class="notations">
+<tr><th>Symbole</th><th>Grandeur</th><th>Unité</th><th>Valeur usuelle</th></tr>
+<tr><td>V (ou ΔQ)</td><td>Volume d'eau à pomper par jour (besoins majorés des pertes de distribution et de la marge)</td><td>m³/j</td><td>—</td></tr>
+<tr><td>UBT</td><td>Unité de bétail tropical : animal de référence de 250 kg ; bovin 1, ovin ou caprin 0,2, âne 0,3, cheval 1,2, dromadaire 1,5</td><td>—</td><td>40 l/UBT/j</td></tr>
+<tr><td>HG</td><td>Hauteur géométrique : niveau statique de l'eau sous le sol + rabattement (baisse du niveau pendant le pompage) + hauteur d'arrivée dans le réservoir + dénivelé</td><td>m</td><td>—</td></tr>
+<tr><td>P<sub>C</sub></td><td>Pertes de charge dans la conduite (frottements, coudes, vannes), exprimées en mètres de colonne d'eau</td><td>m</td><td>10 à 20 % de HG</td></tr>
+<tr><td>HMT</td><td>Hauteur manométrique totale que la pompe doit fournir : HG + P<sub>C</sub></td><td>m</td><td>—</td></tr>
+<tr><td>ρ, g</td><td>Masse volumique de l'eau ; accélération de la pesanteur</td><td>kg/m³, m/s²</td><td>1 000 ; 9,81</td></tr>
+<tr><td>C<sub>H</sub></td><td>Constante hydraulique ρg/3 600 : énergie pour élever 1 m³ d'eau de 1 m</td><td>Wh/(m³·m)</td><td>2,725</td></tr>
+<tr><td>η<sub>p</sub>, η<sub>m</sub>, η<sub>conv</sub></td><td>Rendements de la pompe, du moteur, du convertisseur (onduleur ou MPPT) ; R<sub>p</sub> = η<sub>p</sub>·η<sub>m</sub>·η<sub>conv</sub></td><td>—</td><td>0,4 à 0,6 ; 0,8 à 0,9 ; 0,9 à 1</td></tr>
+<tr><td>E<sub>el</sub></td><td>Énergie électrique journalière absorbée par la motopompe</td><td>Wh/j</td><td>—</td></tr>
+<tr><td>Ens</td><td>Ensoleillement journalier sur le plan des modules, en heures de plein soleil (= kWh/m²/j)</td><td>h/j</td><td>5 à 6 au Sahel</td></tr>
+<tr><td>η<sub>c</sub></td><td>Rendement du champ PV par rapport à sa puissance crête : (1 − pertes)·(1 + γ(T<sub>c</sub> − 25))</td><td>—</td><td>0,8 à 0,9</td></tr>
+<tr><td>η<sub>B</sub></td><td>Rendement de la batterie (configuration avec batterie)</td><td>—</td><td>0,85</td></tr>
+<tr><td>P<sub>c</sub></td><td>Puissance crête du champ PV</td><td>Wc</td><td>—</td></tr>
+<tr><td>ΔT</td><td>Durée de pompage journalière (heures où le soleil suffit)</td><td>h</td><td>8 à 9 h</td></tr>
+<tr><td>Q, Q<sub>max</sub></td><td>Débit ; débit maximal à midi solaire (débit en cosinus sur ΔT)</td><td>m³/h</td><td>—</td></tr>
+<tr><td>P<sub>H</sub></td><td>Puissance hydraulique : Q·HMT/367 (Q en m³/h, résultat en kW)</td><td>kW</td><td>—</td></tr>
+<tr><td>P<sub>el</sub></td><td>Puissance électrique de la motopompe : P<sub>H</sub>/(η<sub>p</sub>·η<sub>m</sub>)</td><td>W</td><td>—</td></tr>
+<tr><td>G</td><td>Éclairement de référence pour la méthode des puissances</td><td>W/m²</td><td>800 W/m²</td></tr>
+<tr><td>τ, LWSP</td><td>Taux de couverture du besoin en eau ; probabilité de manque d'eau = 1 − τ</td><td>%</td><td>—</td></tr>
+</table>
+</details>
+<p><b>Besoins en eau.</b> NRJXpert additionne la population (habitants × litres par habitant), le bétail (nombre d'UBT × litres par UBT, la
+légende de l'onglet rappelle les équivalences), l'irrigation (surface × besoin net / efficience) et les autres besoins, puis ajoute les pertes de
+distribution. Le <b>profil horaire de consommation</b> (puisage au réservoir) sert à la simulation : profils types (village, uniforme, irrigation,
+journée) ou <b>profil personnalisé</b> saisi heure par heure, soit en <b>part du volume journalier (%)</b>, soit en <b>volume d'eau par heure (m³)</b>
+(collage depuis Excel possible ; la répartition est ramenée à 100 %).</p>
 <div class="eq">HMT = HG + P<sub>C</sub> &nbsp; (hauteur géométrique + pertes de charge dans la conduite)<br>
 Méthode des énergies : E<sub>el</sub> = C<sub>H</sub>·V·HMT / R<sub>p</sub> &nbsp; avec C<sub>H</sub> = ρg/3 600 = 2,725 Wh/(m³·m) et R<sub>p</sub> = η<sub>p</sub>·η<sub>m</sub>·η<sub>conv</sub><br>
 P<sub>c</sub> = E<sub>el</sub> / (Ens·η<sub>c</sub>) &nbsp; (Ens : heures de plein soleil ; avec batterie, on divise aussi par η<sub>B</sub>)<br>
@@ -371,12 +734,16 @@ devient : besoin 27,5 m³/j, E<sub>el</sub> = 2 645 Wh/j, P<sub>c</sub> = 588 Wc
             <h2><span class="section-icon">🎯</span>Exercices</h2>
 <div class="ex"><h4>Exercice 1 — Kit solaire domestique</h4>
 <p>Une famille veut alimenter 4 lampes de 7 W (5 h/j), une télévision de 60 W (4 h/j) et recharger des téléphones (20 Wh/j), en 12 V
-continu (pas d'onduleur). H = 5 kWh/m²/j, modules 12 V de 100 Wc (<i>I</i><sub>mp</sub> = 5,6 A), batteries 12 V 100 Ah, autonomie 2 jours,
-DoD 50 %. Dimensionner.</p>
+continu (pas d'onduleur). H = 5 kWh/m²/j, modules 12 V de 100 Wc (<i>V</i><sub>mp</sub> = 17,5 V, <i>I</i><sub>mp</sub> = 5,6 A, <i>I</i><sub>sc</sub> ≈ 6 A),
+régulateur PWM, pertes du système 10 % (k<sub>p</sub> = 0,9), batteries 12 V 100 Ah, autonomie 2 jours (48 h), DoD 50 %. Dimensionner (notations du § 3.3).</p>
 <details class="sol"><summary>Voir la solution</summary>
-<p><i>E</i><sub>j</sub> = 140 + 240 + 20 = 400 Wh/j ; <i>Q</i><sub>j</sub> = 400/(12 × 0,98 × 0,9) = 37,8 Ah/j (pas de convertisseur).
-Modules (PWM) : 37,8/(5 × 0,9 × 5,6) = 1,5 → <span class="result">2 modules</span>. Batterie : 37,8 × 2/0,5 = 151 Ah → <span class="result">2 batteries
-de 100 Ah</span> en parallèle. Régulateur : 1,25 × 2 × <i>I</i><sub>sc</sub> (≈ 6 A) = 15 A → régulateur de 20 A.</p>
+<p><b>Besoins</b> : <i>E</i><sub>j</sub> = 4 × 7 × 5 + 60 × 4 + 20 = 140 + 240 + 20 = 400 Wh/j. Récepteurs continus à 12 V : η<sub>conv</sub> = 1, d'où
+<i>Q</i><sub>j</sub> = 400/(12 × 1 × 0,98 × 0,9) = 37,8 Ah/j.</p>
+<p><b>Champ (PWM)</b> : <i>I</i><sub>champ</sub> = <i>Q</i><sub>j</sub>/H = 37,8/5 = 7,56 A ; N<sub>p</sub> = ⌈7,56/(0,9 × 5,6)⌉ = ⌈1,5⌉ = 2 chaînes ;
+N<sub>s</sub> = ⌈1,2 × 12/(0,9 × 17,5)⌉ = ⌈0,91⌉ = 1 → <span class="result">2 modules</span> en parallèle (200 Wc).</p>
+<p><b>Batterie</b> : C = 37,8 × 48/24 = 75,6 Ah à prélever ; N<sub>bs</sub> = 12/12 = 1 ; N<sub>bp</sub> = ⌈75,6/(100 × 0,5)⌉ = ⌈1,51⌉ = 2 →
+<span class="result">2 batteries de 100 Ah</span> en parallèle.</p>
+<p><b>Régulateur</b> : 1,25 × N<sub>p</sub> × <i>I</i><sub>sc</sub> = 1,25 × 2 × 6 = 15 A → régulateur PWM de 20 A.</p>
 </details></div>
 <div class="ex"><h4>Exercice 2 — Section d'un câble de champ</h4>
 <p>Un champ MPPT de 6 chaînes délivre <i>I</i><sub>sc</sub> = 6 × 13,6 A sous 380 V, à 60 m du local technique ; ΔU ≤ 1 %, 45 °C,
@@ -438,7 +805,7 @@ La méthode des puissances, plus prudente, est celle à retenir avant la simulat
 <div class="fb">La distribution se resserre autour de la moyenne (alizés).</div></div>
 <div class="qcm" data-answer="c"><p class="q">10. Dans le coût global d'un système PV autonome de 20 ans, le poste le plus lourd est souvent :</p>
 <ol><li data-k="a">les modules</li><li data-k="b">le câblage</li><li data-k="c">les batteries (remplacements compris)</li><li data-k="d">l'onduleur</li></ol>
-<div class="fb">Exemple 3.3 : 77 % du coût global avec des batteries remplacées tous les 5 ans.</div></div>
+<div class="fb">Exemple 3.3 : 87 % du coût global avec des batteries plomb remplacées tous les 4 ans.</div></div>
 <div class="qcm" data-answer="b"><p class="q">11. Dans un système de pompage solaire « au fil du soleil », le stockage d'énergie est assuré par :</p>
 <ol><li data-k="a">une batterie au plomb</li><li data-k="b">le réservoir d'eau</li><li data-k="c">un volant d'inertie</li><li data-k="d">un condensateur</li></ol>
 <div class="fb">On stocke l'eau, pas l'électricité : le réservoir de 1 à 3 jours de consommation joue le rôle de la batterie.</div></div>
@@ -448,6 +815,18 @@ La méthode des puissances, plus prudente, est celle à retenir avant la simulat
 <div class="qcm" data-answer="b"><p class="q">13. Dans l'exemple 3.8, une marge de dimensionnement de 10 % fait passer la puissance crête de 534 Wc à environ :</p>
 <ol><li data-k="a">540 Wc</li><li data-k="b">588 Wc</li><li data-k="c">641 Wc</li><li data-k="d">1 068 Wc</li></ol>
 <div class="fb">La marge majore les besoins : 534 × 1,1 = 588 Wc.</div></div>
+<div class="qcm" data-answer="c"><p class="q">14. Avec des modules de 410 Wc (V<sub>mp</sub> 31 V) sur un bus de 24 V, un régulateur PWM impose par rapport à un régulateur MPPT :</p>
+<ol><li data-k="a">le même champ</li><li data-k="b">un champ 10 % plus grand</li><li data-k="c">un champ environ deux fois plus grand</li><li data-k="d">un champ plus petit</li></ol>
+<div class="fb">En PWM, la chaîne de 62 V travaille à la tension de la batterie (≈ 29 V) : on dimensionne en courant et on perd plus de la moitié de la puissance (exemple 3.3 : 8 modules au lieu de 4).</div></div>
+<div class="qcm" data-answer="b"><p class="q">15. Pour un système éolien raccordé au réseau, NRJXpert dimensionne le nombre d'aérogénérateurs sur :</p>
+<ol><li data-k="a">le mois le moins venté</li><li data-k="b">le bilan annuel</li><li data-k="c">la puissance de pointe des récepteurs</li><li data-k="d">une simulation avec batterie</li></ol>
+<div class="fb">Le réseau fournit les déficits et reçoit les excédents : inutile de couvrir le mois le plus défavorable.</div></div>
+<div class="qcm" data-answer="a"><p class="q">16. La LPSP d'un système autonome est :</p>
+<ol><li data-k="a">la part de l'énergie demandée qui n'a pas pu être fournie</li><li data-k="b">la probabilité qu'une machine tombe en panne</li><li data-k="c">la part de l'énergie produite qui est perdue</li><li data-k="d">la profondeur de décharge de la batterie</li></ol>
+<div class="fb">LPSP = énergie non fournie / énergie demandée ; la couverture vaut 1 − LPSP. L'optimisation cherche le système le moins cher tel que LPSP ≤ 1 − couverture visée.</div></div>
+<div class="qcm" data-answer="d"><p class="q">17. Dans l'exemple 3.7 bis (Saint-Louis), passer d'une couverture visée de 90 % à 99 % multiplie le coût global par environ :</p>
+<ol><li data-k="a">1,1</li><li data-k="b">1,5</li><li data-k="c">10</li><li data-k="d">2,2</li></ol>
+<div class="fb">109 MF à 90 %, 245 MF à 99 % : les dernières heures de calme coûtent très cher ; un appoint PV ou un groupe est souvent plus économique.</div></div>
             <a href="#top" class="back-to-top">↑ Retour en haut</a>
         </div>
         <div class="page-nav"><a href="niveau2.html">← Niveau 2 — Réseaux électriques</a><a href="niveau4.html">Niveau 4 — Études économiques →</a></div>

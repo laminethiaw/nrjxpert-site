@@ -145,3 +145,8 @@ figcaption{ color:var(--muted); font-size:.8rem; }
   .back-to-top, .page-nav{ display:none; }
   .section h2, .section h3{ break-after:avoid; }
 }
+/* tableaux de notations (grandeurs utilisées dans les calculs) */
+details.notations{ margin:12px 0 16px; }
+details.notations > summary{ cursor:pointer; font-weight:600; color:var(--primary); margin-bottom:6px; }
+table.notations td:first-child{ white-space:nowrap; font-family:"Cambria Math","STIX Two Math","Times New Roman",serif; font-style:italic; }
+table.notations td:nth-child(3){ white-space:nowrap; }

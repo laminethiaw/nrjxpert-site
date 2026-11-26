@@ -89,6 +89,7 @@ solar pumps.</div>
 <li>Size a solar pump (TDH, hydraulic energy, peak power, tank) and check the result with an hourly simulation.</li>
 </ul>
 <p class="prereq">Prerequisites: levels 1 and 2 (§ 2.4). Duration: 28 to 34 h.</p>
+<p>Each calculation section (3.3 to 3.8) starts with the table of its notation: symbol, meaning, unit and usual value. All of them are gathered in annex A.7.</p>
 </div>
 
 <!-- ================================================================== -->
@@ -154,63 +155,219 @@ current modules of 60 to 144 cells (<i>V</i><sub>mp</sub> 30 to 40 V).</p>
         </div>
         <div class="section" id="n3-3">
             <h2><span class="section-icon">☀️</span>3.3 Sizing a stand-alone PV system</h2>
-<h3>Method</h3>
-<ol class="steps">
-<li><div class="step-content"><b>Load assessment</b>: for each appliance, power × number × hours of operation; daily energy <i>E</i><sub>d</sub> (Wh/d) and maximum
-simultaneous apparent power <i>S</i><sub>max</sub> (VA, for the inverter).</div></li>
-<li><div class="step-content"><b>Needs referred to the battery</b>: <i>Q</i><sub>d</sub> = <i>E</i><sub>d</sub>/(<i>U</i>·η<sub>conv</sub>·η<sub>cables</sub>·η<sub>bat</sub>) (Ah/d),
-with η<sub>conv</sub> = 0.9 for AC appliances, 0.98 for the cables, 0.9 for the battery.</div></li>
-<li><div class="step-content"><b>Design irradiation</b>: worst month on the plane of the modules (or annual mean if a seasonal deficit is accepted).</div></li>
-<li><div class="step-content"><b>PV array</b>: PWM: <i>N</i><sub>p</sub> = ⌈<i>Q</i><sub>d</sub>/(<i>H</i>·0.9·<i>I</i><sub>mp</sub>)⌉ strings of <i>N</i><sub>s</sub> = ⌈1.2·<i>U</i>/(0.9·<i>V</i><sub>mp</sub>)⌉;
-MPPT: <i>P</i><sub>p</sub> = <i>Q</i><sub>d</sub>·<i>U</i>/(<i>H</i>·0.9·<i>f</i><sub>T</sub>·0.96) with <i>f</i><sub>T</sub> = 1 − 0.004·(<i>T</i><sub>a</sub> + 25 − 25).</div></li>
-<li><div class="step-content"><b>Battery</b>: useful capacity <i>C</i> = <i>Q</i><sub>d</sub>·autonomy(h)/24; <i>N</i><sub>s</sub> = <i>U</i>/<i>U</i><sub>batt</sub>,
-<i>N</i><sub>p</sub> = ⌈<i>C</i>/(<i>C</i><sub>batt</sub>·DoD)⌉.</div></li>
-<li><div class="step-content"><b>Charge controller</b>: current ≥ 1.25 × array current (PWM: <i>N</i><sub>p</sub>·<i>I</i><sub>sc</sub>; MPPT: <i>P</i><sub>p</sub>/<i>U</i>).</div></li>
-<li><div class="step-content"><b>Inverter</b>: power rating ≥ 1.25 × <i>S</i><sub>max</sub>.</div></li>
-<li><div class="step-content"><b>Wiring</b> (§ 3.4), <b>costs</b> (level 4), and month-by-month check: production, needs, coverage rate.</div></li>
-</ol>
-<div class="note">Numbers are rounded <b>up</b> (rounding to the nearest integer under-sizes: this was an error of the original program, corrected
-in NRJXpert). Among the equipment of the database, the option « choose at minimum life-cycle cost » keeps the cheapest combination over the
-operating period, replacements included.</div>
+<p>A <b>stand-alone</b> (off-grid) photovoltaic system consists of a PV <b>array</b>, one or more <b>charge controllers</b>, a <b>battery</b>,
+an <b>inverter</b> for the AC loads, and the cables between them. Sizing it means fixing the number of each item to meet two goals:</p>
+<ul>
+<li>during the <b>least sunny month</b>, the array must produce the energy consumed every day, losses included;</li>
+<li>the battery must supply the loads <b>at night and during days without sun</b> (a duration called the <b>autonomy</b>).</li>
+</ul>
+<p>The calculation follows the energy from the user back to the sun: load demand → energy drawn from the battery → PV array → battery →
+charge controller → inverter → cables. Every quantity is defined in the table below.</p>
 
-<p><b>Design margin.</b> The “Design margin (%)” field of the Options tab increases the needs (Ah/d) before the array and battery are sized; it covers the uncertainty on the load profile, demand growth and ageing (10 % by default in new projects). The examples of this tutorial are calculated with a 0 % margin so that they can be checked by hand: set 0 to recover their values.</p>
-<div class="ex"><h4>Example 3.3 — Rural health post near Dakar</h4>
-<table>
-<tr><th>Appliance</th><th>Number × power</th><th>Hours/d</th><th>Energy (Wh/d)</th></tr>
-<tr><td>LED lamps (cos φ 0.9)</td><td>10 × 15 W</td><td class="num">5 (18:00 – 23:00)</td><td class="num">750</td></tr>
-<tr><td>Vaccine refrigerator (cos φ 0.8)</td><td>1 × 150 W</td><td class="num">12 (one hour out of two)</td><td class="num">1 800</td></tr>
-<tr><td>Computer</td><td>1 × 60 W</td><td class="num">4</td><td class="num">240</td></tr>
-<tr><td>Fans</td><td>2 × 50 W</td><td class="num">6</td><td class="num">600</td></tr>
-<tr><th colspan="3">Total</th><th class="num">3 390</th></tr>
+<details class="notations" open><summary>Notation of section 3.3</summary>
+<table class="notations">
+<tr><th>Symbol</th><th>Quantity</th><th>Unit</th><th>Source or usual value</th></tr>
+<tr><td>n<sub>i</sub>, P<sub>i</sub></td><td>Number of identical appliances of load i, power of one appliance</td><td>—, W</td><td>“Demand” tab</td></tr>
+<tr><td>K<sub>u</sub>, K<sub>s</sub></td><td>Utilisation factor (partial operation) and diversity factor (appliances not used at the same time)</td><td>—</td><td>0 to 1; 1 by default</td></tr>
+<tr><td>η<sub>i</sub></td><td>Efficiency of the appliance itself (absorbed power = P<sub>i</sub>/η<sub>i</sub>)</td><td>—</td><td>1 by default</td></tr>
+<tr><td>h<sub>i</sub>, j<sub>i</sub></td><td>Operating hours per day (ticked boxes of the schedule), days of use per week</td><td>h/d, d/wk</td><td>“Demand” tab</td></tr>
+<tr><td>cos φ<sub>i</sub></td><td>Power factor of an AC load (apparent power S = P/cos φ)</td><td>—</td><td>0.8 to 1</td></tr>
+<tr><td>E<sub>d</sub></td><td>Energy consumed by the loads every day</td><td>Wh/d</td><td>Computed</td></tr>
+<tr><td>S<sub>max</sub></td><td>Apparent power drawn during the most loaded hour of the day (sum of P<sub>i</sub>/cos φ<sub>i</sub> of the loads running)</td><td>VA</td><td>Computed; sizes the inverter</td></tr>
+<tr><td>U</td><td>Voltage of the <b>DC bus</b> = rated voltage of the battery, of the controller and of the inverter input</td><td>V</td><td>12, 24 or 48 V</td></tr>
+<tr><td>η<sub>conv</sub></td><td>Efficiency of the converter feeding the load: inverter (AC load) or DC-DC converter</td><td>—</td><td>0.9; 1 for a DC load at voltage U</td></tr>
+<tr><td>η<sub>cables</sub></td><td>Cable efficiency (Joule losses)</td><td>—</td><td>0.98</td></tr>
+<tr><td>η<sub>bat</sub></td><td>Battery efficiency (energy returned / energy stored), applied to all the energy consumed (conservative assumption)</td><td>—</td><td>0.9</td></tr>
+<tr><td>Q<sub>d</sub></td><td>Electric charge to be supplied every day to the DC bus (in ampere-hours: at a fixed voltage, current measures energy)</td><td>Ah/d</td><td>Computed</td></tr>
+<tr><td>m, Q′<sub>d</sub></td><td>Design margin; design charge Q′<sub>d</sub> = Q<sub>d</sub>·(1 + m)</td><td>%, Ah/d</td><td>m = 10 % (“Options and costs” tab)</td></tr>
+<tr><td>H</td><td>Mean daily irradiation of a month <b>on the plane of the modules</b>. Since 1 kWh/m² = 1 hour at 1 000 W/m², H is also the number of <b>peak-sun hours</b> (PSH)</td><td>kWh/m²/d = h/d</td><td>“Site” tab (§ 3.1)</td></tr>
+<tr><td>H<sub>des</sub></td><td>Design irradiation: H of the weakest month (recommended off-grid) or annual mean</td><td>h/d</td><td>“Site” tab</td></tr>
+<tr><td>β</td><td>Tilt of the modules from horizontal (facing the equator)</td><td>°</td><td>Optimum for the weakest month</td></tr>
+<tr><td>T<sub>a</sub>, T<sub>c</sub></td><td>Mean ambient temperature of the month; cell temperature T<sub>c</sub> = T<sub>a</sub> + (NOCT − 20) (at 800 W/m²)</td><td>°C</td><td>“Site” tab</td></tr>
+<tr><td>NOCT</td><td>Nominal operating cell temperature (module datasheet)</td><td>°C</td><td>45 °C</td></tr>
+<tr><td>γ</td><td>Temperature coefficient of the module maximum power</td><td>%/°C</td><td>−0.40 %/°C</td></tr>
+<tr><td>f<sub>T</sub></td><td>Temperature factor: f<sub>T</sub> = 1 + γ·(T<sub>c</sub> − 25), limited to 1.05</td><td>—</td><td>≈ 0.9 in the Sahel</td></tr>
+<tr><td>p, k<sub>p</sub></td><td>System losses (dust, mismatch between modules, array cables, tolerance); factor k<sub>p</sub> = 1 − p</td><td>%, —</td><td>p = 8 % (“Model parameters”)</td></tr>
+<tr><td>η<sub>MPPT</sub></td><td>Efficiency of the converter of an MPPT controller</td><td>—</td><td>0.96</td></tr>
+<tr><td>P<sub>mod</sub></td><td>Peak power of a module: maximum power at standard test conditions STC (1 000 W/m², 25 °C, AM1.5)</td><td>Wp</td><td>Datasheet</td></tr>
+<tr><td>V<sub>mp</sub>, I<sub>mp</sub></td><td>Voltage and current of a module at its maximum power point (STC): P<sub>mod</sub> = V<sub>mp</sub>·I<sub>mp</sub></td><td>V, A</td><td>Datasheet</td></tr>
+<tr><td>V<sub>oc</sub>, I<sub>sc</sub></td><td>Open-circuit voltage and short-circuit current of a module (STC)</td><td>V, A</td><td>Datasheet</td></tr>
+<tr><td>N<sub>s</sub></td><td>Number of modules <b>in series</b> in a string (voltages add up)</td><td>—</td><td>Computed</td></tr>
+<tr><td>N<sub>p</sub></td><td>Number of strings <b>in parallel</b> (currents add up)</td><td>—</td><td>Computed</td></tr>
+<tr><td>N<sub>mod</sub>, P<sub>p</sub></td><td>Number of modules N<sub>mod</sub> = N<sub>s</sub>·N<sub>p</sub>; array peak power P<sub>p</sub> = N<sub>mod</sub>·P<sub>mod</sub></td><td>—, Wp</td><td>Computed</td></tr>
+<tr><td>I<sub>array</sub></td><td>Current the array must deliver during H<sub>des</sub> hours to supply Q′<sub>d</sub> (PWM controller)</td><td>A</td><td>Computed</td></tr>
+<tr><td>P<sub>p,req</sub></td><td>Required array peak power (MPPT controller)</td><td>Wp</td><td>Computed</td></tr>
+<tr><td>Aut</td><td>Autonomy: time during which the battery alone supplies the loads</td><td>h</td><td>72 h (3 days)</td></tr>
+<tr><td>C</td><td>Capacity that must be drawable from the battery (usable capacity)</td><td>Ah</td><td>Computed</td></tr>
+<tr><td>C<sub>bat</sub>, U<sub>bat</sub></td><td>Rated capacity and voltage of one battery (one cell or block)</td><td>Ah, V</td><td>Equipment database</td></tr>
+<tr><td>DoD</td><td>Allowed depth of discharge: share of the rated capacity that may be drawn</td><td>%</td><td>Lead-acid 50 to 70 %, LFP lithium 90 % (database)</td></tr>
+<tr><td>N<sub>bs</sub>, N<sub>bp</sub></td><td>Batteries in series (to reach U); strings in parallel (to reach C)</td><td>—</td><td>Computed</td></tr>
+<tr><td>I<sub>reg</sub>, I<sub>in,max</sub>, V<sub>in,max</sub></td><td>Rated (output) current of a controller; maximum input current and voltage on the array side</td><td>A, A, V</td><td>Equipment database</td></tr>
+<tr><td>k, N<sub>reg</sub></td><td>Number of strings connected to one controller; number of controllers</td><td>—</td><td>Computed</td></tr>
+<tr><td>S<sub>inv</sub>, N<sub>inv</sub></td><td>Rated apparent power of an inverter; number of inverters</td><td>VA, —</td><td>Database; computed</td></tr>
+<tr><td>d<sub>m</sub></td><td>Number of days of month m</td><td>d</td><td>28 to 31</td></tr>
+<tr><td>E<sub>prod,m</sub>, E<sub>dem,m</sub></td><td>Energy supplied to the DC bus by the array and energy demanded from the bus during month m</td><td>kWh</td><td>Computed</td></tr>
+<tr><td>τ</td><td>Demand coverage: share of the annual demand actually supplied</td><td>%</td><td>Computed</td></tr>
+<tr><td>⌈x⌉, ⌊x⌋</td><td>Rounding up, rounding down to an integer</td><td>—</td><td>—</td></tr>
 </table>
-<p>24 V bus, MPPT charge controller, 72 h autonomy, DoD 60 %. Imposed equipment (indicative 2026 prices): 400 Wp module (<i>V</i><sub>mp</sub> 31.0 V,
-<i>I</i><sub>mp</sub> 12.9 A, <i>I</i><sub>sc</sub> 13.6 A; 110 kF), 12 V 200 Ah AGM battery (180 kF), 60 A MPPT controller (150 kF), 1.5 kVA inverter
-(300 kF).</p>
-<details class="sol"><summary>Show the solution (identical to the NRJXpert calculation)</summary>
-<p><b>Battery</b>: <i>Q</i><sub>d</sub> = 3 390/(24 × 0.9 × 0.98 × 0.9) = <span class="result">177.9 Ah/d</span>;
-<i>C</i> = 177.9 × 72/24 = <span class="result">533.8 Ah useful</span>; 2 batteries in series × ⌈533.8/(200 × 0.6)⌉ = 5 in parallel =
-<b>10 batteries</b>.</p>
-<p><b>Array</b>: December, H<sub>11°</sub> = 4.75 kWh/m²/d, <i>T</i><sub>a</sub> = 22 °C → <i>f</i><sub>T</sub> = 1 − 0.004 × 22 = 0.912.
-<i>P</i><sub>p</sub> = 177.9 × 24/(4.75 × 0.9 × 0.912 × 0.96) = <span class="result">1 141 Wp</span>. String: ⌈1.3 × 24/(31.0 × 0.82)⌉ = 2 modules;
-⌈1 141/800⌉ = 2 strings → <b>4 modules, 1 600 Wp</b>.</p>
-<p><b>Charge controller</b>: 1 600/24 = 66.7 A → 2 controllers of 60 A. <b>Inverter</b>: <i>S</i><sub>max</sub> = 365 VA → one 1.5 kVA inverter.</p>
-<p><b>Balance</b>: production 2 530 kWh/yr, coverage 100 %, useful energy 1 237 kWh/yr. Total investment <span class="result">3 185 kF</span> of which
-wiring 235 kF; levelised cost of the kWh (8 %, inflation 3 %, 20 years) <span class="result">580 F/kWh</span>. The batteries account for 77 % of the
-life-cycle cost (5 replacements in 20 years).</p>
+</details>
+
+<h3>Step 1 — Load assessment</h3>
+<p>For each load, note the number of appliances, their power and their operating hours. The mean daily energy is:</p>
+<div class="eq">E<sub>d</sub> = Σ<sub>i</sub> n<sub>i</sub>·P<sub>i</sub>·K<sub>u</sub>·K<sub>s</sub>/η<sub>i</sub> · h<sub>i</sub> · j<sub>i</sub>/7 &nbsp;&nbsp;(Wh/d)</div>
+<p>The factor j<sub>i</sub>/7 converts an appliance used only on some days (school closed at the weekend) to a mean day. The hourly profile (sum of
+the powers hour by hour) also gives <b>S<sub>max</sub></b>, the apparent power of the most loaded hour, which sets the size of the inverter.</p>
+
+<h3>Step 2 — Demand referred to the DC bus (ampere-hours)</h3>
+<p>All the energy passes through the DC bus: it leaves the battery or the controller, goes through the cables and, for AC loads, through the
+inverter. Each stage has an efficiency below 1, so the bus must supply more than E<sub>d</sub>. Since the bus voltage is fixed, this demand is
+expressed in ampere-hours (the unit of batteries and controllers):</p>
+<div class="eq">Q<sub>d</sub> = Σ<sub>i</sub> E<sub>d,i</sub> / (U·η<sub>conv,i</sub>·η<sub>cables</sub>·η<sub>bat</sub>) &nbsp;&nbsp;(Ah/d) &nbsp;&nbsp;&nbsp;&nbsp; Q′<sub>d</sub> = Q<sub>d</sub>·(1 + m)</div>
+<p>η<sub>conv,i</sub> equals 1 for a DC load supplied directly at voltage U, and 0.9 otherwise. The margin m covers the uncertainty on the hours of
+use, demand growth and ageing; it is not a loss.</p>
+
+<h3>Step 3 — Design irradiation</h3>
+<p>Irradiation is converted to the tilted plane of the modules (§ 3.1). For a stand-alone system, size on the <b>weakest month</b>: if the array is
+enough that month, it is enough all year. Sizing on the annual mean gives a smaller array but months in deficit, to be covered by a generator.
+H<sub>des</sub> reads as peak-sun hours: a 1 Wp module produces about H<sub>des</sub> Wh per day, before losses.</p>
+
+<h3>Step 4 — Choosing the controller type: PWM or MPPT?</h3>
+<p>The controller protects the battery (it stops charging when the battery is full); its technology sets how the array operates, hence the array
+formula.</p>
+<table>
+<tr><th></th><th>PWM controller (pulse-width modulation)</th><th>MPPT controller (maximum power point tracking)</th></tr>
+<tr><td>Principle</td><td>A simple electronic switch: the array is connected directly to the battery. The modules therefore operate at the
+<b>battery voltage</b> (≈ 1.2·U while charging), not at their voltage V<sub>mp</sub>.</td><td>A DC-DC converter: it keeps the array at its <b>maximum power
+point</b> (V<sub>mp</sub>, I<sub>mp</sub>) whatever the battery voltage, and converts this power to voltage U (efficiency η<sub>MPPT</sub> ≈ 0.96).</td></tr>
+<tr><td>What the array supplies</td><td>A <b>current</b> ≈ I<sub>mp</sub> per string; power above U·I<sub>mp</sub> is lost.</td><td>A <b>power</b> ≈ P<sub>p</sub> corrected for temperature and losses.</td></tr>
+<tr><td>Sizing quantity</td><td>Array current I<sub>array</sub> (A)</td><td>Peak power P<sub>p,req</sub> (Wp)</td></tr>
+<tr><td>Suitable modules</td><td>“12 V” modules with 36 cells (V<sub>mp</sub> ≈ 18 V) per 12 V of bus; with a 60 to 144-cell module, a large part of the power is lost.</td><td>All modules,
+especially today's 108 to 156 half-cell modules (V<sub>mp</sub> 31 to 45 V); several modules in series reduce the current and the cable cross-section.</td></tr>
+<tr><td>When to choose it</td><td>Small systems (up to 1 to 2 kWp), short cables: cheaper.</td><td>Above 2 to 3 kWp, long cables, high-power modules: 15 to 30 % more
+energy with the same array.</td></tr>
+</table>
+<p>NRJXpert can try both types and the three bus voltages, then keep the variant with the lowest cost per kWh (“Also choose the bus voltage and the
+controller type” box).</p>
+
+<h3>Step 5a — PV array with a PWM controller</h3>
+<p>An array delivering I amperes for H hours supplies I·H ampere-hours. The current to be supplied is therefore:</p>
+<div class="eq">I<sub>array</sub> = Q′<sub>d</sub> / H<sub>des</sub> &nbsp;&nbsp;(A)<br>
+N<sub>p</sub> = ⌈ I<sub>array</sub> / (k<sub>p</sub>·I<sub>mp</sub>) ⌉ &nbsp;&nbsp; strings in parallel (each string supplies I<sub>mp</sub>, reduced by the losses)<br>
+N<sub>s</sub> = ⌈ 1.2·U / (0.9·V<sub>mp</sub>) ⌉ &nbsp;&nbsp; modules per string</div>
+<p>1.2·U is the end-of-charge voltage of the battery (14.4 V for 12 V): the string must exceed it even when heat lowers the module voltage, which
+the factor 0.9 accounts for. Monthly production: E<sub>prod,m</sub> = U·N<sub>p</sub>·I<sub>mp</sub>·k<sub>p</sub>·H<sub>m</sub>·d<sub>m</sub>.</p>
+
+<h3>Step 5b — PV array with an MPPT controller</h3>
+<p>The array is sized in power. The energy to be supplied to the bus every day is Q′<sub>d</sub>·U (Wh); one peak watt supplies
+H<sub>des</sub>·k<sub>p</sub>·f<sub>T</sub>·η<sub>MPPT</sub>:</p>
+<div class="eq">P<sub>p,req</sub> = Q′<sub>d</sub>·U / (H<sub>des</sub>·k<sub>p</sub>·f<sub>T</sub>·η<sub>MPPT</sub>) &nbsp;&nbsp;(Wp) &nbsp;&nbsp;&nbsp; f<sub>T</sub> = 1 + γ·(T<sub>a</sub> + NOCT − 20 − 25)<br>
+N<sub>s</sub> = ⌈ 1.3·U / (V<sub>mp</sub>·(1 + 45·γ)) ⌉ &nbsp;&nbsp;&nbsp; N<sub>p</sub> = ⌈ P<sub>p,req</sub> / (N<sub>s</sub>·P<sub>mod</sub>) ⌉</div>
+<p>An MPPT controller can only step the voltage down: the string must stay above 1.3·U even with cells at 70 °C (45 °C above the 25 °C of STC, hence
+the factor 1 + 45·γ = 0.82). Check: the open-circuit voltage of the string in cold weather, 1.1·N<sub>s</sub>·V<sub>oc</sub>, must stay below the maximum
+input voltage of the controller V<sub>in,max</sub>. Monthly production: E<sub>prod,m</sub> = P<sub>p</sub>·H<sub>m</sub>·k<sub>p</sub>·f<sub>T,m</sub>·η<sub>MPPT</sub>·d<sub>m</sub>.</p>
+
+<h3>Step 6 — Battery</h3>
+<div class="eq">C = Q′<sub>bat</sub> · Aut / 24 &nbsp;&nbsp;(Ah) &nbsp;&nbsp;&nbsp; N<sub>bs</sub> = U / U<sub>bat</sub> &nbsp;&nbsp;&nbsp; N<sub>bp</sub> = ⌈ C / (C<sub>bat</sub>·DoD) ⌉ &nbsp;&nbsp;&nbsp; batteries = N<sub>bs</sub>·N<sub>bp</sub></div>
+<p>Q′<sub>bat</sub> equals Q′<sub>d</sub>, or counts only the priority loads if “Loads supplied by the battery: priority loads only” is chosen (the others
+are shed during the autonomy). Only DoD of the rated capacity is drawn to preserve the battery life: hence the division by DoD. The depth of
+discharge recommended by the database (AGM lead-acid 50 %, gel 60 %, OPzV 70 %, LFP lithium 90 %) replaces the project value. U must be a
+multiple of U<sub>bat</sub> (12.8 V LFP counts as 12 V).</p>
+
+<h3>Step 7 — Charge controllers</h3>
+<p>A string is never shared between two controllers. For each controller, NRJXpert checks:</p>
+<div class="eq">input current of a string = 1.25·I<sub>sc</sub> ≤ I<sub>in,max</sub> &nbsp;&nbsp;&nbsp; output current of a string = 1.25·N<sub>s</sub>·P<sub>mod</sub>/U (MPPT) or 1.25·I<sub>sc</sub> (PWM)<br>
+k = ⌊ min( I<sub>in,max</sub>/(1.25·I<sub>sc</sub>) ; I<sub>reg</sub>/output current of a string ) ⌋ &nbsp;&nbsp;&nbsp; N<sub>reg</sub> = ⌈ N<sub>p</sub> / k ⌉</div>
+<p>The factor 1.25 (guide UTE C15-712-1) covers irradiance above 1 000 W/m² (cloud edges, reflective ground). With PWM, the string voltage
+V<sub>mp</sub> must not exceed 2·U, otherwise more than half of the power is lost.</p>
+
+<h3>Step 8 — Inverter</h3>
+<div class="eq">N<sub>inv</sub> = ⌈ 1.25·S<sub>max</sub> / S<sub>inv</sub> ⌉ &nbsp;&nbsp; (stand-alone inverter whose DC voltage equals U)</div>
+<p>The 25 % margin absorbs motor starting peaks (refrigerator, pump) and keeps the inverter from running at full load.</p>
+
+<h3>Step 9 — Month-by-month check and economic choice</h3>
+<p>For each month, NRJXpert compares the production E<sub>prod,m</sub> with the demand seen from the bus E<sub>dem,m</sub> = Q<sub>d</sub>·U·d<sub>m</sub>:</p>
+<div class="eq">surplus = Σ max(0, E<sub>prod,m</sub> − E<sub>dem,m</sub>) &nbsp;&nbsp; deficit = Σ max(0, E<sub>dem,m</sub> − E<sub>prod,m</sub>) &nbsp;&nbsp;
+τ = Σ min(E<sub>prod,m</sub>, E<sub>dem,m</sub>) / Σ E<sub>dem,m</sub></div>
+<p>With the option “Choose the equipment with the lowest life-cycle cost”, every module, battery, controller and inverter of the database is tried; the
+module and the controller are chosen together (only connectable combinations count) and the combination kept is the cheapest over the whole
+operating life, replacements included (level 4). The wiring is then sized (§ 3.4).</p>
+<div class="note">All equipment counts are rounded <b>up</b> (rounding to the nearest integer undersizes: this was an error of the original program,
+corrected in NRJXpert). The examples of this tutorial are computed with a design margin of 0 % so that they can be checked by hand: set 0 to find
+their values.</div>
+
+<div class="ex"><h4>Example 3.3 — Rural health post near Dakar</h4>
+<p>Typical inventory of a rural health post (mean values of the usual ranges: refrigerator 60 to 120 W, indoor lighting 4 to 6 lamps of 10 to 18 W,
+2 or 3 fans of 50 to 70 W…). Almost all loads are AC (230 V, 50 Hz) and go through the inverter; only the vaccine refrigerator is a solar model supplied
+<b>directly at 24 V DC</b>: it has no conversion losses.</p>
+<table>
+<tr><th>Load</th><th>Number × power</th><th>Hours/d</th><th>Energy (Wh/d)</th></tr>
+<tr><td>Vaccine refrigerator, 24 V DC</td><td>1 × 90 W</td><td class="num">10 (08:00 – 18:00)</td><td class="num">900</td></tr>
+<tr><td>Indoor LED lighting (cos φ 0.9)</td><td>5 × 15 W</td><td class="num">6 (18:00 – 24:00)</td><td class="num">450</td></tr>
+<tr><td>Outdoor LED lighting (cos φ 0.9)</td><td>2 × 30 W</td><td class="num">11 (19:00 – 06:00)</td><td class="num">660</td></tr>
+<tr><td>Fans (cos φ 0.9)</td><td>2 × 60 W</td><td class="num">7 (11:00 – 18:00)</td><td class="num">840</td></tr>
+<tr><td>LED examination lamp (cos φ 0.9)</td><td>1 × 20 W</td><td class="num">2 (09:00 – 11:00)</td><td class="num">40</td></tr>
+<tr><td>Blood-pressure monitor, oximeter, glucometer: charging (cos φ 0.9)</td><td>2 × 10 W</td><td class="num">1 (07:00 – 08:00)</td><td class="num">20</td></tr>
+<tr><td>Small sterilizer (cos φ 1)</td><td>1 × 1 000 W</td><td class="num">1 (08:00 – 09:00)</td><td class="num">1 000</td></tr>
+<tr><td>Mobile phones and follow-up tablet: charging (cos φ 0.9)</td><td>2 × 20 W</td><td class="num">3 (13:00 – 16:00)</td><td class="num">120</td></tr>
+<tr><th colspan="3">Total E<sub>d</sub> (of which 3 130 Wh AC and 900 Wh DC)</th><th class="num">4 030</th></tr>
+</table>
+<p>Bus U = 24 V, MPPT controller, autonomy 72 h, margin 0 %, system losses p = 8 %, NOCT 45 °C, γ = −0.40 %/°C. Site: Dakar, horizontal irradiation of the
+database converted to the module plane. Imposed equipment (November 2026 database, indicative prices): 410 Wp module (V<sub>mp</sub> 31.2 V,
+I<sub>mp</sub> 13.14 A, V<sub>oc</sub> 37.4 V, I<sub>sc</sub> 13.9 A; 72 kF), AGM lead-acid battery 12 V 200 Ah (recommended DoD 50 %; 180 kF), 60 A MPPT controller
+(input ≤ 150 V and ≤ 50 A; 160 kF), 24 V 2 kVA inverter (220 kF).</p>
+<p class="small">The starting peaks of the typical inventory (fans 100 to 140 W, compressor 300 to 500 W) are not modelled separately: NRJXpert sizes the inverter on
+the apparent power of the busiest hour multiplied by 1.25, and the 2 kVA kept here cover these peaks widely (the compressor is supplied in DC and does not go
+through the inverter).</p>
+<details class="sol"><summary>Show the solution (identical to NRJXpert's calculation)</summary>
+<p><b>Step 1.</b> E<sub>d</sub> = 900 + 3 130 = 4 030 Wh/d. The most loaded hour is 08:00: the sterilizer draws 1 000/1 = 1 000 VA and no other AC load runs
+at that time (the DC refrigerator does not count for the inverter). The other hours are much lighter (for example at 13:00: fans 120/0.9 = 133 VA, phones
+40/0.9 = 44 VA). So <span class="result">S<sub>max</sub> = 1 000 VA</span>.</p>
+<p><b>Step 2.</b> The AC loads and the DC refrigerator do not have the same losses:
+Q<sub>d</sub> = 3 130/(24 × 0.9 × 0.98 × 0.9) + 900/(24 × 1 × 0.98 × 0.9) = 164.3 + 42.5 = <span class="result">206.8 Ah/d</span>
+(zero margin: Q′<sub>d</sub> = Q<sub>d</sub>). The refrigerator has no 0.9 converter factor, since it is at the bus voltage.</p>
+<p><b>Step 3.</b> The weakest month on the optimal plane (11°) is December: H<sub>des</sub> = 4.75 h/d, T<sub>a</sub> = 22 °C.</p>
+<p><b>Step 5b (MPPT).</b> T<sub>c</sub> = 22 + 25 = 47 °C; f<sub>T</sub> = 1 − 0.004 × (47 − 25) = 0.912.
+P<sub>p,req</sub> = 206.8 × 24/(4.75 × 0.92 × 0.912 × 0.96) = <span class="result">1 297 Wp</span>.
+N<sub>s</sub> = ⌈1.3 × 24/(31.2 × 0.82)⌉ = ⌈1.22⌉ = 2 modules per string (820 Wp); N<sub>p</sub> = ⌈1 297/820⌉ = ⌈1.58⌉ = 2 strings →
+<b>4 modules, 1 640 Wp</b> (only whole strings of 820 Wp can be installed, hence an array larger than the 1 297 Wp required).
+Cold open-circuit voltage: 1.1 × 2 × 37.4 = 82 V &lt; 150 V.</p>
+<p><b>Step 6.</b> C = 206.8 × 72/24 = <span class="result">620.4 Ah</span>; N<sub>bs</sub> = 24/12 = 2; N<sub>bp</sub> = ⌈620.4/(200 × 0.5)⌉ = 7 →
+<b>14 batteries</b> (33.6 kWh rated).</p>
+<p><b>Step 7.</b> One string: input 1.25 × 13.9 = 17.4 A; output 1.25 × 820/24 = 42.7 A. k = ⌊min(50/17.4; 60/42.7)⌋ = ⌊min(2.88; 1.41)⌋ = 1 →
+<b>2 controllers</b> of 60 A, one string each.</p>
+<p><b>Step 8.</b> 1.25 × 1 000 = 1 250 VA ≤ 2 000 VA → <b>1 inverter</b>.</p>
+<p><b>Step 9.</b> December: 1 640 × 4.75 × 0.92 × 0.912 × 0.96 × 31 = 194.5 kWh for 206.8 × 24 × 31 = 153.9 kWh of demand.
+Annual production <span class="result">2 651 kWh</span>, coverage 100 %, useful energy 1 471 kWh/yr. Investment
+<span class="result">3 766 kF</span> including 298 kF of wiring; levelised cost (rate 8 %, inflation 3 %, 20 years) <span class="result">727 F/kWh</span>.
+The batteries account for 87 % of the life-cycle cost: they are replaced every 4 years in a hot climate, i.e. 4 times in 20 years.</p>
+<p><b>And with a PWM controller?</b> I<sub>array</sub> = 206.8/4.75 = 43.5 A. With the same 410 Wp module: N<sub>p</sub> = ⌈43.5/(0.92 × 13.14)⌉ = ⌈3.60⌉ = 4,
+N<sub>s</sub> = ⌈1.2 × 24/(0.9 × 31.2)⌉ = 2, i.e. 8 modules (3 280 Wp), twice the MPPT array: with PWM, the 62 V string works at 29 V and loses more
+than half of its power. With a 200 Wp 72-cell module (V<sub>mp</sub> 37.6 V, I<sub>mp</sub> 5.32 A): N<sub>p</sub> = ⌈43.5/(0.92 × 5.32)⌉ = ⌈8.90⌉ = 9,
+N<sub>s</sub> = ⌈28.8/33.8⌉ = 1, i.e. 9 modules and 1 800 Wp, against 1 600 Wp (2 × 4) with MPPT.</p>
 </details></div>
 <div class="lab"><h4>Lab 6 — Sizing the health post</h4>
 <ol class="steps">
-<li><div class="step-content"><b>Help › Open a tutorial example…</b> › <code>pv_case_de_sante.nxpv</code>. Go through tabs 1 (Site: Dakar, horizontal plane converted),
-2 (Needs: the 4 appliances and their schedules), 3 (Options and costs: MPPT, 24 V, imposed equipment, wiring).</div></li>
-<li><div class="step-content"><kbd>F5</kbd> (Size) and find the values of example 3.3 in tab 4.</div></li>
-<li><div class="step-content">Set the bus to <b>48 V</b>: the array drops to 3 modules (1 200 Wp), the batteries to 4 × 3 = 12, the controller to a single unit, and the
-wiring to 129 kF. Explain each change.</div></li>
-<li><div class="step-content">Untick MPPT: a warning reports that 31 V modules on a 24 V bus lose a large part of their power with a PWM controller.</div></li>
-<li><div class="step-content">Size on the annual mean instead of the worst month: how many months in deficit?</div></li>
-<li><div class="step-content">Go back to 24 V MPPT and tick <b>Choose the equipment at minimum life-cycle cost</b>: NRJXpert goes through the database (current
-equipment, indicative 2026 prices) and keeps 2 TOPCon modules of 620 Wp, 6 LFP lithium batteries 25.6 V 100 Ah, 3 MPPT controllers of 30 A and
-one 24 V 2 kVA inverter: investment 2 982 kF, levelised cost of the kWh <b>339 F/kWh</b> instead of 580. Explain: the LFP battery is more expensive
-to buy, but it lasts 12 years instead of 4, accepts 90 % discharge instead of 50 % and has a better efficiency.</div></li>
+<li><div class="step-content"><b>Help › Open a tutorial example…</b> › <code>pv_case_de_sante.nxpv</code>. Go through tabs 1 (Site: Dakar, converted horizontal
+plane), 2 (Demand: the 8 loads and their schedules, including the refrigerator at 24 V DC), 3 (Options and costs: MPPT, 24 V, imposed equipment, wiring).</div></li>
+<li><div class="step-content"><kbd>F5</kbd> (Size) and find in tab 4 the values of example 3.3, step by step.</div></li>
+<li><div class="step-content">Set the bus to <b>48 V</b>: Q<sub>d</sub> falls to 105.8 Ah/d (a little more than half of 206.8, because the 24 V refrigerator is no longer at the
+bus voltage and now goes through a converter of efficiency 0.9). The required power rises to 1 327 Wp; the string must have 3 modules
+(⌈1.3 × 48/(31.2 × 0.82)⌉ = ⌈2.44⌉ = 3, i.e. 1 230 Wp) and, since 1 327 Wp exceeds 1 230 Wp, <b>2 strings, 6 modules (2 460 Wp)</b> are needed; the batteries
+become 4 × 4 = 16 and there are still 2 controllers. NRJXpert reports that the imposed (24 V) inverter can no longer be connected: choose the 48/3000
+inverter-charger. Wiring falls from 298 to 223 kF, but the cost of the kWh <b>rises</b> from 727 to 846 F. Explain each change, and why 48 V does not pay at this
+size: the string of 3 modules imposes a minimum array of 1 230 Wp and the slightest excess doubles the array.</div></li>
+<li><div class="step-content">Back at 24 V, untick MPPT: the array doubles (8 modules) and two warnings appear (MPPT controller imposed in a PWM system;
+62 V modules on a 24 V bus). Find N<sub>p</sub> = 4 and N<sub>s</sub> = 2 with the formulas of step 5a.</div></li>
+<li><div class="step-content">With MPPT, size on the <b>annual mean</b> (5.55 h/d) instead of the weakest month: P<sub>p,req</sub> falls to 1 120 Wp, but rounding
+up to 2 strings keeps 1 640 Wp. On which site or with which module would this option create months in deficit?</div></li>
+<li><div class="step-content">Tick <b>Choose the equipment with the lowest life-cycle cost</b> (voltage and controller imposed): NRJXpert keeps 3 bifacial modules of 550 Wp
+in parallel (1 650 Wp; a single module per string is enough, because its voltage is high enough), 7 LFP lithium batteries 25.6 V 100 Ah, 3 MPPT controllers of
+30 A and the 24/2000 inverter: investment 3 527 kF, levelised cost of the kWh <b>334 F/kWh</b> instead of 727. Explain: the LFP battery costs more to buy, but
+lasts 12 years instead of 4, accepts 90 % discharge instead of 50 % and has a better efficiency.</div></li>
+<li><div class="step-content">Also tick <b>Also choose the bus voltage and the charge controller type</b>: the “Automatic choice” line compares the six variants, with the
+cost of the kWh in life-cycle cost, slightly different from the levelised cost of tab 4 (12 V MPPT 415, 12 V PWM 439, 24 V MPPT 317, 24 V PWM 309, 48 V MPPT 350,
+48 V PWM 342 F/kWh, the last one non-compliant). The variant kept, 24 V PWM, puts 9 modules of 200 Wp in parallel (1 800 Wp) with 7 LFP batteries and 3 PWM controllers
+of 30 A: explain why PWM narrowly wins here (cheap controllers, 72-cell modules suited to 24 V).</div></li>
 </ol>
 </div>
 
@@ -220,7 +377,27 @@ to buy, but it lasts 12 years instead of 4, accepts 90 % discharge instead of 50
         <div class="section" id="n3-4">
             <h2><span class="section-icon">🧵</span>3.4 Wiring: cross-sections, protection and costs</h2>
 <p>Wiring commonly accounts for 5 to 10 % of the investment of a stand-alone PV system, and a wrong cross-section is paid for in energy losses,
-heating, or even fire. NRJXpert sizes each link according to NF C 15-100 / IEC 60364-5-52 and guide UTE C15-712-1:</p>
+heating, or even fire. NRJXpert sizes each link according to NF C 15-100 / IEC 60364-5-52 and guide UTE C15-712-1.</p>
+<details class="notations" open><summary>Notation of section 3.4</summary>
+<table class="notations">
+<tr><th>Symbol</th><th>Quantity</th><th>Unit</th><th>Usual value</th></tr>
+<tr><td>I</td><td>Rated current of the link (PV side: short-circuit current I<sub>sc</sub> of the strings connected)</td><td>A</td><td>—</td></tr>
+<tr><td>I<sub>b</sub></td><td>Design current: current the link must carry permanently, I<sub>b</sub> = 1.25·I</td><td>A</td><td>—</td></tr>
+<tr><td>I<sub>n</sub></td><td>Standard rating of the protection (gPV fuse, circuit breaker), I<sub>n</sub> ≥ I<sub>b</sub></td><td>A</td><td>6, 10, 16, 20, 25, 32, 40, 50, 63, 80, 100, 125 A…</td></tr>
+<tr><td>I<sub>z0</sub>(S)</td><td>Current-carrying capacity of a cable of cross-section S in reference conditions (30 °C, single cable) — tables of IEC 60364-5-52</td><td>A</td><td>—</td></tr>
+<tr><td>k<sub>θ</sub></td><td>Temperature correction factor: √((90 − θ<sub>a</sub>)/60) for XLPE insulation (90 °C maximum)</td><td>—</td><td>0.913 at 40 °C</td></tr>
+<tr><td>θ<sub>a</sub></td><td>Ambient temperature around the cable</td><td>°C</td><td>40 °C in the Sahel</td></tr>
+<tr><td>k<sub>g</sub></td><td>Grouping factor (neighbouring cables heating each other)</td><td>—</td><td>0.8</td></tr>
+<tr><td>I<sub>z</sub></td><td>Current-carrying capacity in the actual conditions, I<sub>z</sub> = I<sub>z0</sub>·k<sub>θ</sub>·k<sub>g</sub></td><td>A</td><td>—</td></tr>
+<tr><td>S</td><td>Cross-section of a conductor</td><td>mm²</td><td>Standard values</td></tr>
+<tr><td>L</td><td>One-way length of the link</td><td>m</td><td>“Options and costs” tab</td></tr>
+<tr><td>ρ</td><td>Resistivity of the conductor at operating temperature</td><td>Ω·mm²/m</td><td>Copper 0.0225; aluminium 0.036</td></tr>
+<tr><td>λ</td><td>Linear reactance of the cable</td><td>Ω/m</td><td>0.08 × 10<sup>−3</sup></td></tr>
+<tr><td>cos φ</td><td>Power factor of the load (1 for DC)</td><td>—</td><td>0.8 to 1</td></tr>
+<tr><td>b</td><td>Length factor: 2 (go and return) for DC and single-phase, 1 for three-phase (phase-to-neutral voltage)</td><td>—</td><td>—</td></tr>
+<tr><td>ΔU, ΔU/U</td><td>Voltage drop along the link, in volts and in % of the voltage U of the link</td><td>V, %</td><td>≤ 3 % array, ≤ 1 % battery, ≤ 3 % AC</td></tr>
+</table>
+</details>
 <ol class="steps">
 <li><div class="step-content"><b>Design current</b> <i>I</i><sub>b</sub> = 1.25 × rated current (PV side: 1.25·<i>I</i><sub>sc</sub>, since the irradiance can exceed 1 000 W/m²).</div></li>
 <li><div class="step-content"><b>Protection</b>: standard rating <i>I</i><sub>n</sub> ≥ <i>I</i><sub>b</sub> (gPV fuse, DC or AC circuit breaker).</div></li>
@@ -244,8 +421,10 @@ the relative voltage drop varies as 1/<i>U</i>². The complete wiring of the sys
 <div class="lab"><h4>Lab 7 — Wiring of the health post</h4>
 <ol class="steps">
 <li><div class="step-content">In the example <code>pv_case_de_sante.nxpv</code>, tab 3, <b>Wiring</b> section: lengths 15, 3, 3 and 20 m, temperature 40 °C.</div></li>
-<li><div class="step-content">After <kbd>F5</kbd>, read the table of links in tab 4. At 24 V: array → controller 2 × 10 mm² (62 V in MPPT, ΔU 2.96 %), controller → battery
-and battery → inverter 2 × 50 mm² (100 A protection), inverter → board 2 × 1.5 mm² (10 A protection).</div></li>
+<li><div class="step-content">After <kbd>F5</kbd>, read the table of links in tab 4. At 24 V, NRJXpert counts one array → controller and one controller → battery link
+<b>per controller</b>: array → controller 2 links of 2 × 6 mm² (one 62 V string, 13.9 A; 20 A protection; ΔU 2.51 %), controller → battery 2 links of 2 × 25 mm²
+(50 A protection), battery → inverter 2 × 70 mm² (90.6 A, sized for the 2 kVA of the inverter; 125 A protection), inverter → board 2 × 1.5 mm² (16 A protection);
+total wiring 298 kF. Which criterion (heating or voltage drop) sets each cross-section?</div></li>
 <li><div class="step-content">Set the array → controller length to 40 m: which cross-section? Switch to aluminium: which cross-section and which cost?</div></li>
 <li><div class="step-content"><b>Wiring assumptions and prices…</b>: replace the prices by those of a local supplier and observe the effect on the cost of the kWh.</div></li>
 </ol>
@@ -258,6 +437,14 @@ and battery → inverter 2 × 50 mm² (100 A protection), inverter → board 2 �
             <h2><span class="section-icon">🏠</span>3.5 Grid-connected PV</h2>
 <p>Without a battery, all the production is fed in (or self-consumed). The reasoning is in <b>specific yield</b> (kWh/kWp/yr):</p>
 <div class="eq">E = P<sub>p</sub> · H<sub>β,yr</sub> · PR &nbsp;&nbsp; PR (performance ratio) = 0.75 to 0.85: temperature, dust, mismatch, cables, inverter</div>
+<table class="notations">
+<tr><th>Symbol</th><th>Quantity</th><th>Unit</th></tr>
+<tr><td>E</td><td>AC energy fed in (or self-consumed) in one year</td><td>kWh/yr</td></tr>
+<tr><td>P<sub>p</sub></td><td>Array peak power (sum of the STC powers of the modules)</td><td>kWp</td></tr>
+<tr><td>H<sub>β,yr</sub></td><td>Annual irradiation on the plane of the modules (tilt β); 1 kWh/m² = 1 peak-sun hour</td><td>kWh/m²/yr</td></tr>
+<tr><td>PR</td><td>Performance ratio: actual energy / energy of an ideal array at 25 °C without losses; covers temperature, dust, mismatch, cables, inverter</td><td>—</td></tr>
+<tr><td>E/P<sub>p</sub></td><td>Specific yield: energy per installed kWp, indicator used to compare sites</td><td>kWh/kWp/yr</td></tr>
+</table>
 <div class="ex"><h4>Example 3.5 — 10 kWp in Dakar</h4>
 <details class="sol"><summary>Show the solution</summary>
 <p>Tilt 14°: H<sub>β</sub> = 2 027 kWh/m²/yr; with PR = 0.78: <span class="result">1 581 kWh/kWp/yr</span>, i.e. 15.8 MWh/yr. Tab 6 (« Economic
@@ -276,8 +463,24 @@ its distribution generally follows a <b>Weibull distribution</b>:</p>
 v̄ = c·Γ(1 + 1/k) &nbsp;&nbsp; power density = ½ρc³Γ(1 + 3/k)</div>
 <p><i>c</i> (m/s) is the scale parameter, <i>k</i> the shape parameter (k = 2: Rayleigh distribution; large k: steady wind, e.g. trade winds).
 NRJXpert fits <i>c</i> and <i>k</i> by maximum likelihood on the measurements, taking calms into account.</p>
+<table class="notations">
+<tr><th>Symbol</th><th>Quantity</th><th>Unit</th></tr>
+<tr><td>v</td><td>Wind speed (10-min or hourly mean depending on the measurements)</td><td>m/s</td></tr>
+<tr><td>ρ</td><td>Air density</td><td>kg/m³</td></tr>
+<tr><td>A</td><td>Area crossed by the wind; for a wind turbine, rotor swept area πD²/4 (D: rotor diameter)</td><td>m²</td></tr>
+<tr><td>f(v), F(v)</td><td>Probability density of the speed; probability that the speed is below v</td><td>(m/s)<sup>−1</sup>, —</td></tr>
+<tr><td>c, k</td><td>Scale parameter (close to the mean speed) and shape parameter (regularity of the wind) of the Weibull distribution</td><td>m/s, —</td></tr>
+<tr><td>v̄</td><td>Mean speed</td><td>m/s</td></tr>
+<tr><td>Γ</td><td>Euler's gamma function (Γ(1 + 1/k) ≈ 0.89 for k = 2)</td><td>—</td></tr>
+<tr><td>P/A</td><td>Wind power density: mean power per m² of area crossed</td><td>W/m²</td></tr>
+<tr><td>H<sub>meas</sub>, H</td><td>Anemometer height (usually 10 m, WMO standard); hub height of the wind turbine</td><td>m</td></tr>
+<tr><td>z₀</td><td>Terrain roughness length (0.005 m over water, 0.03 to 0.07 m in open country, 0.4 m in suburbs, 1 m in towns or forests)</td><td>m</td></tr>
+</table>
 <p><b>Height extrapolation</b> (logarithmic profile, roughness <i>z</i>₀): <i>v</i>(<i>H</i>) = <i>v</i>(<i>H</i><sub>meas</sub>)·ln(<i>H</i>/<i>z</i>₀)/ln(<i>H</i><sub>meas</sub>/<i>z</i>₀).
 <b>Air density</b>: ρ = 1.225 kg/m³ at 15 °C at sea level; 1.17 at 28 °C.</p>
+<p><b>Hub height.</b> The wind gets stronger with height: the rotor is placed well above the anemometer. In a new project, NRJXpert takes the
+<b>usual hub height</b> of the selected wind turbine (equipment database: 12 m for 1 kW, 15 m for 3 kW, 18 m for 5 kW, 24 m for 10 and 20 kW, 30 m for
+50 kW, 36 m for 100 kW, 40 m for 250 kW; 24 m if the database gives none); it follows a change of model as long as you do not modify it.</p>
 <div class="ex"><h4>Example 3.6 — Coastal site: c₁₀ = 5.5 m/s, k = 2.2</h4>
 <p>Roughness <i>z</i>₀ = 0.03 m (open terrain), hub at 30 m, ρ = 1.17 kg/m³.</p>
 <details class="sol"><summary>Show the solution</summary>
@@ -292,24 +495,152 @@ small machine) 16.5 % of the time at 30 m.</p>
         </div>
         <div class="section" id="n3-7">
             <h2><span class="section-icon">🌬️</span>3.7 Wind production and sizing</h2>
-<div class="eq">P̄ = ∫ P(v)·f(v) dv &nbsp;&nbsp; E = 8 760·P̄·(1 − losses) &nbsp;&nbsp; capacity factor CF = E/(P<sub>n</sub>·8 760)<br>
-density correction (IEC 61400-12-1): P(v) read on the curve at v·(ρ/1.225)<sup>1/3</sup></div>
-<p><b>Design margin.</b> As for PV, the “Design margin (%)” field increases the needs used for the number of machines and the storage (10 % by default in new projects); the example below is calculated with 0 %.</p>
+<p>Sizing a wind system first means computing what <b>one</b> machine produces on the site (from the wind distribution, § 3.6, and the power
+curve of the machine), then choosing the <b>number of wind turbines</b> and, for a stand-alone system, the <b>battery capacity</b>. The method
+depends on the connection: a grid-connected system is sized on the annual balance, a stand-alone system must cope with periods without wind.</p>
+
+<details class="notations" open><summary>Notation of section 3.7</summary>
+<table class="notations">
+<tr><th>Symbol</th><th>Quantity</th><th>Unit</th><th>Source or usual value</th></tr>
+<tr><td>P(v)</td><td>Power curve of the wind turbine: electrical power delivered at speed v (manufacturer, at ρ = 1.225 kg/m³)</td><td>kW</td><td>Wind turbine database</td></tr>
+<tr><td>P<sub>n</sub></td><td>Rated power of the machine</td><td>kW</td><td>Database</td></tr>
+<tr><td>v<sub>i</sub>, v<sub>n</sub>, v<sub>max</sub></td><td>Cut-in, rated (P = P<sub>n</sub>) and cut-out speeds</td><td>m/s</td><td>Database (e.g. 3; 11; 25 m/s)</td></tr>
+<tr><td>F</td><td>Windy fraction: share of time with no calm (1 − calms)</td><td>—</td><td>Wind analysis</td></tr>
+<tr><td>P̄</td><td>Mean power of one machine over the period</td><td>kW</td><td>Computed</td></tr>
+<tr><td>p<sub>prod</sub></td><td>Production losses: unavailability (≈ 3 %), electrical losses (≈ 2 %), blade soiling</td><td>%</td><td>6 %</td></tr>
+<tr><td>E<sub>m</sub>, E<sub>yr</sub></td><td>Net energy produced by one machine in month m, in a year</td><td>kWh</td><td>Computed</td></tr>
+<tr><td>CF</td><td>Capacity factor: E/(P<sub>n</sub>·duration); share of the rated power actually produced on average</td><td>%</td><td>Small wind: 10 to 25 %</td></tr>
+<tr><td>d<sub>m</sub></td><td>Number of days of month m</td><td>d</td><td>28 to 31</td></tr>
+<tr><td>B<sub>d</sub></td><td>Daily demand of the loads (“Demand” tab)</td><td>kWh/d</td><td>Computed or entered</td></tr>
+<tr><td>m</td><td>Design margin (demand uncertainty, growth, year-to-year wind variability)</td><td>%</td><td>10 %</td></tr>
+<tr><td>B′<sub>d</sub></td><td>Design demand B′<sub>d</sub> = B<sub>d</sub>·(1 + m)</td><td>kWh/d</td><td>Computed</td></tr>
+<tr><td>p<sub>r</sub>, η<sub>r</sub></td><td>Losses between the bus and the loads (conversion, cables); efficiency η<sub>r</sub> = 1 − p<sub>r</sub></td><td>%, —</td><td>0 to 25 %</td></tr>
+<tr><td>N</td><td>Number of wind turbines</td><td>—</td><td>Computed</td></tr>
+<tr><td>U</td><td>Voltage of the battery DC bus</td><td>V</td><td>48 V</td></tr>
+<tr><td>Aut</td><td>Autonomy: number of hours of demand the battery can supply without wind</td><td>h</td><td>72 h, or optimised</td></tr>
+<tr><td>DoD, η<sub>bat</sub></td><td>Allowed depth of discharge; battery efficiency (energy returned / stored)</td><td>—</td><td>AGM lead-acid 50 %; 0.8</td></tr>
+<tr><td>C<sub>req</sub>, C<sub>nom</sub></td><td>Required capacity; rated capacity of the battery bank kept (rounded to whole units)</td><td>kWh</td><td>Computed</td></tr>
+<tr><td>E<sub>max</sub>, E<sub>min</sub></td><td>Maximum (full battery, C<sub>nom</sub>) and minimum (C<sub>nom</sub>·(1 − DoD)) energy in the battery</td><td>kWh</td><td>Computed</td></tr>
+<tr><td>E(t)</td><td>Energy stored in the battery at time step t (state of charge)</td><td>kWh</td><td>Simulated</td></tr>
+<tr><td>P<sub>prod</sub>(t), P<sub>load</sub>(t)</td><td>Production of the N machines and consumption of the loads at step t (hourly profile of the “Demand” tab)</td><td>kW</td><td>Simulated</td></tr>
+<tr><td>Δt</td><td>Time step of the measurement series</td><td>h</td><td>1 h (10 min possible)</td></tr>
+<tr><td>LPSP</td><td>Loss of Power Supply Probability: energy not supplied / energy demanded over the simulated period</td><td>—</td><td>Computed</td></tr>
+<tr><td>τ, τ<sub>target</sub></td><td>Demand coverage τ = 1 − LPSP; target coverage</td><td>%</td><td>τ<sub>target</sub> = 99 %</td></tr>
+<tr><td>LCC</td><td>Discounted life-cycle cost: investment (net of subsidy) + present value of operation, replacements, minus the residual value (level 4)</td><td>kF</td><td>Prices of tab 6</td></tr>
+</table>
+</details>
+
+<h3>Production of one machine</h3>
+<div class="eq">P̄ = (1 − p<sub>prod</sub>)·F·∫<sub>v<sub>i</sub></sub><sup>v<sub>max</sub></sup> P(v)·f(v) dv &nbsp;&nbsp; E<sub>m</sub> = 24·d<sub>m</sub>·P̄<sub>m</sub> &nbsp;&nbsp; CF = P̄/P<sub>n</sub><br>
+density correction (IEC 61400-12-1): P(v) read on the curve at the equivalent speed v·(ρ/1.225)<sup>1/3</sup></div>
+<p>The integral weights each speed by its probability: a machine produces mostly at speeds that are frequent <i>and</i> close to its rated speed
+(“Production by wind class” chart of tab 5). With a measurement series, NRJXpert also computes the production directly on the series and reports a
+difference of more than 10 % with the Weibull distribution.</p>
 <div class="ex"><h4>Example 3.7 — 10 kW machine on the site of example 3.6</h4>
-<p>Power curve (kW): 0 up to 3 m/s; 0.6 at 4; 1.3 at 5; 2.3 at 6; 3.6 at 7; 5.2 at 8; 7.0 at 9; 8.7 at 10; 10 from 11 to 25 m/s. Diameter 7 m,
-losses 6 %.</p>
+<p>Power curve (kW): 0 up to 3 m/s; 0.6 at 4; 1.3 at 5; 2.3 at 6; 3.6 at 7; 5.2 at 8; 7.0 at 9; 8.7 at 10; 10 from 11 to 25 m/s.
+Diameter 7 m, losses 6 %.</p>
 <details class="sol"><summary>Show the solution</summary>
-<p>Numerical integration: P̄ = <span class="result">2.79 kW</span>; gross energy 24.4 MWh/yr, net <span class="result">23.0 MWh/yr</span>; capacity
-factor <span class="result">26 %</span>. Mean power coefficient: 2 787/(199 × 38.5) = 0.36. To cover 100 kWh/d (36.5 MWh/yr), ⌈36.5/23.0⌉ = 2 machines
-are needed on an annual balance — more to cover the least windy month (tab 4 of the wind window).</p>
+<p>Numerical integration: P̄ = <span class="result">2.79 kW</span>; gross energy 24.4 MWh/yr, net <span class="result">23.0 MWh/yr</span>;
+capacity factor <span class="result">26 %</span>. Mean power coefficient: 2 787/(199 × 38.5) = 0.36. To cover 100 kWh/d (36.5 MWh/yr) with a
+grid connection, ⌈36.5/23.0⌉ = 2 machines are needed (annual balance); off-grid, more are needed (see below).</p>
 </details></div>
-<div class="lab"><h4>Lab 8 — « Wind systems » window</h4>
+
+<h3>Grid-connected system: annual balance</h3>
+<p>The grid supplies the missing energy when the wind is weak and takes the surplus when it is strong. There is therefore no need to cover the
+least windy month; the aim is the balance over the year:</p>
+<div class="eq">N = ⌈ 365·B′<sub>d</sub> / (E<sub>yr</sub>·η<sub>r</sub>) ⌉</div>
+<p>Profitability (tab 6) then decides whether more or fewer machines than this number are worth installing.</p>
+
+<h3>Stand-alone system: four criteria</h3>
+<p>Without a grid, energy must be available when it is consumed. But the wind can drop for several days: the battery must bridge these calm
+periods. The number of machines and the battery size are linked: a large battery allows fewer machines, and vice versa. NRJXpert offers four
+criteria (tab 5, “Sizing criterion”):</p>
+<table>
+<tr><th>Criterion</th><th>Number of machines</th><th>Limit</th></tr>
+<tr><td><b>Annual balance</b></td><td>N = ⌈365·B′<sub>d</sub>/(E<sub>yr</sub>·η<sub>r</sub>)⌉</td><td>Assumes seasonal storage: energy is missing in every low-wind month.</td></tr>
+<tr><td><b>Least favourable month</b></td><td>N = max<sub>m</sub> ⌈d<sub>m</sub>·B′<sub>d</sub>/(E<sub>m</sub>·η<sub>r</sub>)⌉</td><td>Monthly balance: ignores calms of a few days within the month; large surplus in windy months.</td></tr>
+<tr><td><b>Simulation with the entered battery</b></td><td>Smallest N such that the hourly simulation reaches τ<sub>target</sub> with the battery sized for the entered autonomy</td><td>If calms last longer than the autonomy, N becomes very large: this is what used to give hundreds of small machines.</td></tr>
+<tr><td><b>Cost / reliability optimisation (LPSP)</b> — recommended</td><td>Pair (N, battery) of minimum life-cycle cost among those reaching τ<sub>target</sub></td><td>Requires a chronological measurement series (otherwise: least favourable month).</td></tr>
+</table>
+
+<h4>Battery for a given autonomy</h4>
+<div class="eq">C<sub>req</sub> = B′<sub>bat</sub>·(Aut/24) / (DoD·η<sub>bat</sub>) &nbsp;&nbsp;(kWh) &nbsp;&nbsp;&nbsp;
+N<sub>bs</sub> = U/U<sub>bat</sub> &nbsp;&nbsp; N<sub>bp</sub> = ⌈ C<sub>req</sub>·1 000 / (U·C<sub>bat</sub>) ⌉ &nbsp;&nbsp; C<sub>nom</sub> = N<sub>bs</sub>·N<sub>bp</sub>·U<sub>bat</sub>·C<sub>bat</sub>/1 000</div>
+<p>B′<sub>bat</sub> equals B′<sub>d</sub>, or the priority share of B′<sub>d</sub> if the battery only backs up the priority loads. The cheapest battery of the
+database (or the imposed one) is kept; its recommended depth of discharge replaces the project value. At most DoD of the rated energy is drawn,
+and the efficiency η<sub>bat</sub> covers charge and discharge losses.</p>
+
+<h4>Hour-by-hour simulation</h4>
+<p>The simulation follows the measurement series in chronological order (speeds extrapolated to the hub). At each step Δt, with
+E<sub>min</sub> = C<sub>nom</sub>·(1 − DoD), E<sub>max</sub> = C<sub>nom</sub>, and the battery full at the start:</p>
+<div class="eq">if N·P<sub>prod,1</sub>(t) ≥ P<sub>load</sub>(t)/η<sub>r</sub>: &nbsp; charge E ← min(E<sub>max</sub>, E + √η<sub>bat</sub>·surplus·Δt); the rest is <b>surplus</b> (lost)<br>
+otherwise: &nbsp; discharge min(shortfall, √η<sub>bat</sub>·(E − E<sub>min</sub>)); what cannot be supplied is a <b>deficit</b><br>
+LPSP = Σ deficit / Σ demand &nbsp;&nbsp;&nbsp; τ = 1 − LPSP</div>
+<p>The battery efficiency is split between charge and discharge (√η<sub>bat</sub> each). If the battery only backs up the priority loads, the others
+are shed as soon as the battery falls below half of its usable energy and the wind is not enough.</p>
+
+<h4>Cost / reliability optimisation (LPSP method)</h4>
+<p>This is the reference method for stand-alone systems (Borowy and Salameh, 1996; Kaldellis, 2002; Diaf et al., 2007; Yang et al., 2008). It
+looks for the cheapest system meeting a given reliability:</p>
 <ol class="steps">
-<li><div class="step-content"><b>Tools › Wind systems</b>, tab 1: enter the site of Example 3.6 (Weibull parameters) or import your own wind measurements (Excel, CSV or online data).</div></li>
-<li><div class="step-content">Tab 2: read <i>c</i>, <i>k</i> and the power density month by month; compare regression and maximum likelihood.</div></li>
-<li><div class="step-content">Tab 3: choose a wind turbine, examine its power curve. Tab 4: monthly production, capacity factor, number of machines for given needs.</div></li>
-<li><div class="step-content">Tab 5: grid-connected system, <b>Wiring</b> section (40 m per machine, 50 m to the connection point): read the cross-sections and the wiring
-cost in the results and the report.</div></li>
+<li><div class="step-content">For each autonomy of the list 6, 12, 18, 24, 36, 48, 72, 96, 120 h, 7, 10, 14 and 20 days: corresponding battery, then smallest number N
+of machines such that LPSP ≤ 1 − τ<sub>target</sub> (hourly simulation).</div></li>
+<li><div class="step-content">The pairs (autonomy, N) obtained form the <b>sizing curve</b>: N decreases as the battery grows.</div></li>
+<li><div class="step-content">For each pair, discounted life-cycle cost LCC with the prices of tab 6 (machines, towers, electronics, batteries, installation,
+operation, replacement of batteries and electronics, residual value).</div></li>
+<li><div class="step-content">The pair with the lowest LCC is kept; the “Autonomy” field is greyed out and shows the optimal autonomy.</div></li>
+<li><div class="step-content"><b>Sensitivity</b>: the optimum is recomputed for τ<sub>target</sub> = 90, 95, 98 and 99 %. The last hours of calm are very expensive:
+above 95 %, a back-up source (PV, generator) is often cheaper than extra machines and batteries.</div></li>
+</ol>
+<div class="note"><b>Overproduction.</b> A stand-alone wind-only system always produces much more than the demand: it is sized for the weak
+periods and produces too much in windy months. The surplus is unavoidable; it is used for deferrable uses (pumping, cooling, desalination) or
+reduced with a hybrid wind-PV system, the sun often making up for the low-wind months.</div>
+
+<div class="ex"><h4>Example 3.7 bis — A school in Saint-Louis supplied by wind (real measurements)</h4>
+<p>Wind: hourly speeds at 10 m from NASA POWER for Saint-Louis (16.03° N, 16.50° W), year 2023 (8 760 values; mean 4.69 m/s, 3.03 m/s in
+September and October). Air density 1.17 kg/m³, open-country terrain. Demand: 20 lamps of 40 W (7 h/d), 2 air conditioners of 600 W (10 h/d),
+2 refrigerators of 300 W (24 h/d), i.e. B<sub>d</sub> = 32 kWh/d and a peak of 2.6 kW. Margin 10 % (B′<sub>d</sub> = 35.2 kWh/d), production
+losses 6 %, η<sub>r</sub> = 1. 10 kW wind turbine, hub at 24 m. Battery: 48 V bus, AGM lead-acid 12 V 200 Ah (DoD 50 %), η<sub>bat</sub> = 0.8;
+target coverage 99 %. Default prices of tab 6. File: <code>exemples/eol_saint_louis.nxeol</code>.</p>
+<details class="sol"><summary>Show the solution (computed by NRJXpert)</summary>
+<p><b>Production of one machine</b> (mean wind at hub 5.52 m/s): <span class="result">16 385 kWh/yr</span>, capacity factor 18.7 %; from
+2 266 kWh in May (30.5 %) down to <b>322 kWh in October</b> (4.3 %).</p>
+<p><b>Grid-connected</b>: N = ⌈365 × 35.2/16 385⌉ = ⌈0.78⌉ = <span class="result">1 machine</span>.</p>
+<p><b>Least favourable month</b>: October, N = ⌈31 × 35.2/322⌉ = ⌈3.39⌉ = 4. <b>Annual balance</b>: 1.</p>
+<p><b>Sizing curve</b> (τ ≥ 99 %; no autonomy below 24 h reaches the target):</p>
+<table>
+<tr><th>Autonomy</th><th class="num">24 h</th><th class="num">36 h</th><th class="num">48 h</th><th class="num">72 h</th><th class="num">96 h</th><th class="num">120 h</th><th class="num">7 d</th><th class="num">10 d</th><th class="num">14 d</th><th class="num">20 d</th></tr>
+<tr><td>N</td><td class="num">13</td><td class="num">7</td><td class="num">5</td><td class="num">5</td><td class="num">5</td><td class="num">4</td><td class="num">4</td><td class="num">4</td><td class="num">3</td><td class="num">3</td></tr>
+<tr><td>C<sub>nom</sub> (kWh)</td><td class="num">96</td><td class="num">134</td><td class="num">182</td><td class="num">269</td><td class="num">355</td><td class="num">442</td><td class="num">624</td><td class="num">883</td><td class="num">1 238</td><td class="num">1 766</td></tr>
+<tr><td>LCC (MF)</td><td class="num">464</td><td class="num">288</td><td class="num result">245</td><td class="num">285</td><td class="num">324</td><td class="num">332</td><td class="num">415</td><td class="num">534</td><td class="num">664</td><td class="num">906</td></tr>
+</table>
+<p>For 48 h: C<sub>req</sub> = 35.2 × 2/(0.5 × 0.8) = 176 kWh → N<sub>bs</sub> = 48/12 = 4, N<sub>bp</sub> = ⌈176 000/(48 × 200)⌉ = 19, i.e. 76 batteries and
+182 kWh. <b>Optimum: 5 machines and 182 kWh</b>, simulated coverage 99.15 %, surplus 68 700 kWh/yr: the 5 machines produce 81 900 kWh/yr,
+6.4 times the design demand.</p>
+<p><b>Comparison of the criteria</b> (simulation on the same year):</p>
+<table>
+<tr><th>Criterion</th><th>N</th><th>Battery</th><th>Coverage</th><th>LCC</th></tr>
+<tr><td>Cost / reliability optimisation</td><td class="num">5</td><td class="num">182 kWh (48 h)</td><td class="num">99.2 %</td><td class="num result">245 MF</td></tr>
+<tr><td>Simulation with the entered battery (72 h)</td><td class="num">5</td><td class="num">269 kWh</td><td class="num">99.8 %</td><td class="num">285 MF</td></tr>
+<tr><td>Least favourable month</td><td class="num">4</td><td class="num">269 kWh</td><td class="num">98.4 %</td><td class="num">253 MF</td></tr>
+<tr><td>Annual balance</td><td class="num">1</td><td class="num">269 kWh</td><td class="num">82.3 %</td><td class="num">155 MF</td></tr>
+</table>
+<p><b>Sensitivity to the target coverage</b>: 90 % → 2 machines and 96 kWh (109 MF); 95 % → 4 machines and 96 kWh (173 MF); 98 % → 5 machines and
+134 kWh (223 MF); 99 % → 5 machines and 182 kWh (245 MF). Going from 90 to 99 % multiplies the cost by 2.2: a back-up (PV or generator) for the
+last hours of calm should be studied.</p>
+</details></div>
+<div class="lab"><h4>Lab 8 — “Wind systems” window</h4>
+<ol class="steps">
+<li><div class="step-content"><b>Help › Open a tutorial example…</b> › <code>eol_saint_louis.nxeol</code> (or <b>Renewables › Wind systems…</b>, then
+<b>Open</b>). Tab 1 “Site and measurements”: read the measurement height (10 m), the hub height (24 m, usual height of the 10 kW machine) and the
+speed ratio.</div></li>
+<li><div class="step-content">Tab 2 “Demand”: the school and its loads, the daily profile (32 kWh/d, peak 2.6 kW).</div></li>
+<li><div class="step-content">Tab 3 “Wind analysis”: c, k, power density and recoverable energy month by month; spot September and October, the least windy months.</div></li>
+<li><div class="step-content">Tab 4 “Wind turbine”: power curve; change the machine and watch the hub height follow.</div></li>
+<li><div class="step-content">Tab 5 “Production and sizing”: <kbd>F5</kbd> (Compute); find example 3.7 bis (sizing curve, sensitivity); try the four criteria;
+lower the target coverage to 95 %; read the “Recommended N” column of the comparison of machines.</div></li>
+<li><div class="step-content">Tab 6 “Economic viability”: switch to <b>grid-connected</b>; at which tariff does the project become profitable (“Minimum for
+profitability” button)? <b>Wiring</b> section: cross-sections and cost of the links machine → electronics → connection.</div></li>
 </ol>
 </div>
 
@@ -321,6 +652,35 @@ cost in the results and the report.</div></li>
 <p>In a village without a grid, a pump fed by photovoltaic modules fills a tank: <b>the stored water replaces the battery</b>
 (“direct solar” pumping). A battery can also be added to pump early in the morning or at the end of the day. Sizing starts from the
 <b>water demand</b> (m³/d) and the <b>total dynamic head</b> (TDH), not from an electrical load profile as in § 3.3.</p>
+<details class="notations" open><summary>Notation of section 3.8</summary>
+<table class="notations">
+<tr><th>Symbol</th><th>Quantity</th><th>Unit</th><th>Usual value</th></tr>
+<tr><td>V (or ΔQ)</td><td>Volume of water to pump per day (demand increased by distribution losses and the margin)</td><td>m³/d</td><td>—</td></tr>
+<tr><td>TLU</td><td>Tropical livestock unit (UBT in French): reference animal of 250 kg; cattle 1, sheep or goat 0.2, donkey 0.3, horse 1.2, camel 1.5</td><td>—</td><td>40 l/TLU/d</td></tr>
+<tr><td>HG</td><td>Static head: static water level below ground + drawdown (drop of the level while pumping) + inlet height in the tank + difference in level</td><td>m</td><td>—</td></tr>
+<tr><td>P<sub>C</sub></td><td>Head losses in the pipe (friction, bends, valves), in metres of water column</td><td>m</td><td>10 to 20 % of HG</td></tr>
+<tr><td>TDH</td><td>Total dynamic head the pump must provide: HG + P<sub>C</sub></td><td>m</td><td>—</td></tr>
+<tr><td>ρ, g</td><td>Density of water; gravitational acceleration</td><td>kg/m³, m/s²</td><td>1 000; 9.81</td></tr>
+<tr><td>C<sub>H</sub></td><td>Hydraulic constant ρg/3 600: energy to lift 1 m³ of water by 1 m</td><td>Wh/(m³·m)</td><td>2.725</td></tr>
+<tr><td>η<sub>p</sub>, η<sub>m</sub>, η<sub>conv</sub></td><td>Efficiencies of the pump, the motor, the converter (inverter or MPPT); R<sub>p</sub> = η<sub>p</sub>·η<sub>m</sub>·η<sub>conv</sub></td><td>—</td><td>0.4 to 0.6; 0.8 to 0.9; 0.9 to 1</td></tr>
+<tr><td>E<sub>el</sub></td><td>Daily electrical energy absorbed by the motor-pump</td><td>Wh/d</td><td>—</td></tr>
+<tr><td>Ens</td><td>Daily irradiation on the plane of the modules, in peak-sun hours (= kWh/m²/d)</td><td>h/d</td><td>5 to 6 in the Sahel</td></tr>
+<tr><td>η<sub>c</sub></td><td>Efficiency of the PV array relative to its peak power: (1 − losses)·(1 + γ(T<sub>c</sub> − 25))</td><td>—</td><td>0.8 to 0.9</td></tr>
+<tr><td>η<sub>B</sub></td><td>Battery efficiency (configuration with battery)</td><td>—</td><td>0.85</td></tr>
+<tr><td>P<sub>c</sub></td><td>Peak power of the PV array</td><td>Wp</td><td>—</td></tr>
+<tr><td>ΔT</td><td>Daily pumping duration (hours with enough sun)</td><td>h</td><td>8 to 9 h</td></tr>
+<tr><td>Q, Q<sub>max</sub></td><td>Flow rate; maximum flow at solar noon (cosine-shaped flow over ΔT)</td><td>m³/h</td><td>—</td></tr>
+<tr><td>P<sub>H</sub></td><td>Hydraulic power: Q·TDH/367 (Q in m³/h, result in kW)</td><td>kW</td><td>—</td></tr>
+<tr><td>P<sub>el</sub></td><td>Electrical power of the motor-pump: P<sub>H</sub>/(η<sub>p</sub>·η<sub>m</sub>)</td><td>W</td><td>—</td></tr>
+<tr><td>G</td><td>Reference irradiance for the power method</td><td>W/m²</td><td>800 W/m²</td></tr>
+<tr><td>τ, LWSP</td><td>Coverage of the water demand; loss of water supply probability = 1 − τ</td><td>%</td><td>—</td></tr>
+</table>
+</details>
+<p><b>Water demand.</b> NRJXpert adds up the population (inhabitants × litres per inhabitant), livestock (number of TLU × litres per TLU, the tab legend
+recalls the equivalences), irrigation (area × net requirement / efficiency) and other needs, then adds the distribution losses. The <b>hourly
+consumption profile</b> (drawing from the tank) is used by the simulation: standard profiles (village, uniform, irrigation, daytime) or a
+<b>custom profile</b> entered hour by hour, either as a <b>share of the daily volume (%)</b> or as a <b>water volume per hour (m³)</b> (paste from Excel
+possible; the distribution is scaled to 100 %).</p>
 <div class="eq">TDH = HG + P<sub>C</sub> &nbsp; (static head + head losses in the pipe)<br>
 Energy method: E<sub>el</sub> = C<sub>H</sub>·V·TDH / R<sub>p</sub> &nbsp; with C<sub>H</sub> = ρg/3 600 = 2.725 Wh/(m³·m) and R<sub>p</sub> = η<sub>p</sub>·η<sub>m</sub>·η<sub>conv</sub><br>
 P<sub>c</sub> = E<sub>el</sub> / (Ens·η<sub>c</sub>) &nbsp; (Ens: peak-sun hours; with a battery, also divide by η<sub>B</sub>)<br>
@@ -360,11 +720,16 @@ demand 27.5 m³/d, E<sub>el</sub> = 2 645 Wh/d, P<sub>c</sub> = 588 Wp. The tuto
             <h2><span class="section-icon">🎯</span>Exercises</h2>
 <div class="ex"><h4>Exercise 1 — Solar home system</h4>
 <p>A family wants to supply 4 lamps of 7 W (5 h/d), a 60 W television (4 h/d) and charge phones (20 Wh/d), at 12 V DC (no inverter).
-H = 5 kWh/m²/d, 12 V modules of 100 Wp (<i>I</i><sub>mp</sub> = 5.6 A), 12 V 100 Ah batteries, 2 days of autonomy, DoD 50 %. Size the system.</p>
+H = 5 kWh/m²/d, 12 V modules of 100 Wp (<i>V</i><sub>mp</sub> = 17.5 V, <i>I</i><sub>mp</sub> = 5.6 A, <i>I</i><sub>sc</sub> ≈ 6 A), PWM controller,
+system losses 10 % (k<sub>p</sub> = 0.9), 12 V 100 Ah batteries, 2 days (48 h) of autonomy, DoD 50 %. Size the system (notation of § 3.3).</p>
 <details class="sol"><summary>Show the solution</summary>
-<p><i>E</i><sub>d</sub> = 140 + 240 + 20 = 400 Wh/d; <i>Q</i><sub>d</sub> = 400/(12 × 0.98 × 0.9) = 37.8 Ah/d (no converter). Modules (PWM):
-37.8/(5 × 0.9 × 5.6) = 1.5 → <span class="result">2 modules</span>. Battery: 37.8 × 2/0.5 = 151 Ah → <span class="result">2 batteries of 100 Ah</span>
-in parallel. Controller: 1.25 × 2 × <i>I</i><sub>sc</sub> (≈ 6 A) = 15 A → 20 A controller.</p>
+<p><b>Demand</b>: <i>E</i><sub>d</sub> = 4 × 7 × 5 + 60 × 4 + 20 = 140 + 240 + 20 = 400 Wh/d. DC loads at 12 V: η<sub>conv</sub> = 1, hence
+<i>Q</i><sub>d</sub> = 400/(12 × 1 × 0.98 × 0.9) = 37.8 Ah/d.</p>
+<p><b>Array (PWM)</b>: <i>I</i><sub>array</sub> = <i>Q</i><sub>d</sub>/H = 37.8/5 = 7.56 A; N<sub>p</sub> = ⌈7.56/(0.9 × 5.6)⌉ = ⌈1.5⌉ = 2 strings;
+N<sub>s</sub> = ⌈1.2 × 12/(0.9 × 17.5)⌉ = ⌈0.91⌉ = 1 → <span class="result">2 modules</span> in parallel (200 Wp).</p>
+<p><b>Battery</b>: C = 37.8 × 48/24 = 75.6 Ah to draw; N<sub>bs</sub> = 12/12 = 1; N<sub>bp</sub> = ⌈75.6/(100 × 0.5)⌉ = ⌈1.51⌉ = 2 →
+<span class="result">2 batteries of 100 Ah</span> in parallel.</p>
+<p><b>Controller</b>: 1.25 × N<sub>p</sub> × <i>I</i><sub>sc</sub> = 1.25 × 2 × 6 = 15 A → 20 A PWM controller.</p>
 </details></div>
 <div class="ex"><h4>Exercise 2 — Cross-section of an array cable</h4>
 <p>An MPPT array of 6 strings delivers <i>I</i><sub>sc</sub> = 6 × 13.6 A at 380 V, 60 m from the technical room; ΔU ≤ 1 %, 45 °C, <i>k</i><sub>g</sub> = 0.7.
@@ -426,7 +791,7 @@ The more cautious power method is the one to keep before the hourly simulation.<
 <div class="fb">The distribution narrows around the mean (trade winds).</div></div>
 <div class="qcm" data-answer="c"><p class="q">10. In the 20-year life-cycle cost of a stand-alone PV system, the largest item is often:</p>
 <ol><li data-k="a">the modules</li><li data-k="b">the wiring</li><li data-k="c">the batteries (replacements included)</li><li data-k="d">the inverter</li></ol>
-<div class="fb">Example 3.3: 77 % of the life-cycle cost with batteries replaced every 5 years.</div></div>
+<div class="fb">Example 3.3: 87 % of the life-cycle cost with lead-acid batteries replaced every 4 years.</div></div>
 <div class="qcm" data-answer="b"><p class="q">11. In a “direct solar” water pumping system, energy storage is provided by:</p>
 <ol><li data-k="a">a lead-acid battery</li><li data-k="b">the water tank</li><li data-k="c">a flywheel</li><li data-k="d">a capacitor</li></ol>
 <div class="fb">Water is stored, not electricity: a tank of 1 to 3 days of consumption plays the role of the battery.</div></div>
@@ -436,6 +801,18 @@ The more cautious power method is the one to keep before the hourly simulation.<
 <div class="qcm" data-answer="b"><p class="q">13. In example 3.8, a 10 % design margin brings the peak power from 534 Wp to about:</p>
 <ol><li data-k="a">540 Wp</li><li data-k="b">588 Wp</li><li data-k="c">641 Wp</li><li data-k="d">1 068 Wp</li></ol>
 <div class="fb">The margin increases the needs: 534 × 1.1 = 588 Wp.</div></div>
+<div class="qcm" data-answer="c"><p class="q">14. With 410 Wp modules (V<sub>mp</sub> 31 V) on a 24 V bus, compared with an MPPT controller a PWM controller requires:</p>
+<ol><li data-k="a">the same array</li><li data-k="b">an array 10 % larger</li><li data-k="c">an array about twice as large</li><li data-k="d">a smaller array</li></ol>
+<div class="fb">With PWM, the 62 V string operates at the battery voltage (≈ 29 V): sizing is done in current and more than half of the power is lost (example 3.3: 8 modules instead of 4).</div></div>
+<div class="qcm" data-answer="b"><p class="q">15. For a grid-connected wind system, NRJXpert sizes the number of wind turbines on:</p>
+<ol><li data-k="a">the least windy month</li><li data-k="b">the annual balance</li><li data-k="c">the peak power of the loads</li><li data-k="d">a simulation with battery</li></ol>
+<div class="fb">The grid supplies the deficits and takes the surplus: there is no need to cover the least favourable month.</div></div>
+<div class="qcm" data-answer="a"><p class="q">16. The LPSP of a stand-alone system is:</p>
+<ol><li data-k="a">the share of the energy demanded that could not be supplied</li><li data-k="b">the probability that a machine fails</li><li data-k="c">the share of the energy produced that is lost</li><li data-k="d">the depth of discharge of the battery</li></ol>
+<div class="fb">LPSP = energy not supplied / energy demanded; coverage equals 1 − LPSP. The optimisation looks for the cheapest system such that LPSP ≤ 1 − target coverage.</div></div>
+<div class="qcm" data-answer="d"><p class="q">17. In example 3.7 bis (Saint-Louis), going from a target coverage of 90 % to 99 % multiplies the life-cycle cost by about:</p>
+<ol><li data-k="a">1.1</li><li data-k="b">1.5</li><li data-k="c">10</li><li data-k="d">2.2</li></ol>
+<div class="fb">109 MF at 90 %, 245 MF at 99 %: the last hours of calm are very expensive; a PV back-up or a generator is often cheaper.</div></div>
             <a href="#top" class="back-to-top">↑ Back to top</a>
         </div>
         <div class="page-nav"><a href="niveau2-en.html">← Level 2 — Power networks</a><a href="niveau4-en.html">Level 4 — Economic studies →</a></div>

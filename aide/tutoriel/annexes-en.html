@@ -25,6 +25,7 @@
         <a href="#a4"><span class="nav-icon">📗</span>Orders of magnitude</a>
         <a href="#a5"><span class="nav-icon">⚙️</span>Calculators</a>
         <a href="#a6"><span class="nav-icon">🧩</span>Bibliography and standards</a>
+        <a href="#a7"><span class="nav-icon">🔣</span>Index of notation</a>
         <a href="#auteur"><span class="nav-icon">👤</span>Author</a>
     </nav>
     <div class="side-links"><a href="index-en.html">🏠 Tutorial home</a><a href="../help-en.html">📖 User guide</a></div>
@@ -61,6 +62,7 @@
                 <a href="#a4"><span class="toc-num">A.4</span>Orders of magnitude</a>
                 <a href="#a5"><span class="toc-num">A.5</span>Calculators</a>
                 <a href="#a6"><span class="toc-num">A.6</span>Bibliography and standards</a>
+                <a href="#a7"><span class="toc-num">A.7</span>Index of notation</a>
             </div>
         </div>
 
@@ -94,13 +96,14 @@ H<sub>β</sub> = H[(1 − H<sub>d</sub>/H)R<sub>b</sub> + (H<sub>d</sub>/H)(1 + 
 P = P<sub>p</sub>(G/1000)(1 + γ(T<sub>c</sub> − 25)) &nbsp; T<sub>c</sub> = T<sub>a</sub> + (NOCT − 20)G/800 &nbsp; E = P<sub>p</sub>·H<sub>β</sub>·PR</div>
 <h3>Stand-alone PV (NRJXpert method)</h3>
 <div class="eq">Q<sub>d</sub> = E<sub>d</sub>/(U·η<sub>conv</sub>·0.98·0.9) &nbsp; C = Q<sub>d</sub>·autonomy(h)/24 &nbsp; N<sub>p,batt</sub> = ⌈C/(C<sub>batt</sub>·DoD)⌉<br>
-PWM: N<sub>p</sub> = ⌈Q<sub>d</sub>/(0.9·H·I<sub>mp</sub>)⌉ &nbsp; MPPT: P<sub>p</sub> = Q<sub>d</sub>U/(H·0.9·f<sub>T</sub>·0.96) &nbsp; charge controller and inverter: × 1.25</div>
+PWM: N<sub>p</sub> = ⌈Q′<sub>d</sub>/(H·k<sub>p</sub>·I<sub>mp</sub>)⌉, N<sub>s</sub> = ⌈1.2U/(0.9V<sub>mp</sub>)⌉ &nbsp; MPPT: P<sub>p</sub> = Q′<sub>d</sub>U/(H·k<sub>p</sub>·f<sub>T</sub>·0.96), N<sub>s</sub> = ⌈1.3U/(0.82V<sub>mp</sub>)⌉ &nbsp; k<sub>p</sub> = 1 − losses &nbsp; controller and inverter: × 1.25</div>
 <h3>Wiring</h3>
 <div class="eq">I<sub>b</sub> = 1.25·I &nbsp; I<sub>n</sub> ≥ I<sub>b</sub> &nbsp; I<sub>z0</sub>(S)·k<sub>θ</sub>·k<sub>g</sub> ≥ I<sub>n</sub> &nbsp; k<sub>θ</sub> = √((90 − θ<sub>a</sub>)/60)<br>
 ΔU = b(ρL/S cos φ + λL sin φ)I &nbsp; (b = 2 DC and single-phase, 1 three-phase on V) &nbsp; ρ<sub>Cu</sub> = 0.0225 &nbsp; ρ<sub>Al</sub> = 0.036 Ω·mm²/m &nbsp; λ = 0.08 mΩ/m</div>
 <h3>Wind</h3>
 <div class="eq">P = ½ρAv³ &nbsp; f(v) = (k/c)(v/c)<sup>k−1</sup>e<sup>−(v/c)<sup>k</sup></sup> &nbsp; v̄ = cΓ(1 + 1/k) &nbsp; ½ρc³Γ(1 + 3/k)<br>
-v(H) = v(H<sub>meas</sub>)ln(H/z₀)/ln(H<sub>meas</sub>/z₀) &nbsp; E = 8 760∫P(v)f(v)dv(1 − losses) &nbsp; CF = E/(8 760P<sub>n</sub>)</div>
+v(H) = v(H<sub>meas</sub>)ln(H/z₀)/ln(H<sub>meas</sub>/z₀) &nbsp; E = 8 760∫P(v)f(v)dv(1 − losses) &nbsp; CF = E/(8 760P<sub>n</sub>)<br>
+grid: N = ⌈365B′<sub>d</sub>/E<sub>yr</sub>⌉ &nbsp; off-grid: C<sub>req</sub> = B′<sub>d</sub>·Aut/24/(DoD·η<sub>bat</sub>), min LCC(N, Aut) subject to LPSP ≤ 1 − τ<sub>target</sub></div>
 <h3>Solar water pumping</h3>
 <div class="eq">TDH = HG + P<sub>C</sub> &nbsp; E<sub>el</sub> = 2.725·V·TDH/(η<sub>p</sub>η<sub>m</sub>η<sub>conv</sub>) &nbsp; P<sub>c</sub> = E<sub>el</sub>/(Ens·η<sub>c</sub>)<br>
 Q<sub>max</sub> = πV/(2ΔT) &nbsp; P<sub>H</sub> = Q<sub>max</sub>·TDH/367 &nbsp; P<sub>c</sub> = P<sub>H</sub>/(η<sub>p</sub>η<sub>m</sub>η<sub>conv</sub>η<sub>c</sub>)·1 000/G &nbsp; (V in m³/d, Q in m³/h, P<sub>H</sub> in kW)</div>
@@ -188,6 +191,299 @@ NTL = E<sub>injected</sub> − E<sub>metered</sub> − E<sub>technical</sub> &nb
 turbine power curves); IEEE 1547-2018 (DER interconnection); IEEE 2030.7 / 2030.8 (microgrids); IEC 62056 (DLMS/COSEM); OpenADR 2.0b;
 IEC 62443 and IEC 62351 (cybersecurity).</li>
 </ul>
+            <a href="#top" class="back-to-top">↑ Back to top</a>
+        </div>
+        <div class="section" id="a7">
+            <h2><span class="section-icon">🔣</span>A.7 Index of notation</h2>
+<p>All the quantities used in the formulas of the tutorial, level by level and section by section. The same symbol may denote different quantities depending on the field (ρ: resistivity, air density or characteristic impedance; H: irradiation, hub height or inertia constant): the table of the section concerned prevails.</p>
+<table class="notations">
+<tr><th>Symbol</th><th>Quantity</th><th>Unit</th></tr>
+<tr><th colspan="3" style="font-size:1.05em">Level 1</th></tr>
+<tr><th colspan="3">1.1 Basic quantities and laws</th></tr>
+<tr><td>U, I</td><td>Voltage across a two-terminal element; current through it</td><td>V, A</td></tr>
+<tr><td>R, P</td><td>Resistance; dissipated power (P = R·I²)</td><td>Ω, W</td></tr>
+<tr><td>R<sub>éq</sub></td><td>Equivalent resistance of a series or parallel combination</td><td>Ω</td></tr>
+<tr><td>E, R<sub>i</sub></td><td>Electromotive force (open-circuit voltage) and internal resistance of a voltage source</td><td>V, Ω</td></tr>
+<tr><td>J</td><td>Current of a current source (Norton model of a generator)</td><td>A</td></tr>
+<tr><td>V<sub>a</sub>, U<sub>ab</sub></td><td>Potential of node a; voltage between a and b, U<sub>ab</sub> = V<sub>a</sub> − V<sub>b</sub></td><td>V</td></tr>
+<tr><td>R<sub>ab</sub>, E<sub>ab</sub></td><td>Sum of the resistances and algebraic sum of the EMFs of a branch ab</td><td>Ω, V</td></tr>
+<tr><td>P<sub>gén</sub>, P<sub>reçue</sub></td><td>Power supplied by the sources; power received by the resistors (power balance)</td><td>W</td></tr>
+<tr><td>ρ, L, S</td><td>Resistivity of the material; length and cross-section of the conductor (R = ρL/S)</td><td>Ω·m, m, m²</td></tr>
+<tr><td>G</td><td>Conductance G = 1/R</td><td>S (siemens)</td></tr>
+<tr><td>α<sub>θ</sub>, R<sub>θ</sub>, R<sub>x</sub></td><td>Temperature coefficient of resistance at θ; resistances at temperatures θ and T<sub>x</sub></td><td>1/°C, Ω</td></tr>
+<tr><th colspan="3">1.2 Methods for linear circuits</th></tr>
+<tr><td>[R], [I], [E]</td><td>Mesh method: mesh resistance matrix, vector of mesh currents, vector of mesh EMFs</td><td>Ω, A, V</td></tr>
+<tr><td>R<sub>11</sub>, R<sub>12</sub></td><td>Self-resistance of mesh 1 (sum of its resistances); resistance shared by meshes 1 and 2</td><td>Ω</td></tr>
+<tr><td>[G], [V], [J]</td><td>Nodal method: conductance matrix, node potentials, currents injected at the nodes</td><td>S, V, A</td></tr>
+<tr><td>G<sub>aa</sub>, G<sub>ab</sub></td><td>Self-conductance of node a; mutual conductance between a and b</td><td>S</td></tr>
+<tr><td>U<sub>O′O</sub>, G<sub>k</sub></td><td>Voltage between two nodes (Millman's theorem); conductance of branch k</td><td>V, S</td></tr>
+<tr><td>E<sub>th</sub>, R<sub>th</sub></td><td>Thévenin generator: open-circuit voltage and resistance seen from the terminals</td><td>V, Ω</td></tr>
+<tr><td>J<sub>N</sub>, R<sub>N</sub></td><td>Norton generator: short-circuit current and resistance (R<sub>N</sub> = R<sub>th</sub>)</td><td>A, Ω</td></tr>
+<tr><td>R<sub>a</sub>…, R<sub>ab</sub>…</td><td>Resistances of a star (wye) network; resistances of the equivalent delta</td><td>Ω</td></tr>
+<tr><th colspan="3">1.3 Sinusoidal steady state</th></tr>
+<tr><td>u(t), i(t)</td><td>Instantaneous values of voltage and current</td><td>V, A</td></tr>
+<tr><td>U, I</td><td>RMS values; U<sub>avg</sub>: mean value over a period</td><td>V, A</td></tr>
+<tr><td>T, f, ω</td><td>Period; frequency f = 1/T; angular frequency ω = 2πf</td><td>s, Hz, rad/s</td></tr>
+<tr><td>Ψ<sub>u</sub>, Ψ<sub>i</sub></td><td>Initial phases of voltage and current</td><td>rad or °</td></tr>
+<tr><td><u>U</u>, <u>I</u>, <u>E</u></td><td>Complex amplitudes (phasors): magnitude = RMS value, argument = phase</td><td>V, A</td></tr>
+<tr><td>j</td><td>Imaginary unit (j² = −1)</td><td>—</td></tr>
+<tr><td>Z = R + jX</td><td>Complex impedance: resistance R and reactance X (X = Lω or −1/(Cω))</td><td>Ω</td></tr>
+<tr><td>φ</td><td>Phase shift between voltage and current, φ = arg Z</td><td>rad or °</td></tr>
+<tr><td>Y = G + jB</td><td>Admittance Y = 1/Z: conductance G and susceptance B</td><td>S</td></tr>
+<tr><th colspan="3">1.4 Power and reactive compensation</th></tr>
+<tr><td><u>S</u>, <u>I</u>*</td><td>Complex apparent power <u>S</u> = <u>U</u>·<u>I</u>*; <u>I</u>*: conjugate of the current</td><td>VA</td></tr>
+<tr><td>P, Q, S</td><td>Active, reactive and apparent power</td><td>W, var, VA</td></tr>
+<tr><td>cos φ</td><td>Power factor P/S</td><td>—</td></tr>
+<tr><td>p(t)</td><td>Instantaneous power u(t)·i(t); its mean is P</td><td>W</td></tr>
+<tr><td>Q<sub>C</sub>, C</td><td>Reactive power of the compensation capacitors; their capacitance</td><td>var, F</td></tr>
+<tr><td>φ<sub>1</sub>, φ<sub>2</sub></td><td>Phase shifts before and after compensation</td><td>°</td></tr>
+<tr><th colspan="3">1.5 Resonance</th></tr>
+<tr><td>L, C</td><td>Inductance; capacitance</td><td>H, F</td></tr>
+<tr><td>ω<sub>0</sub>, f<sub>0</sub></td><td>Resonant angular frequency and frequency (LCω<sub>0</sub>² = 1)</td><td>rad/s, Hz</td></tr>
+<tr><td>ρ = √(L/C)</td><td>Characteristic impedance of the resonant circuit (not to be confused with resistivity)</td><td>Ω</td></tr>
+<tr><td>q<sub>u</sub></td><td>Quality (overvoltage) factor: U<sub>L</sub>/U = U<sub>C</sub>/U = ρ/R</td><td>—</td></tr>
+<tr><td>U<sub>L</sub>, U<sub>C</sub></td><td>Voltages across the inductor and the capacitor</td><td>V</td></tr>
+<tr><td>g, b, R<sub>1</sub>, R<sub>2</sub></td><td>Conductance and susceptance of a real parallel circuit; resistances of its two branches</td><td>S, Ω</td></tr>
+<tr><td>ω′<sub>0</sub></td><td>Resonant angular frequency of the real parallel circuit</td><td>rad/s</td></tr>
+<tr><th colspan="3">1.6 Three-phase systems</th></tr>
+<tr><td>e<sub>A</sub>, E<sub>m</sub></td><td>Instantaneous EMF of phase A; its amplitude</td><td>V</td></tr>
+<tr><td>V, U</td><td>Phase-to-neutral voltage; line-to-line voltage, U = √3·V</td><td>V</td></tr>
+<tr><td>I, J</td><td>Line current; current in a delta branch (I = √3·J)</td><td>A</td></tr>
+<tr><td>Y<sub>A</sub>, Y<sub>N</sub></td><td>Admittance of phase A (source + line + load); neutral admittance</td><td>S</td></tr>
+<tr><td>Z<sub>L</sub>, Z<sub>N</sub></td><td>Impedance of a line; impedance of the neutral conductor</td><td>Ω</td></tr>
+<tr><td>U<sub>O′O</sub>, I<sub>N</sub></td><td>Neutral displacement voltage; neutral current</td><td>V, A</td></tr>
+<tr><td>P<sub>W1</sub>, P<sub>W2</sub></td><td>Readings of the two wattmeters (two-wattmeter method)</td><td>W</td></tr>
+<tr><th colspan="3">1.7 Symmetrical components</th></tr>
+<tr><td>a</td><td>120° rotation operator: a = e<sup>j2π/3</sup></td><td>—</td></tr>
+<tr><td>K<sub>d</sub>, K<sub>i</sub>, K<sub>0</sub></td><td>Positive, negative and zero-sequence components of a set of quantities A, B, C</td><td>—</td></tr>
+<tr><td>Z<sub>1eq</sub>, Z<sub>2eq</sub>, Z<sub>0eq</sub></td><td>Thévenin impedances of the positive, negative and zero-sequence networks at the fault</td><td>Ω</td></tr>
+<tr><td>E<sub>1eq</sub></td><td>Thévenin EMF of the positive-sequence network at the fault</td><td>V</td></tr>
+<tr><td>I<sub>1</sub>, I<sub>2</sub>, I<sub>0</sub></td><td>Symmetrical components of the fault current; I<sub>A</sub> = 3·I<sub>1</sub> for a phase-to-earth fault</td><td>A</td></tr>
+<tr><th colspan="3" style="font-size:1.05em">Level 2</th></tr>
+<tr><th colspan="3">2.1 Lines and cables</th></tr>
+<tr><td>V<sub>S</sub>, I<sub>S</sub>, V<sub>R</sub>, I<sub>R</sub></td><td>Phase voltage and current at the sending (S) and receiving (R) ends</td><td>V, A</td></tr>
+<tr><td>A, B, C, D</td><td>Constants of the two-port equivalent to the line (AD − BC = 1)</td><td>—, Ω, S, —</td></tr>
+<tr><td>r, L, g, C</td><td>Per-unit-length resistance, inductance, conductance and capacitance</td><td>Ω/km, H/km, S/km, F/km</td></tr>
+<tr><td>z, y</td><td>Series impedance and shunt admittance per unit length: z = r + jLω, y = g + jCω</td><td>Ω/km, S/km</td></tr>
+<tr><td>γ = α + jβ</td><td>Propagation constant: attenuation α and phase constant β</td><td>1/km</td></tr>
+<tr><td>Z<sub>c</sub></td><td>Characteristic (surge) impedance √(z/y)</td><td>Ω</td></tr>
+<tr><td>x</td><td>Distance measured from the receiving end</td><td>km</td></tr>
+<tr><td>SIL</td><td>Surge impedance loading: power carried with no net reactive power, U<sub>n</sub>²/Z<sub>c</sub></td><td>W</td></tr>
+<tr><td>U<sub>n</sub></td><td>Nominal line-to-line voltage of the network</td><td>V</td></tr>
+<tr><td>vR %</td><td>Voltage regulation: relative difference between no-load and full-load receiving voltage</td><td>%</td></tr>
+<tr><td>S<sub>S</sub>, S<sub>R</sub>, S<sub>L</sub>, η</td><td>Complex power at the sending and receiving ends; losses S<sub>L</sub> = S<sub>S</sub> − S<sub>R</sub>; efficiency P<sub>R</sub>/P<sub>S</sub></td><td>VA, —</td></tr>
+<tr><th colspan="3">2.2 Transformers</th></tr>
+<tr><td>S<sub>n</sub></td><td>Rated apparent power</td><td>VA</td></tr>
+<tr><td>u<sub>cc</sub></td><td>Short-circuit voltage (in p.u. or %): voltage driving rated current with the secondary short-circuited</td><td>p.u., %</td></tr>
+<tr><td>P<sub>cc</sub></td><td>Short-circuit losses (copper losses at rated current)</td><td>W</td></tr>
+<tr><td>Z<sub>cc</sub>, R<sub>cc</sub>, X<sub>cc</sub></td><td>Short-circuit impedance, resistance and reactance referred to the side of voltage U</td><td>Ω</td></tr>
+<tr><th colspan="3">2.3 Per-unit system</th></tr>
+<tr><td>S<sub>b</sub>, U<sub>b</sub></td><td>Base power and base (line-to-line) voltage chosen</td><td>VA, V</td></tr>
+<tr><td>Z<sub>b</sub>, I<sub>b</sub>, V<sub>b</sub></td><td>Derived base impedance, current and phase voltage</td><td>Ω, A, V</td></tr>
+<tr><td>z<sub>pu</sub>, %z</td><td>Per-unit impedance Z/Z<sub>b</sub>; the same in percent</td><td>p.u., %</td></tr>
+<tr><th colspan="3">2.4 Voltage drop and losses</th></tr>
+<tr><td>R, X</td><td>Resistance and reactance of the link</td><td>Ω</td></tr>
+<tr><td>P, Q</td><td>Active and reactive power carried</td><td>W, var</td></tr>
+<tr><td>ΔU/U, ΔP</td><td>Relative voltage drop; active losses of the link</td><td>—, W</td></tr>
+<tr><th colspan="3">2.5 and 2.6 Load flow</th></tr>
+<tr><td>S<sub>i</sub> = P<sub>i</sub> + jQ<sub>i</sub></td><td>Complex power injected at bus i (generation − load)</td><td>VA</td></tr>
+<tr><td>V<sub>i</sub>, |V<sub>i</sub>|, δ<sub>i</sub></td><td>Complex voltage of bus i, its magnitude and angle</td><td>V or p.u., rad</td></tr>
+<tr><td>Y<sub>ik</sub>, |Y<sub>ik</sub>|, θ<sub>ik</sub></td><td>Element of the bus admittance matrix, its magnitude and argument</td><td>S, rad</td></tr>
+<tr><td>Y<sub>bus</sub>, Z<sub>bus</sub></td><td>Bus admittance and impedance matrices</td><td>S, Ω</td></tr>
+<tr><td>y<sub>ij</sub>, y<sub>i0</sub></td><td>Series admittance of line i-j; shunt admittance at bus i (half line charging)</td><td>S</td></tr>
+<tr><td>I<sub>ij</sub>, S<sub>ij</sub>, S<sub>L,ij</sub></td><td>Current and power flowing from i to j; line losses</td><td>A, VA</td></tr>
+<tr><td>n, ΔP, ΔQ</td><td>Iteration number; power mismatches (specified − computed)</td><td>—, W, var</td></tr>
+<tr><td>J, Δδ, Δ|V|</td><td>Jacobian (partial derivatives of P and Q); corrections of angles and magnitudes</td><td>—</td></tr>
+<tr><td>E, X<sub>d</sub>, δ</td><td>Internal EMF of a synchronous machine; synchronous reactance; load angle</td><td>V, Ω, rad</td></tr>
+<tr><th colspan="3">2.7 Short circuit</th></tr>
+<tr><td>V<sub>0</sub>, V<sub>1</sub>, V<sub>2</sub></td><td>Zero, positive and negative-sequence components</td><td>V</td></tr>
+<tr><td>Z<sub>A</sub>, Z<sub>B</sub>, Z<sub>0m</sub></td><td>Zero-sequence impedances of two parallel lines; mutual zero-sequence impedance between them</td><td>Ω</td></tr>
+<tr><th colspan="3">2.9 Economic dispatch</th></tr>
+<tr><td>C<sub>i</sub> = α<sub>i</sub> + β<sub>i</sub>P<sub>i</sub> + γ<sub>i</sub>P<sub>i</sub>²</td><td>Hourly cost of unit i and coefficients of its cost curve</td><td>F/h</td></tr>
+<tr><td>P<sub>i</sub>, P<sub>i,min</sub>, P<sub>i,max</sub></td><td>Output of unit i and its limits</td><td>MW</td></tr>
+<tr><td>λ</td><td>System marginal cost (Lagrange multiplier)</td><td>F/MWh</td></tr>
+<tr><td>P<sub>D</sub>, P<sub>L</sub></td><td>Total demand; transmission losses</td><td>MW</td></tr>
+<tr><td>B<sub>ij</sub>, B<sub>0i</sub>, B<sub>00</sub></td><td>Loss coefficients (Kron's formula)</td><td>1/MW, —, MW</td></tr>
+<tr><td>L<sub>i</sub></td><td>Penalty factor of unit i: 1/(1 − ∂P<sub>L</sub>/∂P<sub>i</sub>)</td><td>—</td></tr>
+<tr><th colspan="3" style="font-size:1.05em">Level 3</th></tr>
+<tr><th colspan="3">3.3 Sizing a stand-alone PV system</th></tr>
+<tr><td>n<sub>i</sub>, P<sub>i</sub></td><td>Number of identical appliances of load i, power of one appliance</td><td>—, W</td></tr>
+<tr><td>K<sub>u</sub>, K<sub>s</sub></td><td>Utilisation factor (partial operation) and diversity factor (appliances not used at the same time)</td><td>—</td></tr>
+<tr><td>η<sub>i</sub></td><td>Efficiency of the appliance itself (absorbed power = P<sub>i</sub>/η<sub>i</sub>)</td><td>—</td></tr>
+<tr><td>h<sub>i</sub>, j<sub>i</sub></td><td>Operating hours per day (ticked boxes of the schedule), days of use per week</td><td>h/d, d/wk</td></tr>
+<tr><td>cos φ<sub>i</sub></td><td>Power factor of an AC load (apparent power S = P/cos φ)</td><td>—</td></tr>
+<tr><td>E<sub>d</sub></td><td>Energy consumed by the loads every day</td><td>Wh/d</td></tr>
+<tr><td>S<sub>max</sub></td><td>Apparent power drawn during the most loaded hour of the day (sum of P<sub>i</sub>/cos φ<sub>i</sub> of the loads running)</td><td>VA</td></tr>
+<tr><td>U</td><td>Voltage of the <b>DC bus</b> = rated voltage of the battery, of the controller and of the inverter input</td><td>V</td></tr>
+<tr><td>η<sub>conv</sub></td><td>Efficiency of the converter feeding the load: inverter (AC load) or DC-DC converter</td><td>—</td></tr>
+<tr><td>η<sub>cables</sub></td><td>Cable efficiency (Joule losses)</td><td>—</td></tr>
+<tr><td>η<sub>bat</sub></td><td>Battery efficiency (energy returned / energy stored), applied to all the energy consumed (conservative assumption)</td><td>—</td></tr>
+<tr><td>Q<sub>d</sub></td><td>Electric charge to be supplied every day to the DC bus (in ampere-hours: at a fixed voltage, current measures energy)</td><td>Ah/d</td></tr>
+<tr><td>m, Q′<sub>d</sub></td><td>Design margin; design charge Q′<sub>d</sub> = Q<sub>d</sub>·(1 + m)</td><td>%, Ah/d</td></tr>
+<tr><td>H</td><td>Mean daily irradiation of a month <b>on the plane of the modules</b>. Since 1 kWh/m² = 1 hour at 1 000 W/m², H is also the number of <b>peak-sun hours</b> (PSH)</td><td>kWh/m²/d = h/d</td></tr>
+<tr><td>H<sub>des</sub></td><td>Design irradiation: H of the weakest month (recommended off-grid) or annual mean</td><td>h/d</td></tr>
+<tr><td>β</td><td>Tilt of the modules from horizontal (facing the equator)</td><td>°</td></tr>
+<tr><td>T<sub>a</sub>, T<sub>c</sub></td><td>Mean ambient temperature of the month; cell temperature T<sub>c</sub> = T<sub>a</sub> + (NOCT − 20) (at 800 W/m²)</td><td>°C</td></tr>
+<tr><td>NOCT</td><td>Nominal operating cell temperature (module datasheet)</td><td>°C</td></tr>
+<tr><td>γ</td><td>Temperature coefficient of the module maximum power</td><td>%/°C</td></tr>
+<tr><td>f<sub>T</sub></td><td>Temperature factor: f<sub>T</sub> = 1 + γ·(T<sub>c</sub> − 25), limited to 1.05</td><td>—</td></tr>
+<tr><td>p, k<sub>p</sub></td><td>System losses (dust, mismatch between modules, array cables, tolerance); factor k<sub>p</sub> = 1 − p</td><td>%, —</td></tr>
+<tr><td>η<sub>MPPT</sub></td><td>Efficiency of the converter of an MPPT controller</td><td>—</td></tr>
+<tr><td>P<sub>mod</sub></td><td>Peak power of a module: maximum power at standard test conditions STC (1 000 W/m², 25 °C, AM1.5)</td><td>Wp</td></tr>
+<tr><td>V<sub>mp</sub>, I<sub>mp</sub></td><td>Voltage and current of a module at its maximum power point (STC): P<sub>mod</sub> = V<sub>mp</sub>·I<sub>mp</sub></td><td>V, A</td></tr>
+<tr><td>V<sub>oc</sub>, I<sub>sc</sub></td><td>Open-circuit voltage and short-circuit current of a module (STC)</td><td>V, A</td></tr>
+<tr><td>N<sub>s</sub></td><td>Number of modules <b>in series</b> in a string (voltages add up)</td><td>—</td></tr>
+<tr><td>N<sub>p</sub></td><td>Number of strings <b>in parallel</b> (currents add up)</td><td>—</td></tr>
+<tr><td>N<sub>mod</sub>, P<sub>p</sub></td><td>Number of modules N<sub>mod</sub> = N<sub>s</sub>·N<sub>p</sub>; array peak power P<sub>p</sub> = N<sub>mod</sub>·P<sub>mod</sub></td><td>—, Wp</td></tr>
+<tr><td>I<sub>array</sub></td><td>Current the array must deliver during H<sub>des</sub> hours to supply Q′<sub>d</sub> (PWM controller)</td><td>A</td></tr>
+<tr><td>P<sub>p,req</sub></td><td>Required array peak power (MPPT controller)</td><td>Wp</td></tr>
+<tr><td>Aut</td><td>Autonomy: time during which the battery alone supplies the loads</td><td>h</td></tr>
+<tr><td>C</td><td>Capacity that must be drawable from the battery (usable capacity)</td><td>Ah</td></tr>
+<tr><td>C<sub>bat</sub>, U<sub>bat</sub></td><td>Rated capacity and voltage of one battery (one cell or block)</td><td>Ah, V</td></tr>
+<tr><td>DoD</td><td>Allowed depth of discharge: share of the rated capacity that may be drawn</td><td>%</td></tr>
+<tr><td>N<sub>bs</sub>, N<sub>bp</sub></td><td>Batteries in series (to reach U); strings in parallel (to reach C)</td><td>—</td></tr>
+<tr><td>I<sub>reg</sub>, I<sub>in,max</sub>, V<sub>in,max</sub></td><td>Rated (output) current of a controller; maximum input current and voltage on the array side</td><td>A, A, V</td></tr>
+<tr><td>k, N<sub>reg</sub></td><td>Number of strings connected to one controller; number of controllers</td><td>—</td></tr>
+<tr><td>S<sub>inv</sub>, N<sub>inv</sub></td><td>Rated apparent power of an inverter; number of inverters</td><td>VA, —</td></tr>
+<tr><td>d<sub>m</sub></td><td>Number of days of month m</td><td>d</td></tr>
+<tr><td>E<sub>prod,m</sub>, E<sub>dem,m</sub></td><td>Energy supplied to the DC bus by the array and energy demanded from the bus during month m</td><td>kWh</td></tr>
+<tr><td>τ</td><td>Demand coverage: share of the annual demand actually supplied</td><td>%</td></tr>
+<tr><td>⌈x⌉, ⌊x⌋</td><td>Rounding up, rounding down to an integer</td><td>—</td></tr>
+<tr><th colspan="3">3.4 Wiring: cross-sections, protection and costs</th></tr>
+<tr><td>I</td><td>Rated current of the link (PV side: short-circuit current I<sub>sc</sub> of the strings connected)</td><td>A</td></tr>
+<tr><td>I<sub>b</sub></td><td>Design current: current the link must carry permanently, I<sub>b</sub> = 1.25·I</td><td>A</td></tr>
+<tr><td>I<sub>n</sub></td><td>Standard rating of the protection (gPV fuse, circuit breaker), I<sub>n</sub> ≥ I<sub>b</sub></td><td>A</td></tr>
+<tr><td>I<sub>z0</sub>(S)</td><td>Current-carrying capacity of a cable of cross-section S in reference conditions (30 °C, single cable) — tables of IEC 60364-5-52</td><td>A</td></tr>
+<tr><td>k<sub>θ</sub></td><td>Temperature correction factor: √((90 − θ<sub>a</sub>)/60) for XLPE insulation (90 °C maximum)</td><td>—</td></tr>
+<tr><td>θ<sub>a</sub></td><td>Ambient temperature around the cable</td><td>°C</td></tr>
+<tr><td>k<sub>g</sub></td><td>Grouping factor (neighbouring cables heating each other)</td><td>—</td></tr>
+<tr><td>I<sub>z</sub></td><td>Current-carrying capacity in the actual conditions, I<sub>z</sub> = I<sub>z0</sub>·k<sub>θ</sub>·k<sub>g</sub></td><td>A</td></tr>
+<tr><td>S</td><td>Cross-section of a conductor</td><td>mm²</td></tr>
+<tr><td>L</td><td>One-way length of the link</td><td>m</td></tr>
+<tr><td>ρ</td><td>Resistivity of the conductor at operating temperature</td><td>Ω·mm²/m</td></tr>
+<tr><td>λ</td><td>Linear reactance of the cable</td><td>Ω/m</td></tr>
+<tr><td>cos φ</td><td>Power factor of the load (1 for DC)</td><td>—</td></tr>
+<tr><td>b</td><td>Length factor: 2 (go and return) for DC and single-phase, 1 for three-phase (phase-to-neutral voltage)</td><td>—</td></tr>
+<tr><td>ΔU, ΔU/U</td><td>Voltage drop along the link, in volts and in % of the voltage U of the link</td><td>V, %</td></tr>
+<tr><th colspan="3">3.5 Grid-connected PV</th></tr>
+<tr><td>E</td><td>AC energy fed in (or self-consumed) in one year</td><td>kWh/yr</td></tr>
+<tr><td>P<sub>p</sub></td><td>Array peak power (sum of the STC powers of the modules)</td><td>kWp</td></tr>
+<tr><td>H<sub>β,yr</sub></td><td>Annual irradiation on the plane of the modules (tilt β); 1 kWh/m² = 1 peak-sun hour</td><td>kWh/m²/yr</td></tr>
+<tr><td>PR</td><td>Performance ratio: actual energy / energy of an ideal array at 25 °C without losses; covers temperature, dust, mismatch, cables, inverter</td><td>—</td></tr>
+<tr><td>E/P<sub>p</sub></td><td>Specific yield: energy per installed kWp, indicator used to compare sites</td><td>kWh/kWp/yr</td></tr>
+<tr><th colspan="3">3.6 Wind resource and the Weibull distribution</th></tr>
+<tr><td>v</td><td>Wind speed (10-min or hourly mean depending on the measurements)</td><td>m/s</td></tr>
+<tr><td>ρ</td><td>Air density</td><td>kg/m³</td></tr>
+<tr><td>A</td><td>Area crossed by the wind; for a wind turbine, rotor swept area πD²/4 (D: rotor diameter)</td><td>m²</td></tr>
+<tr><td>f(v), F(v)</td><td>Probability density of the speed; probability that the speed is below v</td><td>(m/s)<sup>−1</sup>, —</td></tr>
+<tr><td>c, k</td><td>Scale parameter (close to the mean speed) and shape parameter (regularity of the wind) of the Weibull distribution</td><td>m/s, —</td></tr>
+<tr><td>v̄</td><td>Mean speed</td><td>m/s</td></tr>
+<tr><td>Γ</td><td>Euler's gamma function (Γ(1 + 1/k) ≈ 0.89 for k = 2)</td><td>—</td></tr>
+<tr><td>P/A</td><td>Wind power density: mean power per m² of area crossed</td><td>W/m²</td></tr>
+<tr><td>H<sub>meas</sub>, H</td><td>Anemometer height (usually 10 m, WMO standard); hub height of the wind turbine</td><td>m</td></tr>
+<tr><td>z₀</td><td>Terrain roughness length (0.005 m over water, 0.03 to 0.07 m in open country, 0.4 m in suburbs, 1 m in towns or forests)</td><td>m</td></tr>
+<tr><th colspan="3">3.7 Wind production and sizing</th></tr>
+<tr><td>P(v)</td><td>Power curve of the wind turbine: electrical power delivered at speed v (manufacturer, at ρ = 1.225 kg/m³)</td><td>kW</td></tr>
+<tr><td>P<sub>n</sub></td><td>Rated power of the machine</td><td>kW</td></tr>
+<tr><td>v<sub>i</sub>, v<sub>n</sub>, v<sub>max</sub></td><td>Cut-in, rated (P = P<sub>n</sub>) and cut-out speeds</td><td>m/s</td></tr>
+<tr><td>F</td><td>Windy fraction: share of time with no calm (1 − calms)</td><td>—</td></tr>
+<tr><td>P̄</td><td>Mean power of one machine over the period</td><td>kW</td></tr>
+<tr><td>p<sub>prod</sub></td><td>Production losses: unavailability (≈ 3 %), electrical losses (≈ 2 %), blade soiling</td><td>%</td></tr>
+<tr><td>E<sub>m</sub>, E<sub>yr</sub></td><td>Net energy produced by one machine in month m, in a year</td><td>kWh</td></tr>
+<tr><td>CF</td><td>Capacity factor: E/(P<sub>n</sub>·duration); share of the rated power actually produced on average</td><td>%</td></tr>
+<tr><td>d<sub>m</sub></td><td>Number of days of month m</td><td>d</td></tr>
+<tr><td>B<sub>d</sub></td><td>Daily demand of the loads (“Demand” tab)</td><td>kWh/d</td></tr>
+<tr><td>m</td><td>Design margin (demand uncertainty, growth, year-to-year wind variability)</td><td>%</td></tr>
+<tr><td>B′<sub>d</sub></td><td>Design demand B′<sub>d</sub> = B<sub>d</sub>·(1 + m)</td><td>kWh/d</td></tr>
+<tr><td>p<sub>r</sub>, η<sub>r</sub></td><td>Losses between the bus and the loads (conversion, cables); efficiency η<sub>r</sub> = 1 − p<sub>r</sub></td><td>%, —</td></tr>
+<tr><td>N</td><td>Number of wind turbines</td><td>—</td></tr>
+<tr><td>U</td><td>Voltage of the battery DC bus</td><td>V</td></tr>
+<tr><td>Aut</td><td>Autonomy: number of hours of demand the battery can supply without wind</td><td>h</td></tr>
+<tr><td>DoD, η<sub>bat</sub></td><td>Allowed depth of discharge; battery efficiency (energy returned / stored)</td><td>—</td></tr>
+<tr><td>C<sub>req</sub>, C<sub>nom</sub></td><td>Required capacity; rated capacity of the battery bank kept (rounded to whole units)</td><td>kWh</td></tr>
+<tr><td>E<sub>max</sub>, E<sub>min</sub></td><td>Maximum (full battery, C<sub>nom</sub>) and minimum (C<sub>nom</sub>·(1 − DoD)) energy in the battery</td><td>kWh</td></tr>
+<tr><td>E(t)</td><td>Energy stored in the battery at time step t (state of charge)</td><td>kWh</td></tr>
+<tr><td>P<sub>prod</sub>(t), P<sub>load</sub>(t)</td><td>Production of the N machines and consumption of the loads at step t (hourly profile of the “Demand” tab)</td><td>kW</td></tr>
+<tr><td>Δt</td><td>Time step of the measurement series</td><td>h</td></tr>
+<tr><td>LPSP</td><td>Loss of Power Supply Probability: energy not supplied / energy demanded over the simulated period</td><td>—</td></tr>
+<tr><td>τ, τ<sub>target</sub></td><td>Demand coverage τ = 1 − LPSP; target coverage</td><td>%</td></tr>
+<tr><td>LCC</td><td>Discounted life-cycle cost: investment (net of subsidy) + present value of operation, replacements, minus the residual value (level 4)</td><td>kF</td></tr>
+<tr><th colspan="3">3.8 Solar water pumping</th></tr>
+<tr><td>V (or ΔQ)</td><td>Volume of water to pump per day (demand increased by distribution losses and the margin)</td><td>m³/d</td></tr>
+<tr><td>TLU</td><td>Tropical livestock unit (UBT in French): reference animal of 250 kg; cattle 1, sheep or goat 0.2, donkey 0.3, horse 1.2, camel 1.5</td><td>—</td></tr>
+<tr><td>HG</td><td>Static head: static water level below ground + drawdown (drop of the level while pumping) + inlet height in the tank + difference in level</td><td>m</td></tr>
+<tr><td>P<sub>C</sub></td><td>Head losses in the pipe (friction, bends, valves), in metres of water column</td><td>m</td></tr>
+<tr><td>TDH</td><td>Total dynamic head the pump must provide: HG + P<sub>C</sub></td><td>m</td></tr>
+<tr><td>ρ, g</td><td>Density of water; gravitational acceleration</td><td>kg/m³, m/s²</td></tr>
+<tr><td>C<sub>H</sub></td><td>Hydraulic constant ρg/3 600: energy to lift 1 m³ of water by 1 m</td><td>Wh/(m³·m)</td></tr>
+<tr><td>η<sub>p</sub>, η<sub>m</sub>, η<sub>conv</sub></td><td>Efficiencies of the pump, the motor, the converter (inverter or MPPT); R<sub>p</sub> = η<sub>p</sub>·η<sub>m</sub>·η<sub>conv</sub></td><td>—</td></tr>
+<tr><td>E<sub>el</sub></td><td>Daily electrical energy absorbed by the motor-pump</td><td>Wh/d</td></tr>
+<tr><td>Ens</td><td>Daily irradiation on the plane of the modules, in peak-sun hours (= kWh/m²/d)</td><td>h/d</td></tr>
+<tr><td>η<sub>c</sub></td><td>Efficiency of the PV array relative to its peak power: (1 − losses)·(1 + γ(T<sub>c</sub> − 25))</td><td>—</td></tr>
+<tr><td>η<sub>B</sub></td><td>Battery efficiency (configuration with battery)</td><td>—</td></tr>
+<tr><td>P<sub>c</sub></td><td>Peak power of the PV array</td><td>Wp</td></tr>
+<tr><td>ΔT</td><td>Daily pumping duration (hours with enough sun)</td><td>h</td></tr>
+<tr><td>Q, Q<sub>max</sub></td><td>Flow rate; maximum flow at solar noon (cosine-shaped flow over ΔT)</td><td>m³/h</td></tr>
+<tr><td>P<sub>H</sub></td><td>Hydraulic power: Q·TDH/367 (Q in m³/h, result in kW)</td><td>kW</td></tr>
+<tr><td>P<sub>el</sub></td><td>Electrical power of the motor-pump: P<sub>H</sub>/(η<sub>p</sub>·η<sub>m</sub>)</td><td>W</td></tr>
+<tr><td>G</td><td>Reference irradiance for the power method</td><td>W/m²</td></tr>
+<tr><td>τ, LWSP</td><td>Coverage of the water demand; loss of water supply probability = 1 − τ</td><td>%</td></tr>
+<tr><th colspan="3" style="font-size:1.05em">Level 4</th></tr>
+<tr><td>C<sub>0</sub>, C<sub>n</sub></td><td>Cost of an item today; its cost in year n</td><td>F</td></tr>
+<tr><td>i</td><td>Annual inflation rate</td><td>%/yr</td></tr>
+<tr><td>a</td><td>Discount rate (cost of capital; interest rate of the project)</td><td>%/yr</td></tr>
+<tr><td>n, N</td><td>Year (0 = commissioning); study period (project lifetime)</td><td>yr</td></tr>
+<tr><td>F<sub>n</sub></td><td>Net cash flow of year n: revenue − expenditure (F<sub>0</sub> = −I<sub>0</sub>)</td><td>F</td></tr>
+<tr><td>VA, FA<sub>n</sub></td><td>Present value of a future amount; discount factor 1/(1 + a)<sup>n</sup></td><td>F, —</td></tr>
+<tr><td>I<sub>0</sub></td><td>Initial investment (net of subsidy)</td><td>F</td></tr>
+<tr><td>s</td><td>Subsidy: share of the investment covered</td><td>%</td></tr>
+<tr><td>E&amp;M<sub>n</sub>, R<sub>n</sub></td><td>Operation and maintenance, and replacement expenditure of year n</td><td>F</td></tr>
+<tr><td>V<sub>rés</sub></td><td>Residual value of the equipment at the end of the study (remaining life share)</td><td>F</td></tr>
+<tr><td>C<sub>act</sub></td><td>Discounted cost: discounted sum of all expenditure, residual value deducted</td><td>F</td></tr>
+<tr><td>E<sub>n</sub></td><td>Useful energy (sold or consumed) in year n</td><td>kWh</td></tr>
+<tr><td>LCOE</td><td>Levelised cost of energy: C<sub>act</sub> / Σ E<sub>n</sub>/(1 + a)<sup>n</sup></td><td>F/kWh</td></tr>
+<tr><td>VAN</td><td>Net present value (NPV): sum of the discounted cash flows; profitable if NPV ≥ 0</td><td>F</td></tr>
+<tr><td>TRI</td><td>Internal rate of return (IRR): rate a giving NPV = 0; profitable if IRR ≥ a</td><td>%</td></tr>
+<tr><td>t, g</td><td>Energy tariff (selling price or avoided cost); annual change of the tariff</td><td>F/kWh, %/yr</td></tr>
+<tr><td>CRF, A</td><td>Capital recovery factor; constant annuity A = I·CRF</td><td>—, F/yr</td></tr>
+<tr><th colspan="3" style="font-size:1.05em">Level 5</th></tr>
+<tr><td>f, f<sub>0</sub>, Δf</td><td>Frequency; nominal frequency (50 Hz); frequency deviation</td><td>Hz</td></tr>
+<tr><td>RoCoF</td><td>Rate of change of frequency (df/dt), measured over 100 ms</td><td>Hz/s</td></tr>
+<tr><td>Nadir</td><td>Lowest frequency reached after an imbalance</td><td>Hz</td></tr>
+<tr><td>R</td><td>Droop of a generator or inverter: Δf = −R·ΔP</td><td>%, p.u.</td></tr>
+<tr><td>ΔP</td><td>Power change (loss of a unit, load switching)</td><td>W, p.u.</td></tr>
+<tr><td>I″<sub>k3</sub>, i<sub>p</sub></td><td>Initial symmetrical three-phase short-circuit current; peak current</td><td>kA</td></tr>
+<tr><td>c, U<sub>n</sub></td><td>Voltage factor (1.1 for maximum current); nominal line-to-line voltage</td><td>—, kV</td></tr>
+<tr><td>Z<sub>1</sub>, Z<sub>1</sub>(f,j)</td><td>Positive-sequence impedance at the fault; transfer impedance between inverter j and the fault</td><td>Ω</td></tr>
+<tr><td>I<sub>skPF,j</sub></td><td>Maximum short-circuit current supplied by inverter j (manufacturer data, ≈ 1.1 to 1.5 times rated current)</td><td>kA</td></tr>
+<tr><td>P<sub>min</sub>, P<sub>n</sub>, u</td><td>Minimum and rated power of a unit; commitment status u (0 off, 1 on)</td><td>kW, —</td></tr>
+<tr><td>SOC<sub>t</sub></td><td>State of charge of the battery at hour t</td><td>kWh, %</td></tr>
+<tr><td>P<sub>c</sub>, P<sub>d</sub>, η<sub>c</sub>, η<sub>d</sub></td><td>Charge and discharge power and efficiencies</td><td>kW, —</td></tr>
+<tr><td>Δt</td><td>Time step of the optimisation</td><td>h</td></tr>
+<tr><th colspan="3" style="font-size:1.05em">Level 6</th></tr>
+<tr><td>SAIDI</td><td>System average interruption duration index: Σ(N<sub>i</sub>·t<sub>i</sub>)/N<sub>T</sub></td><td>min/yr</td></tr>
+<tr><td>SAIFI</td><td>System average interruption frequency index: ΣN<sub>i</sub>/N<sub>T</sub></td><td>/yr</td></tr>
+<tr><td>MAIFI</td><td>Momentary average interruption frequency index (≤ 3 min IEC, ≤ 5 min IEEE)</td><td>/yr</td></tr>
+<tr><td>ASAI</td><td>Average service availability index: 1 − SAIDI/525 600</td><td>—</td></tr>
+<tr><td>END</td><td>Energy not supplied: Σ interrupted power × duration</td><td>kWh</td></tr>
+<tr><td>N<sub>i</sub>, t<sub>i</sub>, N<sub>T</sub></td><td>Customers interrupted by event i; interruption duration; customers served</td><td>—, min, —</td></tr>
+<tr><td>P(V), P<sub>0</sub>, v</td><td>Power of a load at voltage V; power at nominal voltage; per-unit voltage v = V/V<sub>n</sub></td><td>W, W, p.u.</td></tr>
+<tr><td>Z, I, P (modèle ZIP)</td><td>Shares of constant-impedance, constant-current and constant-power load (Z + I + P = 1)</td><td>—</td></tr>
+<tr><td>CVRf</td><td>Conservation voltage reduction factor: ΔP/P = CVRf × ΔV/V ≈ 2Z + I</td><td>—</td></tr>
+<tr><th colspan="3" style="font-size:1.05em">Level 7</th></tr>
+<tr><td>RoCoF, f<sub>0</sub></td><td>Rate of change of frequency; nominal frequency</td><td>Hz/s, Hz</td></tr>
+<tr><td>ΔP</td><td>Power imbalance (loss of generation or load, islanding)</td><td>W</td></tr>
+<tr><td>H</td><td>Inertia constant of rotating machines (kinetic energy / rated power)</td><td>s</td></tr>
+<tr><td>ΣS<sub>n</sub></td><td>Sum of the rated apparent powers of the units online</td><td>VA</td></tr>
+<tr><td>R</td><td>Droop (frequency deviation for a 100 % power change)</td><td>%</td></tr>
+<tr><td>E<sub>injectée</sub>, E<sub>comptée</sub></td><td>Energy injected into the area; energy billed at the meters</td><td>kWh</td></tr>
+<tr><td>PNT, E<sub>technique</sub></td><td>Non-technical losses (theft, metering errors); technical losses (Joule, transformers)</td><td>kWh</td></tr>
+<tr><td>E<sub>poste</sub></td><td>Energy measured at the substation meter</td><td>kWh</td></tr>
+<tr><td>VP, FP, FN</td><td>True positives (frauds found), false positives (false alarms), false negatives (missed frauds)</td><td>—</td></tr>
+<tr><td>p, n, r</td><td>Success probability of one radio hop; number of hops; number of retries of a frame</td><td>—</td></tr>
+</table>
+
+<!-- ================================================================== -->
             <a href="#top" class="back-to-top">↑ Back to top</a>
         </div>
         <div class="page-nav"><a href="guide-enseignant-en.html">← Teacher's guide</a><a href="index-en.html">Tutorial home →</a></div>

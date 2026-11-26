@@ -88,30 +88,34 @@ indicative (2026) and must be replaced by quotations.</div>
 <tr><th>Users</th><th>Number</th><th>Needs per user</th><th>Wh/d</th></tr>
 <tr><td>Households</td><td class="num">150</td><td>3 lamps 7 W (5 h), television 50 W (4 h), fan 40 W (6 h), charger 10 W (2 h)</td><td class="num">565</td></tr>
 <tr><td>School</td><td class="num">1</td><td>6 lamps 15 W and 2 computers 60 W (4 h, in the morning)</td><td class="num">840</td></tr>
-<tr><td>Health post</td><td class="num">1</td><td>as example 3.3 of level 3</td><td class="num">3 390</td></tr>
+<tr><td>Health post</td><td class="num">1</td><td>simplified version of example 3.3 of level 3 (4 loads)</td><td class="num">3 390</td></tr>
 <tr><td>Millet mill</td><td class="num">1</td><td>3 kW motor, cos φ 0.8 (3 h, in the morning)</td><td class="num">9 000</td></tr>
 </table>
-<p>Site: Dakar (locations database). LV network of the centralised system: 30 m per customer, 6 000 kF/km, maintenance 60 kF/km/yr. Current imposed
-equipment (400 Wp module, 12 V 200 Ah AGM battery, 60 A MPPT controller, 1.5 kVA inverter; prices of level 3). Centralised: 48 V bus; individual kits:
+<p>Site: Dakar (locations database). LV network of the centralised system: 30 m per customer, 6 000 kF/km, maintenance 60 kF/km/yr. Imposed equipment
+from the November 2026 database: 410 Wp module, 12 V 200 Ah AGM lead-acid battery, 60 A MPPT controller; 48 V 8 kVA hybrid inverter for the centralised
+system, 12 V 1 kVA sine-wave inverter for the kits (prices of level 3). Centralised: 48 V bus; individual kits:
 12 V bus. Discount rate 8 %, inflation 3 %, 20 years. File: <code>exemples/pv_village.nxpv</code>.</p>
 <h3>Reference results</h3>
 <table>
 <tr><th></th><th>Centralised (48 V + LV network)</th><th>Decentralised (153 systems)</th></tr>
 <tr><td>Needs</td><td colspan="2">98.0 kWh/d; peak 13.7 kVA</td></tr>
-<tr><td>PV array</td><td>84 modules, 33.6 kWp</td><td>400 Wp per household; 3.2 kWp for the mill</td></tr>
-<tr><td>Batteries</td><td>260 (4 × 65)</td><td>2 per household; 24 for the mill</td></tr>
+<tr><td>PV array</td><td>81 modules (27 strings of 3), 33.2 kWp</td><td>410 Wp per household; 3.3 kWp (8 modules) for the mill</td></tr>
+<tr><td>Batteries</td><td>312 (4 × 78)</td><td>2 per household; 29 for the mill</td></tr>
+<tr><td>Controllers, inverters</td><td>27 controllers; 3 inverters of 8 kVA</td><td>1 controller and 1 inverter per household; 5 inverters for the mill</td></tr>
 <tr><td>LV network</td><td>4.59 km, 27.5 MF</td><td>—</td></tr>
-<tr><td>Investment</td><td class="num">95.2 MF</td><td class="num">204.2 MF</td></tr>
-<tr><td>Discounted cost (20 years)</td><td class="num">192.6 MF</td><td class="num">368.0 MF</td></tr>
-<tr><td>Levelised cost of the kWh</td><td class="num result">549 F/kWh</td><td class="num">1 048 F/kWh</td></tr>
+<tr><td>Investment</td><td class="num">103.7 MF</td><td class="num">161.7 MF</td></tr>
+<tr><td>Discounted cost (20 years)</td><td class="num">254.9 MF</td><td class="num">344.1 MF</td></tr>
+<tr><td>Levelised cost of the kWh</td><td class="num result">726 F/kWh</td><td class="num">980 F/kWh</td></tr>
 </table>
 <h3>Analysis</h3>
 <ul>
-<li>The centralised system costs half as much per kWh despite the LV network: a single inverter and a single battery bank pool the peaks (diversity),
-and the mill, very poorly served by a 12 V kit, benefits from the common bank.</li>
-<li>The wiring of the 48 V centralised system reveals its limit: the 28-string array delivers 380 A at 93 V; a single 30 m link would require
-2 × 300 mm². In practice the array is split between several controllers placed near the junction boxes, or a higher-voltage bus is chosen: a point to
-address in the design note.</li>
+<li>The centralised system costs about 25 % less per kWh despite the LV network: a single battery bank and shared inverters pool the peaks
+(diversity), and the mill, very poorly served by a 12 V kit, benefits from the common bank.</li>
+<li>The wiring of the 48 V centralised system shows its limits: with 60 A controllers, NRJXpert splits the array into 27 strings of 3 modules, one per
+controller (27 links of 2 × 10 mm²), and puts 3 inverters of 8 kVA in parallel; wiring costs 4.2 MF. Larger controllers (100 A, 250 V: longer strings)
+or hybrid inverters with built-in MPPT reduce this number: a point to address in the design note.</li>
+<li>The 12 V kits of the health post (1.2 kWp) and of the mill (3.3 kWp) exceed what 12 V allows: NRJXpert reports very high currents and a 120 mm²
+battery → inverter link. Switch these two facilities to 24 or 48 V.</li>
 <li>Individual kits remain relevant for very scattered dwellings (network &gt; 100 m per customer): redo the study with 0.1 km per customer.</li>
 <li>Extension: replace part of the batteries by a genset (economic dispatch, level 5) and compare.</li>
 </ul>
@@ -185,9 +189,9 @@ losses 6 %. Need: pumping of 60 kWh/d on average for market-garden irrigation.</
 <h3>Results</h3>
 <p>Wind at hub height: <i>c</i> = 6.90 m/s, mean 6.12 m/s, power density 220 W/m². Mean power 3.11 kW; net production <span class="result">25.6 MWh/yr,
 i.e. 70 kWh/d on average</span>; capacity factor 29 %. One machine covers the need on an annual balance (0.85 machine). But the wind weakens in the rainy
-season: check month by month (tab 4 of the wind window) and <b>store water rather than electricity</b> (tank of 2 to 3 days of consumption, far cheaper
+season: check month by month (tab 5 “Production and sizing” of the wind window) and <b>store water rather than electricity</b> (tank of 2 to 3 days of consumption, far cheaper
 than a battery bank).</p>
-<p><b>To be completed</b>: wiring of the machine (tab 5, 24 m tower + 30 m), economic study compared with a diesel motor-pump, and PV + wind variant
+<p><b>To be completed</b>: wiring of the machine (tab 6, 24 m tower + 30 m), economic study compared with a diesel motor-pump, and PV + wind variant
 (seasonal complementarity).</p>
 
 <!-- ================================================================== -->

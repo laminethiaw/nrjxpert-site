@@ -25,6 +25,7 @@
         <a href="#a4"><span class="nav-icon">📏</span>Ordres de grandeur</a>
         <a href="#a5"><span class="nav-icon">⚙️</span>Calculatrices</a>
         <a href="#a6"><span class="nav-icon">🧩</span>Bibliographie et normes</a>
+        <a href="#a7"><span class="nav-icon">🔣</span>Index des notations</a>
         <a href="#auteur"><span class="nav-icon">👤</span>Auteur</a>
     </nav>
     <div class="side-links"><a href="index.html">🏠 Accueil du tutoriel</a><a href="../aide-fr.html">📖 Guide de l'utilisateur</a></div>
@@ -61,6 +62,7 @@
                 <a href="#a4"><span class="toc-num">A.4</span>Ordres de grandeur</a>
                 <a href="#a5"><span class="toc-num">A.5</span>Calculatrices</a>
                 <a href="#a6"><span class="toc-num">A.6</span>Bibliographie et normes</a>
+                <a href="#a7"><span class="toc-num">A.7</span>Index des notations</a>
             </div>
         </div>
 
@@ -94,13 +96,14 @@ H<sub>β</sub> = H[(1 − H<sub>d</sub>/H)R<sub>b</sub> + (H<sub>d</sub>/H)(1 + 
 P = P<sub>c</sub>(G/1000)(1 + γ(T<sub>c</sub> − 25)) &nbsp; T<sub>c</sub> = T<sub>a</sub> + (NOCT − 20)G/800 &nbsp; E = P<sub>c</sub>·H<sub>β</sub>·PR</div>
 <h3>PV autonome (méthode NRJXpert)</h3>
 <div class="eq">Q<sub>j</sub> = E<sub>j</sub>/(U·η<sub>conv</sub>·0,98·0,9) &nbsp; C = Q<sub>j</sub>·autonomie(h)/24 &nbsp; N<sub>p,batt</sub> = ⌈C/(C<sub>batt</sub>·DoD)⌉<br>
-PWM : N<sub>p</sub> = ⌈Q<sub>j</sub>/(0,9·H·I<sub>mp</sub>)⌉ &nbsp; MPPT : P<sub>c</sub> = Q<sub>j</sub>U/(H·0,9·f<sub>T</sub>·0,96) &nbsp; régulateur et onduleur : × 1,25</div>
+PWM : N<sub>p</sub> = ⌈Q′<sub>j</sub>/(H·k<sub>p</sub>·I<sub>mp</sub>)⌉, N<sub>s</sub> = ⌈1,2U/(0,9V<sub>mp</sub>)⌉ &nbsp; MPPT : P<sub>c</sub> = Q′<sub>j</sub>U/(H·k<sub>p</sub>·f<sub>T</sub>·0,96), N<sub>s</sub> = ⌈1,3U/(0,82V<sub>mp</sub>)⌉ &nbsp; k<sub>p</sub> = 1 − pertes &nbsp; régulateur et onduleur : × 1,25</div>
 <h3>Câblage</h3>
 <div class="eq">I<sub>b</sub> = 1,25·I &nbsp; I<sub>n</sub> ≥ I<sub>b</sub> &nbsp; I<sub>z0</sub>(S)·k<sub>θ</sub>·k<sub>g</sub> ≥ I<sub>n</sub> &nbsp; k<sub>θ</sub> = √((90 − θ<sub>a</sub>)/60)<br>
 ΔU = b(ρL/S cos φ + λL sin φ)I &nbsp; (b = 2 continu et monophasé, 1 triphasé sur V) &nbsp; ρ<sub>Cu</sub> = 0,0225 &nbsp; ρ<sub>Al</sub> = 0,036 Ω·mm²/m &nbsp; λ = 0,08 mΩ/m</div>
 <h3>Éolien</h3>
 <div class="eq">P = ½ρAv³ &nbsp; f(v) = (k/c)(v/c)<sup>k−1</sup>e<sup>−(v/c)<sup>k</sup></sup> &nbsp; v̄ = cΓ(1 + 1/k) &nbsp; ½ρc³Γ(1 + 3/k)<br>
-v(H) = v(H<sub>mes</sub>)ln(H/z₀)/ln(H<sub>mes</sub>/z₀) &nbsp; E = 8 760∫P(v)f(v)dv(1 − pertes) &nbsp; FC = E/(8 760P<sub>n</sub>)</div>
+v(H) = v(H<sub>mes</sub>)ln(H/z₀)/ln(H<sub>mes</sub>/z₀) &nbsp; E = 8 760∫P(v)f(v)dv(1 − pertes) &nbsp; FC = E/(8 760P<sub>n</sub>)<br>
+réseau : N = ⌈365B′<sub>j</sub>/E<sub>an</sub>⌉ &nbsp; autonome : C<sub>req</sub> = B′<sub>j</sub>·Aut/24/(DoD·η<sub>bat</sub>), min CG(N, Aut) sous LPSP ≤ 1 − τ<sub>cible</sub></div>
 <h3>Pompage solaire</h3>
 <div class="eq">HMT = HG + P<sub>C</sub> &nbsp; E<sub>el</sub> = 2,725·V·HMT/(η<sub>p</sub>η<sub>m</sub>η<sub>conv</sub>) &nbsp; P<sub>c</sub> = E<sub>el</sub>/(Ens·η<sub>c</sub>)<br>
 Q<sub>max</sub> = πV/(2ΔT) &nbsp; P<sub>H</sub> = Q<sub>max</sub>·HMT/367 &nbsp; P<sub>c</sub> = P<sub>H</sub>/(η<sub>p</sub>η<sub>m</sub>η<sub>conv</sub>η<sub>c</sub>)·1 000/G &nbsp; (V en m³/j, Q en m³/h, P<sub>H</sub> en kW)</div>
@@ -187,6 +190,299 @@ PNT = E<sub>injectée</sub> − E<sub>comptée</sub> − E<sub>technique</sub> &
 CEI 61400-12-1 (courbes de puissance éoliennes) ; IEEE 1547-2018 (raccordement des DER) ; IEEE 2030.7 / 2030.8 (micro-réseaux) ; CEI 62056 (DLMS/COSEM) ; OpenADR 2.0b ;
 CEI 62443 et CEI 62351 (cybersécurité).</li>
 </ul>
+            <a href="#top" class="back-to-top">↑ Retour en haut</a>
+        </div>
+        <div class="section" id="a7">
+            <h2><span class="section-icon">🔣</span>A.7 Index des notations</h2>
+<p>Toutes les grandeurs utilisées dans les formules du tutoriel, niveau par niveau et section par section. Un même symbole peut désigner des grandeurs différentes selon le domaine (ρ : résistivité, masse volumique de l'air ou impédance caractéristique ; H : irradiation, hauteur du moyeu ou constante d'inertie) : le tableau de la section concernée fait foi.</p>
+<table class="notations">
+<tr><th>Symbole</th><th>Grandeur</th><th>Unité</th></tr>
+<tr><th colspan="3" style="font-size:1.05em">Niveau 1</th></tr>
+<tr><th colspan="3">1.1 Grandeurs et lois de base</th></tr>
+<tr><td>U, I</td><td>Tension aux bornes d'un dipôle ; courant qui le traverse</td><td>V, A</td></tr>
+<tr><td>R, P</td><td>Résistance ; puissance dissipée (P = R·I²)</td><td>Ω, W</td></tr>
+<tr><td>R<sub>éq</sub></td><td>Résistance équivalente d'un groupement série ou parallèle</td><td>Ω</td></tr>
+<tr><td>E, R<sub>i</sub></td><td>Force électromotrice (tension à vide) et résistance interne d'une source de tension</td><td>V, Ω</td></tr>
+<tr><td>J</td><td>Courant d'une source de courant (modèle de Norton d'un générateur)</td><td>A</td></tr>
+<tr><td>V<sub>a</sub>, U<sub>ab</sub></td><td>Potentiel du nœud a ; tension entre a et b, U<sub>ab</sub> = V<sub>a</sub> − V<sub>b</sub></td><td>V</td></tr>
+<tr><td>R<sub>ab</sub>, E<sub>ab</sub></td><td>Somme des résistances et somme algébrique des f.é.m. d'une branche ab</td><td>Ω, V</td></tr>
+<tr><td>P<sub>gén</sub>, P<sub>reçue</sub></td><td>Puissance fournie par les sources ; puissance reçue par les résistances (bilan de puissance)</td><td>W</td></tr>
+<tr><td>ρ, L, S</td><td>Résistivité du matériau ; longueur et section du conducteur (R = ρL/S)</td><td>Ω·m, m, m²</td></tr>
+<tr><td>G</td><td>Conductance G = 1/R</td><td>S (siemens)</td></tr>
+<tr><td>α<sub>θ</sub>, R<sub>θ</sub>, R<sub>x</sub></td><td>Coefficient de température de la résistance à θ ; résistances aux températures θ et T<sub>x</sub></td><td>1/°C, Ω</td></tr>
+<tr><th colspan="3">1.2 Méthodes de calcul des circuits linéaires</th></tr>
+<tr><td>[R], [I], [E]</td><td>Méthode des mailles : matrice des résistances de maille, vecteur des courants de maille, vecteur des f.é.m. de maille</td><td>Ω, A, V</td></tr>
+<tr><td>R<sub>11</sub>, R<sub>12</sub></td><td>Résistance propre de la maille 1 (somme de ses résistances) ; résistance commune aux mailles 1 et 2</td><td>Ω</td></tr>
+<tr><td>[G], [V], [J]</td><td>Méthode des nœuds : matrice des conductances, potentiels des nœuds, courants injectés aux nœuds</td><td>S, V, A</td></tr>
+<tr><td>G<sub>aa</sub>, G<sub>ab</sub></td><td>Conductance propre du nœud a ; conductance mutuelle entre a et b</td><td>S</td></tr>
+<tr><td>U<sub>O′O</sub>, G<sub>k</sub></td><td>Tension entre deux nœuds (théorème de Millman) ; conductance de la branche k</td><td>V, S</td></tr>
+<tr><td>E<sub>th</sub>, R<sub>th</sub></td><td>Générateur de Thévenin : tension à vide et résistance vues des bornes</td><td>V, Ω</td></tr>
+<tr><td>J<sub>N</sub>, R<sub>N</sub></td><td>Générateur de Norton : courant de court-circuit et résistance (R<sub>N</sub> = R<sub>th</sub>)</td><td>A, Ω</td></tr>
+<tr><td>R<sub>a</sub>…, R<sub>ab</sub>…</td><td>Résistances d'un montage en étoile ; résistances du triangle équivalent</td><td>Ω</td></tr>
+<tr><th colspan="3">1.3 Régime sinusoïdal</th></tr>
+<tr><td>u(t), i(t)</td><td>Valeurs instantanées de la tension et du courant</td><td>V, A</td></tr>
+<tr><td>U, I</td><td>Valeurs efficaces (RMS) ; U<sub>moy</sub> : valeur moyenne sur une période</td><td>V, A</td></tr>
+<tr><td>T, f, ω</td><td>Période ; fréquence f = 1/T ; pulsation ω = 2πf</td><td>s, Hz, rad/s</td></tr>
+<tr><td>Ψ<sub>u</sub>, Ψ<sub>i</sub></td><td>Phases à l'origine de la tension et du courant</td><td>rad ou °</td></tr>
+<tr><td><u>U</u>, <u>I</u>, <u>E</u></td><td>Amplitudes complexes (phaseurs) : module = valeur efficace, argument = phase</td><td>V, A</td></tr>
+<tr><td>j</td><td>Unité imaginaire (j² = −1)</td><td>—</td></tr>
+<tr><td>Z = R + jX</td><td>Impédance complexe : résistance R et réactance X (X = Lω ou −1/(Cω))</td><td>Ω</td></tr>
+<tr><td>φ</td><td>Déphasage du courant sur la tension, φ = arg Z</td><td>rad ou °</td></tr>
+<tr><td>Y = G + jB</td><td>Admittance Y = 1/Z : conductance G et susceptance B</td><td>S</td></tr>
+<tr><th colspan="3">1.4 Puissances et compensation</th></tr>
+<tr><td><u>S</u>, <u>I</u>*</td><td>Puissance apparente complexe <u>S</u> = <u>U</u>·<u>I</u>* ; <u>I</u>* : conjugué du courant</td><td>VA</td></tr>
+<tr><td>P, Q, S</td><td>Puissances active, réactive et apparente</td><td>W, var, VA</td></tr>
+<tr><td>cos φ</td><td>Facteur de puissance P/S</td><td>—</td></tr>
+<tr><td>p(t)</td><td>Puissance instantanée u(t)·i(t) ; sa moyenne est P</td><td>W</td></tr>
+<tr><td>Q<sub>C</sub>, C</td><td>Puissance réactive des condensateurs de compensation ; leur capacité</td><td>var, F</td></tr>
+<tr><td>φ<sub>1</sub>, φ<sub>2</sub></td><td>Déphasages avant et après compensation</td><td>°</td></tr>
+<tr><th colspan="3">1.5 Résonance</th></tr>
+<tr><td>L, C</td><td>Inductance ; capacité</td><td>H, F</td></tr>
+<tr><td>ω<sub>0</sub>, f<sub>0</sub></td><td>Pulsation et fréquence de résonance (LCω<sub>0</sub>² = 1)</td><td>rad/s, Hz</td></tr>
+<tr><td>ρ = √(L/C)</td><td>Impédance caractéristique du circuit résonant (à ne pas confondre avec la résistivité)</td><td>Ω</td></tr>
+<tr><td>q<sub>u</sub></td><td>Facteur de qualité (de surtension) : U<sub>L</sub>/U = U<sub>C</sub>/U = ρ/R</td><td>—</td></tr>
+<tr><td>U<sub>L</sub>, U<sub>C</sub></td><td>Tensions aux bornes de la bobine et du condensateur</td><td>V</td></tr>
+<tr><td>g, b, R<sub>1</sub>, R<sub>2</sub></td><td>Conductance et susceptance d'un circuit parallèle réel ; résistances de ses deux branches</td><td>S, Ω</td></tr>
+<tr><td>ω′<sub>0</sub></td><td>Pulsation de résonance du circuit parallèle réel</td><td>rad/s</td></tr>
+<tr><th colspan="3">1.6 Systèmes triphasés</th></tr>
+<tr><td>e<sub>A</sub>, E<sub>m</sub></td><td>F.é.m. instantanée de la phase A ; son amplitude</td><td>V</td></tr>
+<tr><td>V, U</td><td>Tension simple (phase-neutre) ; tension composée (entre phases), U = √3·V</td><td>V</td></tr>
+<tr><td>I, J</td><td>Courant de ligne ; courant dans une branche du triangle (I = √3·J)</td><td>A</td></tr>
+<tr><td>Y<sub>A</sub>, Y<sub>N</sub></td><td>Admittance de la phase A (source + ligne + charge) ; admittance du neutre</td><td>S</td></tr>
+<tr><td>Z<sub>L</sub>, Z<sub>N</sub></td><td>Impédance d'une ligne ; impédance du conducteur neutre</td><td>Ω</td></tr>
+<tr><td>U<sub>O′O</sub>, I<sub>N</sub></td><td>Tension de déplacement du neutre ; courant dans le neutre</td><td>V, A</td></tr>
+<tr><td>P<sub>W1</sub>, P<sub>W2</sub></td><td>Indications des deux wattmètres (méthode des deux wattmètres)</td><td>W</td></tr>
+<tr><th colspan="3">1.7 Composantes symétriques</th></tr>
+<tr><td>a</td><td>Opérateur de rotation de 120° : a = e<sup>j2π/3</sup></td><td>—</td></tr>
+<tr><td>K<sub>d</sub>, K<sub>i</sub>, K<sub>0</sub></td><td>Composantes directe, inverse et homopolaire d'un système de grandeurs A, B, C</td><td>—</td></tr>
+<tr><td>Z<sub>1eq</sub>, Z<sub>2eq</sub>, Z<sub>0eq</sub></td><td>Impédances de Thévenin des réseaux direct, inverse et homopolaire au point de défaut</td><td>Ω</td></tr>
+<tr><td>E<sub>1eq</sub></td><td>F.é.m. de Thévenin du réseau direct au point de défaut</td><td>V</td></tr>
+<tr><td>I<sub>1</sub>, I<sub>2</sub>, I<sub>0</sub></td><td>Composantes symétriques du courant de défaut ; I<sub>A</sub> = 3·I<sub>1</sub> pour un défaut phase-terre</td><td>A</td></tr>
+<tr><th colspan="3" style="font-size:1.05em">Niveau 2</th></tr>
+<tr><th colspan="3">2.1 Lignes et câbles</th></tr>
+<tr><td>V<sub>S</sub>, I<sub>S</sub>, V<sub>R</sub>, I<sub>R</sub></td><td>Tension simple et courant au départ (S) et à l'arrivée (R) de la ligne</td><td>V, A</td></tr>
+<tr><td>A, B, C, D</td><td>Constantes du quadripôle équivalent à la ligne (AD − BC = 1)</td><td>—, Ω, S, —</td></tr>
+<tr><td>r, L, g, C</td><td>Résistance, inductance, conductance et capacité linéiques</td><td>Ω/km, H/km, S/km, F/km</td></tr>
+<tr><td>z, y</td><td>Impédance série et admittance shunt linéiques : z = r + jLω, y = g + jCω</td><td>Ω/km, S/km</td></tr>
+<tr><td>γ = α + jβ</td><td>Constante de propagation : affaiblissement α et déphasage β</td><td>1/km</td></tr>
+<tr><td>Z<sub>c</sub></td><td>Impédance caractéristique (d'onde) √(z/y)</td><td>Ω</td></tr>
+<tr><td>x</td><td>Distance comptée depuis l'arrivée de la ligne</td><td>km</td></tr>
+<tr><td>SIL</td><td>Puissance naturelle : puissance transportée sans échange de réactif, U<sub>n</sub>²/Z<sub>c</sub></td><td>W</td></tr>
+<tr><td>U<sub>n</sub></td><td>Tension nominale composée du réseau</td><td>V</td></tr>
+<tr><td>vR %</td><td>Régulation de tension : écart relatif entre la tension d'arrivée à vide et en charge</td><td>%</td></tr>
+<tr><td>S<sub>S</sub>, S<sub>R</sub>, S<sub>L</sub>, η</td><td>Puissances complexes au départ et à l'arrivée ; pertes S<sub>L</sub> = S<sub>S</sub> − S<sub>R</sub> ; rendement P<sub>R</sub>/P<sub>S</sub></td><td>VA, —</td></tr>
+<tr><th colspan="3">2.2 Transformateurs</th></tr>
+<tr><td>S<sub>n</sub></td><td>Puissance apparente nominale</td><td>VA</td></tr>
+<tr><td>u<sub>cc</sub></td><td>Tension de court-circuit (en p.u. ou en %) : tension qui fait circuler le courant nominal secondaire en court-circuit</td><td>p.u., %</td></tr>
+<tr><td>P<sub>cc</sub></td><td>Pertes en court-circuit (pertes cuivre au courant nominal)</td><td>W</td></tr>
+<tr><td>Z<sub>cc</sub>, R<sub>cc</sub>, X<sub>cc</sub></td><td>Impédance, résistance et réactance de court-circuit ramenées au côté de tension U</td><td>Ω</td></tr>
+<tr><th colspan="3">2.3 Système per-unit</th></tr>
+<tr><td>S<sub>b</sub>, U<sub>b</sub></td><td>Puissance et tension (composée) de base choisies</td><td>VA, V</td></tr>
+<tr><td>Z<sub>b</sub>, I<sub>b</sub>, V<sub>b</sub></td><td>Impédance, courant et tension simple de base qui s'en déduisent</td><td>Ω, A, V</td></tr>
+<tr><td>z<sub>pu</sub>, %z</td><td>Impédance réduite Z/Z<sub>b</sub> ; même grandeur en pourcentage</td><td>p.u., %</td></tr>
+<tr><th colspan="3">2.4 Chute de tension et pertes</th></tr>
+<tr><td>R, X</td><td>Résistance et réactance de la liaison</td><td>Ω</td></tr>
+<tr><td>P, Q</td><td>Puissances active et réactive transportées</td><td>W, var</td></tr>
+<tr><td>ΔU/U, ΔP</td><td>Chute de tension relative ; pertes actives de la liaison</td><td>—, W</td></tr>
+<tr><th colspan="3">2.5 et 2.6 Load flow</th></tr>
+<tr><td>S<sub>i</sub> = P<sub>i</sub> + jQ<sub>i</sub></td><td>Puissance complexe injectée au nœud i (production − consommation)</td><td>VA</td></tr>
+<tr><td>V<sub>i</sub>, |V<sub>i</sub>|, δ<sub>i</sub></td><td>Tension complexe du nœud i, son module et son angle</td><td>V ou p.u., rad</td></tr>
+<tr><td>Y<sub>ik</sub>, |Y<sub>ik</sub>|, θ<sub>ik</sub></td><td>Terme de la matrice d'admittance nodale, son module et son argument</td><td>S, rad</td></tr>
+<tr><td>Y<sub>bus</sub>, Z<sub>bus</sub></td><td>Matrices d'admittance et d'impédance nodales</td><td>S, Ω</td></tr>
+<tr><td>y<sub>ij</sub>, y<sub>i0</sub></td><td>Admittance série de la ligne i-j ; admittance shunt au nœud i (demi-capacité de ligne)</td><td>S</td></tr>
+<tr><td>I<sub>ij</sub>, S<sub>ij</sub>, S<sub>L,ij</sub></td><td>Courant et puissance transitant de i vers j ; pertes de la ligne</td><td>A, VA</td></tr>
+<tr><td>n, ΔP, ΔQ</td><td>Numéro d'itération ; écarts de puissance (spécifiée − calculée)</td><td>—, W, var</td></tr>
+<tr><td>J, Δδ, Δ|V|</td><td>Jacobien (dérivées partielles de P et Q) ; corrections des angles et des modules</td><td>—</td></tr>
+<tr><td>E, X<sub>d</sub>, δ</td><td>F.é.m. interne d'une machine synchrone ; réactance synchrone ; angle de charge</td><td>V, Ω, rad</td></tr>
+<tr><th colspan="3">2.7 Court-circuit</th></tr>
+<tr><td>V<sub>0</sub>, V<sub>1</sub>, V<sub>2</sub></td><td>Composantes homopolaire, directe et inverse</td><td>V</td></tr>
+<tr><td>Z<sub>A</sub>, Z<sub>B</sub>, Z<sub>0m</sub></td><td>Impédances homopolaires de deux lignes parallèles ; impédance mutuelle homopolaire entre elles</td><td>Ω</td></tr>
+<tr><th colspan="3">2.9 Répartition économique</th></tr>
+<tr><td>C<sub>i</sub> = α<sub>i</sub> + β<sub>i</sub>P<sub>i</sub> + γ<sub>i</sub>P<sub>i</sub>²</td><td>Coût horaire du groupe i et coefficients de sa courbe de coût</td><td>F/h</td></tr>
+<tr><td>P<sub>i</sub>, P<sub>i,min</sub>, P<sub>i,max</sub></td><td>Puissance produite par le groupe i et ses limites</td><td>MW</td></tr>
+<tr><td>λ</td><td>Coût marginal du système (multiplicateur de Lagrange)</td><td>F/MWh</td></tr>
+<tr><td>P<sub>D</sub>, P<sub>L</sub></td><td>Demande totale ; pertes de transport</td><td>MW</td></tr>
+<tr><td>B<sub>ij</sub>, B<sub>0i</sub>, B<sub>00</sub></td><td>Coefficients de pertes (formule de Kron)</td><td>1/MW, —, MW</td></tr>
+<tr><td>L<sub>i</sub></td><td>Facteur de pénalité du groupe i : 1/(1 − ∂P<sub>L</sub>/∂P<sub>i</sub>)</td><td>—</td></tr>
+<tr><th colspan="3" style="font-size:1.05em">Niveau 3</th></tr>
+<tr><th colspan="3">3.3 Dimensionnement d'un système PV autonome</th></tr>
+<tr><td>n<sub>i</sub>, P<sub>i</sub></td><td>Nombre d'appareils identiques du récepteur i, puissance d'un appareil</td><td>—, W</td></tr>
+<tr><td>K<sub>u</sub>, K<sub>s</sub></td><td>Facteurs d'utilisation (fonctionnement partiel) et de simultanéité (appareils non utilisés en même temps)</td><td>—</td></tr>
+<tr><td>η<sub>i</sub></td><td>Rendement propre de l'appareil (puissance absorbée = P<sub>i</sub>/η<sub>i</sub>)</td><td>—</td></tr>
+<tr><td>h<sub>i</sub>, j<sub>i</sub></td><td>Heures de fonctionnement par jour (cases cochées de l'horaire), jours d'utilisation par semaine</td><td>h/j, j/sem.</td></tr>
+<tr><td>cos φ<sub>i</sub></td><td>Facteur de puissance d'un récepteur alternatif (puissance apparente S = P/cos φ)</td><td>—</td></tr>
+<tr><td>E<sub>j</sub></td><td>Énergie consommée chaque jour par les récepteurs</td><td>Wh/j</td></tr>
+<tr><td>S<sub>max</sub></td><td>Puissance apparente appelée à l'heure la plus chargée de la journée (somme des P<sub>i</sub>/cos φ<sub>i</sub> des récepteurs en marche)</td><td>VA</td></tr>
+<tr><td>U</td><td>Tension du <b>bus continu</b> = tension nominale de la batterie, du régulateur et de l'entrée de l'onduleur</td><td>V</td></tr>
+<tr><td>η<sub>conv</sub></td><td>Rendement du convertisseur qui alimente le récepteur : onduleur (récepteur alternatif) ou convertisseur continu-continu</td><td>—</td></tr>
+<tr><td>η<sub>câbles</sub></td><td>Rendement des câbles (pertes par effet Joule)</td><td>—</td></tr>
+<tr><td>η<sub>bat</sub></td><td>Rendement de la batterie (énergie restituée / énergie stockée), appliqué à toute l'énergie consommée (hypothèse prudente)</td><td>—</td></tr>
+<tr><td>Q<sub>j</sub></td><td>Charge électrique à fournir chaque jour au bus continu (en ampères-heures : à tension fixe, le courant mesure l'énergie)</td><td>Ah/j</td></tr>
+<tr><td>m, Q′<sub>j</sub></td><td>Marge de dimensionnement ; charge de dimensionnement Q′<sub>j</sub> = Q<sub>j</sub>·(1 + m)</td><td>%, Ah/j</td></tr>
+<tr><td>H</td><td>Irradiation journalière moyenne d'un mois <b>sur le plan des modules</b>. Comme 1 kWh/m² = 1 heure à 1 000 W/m², H est aussi le nombre d'<b>heures de plein soleil</b> (HPS)</td><td>kWh/m²/j = h/j</td></tr>
+<tr><td>H<sub>dim</sub></td><td>Irradiation de dimensionnement : H du mois le plus faible (recommandé en autonome) ou moyenne annuelle</td><td>h/j</td></tr>
+<tr><td>β</td><td>Inclinaison des modules par rapport à l'horizontale (orientés vers l'équateur)</td><td>°</td></tr>
+<tr><td>T<sub>a</sub>, T<sub>c</sub></td><td>Température ambiante moyenne du mois ; température des cellules T<sub>c</sub> = T<sub>a</sub> + (NOCT − 20) (sous 800 W/m²)</td><td>°C</td></tr>
+<tr><td>NOCT</td><td>Température nominale de fonctionnement des cellules (fiche technique du module)</td><td>°C</td></tr>
+<tr><td>γ</td><td>Coefficient de température de la puissance maximale du module</td><td>%/°C</td></tr>
+<tr><td>f<sub>T</sub></td><td>Facteur de température : f<sub>T</sub> = 1 + γ·(T<sub>c</sub> − 25), limité à 1,05</td><td>—</td></tr>
+<tr><td>p, k<sub>p</sub></td><td>Pertes du système (poussière, dispersion entre modules, câbles du champ, tolérance) ; facteur k<sub>p</sub> = 1 − p</td><td>%, —</td></tr>
+<tr><td>η<sub>MPPT</sub></td><td>Rendement du convertisseur d'un régulateur MPPT</td><td>—</td></tr>
+<tr><td>P<sub>mod</sub></td><td>Puissance crête d'un module : puissance maximale aux conditions standard STC (1 000 W/m², 25 °C, AM1,5)</td><td>Wc</td></tr>
+<tr><td>V<sub>mp</sub>, I<sub>mp</sub></td><td>Tension et courant d'un module à son point de puissance maximale (STC) : P<sub>mod</sub> = V<sub>mp</sub>·I<sub>mp</sub></td><td>V, A</td></tr>
+<tr><td>V<sub>oc</sub>, I<sub>sc</sub></td><td>Tension de circuit ouvert et courant de court-circuit d'un module (STC)</td><td>V, A</td></tr>
+<tr><td>N<sub>s</sub></td><td>Nombre de modules <b>en série</b> dans une chaîne (les tensions s'ajoutent)</td><td>—</td></tr>
+<tr><td>N<sub>p</sub></td><td>Nombre de chaînes <b>en parallèle</b> (les courants s'ajoutent)</td><td>—</td></tr>
+<tr><td>N<sub>mod</sub>, P<sub>c</sub></td><td>Nombre de modules N<sub>mod</sub> = N<sub>s</sub>·N<sub>p</sub> ; puissance crête du champ P<sub>c</sub> = N<sub>mod</sub>·P<sub>mod</sub></td><td>—, Wc</td></tr>
+<tr><td>I<sub>champ</sub></td><td>Courant que le champ doit débiter pendant H<sub>dim</sub> heures pour fournir Q′<sub>j</sub> (régulateur PWM)</td><td>A</td></tr>
+<tr><td>P<sub>c,req</sub></td><td>Puissance crête nécessaire du champ (régulateur MPPT)</td><td>Wc</td></tr>
+<tr><td>Aut</td><td>Autonomie : durée pendant laquelle la batterie seule alimente les récepteurs</td><td>h</td></tr>
+<tr><td>C</td><td>Capacité que l'on doit pouvoir prélever dans la batterie (capacité utile)</td><td>Ah</td></tr>
+<tr><td>C<sub>bat</sub>, U<sub>bat</sub></td><td>Capacité nominale et tension d'une batterie (d'un élément)</td><td>Ah, V</td></tr>
+<tr><td>DoD</td><td>Profondeur de décharge admise : part de la capacité nominale que l'on s'autorise à prélever</td><td>%</td></tr>
+<tr><td>N<sub>bs</sub>, N<sub>bp</sub></td><td>Batteries en série (pour obtenir U) ; branches en parallèle (pour obtenir C)</td><td>—</td></tr>
+<tr><td>I<sub>reg</sub>, I<sub>e,max</sub>, V<sub>e,max</sub></td><td>Courant nominal (de sortie) d'un régulateur ; courant et tension d'entrée maximaux admis côté champ</td><td>A, A, V</td></tr>
+<tr><td>k, N<sub>reg</sub></td><td>Nombre de chaînes raccordées à un régulateur ; nombre de régulateurs</td><td>—</td></tr>
+<tr><td>S<sub>ond</sub>, N<sub>ond</sub></td><td>Puissance apparente nominale d'un onduleur ; nombre d'onduleurs</td><td>VA, —</td></tr>
+<tr><td>d<sub>m</sub></td><td>Nombre de jours du mois m</td><td>j</td></tr>
+<tr><td>E<sub>prod,m</sub>, E<sub>bes,m</sub></td><td>Énergie fournie au bus continu par le champ et énergie demandée au bus pendant le mois m</td><td>kWh</td></tr>
+<tr><td>τ</td><td>Taux de couverture des besoins : part des besoins annuels effectivement fournie</td><td>%</td></tr>
+<tr><td>⌈x⌉, ⌊x⌋</td><td>Arrondi à l'entier supérieur, à l'entier inférieur</td><td>—</td></tr>
+<tr><th colspan="3">3.4 Câblage : sections, protections et coûts</th></tr>
+<tr><td>I</td><td>Courant nominal de la liaison (côté PV : courant de court-circuit I<sub>sc</sub> des chaînes raccordées)</td><td>A</td></tr>
+<tr><td>I<sub>b</sub></td><td>Courant d'emploi : courant que la liaison doit pouvoir transporter en permanence, I<sub>b</sub> = 1,25·I</td><td>A</td></tr>
+<tr><td>I<sub>n</sub></td><td>Calibre normalisé de la protection (fusible gPV, disjoncteur), I<sub>n</sub> ≥ I<sub>b</sub></td><td>A</td></tr>
+<tr><td>I<sub>z0</sub>(S)</td><td>Courant admissible d'un câble de section S dans les conditions de référence (30 °C, câble seul) — tableaux de la CEI 60364-5-52</td><td>A</td></tr>
+<tr><td>k<sub>θ</sub></td><td>Facteur de correction de température : √((90 − θ<sub>a</sub>)/60) pour un isolant PR (90 °C au plus)</td><td>—</td></tr>
+<tr><td>θ<sub>a</sub></td><td>Température ambiante autour du câble</td><td>°C</td></tr>
+<tr><td>k<sub>g</sub></td><td>Facteur de groupement (câbles voisins qui s'échauffent mutuellement)</td><td>—</td></tr>
+<tr><td>I<sub>z</sub></td><td>Courant admissible dans les conditions réelles, I<sub>z</sub> = I<sub>z0</sub>·k<sub>θ</sub>·k<sub>g</sub></td><td>A</td></tr>
+<tr><td>S</td><td>Section d'un conducteur</td><td>mm²</td></tr>
+<tr><td>L</td><td>Longueur aller de la liaison</td><td>m</td></tr>
+<tr><td>ρ</td><td>Résistivité du conducteur à la température de service</td><td>Ω·mm²/m</td></tr>
+<tr><td>λ</td><td>Réactance linéique du câble</td><td>Ω/m</td></tr>
+<tr><td>cos φ</td><td>Facteur de puissance de la charge (1 en continu)</td><td>—</td></tr>
+<tr><td>b</td><td>Facteur de longueur : 2 (aller et retour) en continu et en monophasé, 1 en triphasé (tension simple)</td><td>—</td></tr>
+<tr><td>ΔU, ΔU/U</td><td>Chute de tension le long de la liaison, en volts et en % de la tension U de la liaison</td><td>V, %</td></tr>
+<tr><th colspan="3">3.5 PV raccordé au réseau</th></tr>
+<tr><td>E</td><td>Énergie alternative injectée (ou autoconsommée) en un an</td><td>kWh/an</td></tr>
+<tr><td>P<sub>c</sub></td><td>Puissance crête du champ (somme des puissances STC des modules)</td><td>kWc</td></tr>
+<tr><td>H<sub>β,an</sub></td><td>Irradiation annuelle sur le plan des modules (inclinaison β) ; 1 kWh/m² = 1 heure de plein soleil</td><td>kWh/m²/an</td></tr>
+<tr><td>PR</td><td>Ratio de performance : énergie réelle / énergie d'un champ idéal à 25 °C sans pertes ; regroupe température, poussière, dispersion, câbles, onduleur</td><td>—</td></tr>
+<tr><td>E/P<sub>c</sub></td><td>Productible spécifique : énergie par kWc installé, indicateur de comparaison des sites</td><td>kWh/kWc/an</td></tr>
+<tr><th colspan="3">3.6 Gisement éolien et loi de Weibull</th></tr>
+<tr><td>v</td><td>Vitesse du vent (moyenne sur 10 min ou 1 h selon les mesures)</td><td>m/s</td></tr>
+<tr><td>ρ</td><td>Masse volumique (densité) de l'air</td><td>kg/m³</td></tr>
+<tr><td>A</td><td>Surface traversée par le vent ; pour une éolienne, surface balayée par le rotor πD²/4 (D : diamètre du rotor)</td><td>m²</td></tr>
+<tr><td>f(v), F(v)</td><td>Densité de probabilité de la vitesse ; probabilité que la vitesse soit inférieure à v</td><td>(m/s)<sup>−1</sup>, —</td></tr>
+<tr><td>c, k</td><td>Paramètre d'échelle (proche de la vitesse moyenne) et paramètre de forme (régularité du vent) de la loi de Weibull</td><td>m/s, —</td></tr>
+<tr><td>v̄</td><td>Vitesse moyenne</td><td>m/s</td></tr>
+<tr><td>Γ</td><td>Fonction gamma d'Euler (Γ(1 + 1/k) ≈ 0,89 pour k = 2)</td><td>—</td></tr>
+<tr><td>P/A</td><td>Densité de puissance du vent : puissance moyenne par m² de surface traversée</td><td>W/m²</td></tr>
+<tr><td>H<sub>mes</sub>, H</td><td>Hauteur de l'anémomètre (10 m en général, norme OMM) ; hauteur du moyeu de l'aérogénérateur</td><td>m</td></tr>
+<tr><td>z₀</td><td>Longueur de rugosité du terrain (0,005 m sur l'eau, 0,03 à 0,07 m en terrain dégagé, 0,4 m en banlieue, 1 m en ville ou forêt)</td><td>m</td></tr>
+<tr><th colspan="3">3.7 Production et dimensionnement éolien</th></tr>
+<tr><td>P(v)</td><td>Courbe de puissance de l'aérogénérateur : puissance électrique fournie à la vitesse v (constructeur, à ρ = 1,225 kg/m³)</td><td>kW</td></tr>
+<tr><td>P<sub>n</sub></td><td>Puissance nominale de la machine</td><td>kW</td></tr>
+<tr><td>v<sub>i</sub>, v<sub>n</sub>, v<sub>max</sub></td><td>Vitesses de démarrage, nominale (P = P<sub>n</sub>) et d'arrêt (mise en sécurité)</td><td>m/s</td></tr>
+<tr><td>F</td><td>Fraction ventée : part du temps où le vent n'est pas calme (1 − calmes)</td><td>—</td></tr>
+<tr><td>P̄</td><td>Puissance moyenne d'une machine sur la période</td><td>kW</td></tr>
+<tr><td>p<sub>prod</sub></td><td>Pertes de production : indisponibilité (≈ 3 %), pertes électriques (≈ 2 %), encrassement des pales</td><td>%</td></tr>
+<tr><td>E<sub>m</sub>, E<sub>an</sub></td><td>Énergie nette produite par une machine pendant le mois m, pendant l'année</td><td>kWh</td></tr>
+<tr><td>FC</td><td>Facteur de charge : E/(P<sub>n</sub>·durée) ; part de la puissance nominale réellement produite en moyenne</td><td>%</td></tr>
+<tr><td>d<sub>m</sub></td><td>Nombre de jours du mois m</td><td>j</td></tr>
+<tr><td>B<sub>j</sub></td><td>Besoins journaliers des récepteurs (onglet « Besoins »)</td><td>kWh/j</td></tr>
+<tr><td>m</td><td>Marge de dimensionnement (incertitude sur les besoins, croissance, variabilité du vent d'une année à l'autre)</td><td>%</td></tr>
+<tr><td>B′<sub>j</sub></td><td>Besoins de dimensionnement B′<sub>j</sub> = B<sub>j</sub>·(1 + m)</td><td>kWh/j</td></tr>
+<tr><td>p<sub>r</sub>, η<sub>r</sub></td><td>Pertes entre le bus et les récepteurs (conversion, câbles) ; rendement η<sub>r</sub> = 1 − p<sub>r</sub></td><td>%, —</td></tr>
+<tr><td>N</td><td>Nombre d'aérogénérateurs</td><td>—</td></tr>
+<tr><td>U</td><td>Tension du bus continu de la batterie</td><td>V</td></tr>
+<tr><td>Aut</td><td>Autonomie : nombre d'heures de besoins que la batterie peut fournir sans vent</td><td>h</td></tr>
+<tr><td>DoD, η<sub>bat</sub></td><td>Profondeur de décharge admise ; rendement de la batterie (énergie restituée / stockée)</td><td>—</td></tr>
+<tr><td>C<sub>req</sub>, C<sub>nom</sub></td><td>Capacité nécessaire ; capacité nominale du parc de batteries retenu (arrondi à des éléments entiers)</td><td>kWh</td></tr>
+<tr><td>E<sub>max</sub>, E<sub>min</sub></td><td>Énergie maximale (batterie pleine, C<sub>nom</sub>) et minimale (C<sub>nom</sub>·(1 − DoD)) dans la batterie</td><td>kWh</td></tr>
+<tr><td>E(t)</td><td>Énergie contenue dans la batterie au pas de temps t (état de charge)</td><td>kWh</td></tr>
+<tr><td>P<sub>prod</sub>(t), P<sub>ch</sub>(t)</td><td>Production des N machines et consommation des récepteurs au pas t (profil horaire de l'onglet « Besoins »)</td><td>kW</td></tr>
+<tr><td>Δt</td><td>Pas de temps de la série de mesures</td><td>h</td></tr>
+<tr><td>LPSP</td><td>Probabilité de perte d'alimentation (<i>Loss of Power Supply Probability</i>) : énergie non fournie / énergie demandée sur la période simulée</td><td>—</td></tr>
+<tr><td>τ, τ<sub>cible</sub></td><td>Taux de couverture des besoins τ = 1 − LPSP ; couverture visée</td><td>%</td></tr>
+<tr><td>CG</td><td>Coût global actualisé : investissement (net de subvention) + valeur actuelle de l'exploitation, des remplacements, moins la valeur résiduelle (niveau 4)</td><td>kF</td></tr>
+<tr><th colspan="3">3.8 Pompage solaire</th></tr>
+<tr><td>V (ou ΔQ)</td><td>Volume d'eau à pomper par jour (besoins majorés des pertes de distribution et de la marge)</td><td>m³/j</td></tr>
+<tr><td>UBT</td><td>Unité de bétail tropical : animal de référence de 250 kg ; bovin 1, ovin ou caprin 0,2, âne 0,3, cheval 1,2, dromadaire 1,5</td><td>—</td></tr>
+<tr><td>HG</td><td>Hauteur géométrique : niveau statique de l'eau sous le sol + rabattement (baisse du niveau pendant le pompage) + hauteur d'arrivée dans le réservoir + dénivelé</td><td>m</td></tr>
+<tr><td>P<sub>C</sub></td><td>Pertes de charge dans la conduite (frottements, coudes, vannes), exprimées en mètres de colonne d'eau</td><td>m</td></tr>
+<tr><td>HMT</td><td>Hauteur manométrique totale que la pompe doit fournir : HG + P<sub>C</sub></td><td>m</td></tr>
+<tr><td>ρ, g</td><td>Masse volumique de l'eau ; accélération de la pesanteur</td><td>kg/m³, m/s²</td></tr>
+<tr><td>C<sub>H</sub></td><td>Constante hydraulique ρg/3 600 : énergie pour élever 1 m³ d'eau de 1 m</td><td>Wh/(m³·m)</td></tr>
+<tr><td>η<sub>p</sub>, η<sub>m</sub>, η<sub>conv</sub></td><td>Rendements de la pompe, du moteur, du convertisseur (onduleur ou MPPT) ; R<sub>p</sub> = η<sub>p</sub>·η<sub>m</sub>·η<sub>conv</sub></td><td>—</td></tr>
+<tr><td>E<sub>el</sub></td><td>Énergie électrique journalière absorbée par la motopompe</td><td>Wh/j</td></tr>
+<tr><td>Ens</td><td>Ensoleillement journalier sur le plan des modules, en heures de plein soleil (= kWh/m²/j)</td><td>h/j</td></tr>
+<tr><td>η<sub>c</sub></td><td>Rendement du champ PV par rapport à sa puissance crête : (1 − pertes)·(1 + γ(T<sub>c</sub> − 25))</td><td>—</td></tr>
+<tr><td>η<sub>B</sub></td><td>Rendement de la batterie (configuration avec batterie)</td><td>—</td></tr>
+<tr><td>P<sub>c</sub></td><td>Puissance crête du champ PV</td><td>Wc</td></tr>
+<tr><td>ΔT</td><td>Durée de pompage journalière (heures où le soleil suffit)</td><td>h</td></tr>
+<tr><td>Q, Q<sub>max</sub></td><td>Débit ; débit maximal à midi solaire (débit en cosinus sur ΔT)</td><td>m³/h</td></tr>
+<tr><td>P<sub>H</sub></td><td>Puissance hydraulique : Q·HMT/367 (Q en m³/h, résultat en kW)</td><td>kW</td></tr>
+<tr><td>P<sub>el</sub></td><td>Puissance électrique de la motopompe : P<sub>H</sub>/(η<sub>p</sub>·η<sub>m</sub>)</td><td>W</td></tr>
+<tr><td>G</td><td>Éclairement de référence pour la méthode des puissances</td><td>W/m²</td></tr>
+<tr><td>τ, LWSP</td><td>Taux de couverture du besoin en eau ; probabilité de manque d'eau = 1 − τ</td><td>%</td></tr>
+<tr><th colspan="3" style="font-size:1.05em">Niveau 4</th></tr>
+<tr><td>C<sub>0</sub>, C<sub>n</sub></td><td>Coût d'un bien aujourd'hui ; son coût l'année n</td><td>F</td></tr>
+<tr><td>i</td><td>Taux d'inflation annuel</td><td>%/an</td></tr>
+<tr><td>a</td><td>Taux d'actualisation (coût du capital ; taux d'intérêt du projet)</td><td>%/an</td></tr>
+<tr><td>n, N</td><td>Année (0 = mise en service) ; durée d'étude (durée de vie du projet)</td><td>an</td></tr>
+<tr><td>F<sub>n</sub></td><td>Flux net de l'année n : recettes − dépenses (F<sub>0</sub> = −I<sub>0</sub>)</td><td>F</td></tr>
+<tr><td>VA, FA<sub>n</sub></td><td>Valeur actuelle d'un montant futur ; facteur d'actualisation 1/(1 + a)<sup>n</sup></td><td>F, —</td></tr>
+<tr><td>I<sub>0</sub></td><td>Investissement initial (net de subvention)</td><td>F</td></tr>
+<tr><td>s</td><td>Subvention : part de l'investissement prise en charge</td><td>%</td></tr>
+<tr><td>E&amp;M<sub>n</sub>, R<sub>n</sub></td><td>Dépenses d'exploitation-maintenance et de remplacement de l'année n</td><td>F</td></tr>
+<tr><td>V<sub>rés</sub></td><td>Valeur résiduelle des équipements en fin d'étude (part de durée de vie restante)</td><td>F</td></tr>
+<tr><td>C<sub>act</sub></td><td>Coût actualisé : somme actualisée de toutes les dépenses, valeur résiduelle déduite</td><td>F</td></tr>
+<tr><td>E<sub>n</sub></td><td>Énergie utile (vendue ou consommée) l'année n</td><td>kWh</td></tr>
+<tr><td>LCOE</td><td>Coût actualisé du kWh : C<sub>act</sub> / Σ E<sub>n</sub>/(1 + a)<sup>n</sup></td><td>F/kWh</td></tr>
+<tr><td>VAN</td><td>Valeur actuelle nette : somme des flux actualisés ; projet rentable si VAN ≥ 0</td><td>F</td></tr>
+<tr><td>TRI</td><td>Taux de rentabilité interne : taux a qui annule la VAN ; rentable si TRI ≥ a</td><td>%</td></tr>
+<tr><td>t, g</td><td>Tarif de l'énergie (prix de vente ou coût évité) ; évolution annuelle du tarif</td><td>F/kWh, %/an</td></tr>
+<tr><td>CRF, A</td><td>Facteur de récupération du capital ; annuité constante A = I·CRF</td><td>—, F/an</td></tr>
+<tr><th colspan="3" style="font-size:1.05em">Niveau 5</th></tr>
+<tr><td>f, f<sub>0</sub>, Δf</td><td>Fréquence ; fréquence nominale (50 Hz) ; écart de fréquence</td><td>Hz</td></tr>
+<tr><td>RoCoF</td><td>Vitesse de variation de la fréquence (df/dt), mesurée sur 100 ms</td><td>Hz/s</td></tr>
+<tr><td>Nadir</td><td>Fréquence minimale atteinte après un déséquilibre</td><td>Hz</td></tr>
+<tr><td>R</td><td>Statisme d'un groupe ou d'un onduleur : Δf = −R·ΔP</td><td>%, p.u.</td></tr>
+<tr><td>ΔP</td><td>Variation de puissance (perte d'un groupe, enclenchement d'une charge)</td><td>W, p.u.</td></tr>
+<tr><td>I″<sub>k3</sub>, i<sub>p</sub></td><td>Courant de court-circuit triphasé initial symétrique ; courant de crête</td><td>kA</td></tr>
+<tr><td>c, U<sub>n</sub></td><td>Facteur de tension (1,1 pour le courant maximal) ; tension nominale composée</td><td>—, kV</td></tr>
+<tr><td>Z<sub>1</sub>, Z<sub>1</sub>(f,j)</td><td>Impédance directe au point de défaut ; impédance de transfert entre l'onduleur j et le défaut</td><td>Ω</td></tr>
+<tr><td>I<sub>skPF,j</sub></td><td>Courant de court-circuit maximal fourni par l'onduleur j (donnée constructeur, ≈ 1,1 à 1,5 fois le courant nominal)</td><td>kA</td></tr>
+<tr><td>P<sub>min</sub>, P<sub>n</sub>, u</td><td>Puissance minimale et nominale d'un groupe ; état de marche u (0 arrêté, 1 en marche)</td><td>kW, —</td></tr>
+<tr><td>SOC<sub>t</sub></td><td>État de charge de la batterie à l'heure t</td><td>kWh, %</td></tr>
+<tr><td>P<sub>c</sub>, P<sub>d</sub>, η<sub>c</sub>, η<sub>d</sub></td><td>Puissances et rendements de charge et de décharge</td><td>kW, —</td></tr>
+<tr><td>Δt</td><td>Pas de temps de l'optimisation</td><td>h</td></tr>
+<tr><th colspan="3" style="font-size:1.05em">Niveau 6</th></tr>
+<tr><td>SAIDI</td><td>Durée moyenne de coupure par client desservi : Σ(N<sub>i</sub>·t<sub>i</sub>)/N<sub>T</sub></td><td>min/an</td></tr>
+<tr><td>SAIFI</td><td>Nombre moyen de coupures par client desservi : ΣN<sub>i</sub>/N<sub>T</sub></td><td>/an</td></tr>
+<tr><td>MAIFI</td><td>Fréquence moyenne des coupures brèves (≤ 3 min CEI, ≤ 5 min IEEE)</td><td>/an</td></tr>
+<tr><td>ASAI</td><td>Disponibilité moyenne du service : 1 − SAIDI/525 600</td><td>—</td></tr>
+<tr><td>END</td><td>Énergie non distribuée : Σ puissance coupée × durée</td><td>kWh</td></tr>
+<tr><td>N<sub>i</sub>, t<sub>i</sub>, N<sub>T</sub></td><td>Clients coupés par l'incident i ; durée de la coupure ; clients desservis</td><td>—, min, —</td></tr>
+<tr><td>P(V), P<sub>0</sub>, v</td><td>Puissance d'une charge sous la tension V ; puissance à la tension nominale ; tension réduite v = V/V<sub>n</sub></td><td>W, W, p.u.</td></tr>
+<tr><td>Z, I, P (modèle ZIP)</td><td>Parts de la charge à impédance, à courant et à puissance constants (Z + I + P = 1)</td><td>—</td></tr>
+<tr><td>CVRf</td><td>Facteur de réduction de consommation par baisse de tension : ΔP/P = CVRf × ΔV/V ≈ 2Z + I</td><td>—</td></tr>
+<tr><th colspan="3" style="font-size:1.05em">Niveau 7</th></tr>
+<tr><td>RoCoF, f<sub>0</sub></td><td>Vitesse de variation de la fréquence ; fréquence nominale</td><td>Hz/s, Hz</td></tr>
+<tr><td>ΔP</td><td>Déséquilibre de puissance (perte de production ou de charge, îlotage)</td><td>W</td></tr>
+<tr><td>H</td><td>Constante d'inertie des machines tournantes (énergie cinétique / puissance nominale)</td><td>s</td></tr>
+<tr><td>ΣS<sub>n</sub></td><td>Somme des puissances apparentes nominales des groupes en service</td><td>VA</td></tr>
+<tr><td>R</td><td>Statisme (écart de fréquence pour 100 % de variation de puissance)</td><td>%</td></tr>
+<tr><td>E<sub>injectée</sub>, E<sub>comptée</sub></td><td>Énergie injectée dans la zone ; énergie facturée aux compteurs</td><td>kWh</td></tr>
+<tr><td>PNT, E<sub>technique</sub></td><td>Pertes non techniques (fraude, erreurs de comptage) ; pertes techniques (Joule, transformateurs)</td><td>kWh</td></tr>
+<tr><td>E<sub>poste</sub></td><td>Énergie mesurée au compteur du poste de distribution</td><td>kWh</td></tr>
+<tr><td>VP, FP, FN</td><td>Vrais positifs (fraudes trouvées), faux positifs (fausses alertes), faux négatifs (fraudes manquées)</td><td>—</td></tr>
+<tr><td>p, n, r</td><td>Probabilité de réussite d'un saut radio ; nombre de sauts ; nombre de répétitions d'une trame</td><td>—</td></tr>
+</table>
+
+<!-- ================================================================== -->
             <a href="#top" class="back-to-top">↑ Retour en haut</a>
         </div>
         <div class="page-nav"><a href="guide-enseignant.html">← Guide de l'enseignant</a><a href="index.html">Accueil du tutoriel →</a></div>

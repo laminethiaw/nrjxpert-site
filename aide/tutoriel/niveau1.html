@@ -90,6 +90,72 @@
 <p class="prereq">Prérequis : algèbre des nombres complexes (forme algébrique et polaire), trigonométrie. Durée : 14 à 18 h.</p>
 </div>
 
+<details class="notations"><summary>📐 Notations du niveau 1 : toutes les grandeurs utilisées dans les formules (cliquer pour afficher ou masquer)</summary>
+<table class="notations">
+<tr><th>Symbole</th><th>Grandeur</th><th>Unité</th></tr>
+<tr><th colspan="3">1.1 Grandeurs et lois de base</th></tr>
+<tr><td>U, I</td><td>Tension aux bornes d'un dipôle ; courant qui le traverse</td><td>V, A</td></tr>
+<tr><td>R, P</td><td>Résistance ; puissance dissipée (P = R·I²)</td><td>Ω, W</td></tr>
+<tr><td>R<sub>éq</sub></td><td>Résistance équivalente d'un groupement série ou parallèle</td><td>Ω</td></tr>
+<tr><td>E, R<sub>i</sub></td><td>Force électromotrice (tension à vide) et résistance interne d'une source de tension</td><td>V, Ω</td></tr>
+<tr><td>J</td><td>Courant d'une source de courant (modèle de Norton d'un générateur)</td><td>A</td></tr>
+<tr><td>V<sub>a</sub>, U<sub>ab</sub></td><td>Potentiel du nœud a ; tension entre a et b, U<sub>ab</sub> = V<sub>a</sub> − V<sub>b</sub></td><td>V</td></tr>
+<tr><td>R<sub>ab</sub>, E<sub>ab</sub></td><td>Somme des résistances et somme algébrique des f.é.m. d'une branche ab</td><td>Ω, V</td></tr>
+<tr><td>P<sub>gén</sub>, P<sub>reçue</sub></td><td>Puissance fournie par les sources ; puissance reçue par les résistances (bilan de puissance)</td><td>W</td></tr>
+<tr><td>ρ, L, S</td><td>Résistivité du matériau ; longueur et section du conducteur (R = ρL/S)</td><td>Ω·m, m, m²</td></tr>
+<tr><td>G</td><td>Conductance G = 1/R</td><td>S (siemens)</td></tr>
+<tr><td>α<sub>θ</sub>, R<sub>θ</sub>, R<sub>x</sub></td><td>Coefficient de température de la résistance à θ ; résistances aux températures θ et T<sub>x</sub></td><td>1/°C, Ω</td></tr>
+<tr><th colspan="3">1.2 Méthodes de calcul des circuits linéaires</th></tr>
+<tr><td>[R], [I], [E]</td><td>Méthode des mailles : matrice des résistances de maille, vecteur des courants de maille, vecteur des f.é.m. de maille</td><td>Ω, A, V</td></tr>
+<tr><td>R<sub>11</sub>, R<sub>12</sub></td><td>Résistance propre de la maille 1 (somme de ses résistances) ; résistance commune aux mailles 1 et 2</td><td>Ω</td></tr>
+<tr><td>[G], [V], [J]</td><td>Méthode des nœuds : matrice des conductances, potentiels des nœuds, courants injectés aux nœuds</td><td>S, V, A</td></tr>
+<tr><td>G<sub>aa</sub>, G<sub>ab</sub></td><td>Conductance propre du nœud a ; conductance mutuelle entre a et b</td><td>S</td></tr>
+<tr><td>U<sub>O′O</sub>, G<sub>k</sub></td><td>Tension entre deux nœuds (théorème de Millman) ; conductance de la branche k</td><td>V, S</td></tr>
+<tr><td>E<sub>th</sub>, R<sub>th</sub></td><td>Générateur de Thévenin : tension à vide et résistance vues des bornes</td><td>V, Ω</td></tr>
+<tr><td>J<sub>N</sub>, R<sub>N</sub></td><td>Générateur de Norton : courant de court-circuit et résistance (R<sub>N</sub> = R<sub>th</sub>)</td><td>A, Ω</td></tr>
+<tr><td>R<sub>a</sub>…, R<sub>ab</sub>…</td><td>Résistances d'un montage en étoile ; résistances du triangle équivalent</td><td>Ω</td></tr>
+<tr><th colspan="3">1.3 Régime sinusoïdal</th></tr>
+<tr><td>u(t), i(t)</td><td>Valeurs instantanées de la tension et du courant</td><td>V, A</td></tr>
+<tr><td>U, I</td><td>Valeurs efficaces (RMS) ; U<sub>moy</sub> : valeur moyenne sur une période</td><td>V, A</td></tr>
+<tr><td>T, f, ω</td><td>Période ; fréquence f = 1/T ; pulsation ω = 2πf</td><td>s, Hz, rad/s</td></tr>
+<tr><td>Ψ<sub>u</sub>, Ψ<sub>i</sub></td><td>Phases à l'origine de la tension et du courant</td><td>rad ou °</td></tr>
+<tr><td><u>U</u>, <u>I</u>, <u>E</u></td><td>Amplitudes complexes (phaseurs) : module = valeur efficace, argument = phase</td><td>V, A</td></tr>
+<tr><td>j</td><td>Unité imaginaire (j² = −1)</td><td>—</td></tr>
+<tr><td>Z = R + jX</td><td>Impédance complexe : résistance R et réactance X (X = Lω ou −1/(Cω))</td><td>Ω</td></tr>
+<tr><td>φ</td><td>Déphasage du courant sur la tension, φ = arg Z</td><td>rad ou °</td></tr>
+<tr><td>Y = G + jB</td><td>Admittance Y = 1/Z : conductance G et susceptance B</td><td>S</td></tr>
+<tr><th colspan="3">1.4 Puissances et compensation</th></tr>
+<tr><td><u>S</u>, <u>I</u>*</td><td>Puissance apparente complexe <u>S</u> = <u>U</u>·<u>I</u>* ; <u>I</u>* : conjugué du courant</td><td>VA</td></tr>
+<tr><td>P, Q, S</td><td>Puissances active, réactive et apparente</td><td>W, var, VA</td></tr>
+<tr><td>cos φ</td><td>Facteur de puissance P/S</td><td>—</td></tr>
+<tr><td>p(t)</td><td>Puissance instantanée u(t)·i(t) ; sa moyenne est P</td><td>W</td></tr>
+<tr><td>Q<sub>C</sub>, C</td><td>Puissance réactive des condensateurs de compensation ; leur capacité</td><td>var, F</td></tr>
+<tr><td>φ<sub>1</sub>, φ<sub>2</sub></td><td>Déphasages avant et après compensation</td><td>°</td></tr>
+<tr><th colspan="3">1.5 Résonance</th></tr>
+<tr><td>L, C</td><td>Inductance ; capacité</td><td>H, F</td></tr>
+<tr><td>ω<sub>0</sub>, f<sub>0</sub></td><td>Pulsation et fréquence de résonance (LCω<sub>0</sub>² = 1)</td><td>rad/s, Hz</td></tr>
+<tr><td>ρ = √(L/C)</td><td>Impédance caractéristique du circuit résonant (à ne pas confondre avec la résistivité)</td><td>Ω</td></tr>
+<tr><td>q<sub>u</sub></td><td>Facteur de qualité (de surtension) : U<sub>L</sub>/U = U<sub>C</sub>/U = ρ/R</td><td>—</td></tr>
+<tr><td>U<sub>L</sub>, U<sub>C</sub></td><td>Tensions aux bornes de la bobine et du condensateur</td><td>V</td></tr>
+<tr><td>g, b, R<sub>1</sub>, R<sub>2</sub></td><td>Conductance et susceptance d'un circuit parallèle réel ; résistances de ses deux branches</td><td>S, Ω</td></tr>
+<tr><td>ω′<sub>0</sub></td><td>Pulsation de résonance du circuit parallèle réel</td><td>rad/s</td></tr>
+<tr><th colspan="3">1.6 Systèmes triphasés</th></tr>
+<tr><td>e<sub>A</sub>, E<sub>m</sub></td><td>F.é.m. instantanée de la phase A ; son amplitude</td><td>V</td></tr>
+<tr><td>V, U</td><td>Tension simple (phase-neutre) ; tension composée (entre phases), U = √3·V</td><td>V</td></tr>
+<tr><td>I, J</td><td>Courant de ligne ; courant dans une branche du triangle (I = √3·J)</td><td>A</td></tr>
+<tr><td>Y<sub>A</sub>, Y<sub>N</sub></td><td>Admittance de la phase A (source + ligne + charge) ; admittance du neutre</td><td>S</td></tr>
+<tr><td>Z<sub>L</sub>, Z<sub>N</sub></td><td>Impédance d'une ligne ; impédance du conducteur neutre</td><td>Ω</td></tr>
+<tr><td>U<sub>O′O</sub>, I<sub>N</sub></td><td>Tension de déplacement du neutre ; courant dans le neutre</td><td>V, A</td></tr>
+<tr><td>P<sub>W1</sub>, P<sub>W2</sub></td><td>Indications des deux wattmètres (méthode des deux wattmètres)</td><td>W</td></tr>
+<tr><th colspan="3">1.7 Composantes symétriques</th></tr>
+<tr><td>a</td><td>Opérateur de rotation de 120° : a = e<sup>j2π/3</sup></td><td>—</td></tr>
+<tr><td>K<sub>d</sub>, K<sub>i</sub>, K<sub>0</sub></td><td>Composantes directe, inverse et homopolaire d'un système de grandeurs A, B, C</td><td>—</td></tr>
+<tr><td>Z<sub>1eq</sub>, Z<sub>2eq</sub>, Z<sub>0eq</sub></td><td>Impédances de Thévenin des réseaux direct, inverse et homopolaire au point de défaut</td><td>Ω</td></tr>
+<tr><td>E<sub>1eq</sub></td><td>F.é.m. de Thévenin du réseau direct au point de défaut</td><td>V</td></tr>
+<tr><td>I<sub>1</sub>, I<sub>2</sub>, I<sub>0</sub></td><td>Composantes symétriques du courant de défaut ; I<sub>A</sub> = 3·I<sub>1</sub> pour un défaut phase-terre</td><td>A</td></tr>
+</table>
+</details>
+
 <!-- ================================================================== -->
             <a href="#top" class="back-to-top">↑ Retour en haut</a>
         </div>

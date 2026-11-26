@@ -87,6 +87,25 @@ courants de défaut faibles et optimisation de l'exploitation.</div>
 <p class="prereq">Prérequis : niveaux 2 à 4 ; notions d'optimisation linéaire. Calculs faits par le serveur de calcul local. Durée : 20 h et un projet.</p>
 </div>
 
+<details class="notations"><summary>📐 Notations du niveau 5 : toutes les grandeurs utilisées dans les formules (cliquer pour afficher ou masquer)</summary>
+<table class="notations">
+<tr><th>Symbole</th><th>Grandeur</th><th>Unité</th></tr>
+<tr><td>f, f<sub>0</sub>, Δf</td><td>Fréquence ; fréquence nominale (50 Hz) ; écart de fréquence</td><td>Hz</td></tr>
+<tr><td>RoCoF</td><td>Vitesse de variation de la fréquence (df/dt), mesurée sur 100 ms</td><td>Hz/s</td></tr>
+<tr><td>Nadir</td><td>Fréquence minimale atteinte après un déséquilibre</td><td>Hz</td></tr>
+<tr><td>R</td><td>Statisme d'un groupe ou d'un onduleur : Δf = −R·ΔP</td><td>%, p.u.</td></tr>
+<tr><td>ΔP</td><td>Variation de puissance (perte d'un groupe, enclenchement d'une charge)</td><td>W, p.u.</td></tr>
+<tr><td>I″<sub>k3</sub>, i<sub>p</sub></td><td>Courant de court-circuit triphasé initial symétrique ; courant de crête</td><td>kA</td></tr>
+<tr><td>c, U<sub>n</sub></td><td>Facteur de tension (1,1 pour le courant maximal) ; tension nominale composée</td><td>—, kV</td></tr>
+<tr><td>Z<sub>1</sub>, Z<sub>1</sub>(f,j)</td><td>Impédance directe au point de défaut ; impédance de transfert entre l'onduleur j et le défaut</td><td>Ω</td></tr>
+<tr><td>I<sub>skPF,j</sub></td><td>Courant de court-circuit maximal fourni par l'onduleur j (donnée constructeur, ≈ 1,1 à 1,5 fois le courant nominal)</td><td>kA</td></tr>
+<tr><td>P<sub>min</sub>, P<sub>n</sub>, u</td><td>Puissance minimale et nominale d'un groupe ; état de marche u (0 arrêté, 1 en marche)</td><td>kW, —</td></tr>
+<tr><td>SOC<sub>t</sub></td><td>État de charge de la batterie à l'heure t</td><td>kWh, %</td></tr>
+<tr><td>P<sub>c</sub>, P<sub>d</sub>, η<sub>c</sub>, η<sub>d</sub></td><td>Puissances et rendements de charge et de décharge</td><td>kW, —</td></tr>
+<tr><td>Δt</td><td>Pas de temps de l'optimisation</td><td>h</td></tr>
+</table>
+</details>
+
 <!-- ================================================================== -->
             <a href="#top" class="back-to-top">↑ Retour en haut</a>
         </div>
